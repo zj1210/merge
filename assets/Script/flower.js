@@ -2,17 +2,25 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        selectedNode: {
-            default: null,
-            type: cc.Node
-        },
+      
+
+        goodsNode:{
+            default:null,
+            type:cc.Node
+        }
         // defaults, set visually when attaching this script to the Canvas
 
     },
 
     // use this for initialization
     onLoad: function () {
-        this.selectedNode.active = false;
+        this.selectedSprite = this.node.getComponent(cc.Sprite);
+        this.originSpriteFrame = this.selectedSprite.spriteFrame;
+        this.selectedSprite.spriteFrame = null;
+        //tile 是 select的父节点的父节点
+        this.tile = this.node.parent.parent;
+        this.originZIndex = this.tile.zIndex;
+        this.maxIndex = 100;
     },
 
     start: function () {
@@ -20,7 +28,9 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             console.log('touch begin by flower');
             event.stopPropagation();
+            self.tile.zIndex = self.maxIndex;
             let touchPos = event.getLocation();
+            
             //console.log(touchPos);
             self._beginPos = touchPos;
              //物体的世界坐标 触摸点也是世界坐标，做差值得到偏移值
@@ -28,7 +38,7 @@ cc.Class({
              self._offset = cc.pSub(worldPosition,touchPos);
             //必然有物体，因为这个节点就是物体
             //显示tips
-            self.selectedNode.active = true;
+            self.selectedSprite.spriteFrame = this.originSpriteFrame;
 
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
@@ -57,6 +67,7 @@ cc.Class({
             event.stopPropagation();
             self._beginPos = null;
             self._offset = null;
+            self.tile.zIndex = this.originZIndex;
             //玩家松手判定
             //查找连通表 若表不为空，数量大于2
             //根据数量 查表 根据合成数量 返回合成奖励后的数量
