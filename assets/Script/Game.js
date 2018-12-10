@@ -19,17 +19,19 @@ cc.Class({
 
     start: function () {
         let self = this;
-        this.node.on(cc.Node.EventType.TOUCH_START, function (touch) {
+        //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
+        this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             console.log('touch begin by game');
-            let touchPos = touch.getLocation();
-            console.log(touchPos);
+            let touchPos = event.getLocation();
+            //console.log(touchPos);
             self._beginPos = touchPos;
 
 
         }, this.node);
-        this.node.on(cc.Node.EventType.TOUCH_MOVE, function (touch) {
+        this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
-                let movePos = touch.getLocation();
+                console.log('touch move by game');
+                let movePos = event.getLocation();
                 let addX = movePos.x - self._beginPos.x;
                 let addY = movePos.y - self._beginPos.y;
 
