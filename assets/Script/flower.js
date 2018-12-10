@@ -79,6 +79,11 @@ cc.Class({
     },
 
 
+    selectClick:function() {
+
+    },
+
+
 
     // called every frame
     update: function (dt) {
