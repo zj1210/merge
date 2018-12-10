@@ -7,12 +7,16 @@ cc.Class({
             type: cc.Label
         },
         // defaults, set visually when attaching this script to the Canvas
-        text: 'Hello, World!'
+      
     },
 
     // use this for initialization
     onLoad: function () {
-        this.label.string = this.text;
+      
+    },
+
+    start:function() {
+     
     },
 
     // called every frame
