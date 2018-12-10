@@ -18,11 +18,14 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-
+        console.log("game onload!");
+        this.tilesHorizontalCount = 6;
+        this.tileVerticalCount = 3;
         if (!cc.dataMgr) {
             cc.dataMgr = new DataMgr();
         }
-
+        //初始化最好写在start里面，我在别的地方有onload来初始化 Game里面的一些数据 比如tile里的onload
+        
     },
 
     start: function () {
