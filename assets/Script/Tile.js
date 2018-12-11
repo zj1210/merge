@@ -46,6 +46,24 @@ cc.Class({
             tooltip: "浅绿地表",
         },
 
+        thingPrefab: {
+            default:null,
+            type:cc.Prefab,
+            tooltip: "thing的Prefab",
+        },
+
+        flowerSpriteFrame1: {
+            default:null,
+            type:cc.SpriteFrame,
+            tooltip: "1级花",
+        },
+
+        thingsNode:{
+            default:null,
+            type:cc.Node,
+            tooltip:"thing的容器，与地图层并列",
+        }
+
     },
 
     // use this for initialization
@@ -92,7 +110,20 @@ cc.Class({
 
     //需要 物品类型thingType 以及物品等级 thingLevel
     generateThings:function() {
-
+        this.thing = cc.instantiate(this.thingPrefab);
+        
+        this.thingsNode.addChild(this.thing);
+        this.thing.position = this.node.position;
+        if(this.thingType == 1) {
+            switch (this.thingLevel) {
+                case 1:
+                    this.thing
+                    break;
+            
+                default:
+                    break;
+            } 
+        }
     },
 
     // called every frame

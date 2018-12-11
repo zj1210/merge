@@ -12,7 +12,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Tile",
+    "_name": "Tile2_5",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -55,8 +55,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 741,
+      "y": -56
     },
     "_skewX": -39,
     "_skewY": 13,
@@ -109,7 +109,14 @@
     },
     "landSpriteFrame1": {
       "__uuid__": "d8b26ccc-4155-4c49-b52c-18819642fb36"
-    }
+    },
+    "thingPrefab": {
+      "__uuid__": "13cf5ab0-7ec2-46ed-9e23-9a92d350295c"
+    },
+    "flowerSpriteFrame1": {
+      "__uuid__": "6043a816-7fb5-4a2e-aaa4-41c5ab51836c"
+    },
+    "thingsNode": null
   },
   {
     "__type__": "cc.PrefabInfo",
