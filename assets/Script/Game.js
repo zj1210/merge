@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 cc.Class({
     extends: cc.Component,
 
@@ -30,7 +23,7 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        console.log("game onload!");
+        //console.log("game onload!");
         // this.tilesHorizontalCount = 6;
         // this.tileVerticalCount = 3;
         if (!cc.dataMgr) {
@@ -41,10 +34,15 @@ cc.Class({
     },
 
     start: function () {
+        /**
+         * 初始化块的数据结构,0标记的是大厅数据
+         */
+        cc.dataMgr.initTile(0,this.node.getChildByName('gameLayer').getChildByName('mapNode').children);
+
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
-            console.log('touch begin by game');
+            //console.log('touch begin by game');
             let touchPos = event.getLocation();
             //console.log(touchPos);
             self._beginPos = touchPos;
@@ -53,7 +51,7 @@ cc.Class({
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
-                console.log('touch move by game');
+                //console.log('touch move by game');
                 let movePos = event.getLocation();
                 let addX = movePos.x - self._beginPos.x;
                 let addY = movePos.y - self._beginPos.y;
@@ -109,5 +107,21 @@ cc.Class({
         // if (addY > this._roomHeight / 2 - cc.dataMgr.canvasH / 2 - this.camera.y)
         //     addY = this._roomHeight / 2 - cc.dataMgr.canvasH / 2 - this.camera.y;
         return cc.v2(addX, addY);
-    }
+    },
+
+    getContainPointTile:function(touchPos) {
+        
+        var hallTileHeight = cc.dataMgr.hallTileHeight,
+        hallTileWidth = cc.dataMgr.hallTileWidth;
+        for(var i =0; i<hallTileHeight; i++) {
+            for(var j = 0; j<hallTileWidth;j++) {
+                var points = cc.dataMgr.tilesData[i][j].getComponent(cc.PolygonCollider).points;
+                if (cc.Intersection.pointInPolygon(touchPos,points)) {
+                    console.log('包含改触摸点的tile');
+                    console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
+                    console.log(cc.dataMgr.tilesData[i][j]);
+                 }
+            }
+        }
+    }   
 });

@@ -68,7 +68,7 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        console.log("tile onload");
+        console.log("tile onload" + this.node.name);
         //若在关卡就 直接用预置数据，若在大厅 并且大厅没有数据 还是使用预制数据
         if (!cc.dataMgr.isHall || !cc.dataMgr.hasTileData) {
             //根据数据 放置物品，虽然他们不在一个层级，但是位置可以复用，因为父节点位置一样
@@ -120,8 +120,10 @@ cc.Class({
         }
         this.thingsNode.addChild(this.thing);
         this.thing.position = this.node.position;
-        this.thing.getChildByName('selectedNode').getComponent("Thing").setSpriteFrame(this.thingType,this.thingLevel);
-        
+        let thingJs =this.thing.getChildByName('selectedNode').getComponent("Thing");
+        thingJs.setSpriteFrame(this.thingType,this.thingLevel);
+        // //主要是为了性能，内部不要以这个为准，为了判断自己的临时tile 和当前的临时tile是否一样，不一样才
+        // thingJs.setTileTemporarily(this.node);
     },
 
     // called every frame
