@@ -24,7 +24,7 @@ cc.Class({
         thingLevel: {
             default: 0,
             displayName: "物品的级别",
-            tooltip: "0初始，1升一级，以此类推，注意：蒲公英是花级别为0，如果是龙蛋，级别必须为0，龙不在地表上",
+            tooltip: "0初始，1升一级，以此类推，注意：蒲公英是花级别为0，(注：是地面上的蒲公英，这个值程序内来使用)如果是龙蛋，级别必须为0，龙不在地表上",
         },
 
         dontWant: {
@@ -33,36 +33,36 @@ cc.Class({
             tooltip: "0默认要这个块，除非特殊需求，这个块不要了，置为1，预留接口",
         },
 
-        
+
         landSpriteFrame0: {
-            default:null,
-            type:cc.SpriteFrame,
+            default: null,
+            type: cc.SpriteFrame,
             tooltip: "深绿地表",
         },
 
         landSpriteFrame1: {
-            default:null,
-            type:cc.SpriteFrame,
+            default: null,
+            type: cc.SpriteFrame,
             tooltip: "浅绿地表",
         },
 
         thingPrefab: {
-            default:null,
-            type:cc.Prefab,
+            default: null,
+            type: cc.Prefab,
             tooltip: "thing的Prefab",
         },
 
         flowerSpriteFrame1: {
-            default:null,
-            type:cc.SpriteFrame,
+            default: null,
+            type: cc.SpriteFrame,
             tooltip: "1级花",
         },
 
-        thingsNode:{
-            default:null,
-            type:cc.Node,
-            tooltip:"thing的容器，与地图层并列",
-        }
+        // thingsNode:{
+        //     default:null,
+        //     type:cc.Node,
+        //     tooltip:"thing的容器，与地图层并列",
+        // }
 
     },
 
@@ -86,7 +86,10 @@ cc.Class({
         }
 
         this.generateLand();
-        this.generateThings();
+        if (this.thingType > 0) {
+            this.generateThings();
+        }
+
         // this.generateImageByTypeAndLevel(thingType, thingLevel);
 
     },
@@ -98,10 +101,10 @@ cc.Class({
 
     },
 
-    generateLand:function() {
-        if(this.skinType == 0) {
+    generateLand: function () {
+        if (this.skinType == 0) {
             this.node.getComponent(cc.Sprite).spriteFrame = this.landSpriteFrame0;
-        } else if(this.skinType == 1) {
+        } else if (this.skinType == 1) {
             this.node.getComponent(cc.Sprite).spriteFrame = this.landSpriteFrame1;
         } else {
             debugger;
@@ -109,21 +112,16 @@ cc.Class({
     },
 
     //需要 物品类型thingType 以及物品等级 thingLevel
-    generateThings:function() {
+    generateThings: function () {
         this.thing = cc.instantiate(this.thingPrefab);
-        
+        this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
+        if (!this.thingsNode) {
+            debugger;
+        }
         this.thingsNode.addChild(this.thing);
         this.thing.position = this.node.position;
-        if(this.thingType == 1) {
-            switch (this.thingLevel) {
-                case 1:
-                    this.thing
-                    break;
-            
-                default:
-                    break;
-            } 
-        }
+        this.thing.getChildByName('selectedNode').getComponent("Thing").setSpriteFrame(this.thingType,this.thingLevel);
+        
     },
 
     // called every frame

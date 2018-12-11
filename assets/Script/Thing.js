@@ -4,7 +4,7 @@ cc.Class({
     properties: {
       
 
-        goodsNode:{
+        thingNode:{
             default:null,
             type:cc.Node
         }
@@ -17,10 +17,8 @@ cc.Class({
         this.selectedSprite = this.node.getComponent(cc.Sprite);
         this.originSpriteFrame = this.selectedSprite.spriteFrame;
         this.selectedSprite.spriteFrame = null;
-        //tile 是 select的父节点的父节点
-        this.tile = this.node.parent.parent;
-        this.originZIndex = this.tile.zIndex;
-        this.maxIndex = 100;
+       
+        
     },
 
     start: function () {
@@ -28,17 +26,17 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             console.log('touch begin by flower');
             event.stopPropagation();
-            self.tile.zIndex = self.maxIndex;
+           
             let touchPos = event.getLocation();
             
             //console.log(touchPos);
             self._beginPos = touchPos;
              //物体的世界坐标 触摸点也是世界坐标，做差值得到偏移值
-             var worldPosition = self.node.convertToWorldSpaceAR(self.node.position);
+             var worldPosition = self.node.parent.convertToWorldSpaceAR(self.node.position);
              self._offset = cc.pSub(worldPosition,touchPos);
             //必然有物体，因为这个节点就是物体
             //显示tips
-            self.selectedSprite.spriteFrame = this.originSpriteFrame;
+            self.selectedSprite.spriteFrame = self.originSpriteFrame;
 
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
@@ -50,11 +48,11 @@ cc.Class({
                 //物体的世界坐标 = touchPos+ _offset;
                 var worldpos = cc.pAdd(event.getLocation() , self._offset);
                 //需要将世界坐标转为 节点坐标
-                var nodepos = self.node.parent.convertToNodeSpaceAR(worldpos);
+                var nodepos = self.node.parent.parent.convertToNodeSpaceAR(worldpos);
                 // console.log(self.node.position);
                 // console.log("节点坐标");
                 // console.log(nodepos);
-                self.node.position = nodepos;
+                self.node.parent.position = nodepos;
                 // console.log(worldPosition);
                 //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 若物品位置改变 flag = true 没有跟上次有改变 flag = false
                 //3 查找连通物品
@@ -67,7 +65,8 @@ cc.Class({
             event.stopPropagation();
             self._beginPos = null;
             self._offset = null;
-            self.tile.zIndex = this.originZIndex;
+            
+            self.selectedSprite.spriteFrame = null;
             //玩家松手判定
             //查找连通表 若表不为空，数量大于2
             //根据数量 查表 根据合成数量 返回合成奖励后的数量
@@ -83,7 +82,21 @@ cc.Class({
 
     },
 
+    //thingType 0=没有，1=精华，2=花，3=龙蛋
+    //thingLevel 0初始，1升一级，以此类推，注意：蒲公英是花级别为0，如果是龙蛋，级别必须为0，龙不在地表上
+    setSpriteFrame:function(thingType,thingLevel) {
+        //debugger;
+        if (thingType == 1) {
+            switch (thingLevel) {
+                case 1:
+                    console.log("执行到了，要改变物体的图片");
+                    break;
 
+                default:
+                    break;
+            }
+        }
+    },
 
     // called every frame
     update: function (dt) {
