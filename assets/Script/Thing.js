@@ -68,13 +68,14 @@ cc.Class({
                 if (currentNearestTile != self.lastNearestTile && currentNearestTile) {
                     if(self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
                         if(self.thingsArray) {
-                            self.thingsGoStatic(self.thingsArray);
+                            self.thingsGoStatic();
                             //还需要将平移的物体移回；稍后
                         }
                     }
                     self.lastNearestTile = currentNearestTile;
                     //临时放入 内部 需要维护一个临时的，把自己内部的先平移
-                    tile.putInThingTemporarily(self.node.parent, currentNearestTile);
+                    let tileJS = currentNearestTile.getComponent('Tile');
+                    tileJS.putInThingTemporarily(self.node.parent);
                     //3 查找连通物品
                     self.thingsArray = self.game.findConnentedThing(currentNearestTile);
                     //4 将连通物品的selected active 置为true 并且播放往此物品平移的 动画
@@ -118,7 +119,9 @@ cc.Class({
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
     //thingLevel 0初始，1升一级，以此类推，注意：蒲公英是花级别为0，如果是龙蛋，级别必须为0，龙不在地表上
-    setSpriteFrame: function (thingType, thingLevel) {
+    setTypeAndLevel: function (thingType, thingLevel) {
+        this.thingType = thingType;
+        this.thingLevel = thingLevel;
         //debugger;
         if (thingType == 1) {
             switch (thingLevel) {
@@ -132,9 +135,28 @@ cc.Class({
         }
     },
 
-    setRelationTile: function (tile) {
-        this.tile = tile;
+    thingsGoStatic:function() {
+        if(this.thingsArray) {
+            for(var i = 0; i<this.thingsArray.length;i++) {
+                this.thingsArray[i].getComponent('Thing').goBack();
+            }
+        }
     },
+
+        //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
+    setPositionAndOriginPosition:function(position) {
+        this.node.position = position;
+        this.originPosition = position;
+    },
+
+    //移回原本的位置 往originPosition移动 
+    goBack:function() {
+
+    },
+
+    // setRelationTile: function (tile) {
+    //     this.tile = tile;
+    // },
 
     // called every frame
     update: function (dt) {

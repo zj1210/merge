@@ -114,16 +114,29 @@ cc.Class({
     //需要 物品类型thingType 以及物品等级 thingLevel
     generateThings: function () {
         this.thing = cc.instantiate(this.thingPrefab);
+        this.tempThing = null;//临时物品，手指拖动上去，但没有松手，和棋盘上所有非临时的进行遍历
         this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
         if (!this.thingsNode) {
             debugger;
         }
         this.thingsNode.addChild(this.thing);
-        this.thing.position = this.node.position;
+        // this.thing.position = this.node.position;
         let thingJs =this.thing.getChildByName('selectedNode').getComponent("Thing");
-        thingJs.setSpriteFrame(this.thingType,this.thingLevel);
+        thingJs.setPositionAndOriginPosition(this.node.position);
+        thingJs.setTypeAndLevel(this.thingType,this.thingLevel);
         // //主要是为了性能，内部不要以这个为准，为了判断自己的临时tile 和当前的临时tile是否一样，不一样才
         // thingJs.setTileTemporarily(this.node);
+    },
+
+    putInThingTemporarily(thing) {
+        this.tempThing = thing;
+    },
+
+    setIndex(widthCount,heightCount) {
+        this.index = {
+            x:widthCount,
+            y:heightCount
+        };
     },
 
     // called every frame

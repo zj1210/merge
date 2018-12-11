@@ -1,4 +1,3 @@
-
 cc.Class({
     extends: cc.Component,
 
@@ -30,14 +29,14 @@ cc.Class({
             cc.dataMgr = new DataMgr();
         }
         //初始化最好写在start里面，我在别的地方有onload来初始化 Game里面的一些数据 比如tile里的onload
-        
+
     },
 
     start: function () {
         /**
          * 初始化块的数据结构,0标记的是大厅数据
          */
-        cc.dataMgr.initTile(0,this.node.getChildByName('gameLayer').getChildByName('mapNode').children);
+        cc.dataMgr.initTile(0, this.node.getChildByName('gameLayer').getChildByName('mapNode').children);
 
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
@@ -109,34 +108,57 @@ cc.Class({
         return cc.v2(addX, addY);
     },
 
-    getContainPointTile:function(touchPos) {
-        
-        var touchPos =  this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
-        
+    getContainPointTile: function (touchPos) {
+
+        var touchPos = this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
+
         var hallTileHeight = cc.dataMgr.hallTileHeight,
-        hallTileWidth = cc.dataMgr.hallTileWidth;
-        for(var i =0; i<hallTileHeight; i++) {
-            for(var j = 0; j<hallTileWidth;j++) {
+            hallTileWidth = cc.dataMgr.hallTileWidth;
+        for (var i = 0; i < hallTileHeight; i++) {
+            for (var j = 0; j < hallTileWidth; j++) {
                 var points = cc.dataMgr.tilesData[i][j].getComponent(cc.PolygonCollider).points;
-                var worldpoints = this.getWorldPoints(cc.dataMgr.tilesData[i][j],points);
+                var worldpoints = this.getWorldPoints(cc.dataMgr.tilesData[i][j], points);
                 // //console.log(worldpoints);
                 // var test = cc.dataMgr.tilesData[i][j].parent.convertToWorldSpaceAR(cc.dataMgr.tilesData[i][j].position);
                 // console.log(touchPos);
                 // console.log(test);
-                if (cc.Intersection.pointInPolygon(touchPos,worldpoints)) {
-                    console.log('包含改触摸点的tile');
-                   //console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
-                    console.log(cc.dataMgr.tilesData[i][j]);
-                 }
+                if (cc.Intersection.pointInPolygon(touchPos, worldpoints)) {
+                    // console.log('包含改触摸点的tile');
+                    //console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
+                    //console.log(cc.dataMgr.tilesData[i][j]);
+                    return cc.dataMgr.tilesData[i][j];
+                }
             }
         }
     },
-    
-    getWorldPoints:function(node,points) {
+
+    getWorldPoints: function (node, points) {
         var worldPoints = [];
-        for(var i= 0; i<points.length; i++) {
+        for (var i = 0; i < points.length; i++) {
             worldPoints.push(node.convertToWorldSpaceAR(points[i]));
         }
         return worldPoints;
+    },
+
+    //以这个tile的tempthing为中心 查找出所有与其连通且同类型，同级别的thing数组
+    findConnentedThing: function (tile) {
+        var resultThings = [];
+        
+        var tileJS = tile.getComponent('Tile');
+        var thisThing = tileJS.tempThing;
+        var otherThing = tileJS.thing;
+
+        resultThings.push(thisThing);
+
+        if (IsThingSameTypeAndLevel(thisThing,otherThing)) {
+            resultThings.push(otherThing);
+        }
+    },
+
+    IsThingSameTypeAndLevel(thisThing, otherThing) {
+
+        var thisThingJS = thisThing.getComponent('Thing');
+        var otherThingJS = otherThing.getComponent('Thing');
+        return (thisThingJS.thingType == otherThingJS.thingType) && (thisThingJS.thingLevel == otherThingJS.thingLevel) ? true : false;
     }
 });

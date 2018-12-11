@@ -45,6 +45,7 @@ DataMgr.prototype.initTile = function(checkpointID,tiles) {
     for(var i =0; i<this.hallTileHeight; i++) {
         for(var j = 0; j<this.hallTileWidth;j++) {
             this.tilesData[i][j] = tiles[i*this.hallTileWidth + j];
+            this.tilesData[i][j].getComponent('Tile').setIndex(j,i);
         }
     }
     console.log(this.tilesData);
