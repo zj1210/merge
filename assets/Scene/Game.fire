@@ -436,7 +436,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 1,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {

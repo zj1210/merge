@@ -68,7 +68,7 @@ cc.Class({
         }
 
         this.generateLand();
-        // this.generateThings();
+        this.generateThings();
         // this.generateImageByTypeAndLevel(thingType, thingLevel);
 
     },
@@ -88,6 +88,11 @@ cc.Class({
         } else {
             debugger;
         }
+    },
+
+    //需要 物品类型thingType 以及物品等级 thingLevel
+    generateThings:function() {
+
     },
 
     // called every frame
