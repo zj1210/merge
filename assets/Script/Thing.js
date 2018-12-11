@@ -53,7 +53,7 @@ cc.Class({
                 //核心逻辑
                 //1 点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
-                var touchpos = event.getLocation();//触摸点的世界坐标
+                var touchpos = event.getLocation();//触摸点的世界坐标 其实是 摄像机坐标系下的坐标
                 var worldpos = cc.pAdd(touchpos, self._offset);//物体的世界坐标
                 console.log(touchpos);
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标

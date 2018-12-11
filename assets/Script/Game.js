@@ -111,17 +111,32 @@ cc.Class({
 
     getContainPointTile:function(touchPos) {
         
+        var touchPos =  this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
+        
         var hallTileHeight = cc.dataMgr.hallTileHeight,
         hallTileWidth = cc.dataMgr.hallTileWidth;
         for(var i =0; i<hallTileHeight; i++) {
             for(var j = 0; j<hallTileWidth;j++) {
                 var points = cc.dataMgr.tilesData[i][j].getComponent(cc.PolygonCollider).points;
-                if (cc.Intersection.pointInPolygon(touchPos,points)) {
+                var worldpoints = this.getWorldPoints(cc.dataMgr.tilesData[i][j],points);
+                // //console.log(worldpoints);
+                // var test = cc.dataMgr.tilesData[i][j].parent.convertToWorldSpaceAR(cc.dataMgr.tilesData[i][j].position);
+                // console.log(touchPos);
+                // console.log(test);
+                if (cc.Intersection.pointInPolygon(touchPos,worldpoints)) {
                     console.log('包含改触摸点的tile');
-                    console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
+                   //console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
                     console.log(cc.dataMgr.tilesData[i][j]);
                  }
             }
         }
-    }   
+    },
+    
+    getWorldPoints:function(node,points) {
+        var worldPoints = [];
+        for(var i= 0; i<points.length; i++) {
+            worldPoints.push(node.convertToWorldSpaceAR(points[i]));
+        }
+        return worldPoints;
+    }
 });
