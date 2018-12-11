@@ -102,7 +102,14 @@
     "tileType": 0,
     "skinType": 0,
     "thingType": 0,
-    "thingLevel": 0
+    "thingLevel": 0,
+    "dontWant": 0,
+    "landSpriteFrame0": {
+      "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
+    },
+    "landSpriteFrame1": {
+      "__uuid__": "d8b26ccc-4155-4c49-b52c-18819642fb36"
+    }
   },
   {
     "__type__": "cc.PrefabInfo",

@@ -15,12 +15,14 @@ function DataMgr() {
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
     this.hasTileData = false;
     this.isHall = true;//要么在大厅，要么在关卡。
+    //一下三个数组 是进 关卡，或者大厅 根据关卡摆放生成的数据结构，只有大厅的数据会退出游戏时，永久存储。关卡只记录进度
     //二维tile数据
     this.tilesData = new Array();
     //二维things数据
     this.thinsgData = new Array(); 
     //一维 飞龙数据
     this.dragonsData = new Array();
+
     this.init();
 }
 

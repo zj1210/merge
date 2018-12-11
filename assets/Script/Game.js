@@ -13,14 +13,26 @@ cc.Class({
         camera: {
             default: null,
             type: cc.Node
-        }
+        },
+
+        // tilesHorizontalCount: {
+        //     default: 0,
+        //     displayName: "当前图的水平格子数",
+        //     tooltip: "包括雾，以及空白的格子",
+        // },
+
+        // tileVerticalCount: {
+        //     default: 0,
+        //     displayName: "当前图的垂直格子数",
+        //     tooltip: "包括雾，以及空白的格子",
+        // },
     },
 
     // use this for initialization
     onLoad: function () {
         console.log("game onload!");
-        this.tilesHorizontalCount = 6;
-        this.tileVerticalCount = 3;
+        // this.tilesHorizontalCount = 6;
+        // this.tileVerticalCount = 3;
         if (!cc.dataMgr) {
             cc.dataMgr = new DataMgr();
         }
