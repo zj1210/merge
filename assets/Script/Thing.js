@@ -151,10 +151,10 @@ cc.Class({
 
     thingsUnionTips: function () {
         for (var i = 0; i < this.thingsArray.length; i++) {
-            if(this.node.parent != this.thingsArray[i]) {
+            if (this.node.parent != this.thingsArray[i]) {
                 this.thingsArray[i].getChildByName('selectedNode').getComponent('Thing').goUnionTips(this.node.parent.position);
             }
-            
+
         }
     },
 
@@ -172,13 +172,17 @@ cc.Class({
         this.selectedSprite.spriteFrame = this.originSpriteFrame;
         //pNode 从originPosition 往 targetPos位置来回移动
         var dir = cc.v2(cc.pSub(targetPos, this.originPosition)).normalize();
-        var move1 = cc.moveBy(0.15, dir.mul(20));
-        var moveGo = cc.moveBy(0.4, dir.mul(-40));
-        var moveCome = cc.moveBy(0.4, dir.mul(40));
-        var moveComeAndgo = cc.sequence(moveGo, moveCome);
-        var moveLoop = cc.repeat(moveComeAndgo,40);
-        var finalAction = cc.sequence(move1, moveLoop);
-        pNode.runAction(finalAction);
+        // var move1 = cc.moveBy(0.15, dir.mul(20));
+        // var moveGo = cc.moveBy(0.4, dir.mul(-40));
+        // var moveCome = cc.moveBy(0.4, dir.mul(40));
+        // var moveComeAndgo = cc.sequence(moveGo, moveCome);
+        // var moveLoop = cc.repeat(moveComeAndgo, 40);
+        // var finalAction = cc.sequence(move1, moveLoop);
+        var moveCome = cc.moveBy(0.4, dir.mul(20));
+        var moveGo = cc.moveBy(0.4, dir.mul(-20));
+        var moveComeAndgo = cc.sequence(moveCome, moveGo);
+        var moveLoop = cc.repeat(moveComeAndgo, 40);
+        pNode.runAction(moveLoop);
     },
     //移回原本的位置 往originPosition移动 
     goBack: function () {
