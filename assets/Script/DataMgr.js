@@ -24,7 +24,7 @@ function DataMgr() {
     this.dragonsData = [];
 
     this.hallTileWidth = 2;
-    this.hallTileHeight = 3;
+    this.hallTileHeight = 4;
 
     this.checkpointWidth = 0;
     this.checkpintHeight = 0;

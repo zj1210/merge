@@ -116,9 +116,11 @@ cc.Class({
                     //只是正常移动
                     //需要判断是否有物体
                     //有物体
-                    if(self.currentNearestTile.thing) {
-                        self.currentNearestTile.
-                    } 
+                    if(self.currentNearestTile.getComponent('Tile').thing) {
+                        //self.currentNearestTile.
+                    } else { //没有物体
+                        self.putInTile();
+                    }
                 }
 
             } 
@@ -216,11 +218,34 @@ cc.Class({
         pNode.runAction(moveBack);
     },
 
-    // setRelationTile: function (tile) {
-    //     this.tile = tile;
-    // },
+    //只能处理 放入空的tile之中
+    putInTile:function(){
+        var pNode = this.node.parent;
+        this.relationTileJS.thing = null;
+        var tileJS = this.currentNearestTile.getComponent('Tile');
+        this.relationTileJS = tileJS;
+        tileJS.thing = pNode;
+        this.originPosition = this.currentNearestTile.position;
+        var moveGo = cc.moveTo(0.2,this.currentNearestTile.position);
+        pNode.runAction(moveGo);
+    },
+    /**
+     * 
+      
+    },
 
-    // called every frame
+    //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
+    setPositionAndOriginPosition: function (position, tile) {
+        this.node.parent.position = position;
+        this.originPosition = position;
+        //存一下 它所在的tile，为了之后修改tile的数据
+        this.relationTileJS = tile.getComponent('Tile');
+
+        this.currentNearestTile = tile;} 
+     */
+   
+   
+
     update: function (dt) {
 
     },
