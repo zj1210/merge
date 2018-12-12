@@ -1,4 +1,3 @@
-
 //！！！这个脚本挂在了Thing prefab下的 selectedNode上 一定要注意！！！
 cc.Class({
     extends: cc.Component,
@@ -25,8 +24,8 @@ cc.Class({
         this.thingsArray = null;
     },
 
-     //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
-     setPositionAndOriginPosition:function(position,tileJS) {
+    //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
+    setPositionAndOriginPosition: function (position, tileJS) {
         this.node.parent.position = position;
         this.originPosition = position;
         //存一下 它所在的tile，为了之后修改tile的数据
@@ -64,8 +63,8 @@ cc.Class({
                 //核心逻辑
                 //1 点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
-                var touchpos = event.getLocation();//触摸点的世界坐标 其实是 摄像机坐标系下的坐标
-                var worldpos = cc.pAdd(touchpos, self._offset);//物体的世界坐标
+                var touchpos = event.getLocation(); //触摸点的世界坐标 其实是 摄像机坐标系下的坐标
+                var worldpos = cc.pAdd(touchpos, self._offset); //物体的世界坐标
                 console.log(touchpos);
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
                 var nodepos = self.node.parent.parent.convertToNodeSpaceAR(worldpos);
@@ -77,8 +76,8 @@ cc.Class({
 
                 //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
                 if (currentNearestTile != self.lastNearestTile && currentNearestTile) {
-                    if(self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
-                        if(self.thingsArray) {
+                    if (self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
+                        if (self.thingsArray) {
                             self.thingsGoStatic();
                             //还需要将平移的物体移回；稍后
                         }
@@ -89,8 +88,12 @@ cc.Class({
                     tileJS.putInThingTemporarily(self.node.parent);
                     //3 查找连通物品
                     self.thingsArray = self.game.findConnentedThing(currentNearestTile);
+
                     //4 将连通物品的selected active 置为true 并且播放往此物品平移的 动画
-                    self.thingsUnionTips(self.thingsArray);
+                    if (self.thingsArray && self.thingsArray.length > 2) {
+                        self.thingsUnionTips();
+                    }
+
                 }
             }
         }, this.node);
@@ -98,7 +101,7 @@ cc.Class({
             event.stopPropagation();
             self._beginPos = null;
             self._offset = null;
-            
+
 
             self.selectedSprite.spriteFrame = null;
 
@@ -107,7 +110,7 @@ cc.Class({
             //1，将things,放入 
 
             //查找连通表 若表不为空，数量大于2
-            if(self.thingsArray && self.thingsArray.length>2) {
+            if (self.thingsArray && self.thingsArray.length > 2) {
 
             } else {
                 //只是正常移动
@@ -146,22 +149,39 @@ cc.Class({
         }
     },
 
-    thingsUnionTips:function(thingsArray) {
-
+    thingsUnionTips: function () {
+        for (var i = 0; i < this.thingsArray.length; i++) {
+            if(this.node.parent != this.thingsArray[i]) {
+                this.thingsArray[i].getChildByName('selectedNode').getComponent('Thing').goUnionTips(this.node.parent.position);
+            }
+            
+        }
     },
 
-    thingsGoStatic:function() {
-        if(this.thingsArray) {
-            for(var i = 0; i<this.thingsArray.length;i++) {
+    thingsGoStatic: function () {
+        if (this.thingsArray) {
+            for (var i = 0; i < this.thingsArray.length; i++) {
                 this.thingsArray[i].getChildByName('selectedNode').getComponent('Thing').goBack();
             }
         }
     },
 
-       
-
+    //thingsNode层的坐标空间下 才能保证 动画的准确性   
+    goUnionTips: function (targetPos) {
+        var pNode = this.node.parent;
+        this.selectedSprite.spriteFrame = this.originSpriteFrame;
+        //pNode 从originPosition 往 targetPos位置来回移动
+        var dir = cc.v2(cc.pSub(targetPos, this.originPosition)).normalize();
+        var move1 = cc.moveBy(0.15, dir.mul(20));
+        var moveGo = cc.moveBy(0.4, dir.mul(-40));
+        var moveCome = cc.moveBy(0.4, dir.mul(40));
+        var moveComeAndgo = cc.sequence(moveGo, moveCome);
+        var moveLoop = cc.repeat(moveComeAndgo,40);
+        var finalAction = cc.sequence(move1, moveLoop);
+        pNode.runAction(finalAction);
+    },
     //移回原本的位置 往originPosition移动 
-    goBack:function() {
+    goBack: function () {
 
     },
 
