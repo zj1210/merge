@@ -128,8 +128,13 @@ cc.Class({
         // thingJs.setTileTemporarily(this.node);
     },
 
+    //放入临时物体，将自己的物体平移
     putInThingTemporarily(thing) {
         this.tempThing = thing;
+        //todo
+        if(this.thing) {
+            //平移
+        }
     },
 
     setIndex(widthCount,heightCount) {

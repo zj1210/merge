@@ -149,12 +149,17 @@ cc.Class({
         var otherThing = tileJS.thing;
 
         resultThings.push(thisThing);
-        //检查给此拖拽物同一个tile的物品的 是否和其相同，若相同加入
         var thisThingJS = thisThing.getChildByName('selectedNode').getComponent('Thing');
-        var otherThingJS = otherThing.getChildByName('selectedNode').getComponent('Thing');
-        if (this.IsThingSameTypeAndLevel(thisThingJS, otherThingJS)) {
-            resultThings.push(otherThing);
+        //判断 格子内有没有别的thing，没有就不管了。若有还要判断是否一样
+        if (otherThing) {
+            //检查给此拖拽物同一个tile的物品的 是否和其相同，若相同加入
+            
+            var otherThingJS = otherThing.getChildByName('selectedNode').getComponent('Thing');
+            if (this.IsThingSameTypeAndLevel(thisThingJS, otherThingJS)) {
+                resultThings.push(otherThing);
+            }
         }
+
         //这些原本也可以放入递归之中，但是我的数据结构比较麻烦，第一层先直接调用（第一层主要可能是两个节点）
         if (tileJS.index.x > 0) {
             this.checkConnectRecurse(tileJS.index.x - 1, tileJS.index.y, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
@@ -203,7 +208,7 @@ cc.Class({
         }
 
         //检测是否一样
-        if (this.IsThingSameTypeAndLevel_2(compareThing, type, level)) {
+        if (this.IsThingSameTypeAndLevel_2(compareThing.getChildByName('selectedNode').getComponent('Thing'), type, level)) {
             //一切通过，加入，递归检测它的上下左右
             resultThings.push(compareThing);
 
@@ -230,7 +235,9 @@ cc.Class({
 
 
     IsThingSameTypeAndLevel_2(thisThingJS, thingType, thingLevel) {
-
+        if(!thisThingJS) {
+            debugger;
+        }
         return (thisThingJS.thingType == thingType) && (thisThingJS.thingLevel == thingLevel) ? true : false;
     },
     IsThingSameTypeAndLevel(thisThingJS, otherThingJS) {

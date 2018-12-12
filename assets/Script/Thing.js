@@ -54,8 +54,8 @@ cc.Class({
             //必然有物体，因为这个节点就是物体
             //显示tips
             self.selectedSprite.spriteFrame = self.originSpriteFrame;
-            this.tileJS.thing = null;
-            this.tileJS.tempThing = this.node.parent;
+            self.relationTileJS.thing = null;
+            self.relationTileJS.tempThing = self.node.parent;
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
