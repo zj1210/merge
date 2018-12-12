@@ -1,3 +1,5 @@
+
+//！！！这个脚本挂在了Thing prefab下的 selectedNode上 一定要注意！！！
 cc.Class({
     extends: cc.Component,
 
@@ -23,6 +25,14 @@ cc.Class({
         this.thingsArray = null;
     },
 
+     //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
+     setPositionAndOriginPosition:function(position,tileJS) {
+        this.node.parent.position = position;
+        this.originPosition = position;
+        //存一下 它所在的tile，为了之后修改tile的数据
+        this.relationTileJS = tileJS;
+    },
+
     start: function () {
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
@@ -44,7 +54,8 @@ cc.Class({
             //必然有物体，因为这个节点就是物体
             //显示tips
             self.selectedSprite.spriteFrame = self.originSpriteFrame;
-
+            this.tileJS.thing = null;
+            this.tileJS.tempThing = this.node.parent;
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
@@ -135,19 +146,19 @@ cc.Class({
         }
     },
 
+    thingsUnionTips:function(thingsArray) {
+
+    },
+
     thingsGoStatic:function() {
         if(this.thingsArray) {
             for(var i = 0; i<this.thingsArray.length;i++) {
-                this.thingsArray[i].getComponent('Thing').goBack();
+                this.thingsArray[i].getChildByName('selectedNode').getComponent('Thing').goBack();
             }
         }
     },
 
-        //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
-    setPositionAndOriginPosition:function(position) {
-        this.node.position = position;
-        this.originPosition = position;
-    },
+       
 
     //移回原本的位置 往originPosition移动 
     goBack:function() {

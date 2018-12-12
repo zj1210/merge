@@ -143,22 +143,110 @@ cc.Class({
     //以这个tile的tempthing为中心 查找出所有与其连通且同类型，同级别的thing数组
     findConnentedThing: function (tile) {
         var resultThings = [];
-        
+
         var tileJS = tile.getComponent('Tile');
         var thisThing = tileJS.tempThing;
         var otherThing = tileJS.thing;
 
         resultThings.push(thisThing);
-
-        if (IsThingSameTypeAndLevel(thisThing,otherThing)) {
+        //检查给此拖拽物同一个tile的物品的 是否和其相同，若相同加入
+        var thisThingJS = thisThing.getChildByName('selectedNode').getComponent('Thing');
+        var otherThingJS = otherThing.getChildByName('selectedNode').getComponent('Thing');
+        if (this.IsThingSameTypeAndLevel(thisThingJS, otherThingJS)) {
             resultThings.push(otherThing);
+        }
+        //这些原本也可以放入递归之中，但是我的数据结构比较麻烦，第一层先直接调用（第一层主要可能是两个节点）
+        if (tileJS.index.x > 0) {
+            this.checkConnectRecurse(tileJS.index.x - 1, tileJS.index.y, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
+        }
+
+        if (tileJS.index.x < cc.dataMgr.getCurrentWidthAndHeight().w - 1) {
+            this.checkConnectRecurse(tileJS.index.x + 1, tileJS.index.y, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
+        }
+
+        if (tileJS.index.y > 0) {
+            this.checkConnectRecurse(tileJS.index.x, tileJS.index.y - 1, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
+        }
+
+        if (tileJS.index.y < cc.dataMgr.getCurrentWidthAndHeight().h - 1) {
+            this.checkConnectRecurse(tileJS.index.x, tileJS.index.y + 1, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
+        }
+        console.log("-----查找连通算法结果------");
+        console.log(resultThings);
+        return resultThings;
+    },
+
+    checkConnectRecurse: function (x, y, type, level, resultThings) {
+        //先检测自己是否已经加入，是否是雾，是否有物体，是否很前面的一样  以上都通过，加入
+        //是否已经加入
+        var t = cc.dataMgr.tilesData[y][x];
+        var tJS = t.getComponent('Tile');
+        var compareThing = tJS.thing;
+        //未知原因 块和脚本没有获得
+        if (!t || !tJS) {
+            debugger;
+            return;
+        }
+        //是雾
+        if (tJS.tileType == 1) {
+            return;
+        }
+        //没有thing
+        if (!compareThing) {
+            return;
+        }
+
+        //已经加入
+        if (this.isChecked(compareThing, resultThings)) {
+
+            return;
+        }
+
+        //检测是否一样
+        if (this.IsThingSameTypeAndLevel_2(compareThing, type, level)) {
+            //一切通过，加入，递归检测它的上下左右
+            resultThings.push(compareThing);
+
+            if (tJS.index.x > 0) {
+                this.checkConnectRecurse(tJS.index.x - 1, tJS.index.y, type, level, resultThings);
+            }
+
+            if (tJS.index.x < cc.dataMgr.getCurrentWidthAndHeight().w - 1) {
+                this.checkConnectRecurse(tJS.index.x + 1, tJS.index.y, type, level, resultThings);
+            }
+
+            if (tJS.index.y > 0) {
+                this.checkConnectRecurse(tJS.index.x, tJS.index.y - 1, type, level, resultThings);
+            }
+
+            if (tJS.index.y < cc.dataMgr.getCurrentWidthAndHeight().h - 1) {
+                this.checkConnectRecurse(tJS.index.x, tJS.index.y + 1, type, level, resultThings);
+            }
+
+        } else { //不一样
+            return;
         }
     },
 
-    IsThingSameTypeAndLevel(thisThing, otherThing) {
 
-        var thisThingJS = thisThing.getComponent('Thing');
-        var otherThingJS = otherThing.getComponent('Thing');
+    IsThingSameTypeAndLevel_2(thisThingJS, thingType, thingLevel) {
+
+        return (thisThingJS.thingType == thingType) && (thisThingJS.thingLevel == thingLevel) ? true : false;
+    },
+    IsThingSameTypeAndLevel(thisThingJS, otherThingJS) {
+
         return (thisThingJS.thingType == otherThingJS.thingType) && (thisThingJS.thingLevel == otherThingJS.thingLevel) ? true : false;
-    }
+    },
+
+
+    isChecked: function (compareThing, resultThings) {
+
+        for (var i = 0; i < resultThings.length; i++) {
+            if (compareThing == resultThings[i]) {
+                return true;
+            }
+        }
+        return false;
+    },
+
 });
