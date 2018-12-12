@@ -108,7 +108,7 @@ cc.Class({
         return cc.v2(addX, addY);
     },
 
-    getContainPointTile: function (touchPos) {
+    getContainPointTile: function (worldPos) {
 
         //var touchPos = this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
 
@@ -122,7 +122,7 @@ cc.Class({
                 // var test = cc.dataMgr.tilesData[i][j].parent.convertToWorldSpaceAR(cc.dataMgr.tilesData[i][j].position);
                 // console.log(touchPos);
                 // console.log(test);
-                if (cc.Intersection.pointInPolygon(touchPos, worldpoints)) {
+                if (cc.Intersection.pointInPolygon(worldPos, worldpoints)) {
                     // console.log('包含改触摸点的tile');
                     //console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
                     //console.log(cc.dataMgr.tilesData[i][j]);
@@ -130,6 +130,7 @@ cc.Class({
                 }
             }
         }
+        return null;
     },
 
     getWorldPoints: function (node, points) {
@@ -176,8 +177,8 @@ cc.Class({
         if (tileJS.index.y < cc.dataMgr.getCurrentWidthAndHeight().h - 1) {
             this.checkConnectRecurse(tileJS.index.x, tileJS.index.y + 1, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
         }
-        console.log("-----查找连通算法结果------");
-        console.log(resultThings);
+        // console.log("-----查找连通算法结果------");
+        // console.log(resultThings);
         return resultThings;
     },
 

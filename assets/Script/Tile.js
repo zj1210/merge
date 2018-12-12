@@ -94,6 +94,23 @@ cc.Class({
 
     },
 
+        //需要 物品类型thingType 以及物品等级 thingLevel
+        generateThings: function () {
+            this.thing = cc.instantiate(this.thingPrefab);
+            this.tempThing = null;//临时物品，手指拖动上去，但没有松手，和棋盘上所有非临时的进行遍历
+            this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
+            if (!this.thingsNode) {
+                debugger;
+            }
+            this.thingsNode.addChild(this.thing);
+            // this.thing.position = this.node.position;
+            let thingJs =this.thing.getChildByName('selectedNode').getComponent("Thing");
+            thingJs.setPositionAndOriginPosition(this.node.position,this.node);
+            thingJs.setTypeAndLevel(this.thingType,this.thingLevel);
+            // //主要是为了性能，内部不要以这个为准，为了判断自己的临时tile 和当前的临时tile是否一样，不一样才
+            // thingJs.setTileTemporarily(this.node);
+        },
+
     //根据上面的数据结构生成物品，放入物品层，物品层也是一个二维数组数据结构
     //雾，没有物品，数组中的元素都为null。
     //不用考虑龙，龙在龙层，而龙蛋在tile 和物品层都要有
@@ -111,22 +128,7 @@ cc.Class({
         }
     },
 
-    //需要 物品类型thingType 以及物品等级 thingLevel
-    generateThings: function () {
-        this.thing = cc.instantiate(this.thingPrefab);
-        this.tempThing = null;//临时物品，手指拖动上去，但没有松手，和棋盘上所有非临时的进行遍历
-        this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
-        if (!this.thingsNode) {
-            debugger;
-        }
-        this.thingsNode.addChild(this.thing);
-        // this.thing.position = this.node.position;
-        let thingJs =this.thing.getChildByName('selectedNode').getComponent("Thing");
-        thingJs.setPositionAndOriginPosition(this.node.position,this);
-        thingJs.setTypeAndLevel(this.thingType,this.thingLevel);
-        // //主要是为了性能，内部不要以这个为准，为了判断自己的临时tile 和当前的临时tile是否一样，不一样才
-        // thingJs.setTileTemporarily(this.node);
-    },
+
 
     //放入临时物体，将自己的物体平移
     putInThingTemporarily(thing) {
@@ -142,6 +144,17 @@ cc.Class({
             x:widthCount,
             y:heightCount
         };
+    },
+
+    //是否可以放入 thing
+    isCanPut:function() {
+        //判断tile是否可见 是否是雾
+        //是块，非雾 就可放入 
+        if(this.dontWant == 0 && this.tileType == 0) {
+            return true
+        }
+
+        return false;
     },
 
     // called every frame

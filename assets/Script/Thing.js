@@ -26,11 +26,13 @@ cc.Class({
     },
 
     //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
-    setPositionAndOriginPosition: function (position, tileJS) {
+    setPositionAndOriginPosition: function (position, tile) {
         this.node.parent.position = position;
         this.originPosition = position;
         //存一下 它所在的tile，为了之后修改tile的数据
-        this.relationTileJS = tileJS;
+        this.relationTileJS = tile.getComponent('Tile');
+
+        this.currentNearestTile = tile;
     },
 
     start: function () {
@@ -66,14 +68,14 @@ cc.Class({
                 //物体的世界坐标 = touchPos+ _offset;
                 var touchpos = event.getLocation(); //触摸点的世界坐标 其实是 摄像机坐标系下的坐标
                 var worldpos = cc.pAdd(touchpos, self._offset); //物体的世界坐标
-                console.log(touchpos);
+                //console.log(touchpos);
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
                 var nodepos = self.node.parent.parent.convertToNodeSpaceAR(worldpos);
                 self.node.parent.position = nodepos;
                 // console.log(worldPosition);
                 //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
                 //根据触摸点，找到包含触摸点的块
-                self.currentNearestTile = self.game.getContainPointTile(touchpos);
+                self.currentNearestTile = self.game.getContainPointTile(worldpos);
 
                 //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
                 if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
@@ -99,9 +101,19 @@ cc.Class({
             }
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_END, function (event) {
+            // console.log('touch end by flower');
             event.stopPropagation();
             self._beginPos = null;
             self._offset = null;
+
+            //此tile是否可以放入 确实是在块上(不为null) 
+            if(self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
+
+            } 
+            //不可放入 移回原来位置
+            else {
+                self.goBack();
+            }
 
 
             self.selectedSprite.spriteFrame = null;
@@ -109,6 +121,7 @@ cc.Class({
 
             //玩家松手判定
             //1，将things,放入 
+            console.log(self.currentNearestTile);
 
             //查找连通表 若表不为空，数量大于2
             if (self.thingsArray && self.thingsArray.length > 2) {
