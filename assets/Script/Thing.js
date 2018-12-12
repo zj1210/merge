@@ -109,6 +109,18 @@ cc.Class({
             //此tile是否可以放入 确实是在块上(不为null) 
             if(self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
 
+                //是否可以合并
+                if (self.thingsArray && self.thingsArray.length > 2) {
+                    //合并算法
+                } else {
+                    //只是正常移动
+                    //需要判断是否有物体
+                    //有物体
+                    if(self.currentNearestTile.thing) {
+                        self.currentNearestTile.
+                    } 
+                }
+
             } 
             //不可放入 移回原来位置
             else {
@@ -123,12 +135,7 @@ cc.Class({
             //1，将things,放入 
             console.log(self.currentNearestTile);
 
-            //查找连通表 若表不为空，数量大于2
-            if (self.thingsArray && self.thingsArray.length > 2) {
-                //合并算法
-            } else {
-                //只是正常移动
-            }
+            
             //根据数量 查表 根据合成数量 返回合成奖励后的数量
             // 根据数量来生成 新花 龙，精华 三的整数倍 余数 还是生成原来的 返回的是 物品集合
             //将物品放入格子算法 最大的物品，第一个，放入当前格子（当前还是要记录的）
