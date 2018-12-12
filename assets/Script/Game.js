@@ -110,7 +110,7 @@ cc.Class({
 
     getContainPointTile: function (touchPos) {
 
-        var touchPos = this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
+        //var touchPos = this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
 
         var hallTileHeight = cc.dataMgr.hallTileHeight,
             hallTileWidth = cc.dataMgr.hallTileWidth;

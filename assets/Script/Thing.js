@@ -21,6 +21,7 @@ cc.Class({
 
         //临时的，为了性能。记录 包含触摸点的块
         this.lastNearestTile = null;
+        this.currentNearestTile = null;
         this.thingsArray = null;
     },
 
@@ -72,22 +73,22 @@ cc.Class({
                 // console.log(worldPosition);
                 //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
                 //根据触摸点，找到包含触摸点的块
-                let currentNearestTile = self.game.getContainPointTile(touchpos);
+                self.currentNearestTile = self.game.getContainPointTile(touchpos);
 
                 //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
-                if (currentNearestTile != self.lastNearestTile && currentNearestTile) {
+                if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
                     if (self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
                         if (self.thingsArray) {
                             self.thingsGoStatic();
                             //还需要将平移的物体移回；稍后
                         }
                     }
-                    self.lastNearestTile = currentNearestTile;
+                    self.lastNearestTile = self.currentNearestTile;
                     //临时放入 内部 需要维护一个临时的，把自己内部的先平移
-                    let tileJS = currentNearestTile.getComponent('Tile');
+                    let tileJS = self.currentNearestTile.getComponent('Tile');
                     tileJS.putInThingTemporarily(self.node.parent);
                     //3 查找连通物品
-                    self.thingsArray = self.game.findConnentedThing(currentNearestTile);
+                    self.thingsArray = self.game.findConnentedThing(self.currentNearestTile);
 
                     //4 将连通物品的selected active 置为true 并且播放往此物品平移的 动画
                     if (self.thingsArray && self.thingsArray.length > 2) {
@@ -111,7 +112,7 @@ cc.Class({
 
             //查找连通表 若表不为空，数量大于2
             if (self.thingsArray && self.thingsArray.length > 2) {
-
+                //合并算法
             } else {
                 //只是正常移动
             }
@@ -161,7 +162,9 @@ cc.Class({
     thingsGoStatic: function () {
         if (this.thingsArray) {
             for (var i = 0; i < this.thingsArray.length; i++) {
-                this.thingsArray[i].getChildByName('selectedNode').getComponent('Thing').goBack();
+                if (this.node.parent != this.thingsArray[i]) {
+                    this.thingsArray[i].getChildByName('selectedNode').getComponent('Thing').goBack();
+                }
             }
         }
     },
@@ -186,7 +189,11 @@ cc.Class({
     },
     //移回原本的位置 往originPosition移动 
     goBack: function () {
-
+        this.selectedSprite.spriteFrame = null;
+        var pNode = this.node.parent;
+        var moveBack = cc.moveTo(0.2,this.originPosition);
+        pNode.stopAllActions();
+        pNode.runAction(moveBack);
     },
 
     // setRelationTile: function (tile) {
