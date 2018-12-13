@@ -319,7 +319,7 @@ cc.Class({
     },
 
     //输入一个things 数组，返回一个 生成的things 数组
-    unionAlgorithm: function (thingsArray) {
+    unionAlgorithm: function (thingsArray,currentNearestTile) {
         //1 先取出第一个thing的关联tile 将来以这个搜寻空格
         //2 让所有待合并的thing的tile取消关联 并置为空，这样才能进行搜索空格
         //3 根据type level 公式  生成 unionedThingsArray
@@ -328,7 +328,7 @@ cc.Class({
 
         //1
         var thing0 = thingsArray[0];
-        var thing0TileJS = thingsArray[0].getComponent('Thing').relationTileJS;
+        var thing0TileJS = thingsArray[0].getChildByName('selectedNode').getComponent('Thing').relationTileJS;
         var tile0 = thing0TileJS.node;
 
 
@@ -340,17 +340,19 @@ cc.Class({
         };
 
         for (var i = 0; i < thingsArray.length; i++) {
-            var tempTileJs = thingsArray[i].getComponent('Thing').relationTileJS;
+            var tempTileJs = thingsArray[i].getChildByName('selectedNode').getComponent('Thing').relationTileJS;
             tempTileJs.thing = null;
             tempTileJs.thingType = 0;
             tempTileJs.thingLevel = 0;
         }
 
 
-        var unionedThingsArray = this.generateUnionedThings(thingsArray.length, thingData.thingType, thingData, thingLevel);
+        var unionedThingsArray = this.generateUnionedThings(thingsArray.length, thingData.thingType, thingData.thingLevel);
         //清除已经完成合并的thing
 
-        var resultTiles = this.getNearestTileByN(tile0, unionedThingsArray.length);
+        var resultTiles = this.getNearestTileByN(currentNearestTile, unionedThingsArray.length);
+        console.log('======最近的方块====');
+        console.log(resultTiles);
         for (var i = 0; i < unionedThingsArray.length; i++) {
             var thingJs = unionedThingsArray[i].thing.getComponent('Thing');
             thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
@@ -361,22 +363,21 @@ cc.Class({
     //输入thingsArray 输出以thingData为结构的 数组
     generateUnionedThings: function (length, type, level) {
         //连击奖励公式 len = len +(len-3)/2;
-        var newLen = length + Math.floor((len - 3) >> 1);
+        var newLen = length + Math.floor((length - 3) >> 1);
         //results是个数组，每个子的 type level可能不一样
-        var results = _generateUnionedThings(newLen, type, level);
-
+        var results = this._generateUnionedThings(newLen, type, level);
+        return results;
     },
 
     _generateUnionedThings: function (newLen, type, level) {
         var results = [];
-        var tempLen = newLen;
-        while (tempLen > 0) {
-            var remainder = tempLen % 3;
-            tempLen = Math.floor(newLen / 3);
+       
+        while (newLen > 0) {
+            var remainder = newLen % 3;
+            newLen = Math.floor(newLen / 3);
 
-            var thisLevelCount = remainder;
-            for (var i = 0; i < thisLevelCount; i++) {
-                var newThing = cc.instantiate(thingPrefab);
+            for (var i = 0; i < remainder; i++) {
+                var newThing = cc.instantiate(this.thingPrefab);
                 var thingData = {
                     'thing': newThing,
                     'thingType': type,

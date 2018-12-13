@@ -112,7 +112,7 @@ cc.Class({
                 //是否可以合并
                 if (self.thingsArray && self.thingsArray.length > 2) {
                     //合并算法
-                    self.game.unionAlgorithm(self.thingsArray);
+                    self.game.unionAlgorithm(self.thingsArray,self.currentNearestTile);
                 } else {
                     //只是正常移动
                     //需要判断是否有物体
