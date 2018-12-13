@@ -128,7 +128,13 @@ cc.Class({
         }
     },
 
-
+    //tile 上是不是没东西
+    isEmptyTile:function() {
+        if(this.tileType == 0 && this.thing == null) {
+            return true;
+        }
+        return false;
+    },
 
     //放入临时物体，将自己的物体平移
     putInThingTemporarily(thing) {

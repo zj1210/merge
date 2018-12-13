@@ -638,7 +638,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Tile1_1",
+    "_name": "Tile1_0",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -798,7 +798,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Tile1_2",
+    "_name": "Tile1_1",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6

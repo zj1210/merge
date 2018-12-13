@@ -111,11 +111,11 @@ cc.Class({
     getContainPointTile: function (worldPos) {
 
         //var touchPos = this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
-
-        var hallTileHeight = cc.dataMgr.hallTileHeight,
-            hallTileWidth = cc.dataMgr.hallTileWidth;
-        for (var i = 0; i < hallTileHeight; i++) {
-            for (var j = 0; j < hallTileWidth; j++) {
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var tileHeight = hAndW.h,
+            tileWidth = hAndW.w;
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
                 var points = cc.dataMgr.tilesData[i][j].getComponent(cc.PolygonCollider).points;
                 var worldpoints = this.getWorldPoints(cc.dataMgr.tilesData[i][j], points);
                 // //console.log(worldpoints);
@@ -154,7 +154,7 @@ cc.Class({
         //判断 格子内有没有别的thing，没有就不管了。若有还要判断是否一样
         if (otherThing) {
             //检查给此拖拽物同一个tile的物品的 是否和其相同，若相同加入
-            
+
             var otherThingJS = otherThing.getChildByName('selectedNode').getComponent('Thing');
             if (this.IsThingSameTypeAndLevel(thisThingJS, otherThingJS)) {
                 resultThings.push(otherThing);
@@ -236,7 +236,7 @@ cc.Class({
 
 
     IsThingSameTypeAndLevel_2(thisThingJS, thingType, thingLevel) {
-        if(!thisThingJS) {
+        if (!thisThingJS) {
             debugger;
         }
         return (thisThingJS.thingType == thingType) && (thisThingJS.thingLevel == thingLevel) ? true : false;
@@ -246,7 +246,7 @@ cc.Class({
         return (thisThingJS.thingType == otherThingJS.thingType) && (thisThingJS.thingLevel == otherThingJS.thingLevel) ? true : false;
     },
 
-
+    //检查thing是否已经加入
     isChecked: function (compareThing, resultThings) {
 
         for (var i = 0; i < resultThings.length; i++) {
@@ -256,5 +256,61 @@ cc.Class({
         }
         return false;
     },
+
+    //检查tile是否已经加入
+
+    isChecked_Tile: function (compareTile, resultTiles) {
+
+        for (var i = 0; i < resultTiles.length; i++) {
+            if (compareTile == resultTiles[i]) {
+                return true;
+            }
+        }
+        return false;
+
+    },
+
+    //输入一个 tile，找到离这个tile最近的n个tile(可用类别，非雾，没有物体)
+    getNearestTileByN: function (tile, N) {
+        var resultTiles = [];
+        var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var tileHeight = hAndW.h;
+        var tileWidth = hAndW.w;
+
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
+                var otherTile = cc.dataMgr.tilesData[i][j];
+                //如果是空的tile
+                if (otherTile.getComponent('Tile').isEmptyTile()) {
+                    //计算与传入的进来的tile的距离 返回平方即可，性能高，毕竟我是找最近的
+                    var dist = cc.pDistanceSQ(tile.position, otherTile.position);
+                    console.log("dist-->   " + dist);
+                    allEmptyTiles.push({ "tile": otherTile, "dist": dist });
+                }
+            }
+        }
+        console.log(allEmptyTiles);
+        //按照距离排序
+        allEmptyTiles.sort(function (a, b) {
+            if (a.dist > b.dist) {
+                return 1;
+            } else if (a.dist < b.dist) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        if (allEmptyTiles.length < N) {
+            debugger;
+        }
+
+        for (var i = 0; i < N; i++) {
+            resultTiles.push(allEmptyTiles[i].tile);
+        }
+
+        return resultTiles;
+    }
 
 });
