@@ -285,12 +285,12 @@ cc.Class({
                 if (otherTile.getComponent('Tile').isEmptyTile()) {
                     //计算与传入的进来的tile的距离 返回平方即可，性能高，毕竟我是找最近的
                     var dist = cc.pDistanceSQ(tile.position, otherTile.position);
-                    console.log("dist-->   " + dist);
+                    //console.log("dist-->   " + dist);
                     allEmptyTiles.push({ "tile": otherTile, "dist": dist });
                 }
             }
         }
-        console.log(allEmptyTiles);
+        //console.log(allEmptyTiles);
         //按照距离排序
         allEmptyTiles.sort(function (a, b) {
             if (a.dist > b.dist) {

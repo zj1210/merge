@@ -119,10 +119,12 @@ cc.Class({
                     if (self.currentNearestTile.getComponent('Tile').thing) {
                         var temp = self.currentNearestTile.getComponent('Tile').thing;
                         var tempJs = temp.getChildByName('selectedNode').getComponent('Thing');
+                        var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
+                        var thingType = self.currentNearestTile.getComponent('Tile').thingType;
                         self.putInTile(self.currentNearestTile);
                         
                         var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
-                        tempJs.putInTile(tiles[0]);
+                        tempJs.changeInTile(tiles[0],thingLevel,thingType);
                     } else { //没有物体 直接放入
                         self.putInTile(self.currentNearestTile);
                     }
@@ -223,7 +225,7 @@ cc.Class({
         pNode.runAction(moveBack);
     },
 
-    //放入tile
+    //放入tile 需要把现在所在tile置空，目标tile置为现在的数据
     putInTile: function (targetTile) {
         var pNode = this.node.parent;
         //把之前的tile的thing 置为null
@@ -247,6 +249,19 @@ cc.Class({
         //         console.log(cc.dataMgr.tilesData[i][j].getComponent('Tile'));
         //     }
         // }
+    },
+
+    //此thing的tile被人占了，需要给他放入别的tile中
+    changeInTile:function(targetTile,thingLevel,thingType) {
+        var pNode = this.node.parent;
+        var tileJS = targetTile.getComponent('Tile');
+        this.relationTileJS = tileJS;
+        tileJS.thing = pNode;
+        this.relationTileJS.thingLevel = thingLevel;
+        this.relationTileJS.thingType = thingType;
+        this.originPosition = targetTile.position;
+        var moveGo = cc.moveTo(0.2, targetTile.position);
+        pNode.runAction(moveGo);
     },
     /**
      * 
