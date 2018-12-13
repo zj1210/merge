@@ -167,17 +167,20 @@ cc.Class({
     setTypeAndLevel: function (thingType, thingLevel) {
         this.thingType = thingType;
         this.thingLevel = thingLevel;
-        //debugger;
-        if (thingType == 1) {
-            switch (thingLevel) {
-                case 1:
-                    console.log("执行到了，要改变物体的图片");
-                    break;
 
-                default:
-                    break;
-            }
-        }
+        this.thingNode.getComponent('thingImageAndAni').settingSpriteFrame(this.thingType,this.thingLevel);
+        
+        // //debugger;
+        // if (thingType == 1) {
+        //     switch (thingLevel) {
+        //         case 1:
+        //             console.log("执行到了，要改变物体的图片");
+        //             break;
+
+        //         default:
+        //             break;
+        //     }
+        // }
     },
 
     thingsUnionTips: function () {

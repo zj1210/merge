@@ -12,6 +12,21 @@ cc.Class({
             type: cc.Prefab,
         },
 
+
+        mapNode: {
+            default: null,
+            type: cc.Node,
+        },
+        thingsNode: {
+            default: null,
+            type: cc.Node,
+        },
+        dragonNode: {
+            default: null,
+            type: cc.Node,
+        },
+
+
         // tilesHorizontalCount: {
         //     default: 0,
         //     displayName: "当前图的水平格子数",
@@ -319,7 +334,7 @@ cc.Class({
     },
 
     //输入一个things 数组，返回一个 生成的things 数组
-    unionAlgorithm: function (thingsArray,currentNearestTile) {
+    unionAlgorithm: function (thingsArray, currentNearestTile) {
         //1 先取出第一个thing的关联tile 将来以这个搜寻空格
         //2 让所有待合并的thing的tile取消关联 并置为空，这样才能进行搜索空格
         //3 根据type level 公式  生成 unionedThingsArray
@@ -344,17 +359,22 @@ cc.Class({
             tempTileJs.thing = null;
             tempTileJs.thingType = 0;
             tempTileJs.thingLevel = 0;
+            thingsArray[i].removeFromParent(false);
         }
 
 
         var unionedThingsArray = this.generateUnionedThings(thingsArray.length, thingData.thingType, thingData.thingLevel);
+        
+        
         //清除已经完成合并的thing
 
         var resultTiles = this.getNearestTileByN(currentNearestTile, unionedThingsArray.length);
-        console.log('======最近的方块====');
-        console.log(resultTiles);
+        // console.log('======最近的方块====');
+        // console.log(resultTiles);
         for (var i = 0; i < unionedThingsArray.length; i++) {
-            var thingJs = unionedThingsArray[i].thing.getComponent('Thing');
+            unionedThingsArray[i].thing.position = currentNearestTile.position;
+            this.thingsNode.addChild(unionedThingsArray[i].thing);
+            var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
             thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
         }
 
@@ -371,13 +391,14 @@ cc.Class({
 
     _generateUnionedThings: function (newLen, type, level) {
         var results = [];
-       
+
         while (newLen > 0) {
             var remainder = newLen % 3;
             newLen = Math.floor(newLen / 3);
 
             for (var i = 0; i < remainder; i++) {
                 var newThing = cc.instantiate(this.thingPrefab);
+
                 var thingData = {
                     'thing': newThing,
                     'thingType': type,
@@ -388,9 +409,9 @@ cc.Class({
             level++;
         }
 
-        console.log("====合并的结果====");
+        // console.log("====合并的结果====");
 
-        console.log(results);
+        // console.log(results);
 
         return results;
     }
