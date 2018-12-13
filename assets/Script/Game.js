@@ -7,6 +7,11 @@ cc.Class({
             type: cc.Node
         },
 
+        thingPrefab: {
+            default: null,
+            type: cc.Prefab,
+        },
+
         // tilesHorizontalCount: {
         //     default: 0,
         //     displayName: "当前图的水平格子数",
@@ -327,6 +332,12 @@ cc.Class({
         var tile0 = thing0TileJS.node;
 
 
+        //unionedThingsArray 元素结构
+        var thingData = {
+            'thing': thing0,
+            'thingType': thing0TileJS.thingType,
+            'thingLevel': thing0TileJS.thingLevel
+        };
 
         for (var i = 0; i < thingsArray.length; i++) {
             var tempTileJs = thingsArray[i].getComponent('Thing').relationTileJS;
@@ -334,20 +345,53 @@ cc.Class({
             tempTileJs.thingType = 0;
             tempTileJs.thingLevel = 0;
         }
-        /**unionedThingsArray 元素结构
-         *  var thingData = {
-            'thing': thing0,
-            'thingType': thing0TileJS.thingType,
-            'thingLevel': thing0TileJS.thingLevel
-        };
-         */
-        var unionedThingsArray = generateUnionedThings(thingsArray);
+
+
+        var unionedThingsArray = this.generateUnionedThings(thingsArray.length, thingData.thingType, thingData, thingLevel);
+        //清除已经完成合并的thing
+
         var resultTiles = this.getNearestTileByN(tile0, unionedThingsArray.length);
         for (var i = 0; i < unionedThingsArray.length; i++) {
             var thingJs = unionedThingsArray[i].thing.getComponent('Thing');
-            thingJs.changeInTile(resultTiles[0], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
+            thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
         }
 
     },
+
+    //输入thingsArray 输出以thingData为结构的 数组
+    generateUnionedThings: function (length, type, level) {
+        //连击奖励公式 len = len +(len-3)/2;
+        var newLen = length + Math.floor((len - 3) >> 1);
+        //results是个数组，每个子的 type level可能不一样
+        var results = _generateUnionedThings(newLen, type, level);
+
+    },
+
+    _generateUnionedThings: function (newLen, type, level) {
+        var results = [];
+        var tempLen = newLen;
+        while (tempLen > 0) {
+            var remainder = tempLen % 3;
+            tempLen = Math.floor(newLen / 3);
+
+            var thisLevelCount = remainder;
+            for (var i = 0; i < thisLevelCount; i++) {
+                var newThing = cc.instantiate(thingPrefab);
+                var thingData = {
+                    'thing': newThing,
+                    'thingType': type,
+                    'thingLevel': level
+                }
+                results.unshift(thingData);
+            }
+            level++;
+        }
+
+        console.log("====合并的结果====");
+
+        console.log(results);
+
+        return results;
+    }
 
 });
