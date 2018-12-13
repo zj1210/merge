@@ -311,6 +311,43 @@ cc.Class({
         }
 
         return resultTiles;
-    }
+    },
+
+    //输入一个things 数组，返回一个 生成的things 数组
+    unionAlgorithm: function (thingsArray) {
+        //1 先取出第一个thing的关联tile 将来以这个搜寻空格
+        //2 让所有待合并的thing的tile取消关联 并置为空，这样才能进行搜索空格
+        //3 根据type level 公式  生成 unionedThingsArray
+        //4 根据unionedThingsArray数量 搜寻最近的N个空格
+        //5 一一放入，放入后 执行 生成动画
+
+        //1
+        var thing0 = thingsArray[0];
+        var thing0TileJS = thingsArray[0].getComponent('Thing').relationTileJS;
+        var tile0 = thing0TileJS.node;
+
+
+
+        for (var i = 0; i < thingsArray.length; i++) {
+            var tempTileJs = thingsArray[i].getComponent('Thing').relationTileJS;
+            tempTileJs.thing = null;
+            tempTileJs.thingType = 0;
+            tempTileJs.thingLevel = 0;
+        }
+        /**unionedThingsArray 元素结构
+         *  var thingData = {
+            'thing': thing0,
+            'thingType': thing0TileJS.thingType,
+            'thingLevel': thing0TileJS.thingLevel
+        };
+         */
+        var unionedThingsArray = generateUnionedThings(thingsArray);
+        var resultTiles = this.getNearestTileByN(tile0, unionedThingsArray.length);
+        for (var i = 0; i < unionedThingsArray.length; i++) {
+            var thingJs = unionedThingsArray[i].thing.getComponent('Thing');
+            thingJs.changeInTile(resultTiles[0], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
+        }
+
+    },
 
 });

@@ -112,6 +112,7 @@ cc.Class({
                 //是否可以合并
                 if (self.thingsArray && self.thingsArray.length > 2) {
                     //合并算法
+                    self.game.unionAlgorithm(self.thingsArray);
                 } else {
                     //只是正常移动
                     //需要判断是否有物体
@@ -122,9 +123,9 @@ cc.Class({
                         var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
                         var thingType = self.currentNearestTile.getComponent('Tile').thingType;
                         self.putInTile(self.currentNearestTile);
-                        
+
                         var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
-                        tempJs.changeInTile(tiles[0],thingLevel,thingType);
+                        tempJs.changeInTile(tiles[0], thingLevel, thingType);
                     } else { //没有物体 直接放入
                         self.putInTile(self.currentNearestTile);
                     }
@@ -252,7 +253,7 @@ cc.Class({
     },
 
     //此thing的tile被人占了，需要给他放入别的tile中
-    changeInTile:function(targetTile,thingLevel,thingType) {
+    changeInTile: function (targetTile, thingLevel, thingType) {
         var pNode = this.node.parent;
         var tileJS = targetTile.getComponent('Tile');
         this.relationTileJS = tileJS;
