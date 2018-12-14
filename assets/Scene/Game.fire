@@ -2067,6 +2067,18 @@
     "_enabled": true,
     "camera": {
       "__id__": 3
+    },
+    "thingPrefab": {
+      "__uuid__": "13cf5ab0-7ec2-46ed-9e23-9a92d350295c"
+    },
+    "mapNode": {
+      "__id__": 6
+    },
+    "thingsNode": {
+      "__id__": 47
+    },
+    "dragonNode": {
+      "__id__": 48
     }
   }
 ]
