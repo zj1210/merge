@@ -7,6 +7,26 @@ cc.Class({
             type: cc.Node
         },
 
+        thingPrefab: {
+            default: null,
+            type: cc.Prefab,
+        },
+
+
+        mapNode: {
+            default: null,
+            type: cc.Node,
+        },
+        thingsNode: {
+            default: null,
+            type: cc.Node,
+        },
+        dragonNode: {
+            default: null,
+            type: cc.Node,
+        },
+
+
         // tilesHorizontalCount: {
         //     default: 0,
         //     displayName: "当前图的水平格子数",
@@ -111,11 +131,11 @@ cc.Class({
     getContainPointTile: function (worldPos) {
 
         //var touchPos = this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
-
-        var hallTileHeight = cc.dataMgr.hallTileHeight,
-            hallTileWidth = cc.dataMgr.hallTileWidth;
-        for (var i = 0; i < hallTileHeight; i++) {
-            for (var j = 0; j < hallTileWidth; j++) {
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var tileHeight = hAndW.h,
+            tileWidth = hAndW.w;
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
                 var points = cc.dataMgr.tilesData[i][j].getComponent(cc.PolygonCollider).points;
                 var worldpoints = this.getWorldPoints(cc.dataMgr.tilesData[i][j], points);
                 // //console.log(worldpoints);
@@ -154,7 +174,7 @@ cc.Class({
         //判断 格子内有没有别的thing，没有就不管了。若有还要判断是否一样
         if (otherThing) {
             //检查给此拖拽物同一个tile的物品的 是否和其相同，若相同加入
-            
+
             var otherThingJS = otherThing.getChildByName('selectedNode').getComponent('Thing');
             if (this.IsThingSameTypeAndLevel(thisThingJS, otherThingJS)) {
                 resultThings.push(otherThing);
@@ -236,7 +256,7 @@ cc.Class({
 
 
     IsThingSameTypeAndLevel_2(thisThingJS, thingType, thingLevel) {
-        if(!thisThingJS) {
+        if (!thisThingJS) {
             debugger;
         }
         return (thisThingJS.thingType == thingType) && (thisThingJS.thingLevel == thingLevel) ? true : false;
@@ -246,7 +266,7 @@ cc.Class({
         return (thisThingJS.thingType == otherThingJS.thingType) && (thisThingJS.thingLevel == otherThingJS.thingLevel) ? true : false;
     },
 
-
+    //检查thing是否已经加入
     isChecked: function (compareThing, resultThings) {
 
         for (var i = 0; i < resultThings.length; i++) {
@@ -256,5 +276,146 @@ cc.Class({
         }
         return false;
     },
+
+    //检查tile是否已经加入
+
+    isChecked_Tile: function (compareTile, resultTiles) {
+
+        for (var i = 0; i < resultTiles.length; i++) {
+            if (compareTile == resultTiles[i]) {
+                return true;
+            }
+        }
+        return false;
+
+    },
+
+    //输入一个 tile，找到离这个tile最近的n个tile(可用类别，非雾，没有物体)
+    getNearestTileByN: function (tile, N) {
+        var resultTiles = [];
+        var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var tileHeight = hAndW.h;
+        var tileWidth = hAndW.w;
+
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
+                var otherTile = cc.dataMgr.tilesData[i][j];
+                //如果是空的tile
+                if (otherTile.getComponent('Tile').isEmptyTile()) {
+                    //计算与传入的进来的tile的距离 返回平方即可，性能高，毕竟我是找最近的
+                    var dist = cc.pDistanceSQ(tile.position, otherTile.position);
+                    //console.log("dist-->   " + dist);
+                    allEmptyTiles.push({ "tile": otherTile, "dist": dist });
+                }
+            }
+        }
+        //console.log(allEmptyTiles);
+        //按照距离排序
+        allEmptyTiles.sort(function (a, b) {
+            if (a.dist > b.dist) {
+                return 1;
+            } else if (a.dist < b.dist) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        if (allEmptyTiles.length < N) {
+            debugger;
+        }
+
+        for (var i = 0; i < N; i++) {
+            resultTiles.push(allEmptyTiles[i].tile);
+        }
+
+        return resultTiles;
+    },
+
+    //输入一个things 数组，返回一个 生成的things 数组
+    unionAlgorithm: function (thingsArray, currentNearestTile) {
+        //1 先取出第一个thing的关联tile 将来以这个搜寻空格
+        //2 让所有待合并的thing的tile取消关联 并置为空，这样才能进行搜索空格
+        //3 根据type level 公式  生成 unionedThingsArray
+        //4 根据unionedThingsArray数量 搜寻最近的N个空格
+        //5 一一放入，放入后 执行 生成动画
+
+        //1
+        var thing0 = thingsArray[0];
+        var thing0TileJS = thingsArray[0].getChildByName('selectedNode').getComponent('Thing').relationTileJS;
+        var tile0 = thing0TileJS.node;
+
+
+        //unionedThingsArray 元素结构
+        var thingData = {
+            'thing': thing0,
+            'thingType': thing0TileJS.thingType,
+            'thingLevel': thing0TileJS.thingLevel
+        };
+
+        for (var i = 0; i < thingsArray.length; i++) {
+            var tempTileJs = thingsArray[i].getChildByName('selectedNode').getComponent('Thing').relationTileJS;
+            tempTileJs.thing = null;
+            tempTileJs.thingType = 0;
+            tempTileJs.thingLevel = 0;
+            thingsArray[i].removeFromParent(false);
+        }
+
+
+        var unionedThingsArray = this.generateUnionedThings(thingsArray.length, thingData.thingType, thingData.thingLevel);
+        
+        
+        //清除已经完成合并的thing
+
+        var resultTiles = this.getNearestTileByN(currentNearestTile, unionedThingsArray.length);
+        // console.log('======最近的方块====');
+        // console.log(resultTiles);
+        for (var i = 0; i < unionedThingsArray.length; i++) {
+            unionedThingsArray[i].thing.position = currentNearestTile.position;
+            this.thingsNode.addChild(unionedThingsArray[i].thing);
+            var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
+            thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
+        }
+
+    },
+
+    //输入thingsArray 输出以thingData为结构的 数组
+    generateUnionedThings: function (length, type, level) {
+        //连击奖励公式 len = len +(len-3)/2;
+        var newLen = length + Math.floor((length - 3) >> 1);
+        //results是个数组，每个子的 type level可能不一样
+        var results = this._generateUnionedThings(newLen, type, level);
+        return results;
+    },
+
+    _generateUnionedThings: function (newLen, type, level) {
+        var results = [];
+
+        while (newLen > 0) {
+            var remainder = newLen % 3;
+            newLen = Math.floor(newLen / 3);
+
+            for (var i = 0; i < remainder; i++) {
+                
+                //这里要对type 和level进行判断 然后分类 生成 龙，或者在tile上的 目前先不管
+                var newThing = cc.instantiate(this.thingPrefab);
+                newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(type,level);
+                var thingData = {
+                    'thing': newThing,
+                    'thingType': type,
+                    'thingLevel': level
+                }
+                results.unshift(thingData);
+            }
+            level++;
+        }
+
+        // console.log("====合并的结果====");
+
+        // console.log(results);
+
+        return results;
+    }
 
 });

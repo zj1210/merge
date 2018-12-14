@@ -61,7 +61,7 @@ cc.Class({
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
-                console.log('touch move by flower');
+                //console.log('touch move by flower');
                 event.stopPropagation();
                 //核心逻辑
                 //1 点击跟随 触摸点
@@ -107,23 +107,31 @@ cc.Class({
             self._offset = null;
 
             //此tile是否可以放入 确实是在块上(不为null) 
-            if(self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
+            if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
 
                 //是否可以合并
                 if (self.thingsArray && self.thingsArray.length > 2) {
                     //合并算法
+                    self.game.unionAlgorithm(self.thingsArray,self.currentNearestTile);
                 } else {
                     //只是正常移动
                     //需要判断是否有物体
-                    //有物体
-                    if(self.currentNearestTile.getComponent('Tile').thing) {
-                        //self.currentNearestTile.
-                    } else { //没有物体
-                        self.putInTile();
+                    //有物体，先保存物体指针，把新物体放入，再找格子，放入物体
+                    if (self.currentNearestTile.getComponent('Tile').thing) {
+                        var temp = self.currentNearestTile.getComponent('Tile').thing;
+                        var tempJs = temp.getChildByName('selectedNode').getComponent('Thing');
+                        var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
+                        var thingType = self.currentNearestTile.getComponent('Tile').thingType;
+                        self.putInTile(self.currentNearestTile);
+
+                        var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
+                        tempJs.changeInTile(tiles[0], thingLevel, thingType);
+                    } else { //没有物体 直接放入
+                        self.putInTile(self.currentNearestTile);
                     }
                 }
 
-            } 
+            }
             //不可放入 移回原来位置
             else {
                 self.goBack();
@@ -135,9 +143,9 @@ cc.Class({
 
             //玩家松手判定
             //1，将things,放入 
-            console.log(self.currentNearestTile);
+            //console.log(self.currentNearestTile);
 
-            
+
             //根据数量 查表 根据合成数量 返回合成奖励后的数量
             // 根据数量来生成 新花 龙，精华 三的整数倍 余数 还是生成原来的 返回的是 物品集合
             //将物品放入格子算法 最大的物品，第一个，放入当前格子（当前还是要记录的）
@@ -146,7 +154,7 @@ cc.Class({
             self.lastNearestTile = null;
             self.thingsArray = null;
         }, this.node);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) {}, this.node);
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) { }, this.node);
     },
 
 
@@ -159,17 +167,20 @@ cc.Class({
     setTypeAndLevel: function (thingType, thingLevel) {
         this.thingType = thingType;
         this.thingLevel = thingLevel;
-        //debugger;
-        if (thingType == 1) {
-            switch (thingLevel) {
-                case 1:
-                    console.log("执行到了，要改变物体的图片");
-                    break;
+        var tt = this.thingNode.getComponent('thingImageAndAni');
+        this.thingNode.getComponent('thingImageAndAni').settingSpriteFrame(this.thingType,this.thingLevel);
+       
+        // //debugger;
+        // if (thingType == 1) {
+        //     switch (thingLevel) {
+        //         case 1:
+        //             console.log("执行到了，要改变物体的图片");
+        //             break;
 
-                default:
-                    break;
-            }
-        }
+        //         default:
+        //             break;
+        //     }
+        // }
     },
 
     thingsUnionTips: function () {
@@ -213,20 +224,47 @@ cc.Class({
     goBack: function () {
         this.selectedSprite.spriteFrame = null;
         var pNode = this.node.parent;
-        var moveBack = cc.moveTo(0.2,this.originPosition);
+        var moveBack = cc.moveTo(0.2, this.originPosition);
         pNode.stopAllActions();
         pNode.runAction(moveBack);
     },
 
-    //只能处理 放入空的tile之中
-    putInTile:function(){
+    //放入tile 需要把现在所在tile置空，目标tile置为现在的数据
+    putInTile: function (targetTile) {
         var pNode = this.node.parent;
+        //把之前的tile的thing 置为null
         this.relationTileJS.thing = null;
-        var tileJS = this.currentNearestTile.getComponent('Tile');
+        var tempThingLevel = this.relationTileJS.thingLevel;
+        var tempThingType = this.relationTileJS.thingType;
+        this.relationTileJS.thingLevel = 0;
+        this.relationTileJS.thingType = 0;
+        var tileJS = targetTile.getComponent('Tile');
+        //新tilejs
         this.relationTileJS = tileJS;
         tileJS.thing = pNode;
-        this.originPosition = this.currentNearestTile.position;
-        var moveGo = cc.moveTo(0.2,this.currentNearestTile.position);
+        this.relationTileJS.thingLevel = tempThingLevel;
+        this.relationTileJS.thingType = tempThingType;
+        this.originPosition = targetTile.position;
+        var moveGo = cc.moveTo(0.2, targetTile.position);
+        pNode.runAction(moveGo);
+        // console.log('====看下 所有tile数据')
+        // for (var i = 0; i < 4; i++) {
+        //     for (var j = 0; j < 2; j++) {
+        //         console.log(cc.dataMgr.tilesData[i][j].getComponent('Tile'));
+        //     }
+        // }
+    },
+
+    //此thing的tile被人占了，需要给他放入别的tile中
+    changeInTile: function (targetTile, thingLevel, thingType) {
+        var pNode = this.node.parent;
+        var tileJS = targetTile.getComponent('Tile');
+        this.relationTileJS = tileJS;
+        tileJS.thing = pNode;
+        this.relationTileJS.thingLevel = thingLevel;
+        this.relationTileJS.thingType = thingType;
+        this.originPosition = targetTile.position;
+        var moveGo = cc.moveTo(0.2, targetTile.position);
         pNode.runAction(moveGo);
     },
     /**
@@ -243,8 +281,8 @@ cc.Class({
 
         this.currentNearestTile = tile;} 
      */
-   
-   
+
+
 
     update: function (dt) {
 

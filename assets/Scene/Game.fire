@@ -638,7 +638,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Tile1_1",
+    "_name": "Tile1_0",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -798,7 +798,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Tile1_2",
+    "_name": "Tile1_1",
     "_objFlags": 0,
     "_parent": {
       "__id__": 6
@@ -892,8 +892,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -1052,8 +1052,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -1372,8 +1372,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -1532,8 +1532,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -13921,6 +13921,18 @@
     "_enabled": true,
     "camera": {
       "__id__": 3
+    },
+    "thingPrefab": {
+      "__uuid__": "13cf5ab0-7ec2-46ed-9e23-9a92d350295c"
+    },
+    "mapNode": {
+      "__id__": 6
+    },
+    "thingsNode": {
+      "__id__": 47
+    },
+    "dragonNode": {
+      "__id__": 48
     }
   }
 ]
