@@ -1,0 +1,30 @@
+{
+  "ver": "2.0.0",
+  "uuid": "6fc01281-7136-41f5-81f2-b5818276ac33",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "HandTutorial": {
+      "ver": "1.0.3",
+      "uuid": "051355a1-38e9-4973-a28e-1601df5f2785",
+      "rawTextureUuid": "6fc01281-7136-41f5-81f2-b5818276ac33",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 13,
+      "width": 256,
+      "height": 230,
+      "rawWidth": 256,
+      "rawHeight": 256,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

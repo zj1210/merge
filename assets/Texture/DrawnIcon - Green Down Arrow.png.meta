@@ -1,0 +1,30 @@
+{
+  "ver": "2.0.0",
+  "uuid": "85d214b7-ec7e-4588-ad08-0b397032e536",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "DrawnIcon - Green Down Arrow": {
+      "ver": "1.0.3",
+      "uuid": "99ed1d84-edff-471e-a5bc-a1f1ff8b55cf",
+      "rawTextureUuid": "85d214b7-ec7e-4588-ad08-0b397032e536",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 95,
+      "height": 124,
+      "rawWidth": 95,
+      "rawHeight": 124,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
