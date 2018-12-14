@@ -49,6 +49,10 @@ cc.Class({
         //console.log("game onload!");
         // this.tilesHorizontalCount = 6;
         // this.tileVerticalCount = 3;
+        this.moveCameraXFlag = false;
+        this.moveCameraYFlag = false;
+        this.moveCameraXSpeed = 0.0;
+        this.moveCameraYSpeed = 0.0;
         if (!cc.dataMgr) {
             cc.dataMgr = new DataMgr();
         }
@@ -418,7 +422,7 @@ cc.Class({
                 results[i].thing = newThing;
             }
         }
-       // console.log(results);
+        // console.log(results);
         return results;
     },
 
@@ -432,7 +436,7 @@ cc.Class({
             for (var i = 0; i < remainder; i++) {
 
                 //这里要对type 和level进行判断 然后分类 生成 龙，或者在tile上的 目前先不管
-              
+
                 var thingData = {
                     //'thing': newThing,
                     'thingType': type,
@@ -450,18 +454,56 @@ cc.Class({
         return results;
     },
 
-    changeCameraPosition:function(touchPos) {
+    changeCameraPosition: function (touchPos) {
+        console.log(touchPos);
         var addx = 1;
         var addy = 1;
-        if(touchPos.x<60) {
-            let addPos = this.getAddPosition_v2(-addx, 0)
+        if (touchPos.x < 60 || touchPos.x > 660) {
+            this.moveCameraXFlag = true;
+            if (touchPos.x < 60) {
+                this.moveCameraXSpeed = -1;
+            } else {
+                this.moveCameraXSpeed = 1;
+            }
+        } else {
+            this.moveCameraXFlag = false;
+            this.moveCameraXSpeed = 0;
+        }
+
+        if (touchPos.y < 60 || touchPos.y > 1220) {
+            this.moveCameraYFlag = true;
+            if (touchPos.y < 60) {
+                this.moveCameraYSpeed = -1;
+            } else {
+                this.moveCameraYSpeed = 1;
+            }
+        } else {
+            this.moveCameraYFlag = false;
+            this.moveCameraYSpeed = 0;
+        }
+
+        // if(touchPos.x<60) {
+        //     // let addPos = this.getAddPosition_v2(-addx, 0)
+        //     // this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
+        //     this.moveCameraXFlag = true;
+        // } else if( touchPos.x>660) {
+        //     // let addPos = this.getAddPosition_v2(addx, 0)
+        //     // this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
+        //     this.moveCameraXFlag = true;
+        // } 
+    },
+
+    //移动摄像机
+    lateUpdate: function (dt) {
+        if (this.moveCameraXFlag) {
+            let addPos = this.getAddPosition_v2(this.moveCameraXSpeed, 0);
             this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
-          
-        } else if( touchPos.x>660) {
-            let addPos = this.getAddPosition_v2(addx, 0)
+        }
+
+        if(this.moveCameraYFlag) {
+            let addPos = this.getAddPosition_v2(0,this.moveCameraYSpeed);
             this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
-          
-        } 
+        }
     }
 
 });
