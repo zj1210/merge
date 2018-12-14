@@ -167,9 +167,9 @@ cc.Class({
     setTypeAndLevel: function (thingType, thingLevel) {
         this.thingType = thingType;
         this.thingLevel = thingLevel;
-
+        var tt = this.thingNode.getComponent('thingImageAndAni');
         this.thingNode.getComponent('thingImageAndAni').settingSpriteFrame(this.thingType,this.thingLevel);
-        
+       
         // //debugger;
         // if (thingType == 1) {
         //     switch (thingLevel) {

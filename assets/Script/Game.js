@@ -397,8 +397,10 @@ cc.Class({
             newLen = Math.floor(newLen / 3);
 
             for (var i = 0; i < remainder; i++) {
+                
+                //这里要对type 和level进行判断 然后分类 生成 龙，或者在tile上的 目前先不管
                 var newThing = cc.instantiate(this.thingPrefab);
-
+                newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(type,level);
                 var thingData = {
                     'thing': newThing,
                     'thingType': type,
