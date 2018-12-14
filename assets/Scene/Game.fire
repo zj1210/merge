@@ -35930,6 +35930,9 @@
     "thingPrefab": {
       "__uuid__": "13cf5ab0-7ec2-46ed-9e23-9a92d350295c"
     },
+    "dragonPrefab": {
+      "__uuid__": "a271b49c-d3d3-4ce9-8f88-9fa7f096b9f6"
+    },
     "mapNode": {
       "__id__": 6
     },

@@ -409,12 +409,12 @@ cc.Class({
                     results[i].thing = newDragon;
                 } else {
                     var newThing = cc.instantiate(this.thingPrefab);
-                    newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(results[i].thingType, results[i].thingLevel);
+                    newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(results[i].thingType, results[i].thingLevel);
                     results[i].thing = newThing;
                 }
             } else {
                 var newThing = cc.instantiate(this.thingPrefab);
-                newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(results[i].thingType, results[i].thingLevel);
+                newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(results[i].thingType, results[i].thingLevel);
                 results[i].thing = newThing;
             }
         }
@@ -432,8 +432,7 @@ cc.Class({
             for (var i = 0; i < remainder; i++) {
 
                 //这里要对type 和level进行判断 然后分类 生成 龙，或者在tile上的 目前先不管
-                // var newThing = cc.instantiate(this.thingPrefab);
-                // newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(type,level);
+              
                 var thingData = {
                     //'thing': newThing,
                     'thingType': type,

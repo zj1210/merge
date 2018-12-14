@@ -153,6 +153,8 @@ cc.Class({
 
             self.lastNearestTile = null;
             self.thingsArray = null;
+
+           // cc.dataMgr.debugTileInfo();
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) { }, this.node);
     },
@@ -164,7 +166,7 @@ cc.Class({
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
     //thingLevel 0初始，1升一级，以此类推，注意：蒲公英是花级别为0，如果是龙蛋，级别必须为0，龙不在地表上
-    setTypeAndLevel: function (thingType, thingLevel) {
+    setTypeAndLevel_forNewThing: function (thingType, thingLevel) {
         this.thingType = thingType;
         this.thingLevel = thingLevel;
         var tt = this.thingNode.getComponent('thingImageAndAni');

@@ -72,9 +72,9 @@ DataMgr.prototype.initTile = function (checkpointID, tiles) {
 DataMgr.prototype.debugTileInfo = function() {
     for (var i = 0; i < this.hallTileHeight; i++) {
         for (var j = 0; j < this.hallTileWidth; j++) {
-            this.tilesData[i][j] = tiles[i * this.hallTileWidth + j];
-            this.tilesData[i][j].getComponent('Tile').setIndex(j, i);
-            console.log(this.tilesData[i][j].getComponent('Tile').thingType +"  " +this.tilesData[i][j].getComponent('Tile').thingLevl);
+        
+          
+            console.log(this.tilesData[i][j].getComponent('Tile').thingType +"  " +this.tilesData[i][j].getComponent('Tile').thingLevel);
         }
     }
 }
