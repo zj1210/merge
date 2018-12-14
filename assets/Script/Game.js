@@ -344,8 +344,7 @@ cc.Class({
         //1
         var thing0 = thingsArray[0];
         var thing0TileJS = thingsArray[0].getChildByName('selectedNode').getComponent('Thing').relationTileJS;
-        var tile0 = thing0TileJS.node;
-
+       
 
         //unionedThingsArray 元素结构
         var thingData = {
