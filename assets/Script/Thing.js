@@ -67,6 +67,10 @@ cc.Class({
                 //1 点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
                 var touchpos = event.getLocation(); //触摸点的世界坐标 其实是 摄像机坐标系下的坐标
+                
+                //console.log(touchpos);
+                self.game.changeCameraPosition(touchpos);
+
                 var worldpos = cc.pAdd(touchpos, self._offset); //物体的世界坐标
                 //console.log(touchpos);
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
@@ -154,7 +158,7 @@ cc.Class({
             self.lastNearestTile = null;
             self.thingsArray = null;
 
-           // cc.dataMgr.debugTileInfo();
+            //cc.dataMgr.debugTileInfo();
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) { }, this.node);
     },
@@ -184,6 +188,8 @@ cc.Class({
         //     }
         // }
     },
+
+    
 
     thingsUnionTips: function () {
         for (var i = 0; i < this.thingsArray.length; i++) {

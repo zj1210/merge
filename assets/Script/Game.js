@@ -418,7 +418,7 @@ cc.Class({
                 results[i].thing = newThing;
             }
         }
-        console.log(results);
+       // console.log(results);
         return results;
     },
 
@@ -448,6 +448,20 @@ cc.Class({
         // console.log(results);
 
         return results;
+    },
+
+    changeCameraPosition:function(touchPos) {
+        var addx = 1;
+        var addy = 1;
+        if(touchPos.x<60) {
+            let addPos = this.getAddPosition_v2(-addx, 0)
+            this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
+          
+        } else if( touchPos.x>660) {
+            let addPos = this.getAddPosition_v2(addx, 0)
+            this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
+          
+        } 
     }
 
 });
