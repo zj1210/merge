@@ -62,15 +62,11 @@ cc.Class({
             //物体的世界坐标 触摸点也是世界坐标，做差值得到偏移值
             var worldPosition = self.node.parent.convertToWorldSpaceAR(self.node.position);
             self._offset = cc.pSub(worldPosition, touchPos);
-            //必然有物体，因为这个节点就是物体
-            //显示tips
-            self.selectedSprite.spriteFrame = self.originSpriteFrame;
-            self.relationTileJS.thing = null;
-            self.relationTileJS.tempThing = self.node.parent;
+           
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
-                //console.log('touch move by flower');
+                //console.log('touch move by dragon');
                 event.stopPropagation();
                 //核心逻辑
                 //1 点击跟随 触摸点
@@ -79,34 +75,34 @@ cc.Class({
                 var worldpos = cc.pAdd(touchpos, self._offset); //物体的世界坐标
                 //console.log(touchpos);
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
-                var nodepos = self.node.parent.parent.convertToNodeSpaceAR(worldpos);
-                self.node.parent.position = nodepos;
+                var nodepos = self.node.parent.convertToNodeSpaceAR(worldpos);
+                self.node.position = nodepos;
                 // console.log(worldPosition);
                 //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
                 //根据触摸点，找到包含触摸点的块
-                self.currentNearestTile = self.game.getContainPointTile(worldpos);
+                // self.currentNearestTile = self.game.getContainPointTile(worldpos);
 
-                //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
-                if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
-                    if (self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
-                        if (self.thingsArray) {
-                            self.thingsGoStatic();
-                            //还需要将平移的物体移回；稍后
-                        }
-                    }
-                    self.lastNearestTile = self.currentNearestTile;
-                    //临时放入 内部 需要维护一个临时的，把自己内部的先平移
-                    let tileJS = self.currentNearestTile.getComponent('Tile');
-                    tileJS.putInThingTemporarily(self.node.parent);
-                    //3 查找连通物品
-                    self.thingsArray = self.game.findConnentedThing(self.currentNearestTile);
+                // //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
+                // if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
+                //     if (self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
+                //         if (self.thingsArray) {
+                //             self.thingsGoStatic();
+                //             //还需要将平移的物体移回；稍后
+                //         }
+                //     }
+                //     self.lastNearestTile = self.currentNearestTile;
+                //     //临时放入 内部 需要维护一个临时的，把自己内部的先平移
+                //     let tileJS = self.currentNearestTile.getComponent('Tile');
+                //     tileJS.putInThingTemporarily(self.node.parent);
+                //     //3 查找连通物品
+                //     self.thingsArray = self.game.findConnentedThing(self.currentNearestTile);
 
-                    //4 将连通物品的selected active 置为true 并且播放往此物品平移的 动画
-                    if (self.thingsArray && self.thingsArray.length > 2) {
-                        self.thingsUnionTips();
-                    }
+                //     //4 将连通物品的selected active 置为true 并且播放往此物品平移的 动画
+                //     if (self.thingsArray && self.thingsArray.length > 2) {
+                //         self.thingsUnionTips();
+                //     }
 
-                }
+                // }
             }
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_END, function (event) {
@@ -116,52 +112,42 @@ cc.Class({
             self._offset = null;
 
             //此tile是否可以放入 确实是在块上(不为null) 
-            if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
+            // if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
 
-                //是否可以合并
-                if (self.thingsArray && self.thingsArray.length > 2) {
-                    //合并算法
-                    self.game.unionAlgorithm(self.thingsArray, self.currentNearestTile);
-                } else {
-                    //只是正常移动
-                    //需要判断是否有物体
-                    //有物体，先保存物体指针，把新物体放入，再找格子，放入物体
-                    if (self.currentNearestTile.getComponent('Tile').thing) {
-                        var temp = self.currentNearestTile.getComponent('Tile').thing;
-                        var tempJs = temp.getChildByName('selectedNode').getComponent('Thing');
-                        var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
-                        var thingType = self.currentNearestTile.getComponent('Tile').thingType;
-                        self.putInTile(self.currentNearestTile);
+            //     //是否可以合并
+            //     if (self.thingsArray && self.thingsArray.length > 2) {
+            //         //合并算法
+            //         self.game.unionAlgorithm(self.thingsArray, self.currentNearestTile);
+            //     } else {
+            //         //只是正常移动
+            //         //需要判断是否有物体
+            //         //有物体，先保存物体指针，把新物体放入，再找格子，放入物体
+            //         if (self.currentNearestTile.getComponent('Tile').thing) {
+            //             var temp = self.currentNearestTile.getComponent('Tile').thing;
+            //             var tempJs = temp.getChildByName('selectedNode').getComponent('Thing');
+            //             var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
+            //             var thingType = self.currentNearestTile.getComponent('Tile').thingType;
+            //             self.putInTile(self.currentNearestTile);
 
-                        var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
-                        tempJs.changeInTile(tiles[0], thingLevel, thingType);
-                    } else { //没有物体 直接放入
-                        self.putInTile(self.currentNearestTile);
-                    }
-                }
+            //             var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
+            //             tempJs.changeInTile(tiles[0], thingLevel, thingType);
+            //         } else { //没有物体 直接放入
+            //             self.putInTile(self.currentNearestTile);
+            //         }
+            //     }
 
-            }
-            //不可放入 移回原来位置
-            else {
-                self.goBack();
-            }
-
-
-            self.selectedSprite.spriteFrame = null;
+            // }
+            // //不可放入 移回原来位置
+            // else {
+            //     self.goBack();
+            // }
 
 
-            //玩家松手判定
-            //1，将things,放入 
-            //console.log(self.currentNearestTile);
+            // self.selectedSprite.spriteFrame = null;
 
 
-            //根据数量 查表 根据合成数量 返回合成奖励后的数量
-            // 根据数量来生成 新花 龙，精华 三的整数倍 余数 还是生成原来的 返回的是 物品集合
-            //将物品放入格子算法 最大的物品，第一个，放入当前格子（当前还是要记录的）
-            //其余物品如何放置？ 根据其余物品数量，找到相应数量的格子（距离最近的，遍历所有格子，找到前n个最近的），一一播放动画，回调插入
-
-            self.lastNearestTile = null;
-            self.thingsArray = null;
+            // self.lastNearestTile = null;
+            // self.thingsArray = null;
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) { }, this.node);
     },
