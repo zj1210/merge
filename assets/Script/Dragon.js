@@ -77,32 +77,13 @@ cc.Class({
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
                 var nodepos = self.node.parent.convertToNodeSpaceAR(worldpos);
                 self.node.position = nodepos;
-                // console.log(worldPosition);
-                //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
-                //根据触摸点，找到包含触摸点的块
-                // self.currentNearestTile = self.game.getContainPointTile(worldpos);
-
-                // //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
-                // if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
-                //     if (self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
-                //         if (self.thingsArray) {
-                //             self.thingsGoStatic();
-                //             //还需要将平移的物体移回；稍后
-                //         }
-                //     }
-                //     self.lastNearestTile = self.currentNearestTile;
-                //     //临时放入 内部 需要维护一个临时的，把自己内部的先平移
-                //     let tileJS = self.currentNearestTile.getComponent('Tile');
-                //     tileJS.putInThingTemporarily(self.node.parent);
-                //     //3 查找连通物品
-                //     self.thingsArray = self.game.findConnentedThing(self.currentNearestTile);
-
-                //     //4 将连通物品的selected active 置为true 并且播放往此物品平移的 动画
-                //     if (self.thingsArray && self.thingsArray.length > 2) {
-                //         self.thingsUnionTips();
-                //     }
-
-                // }
+                //移动龙的时候 有两个逻辑
+                //1，在thingsNode里面搜寻 当前龙位置上 是否有tile tile上是否有花，
+                // 若有花（或许还要判断花是否可以采集？），弹出采集动画
+                // 并记录变量标识符  采集花状态，采集的花对象，这样松手判定里根据 根据变量执行动作
+                //2 若没有 需要再 dragonNode里 判断是否附近有同类型 同级别的龙，若有，有几个， （圆内判定）
+                //  若有 且大于2个 执行 骚动动画， 记录 变量标识符 合并龙状态，所有待合并的龙的集合 松手判定里根据数据 进行操作
+                
             }
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_END, function (event) {
