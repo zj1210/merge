@@ -23,8 +23,8 @@ function DataMgr() {
     //一维 飞龙数据
     this.dragonsData = [];
 
-    this.hallTileWidth = 2;
-    this.hallTileHeight = 4;
+    this.hallTileWidth = 11;
+    this.hallTileHeight = 13;
 
     this.checkpointWidth = 0;
     this.checkpintHeight = 0;
