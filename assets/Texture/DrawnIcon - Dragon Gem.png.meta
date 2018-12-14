@@ -1,0 +1,30 @@
+{
+  "ver": "2.0.0",
+  "uuid": "80faa67e-e74b-48d3-8a0d-f9b04aee8f2d",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "DrawnIcon - Dragon Gem": {
+      "ver": "1.0.3",
+      "uuid": "5bcdcf88-6ebb-4f1e-ae6f-168f7268ebe5",
+      "rawTextureUuid": "80faa67e-e74b-48d3-8a0d-f9b04aee8f2d",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 115,
+      "height": 122,
+      "rawWidth": 115,
+      "rawHeight": 122,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
