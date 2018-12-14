@@ -12,6 +12,10 @@ cc.Class({
             type: cc.Prefab,
         },
 
+        dragonPrefab: {
+            default: null,
+            type: cc.Prefab,
+        },
 
         mapNode: {
             default: null,
@@ -344,7 +348,6 @@ cc.Class({
         //1
         var thing0 = thingsArray[0];
         var thing0TileJS = thingsArray[0].getChildByName('selectedNode').getComponent('Thing').relationTileJS;
-        var tile0 = thing0TileJS.node;
 
 
         //unionedThingsArray 元素结构
@@ -364,18 +367,29 @@ cc.Class({
 
 
         var unionedThingsArray = this.generateUnionedThings(thingsArray.length, thingData.thingType, thingData.thingLevel);
-        
-        
+
+
         //清除已经完成合并的thing
 
         var resultTiles = this.getNearestTileByN(currentNearestTile, unionedThingsArray.length);
+        if (resultTiles.length < unionedThingsArray.length) {
+            debugger;
+        }
         // console.log('======最近的方块====');
         // console.log(resultTiles);
         for (var i = 0; i < unionedThingsArray.length; i++) {
             unionedThingsArray[i].thing.position = currentNearestTile.position;
-            this.thingsNode.addChild(unionedThingsArray[i].thing);
-            var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
-            thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
+            //飞龙 放入 龙层
+            if (unionedThingsArray[i].thingType == 3 && unionedThingsArray[i].thingLevel != 0) {
+                this.dragonNode.addChild(unionedThingsArray[i].thing);
+
+            } else {
+                this.thingsNode.addChild(unionedThingsArray[i].thing);
+                var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
+                thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
+            }
+
+
         }
 
     },
@@ -386,6 +400,25 @@ cc.Class({
         var newLen = length + Math.floor((length - 3) >> 1);
         //results是个数组，每个子的 type level可能不一样
         var results = this._generateUnionedThings(newLen, type, level);
+        for (var i = 0; i < results.length; i++) {
+            //龙类 且不是龙蛋
+            if (results[i].thingType == 3) {
+                if (results[i].thingLevel != 0) {
+                    var newDragon = cc.instantiate(this.dragonPrefab);
+                    newDragon.getComponent('Dragon').settingSpriteFrame(results[i].thingType, results[i].thingLevel);
+                    results[i].thing = newDragon;
+                } else {
+                    var newThing = cc.instantiate(this.thingPrefab);
+                    newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(results[i].thingType, results[i].thingLevel);
+                    results[i].thing = newThing;
+                }
+            } else {
+                var newThing = cc.instantiate(this.thingPrefab);
+                newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(results[i].thingType, results[i].thingLevel);
+                results[i].thing = newThing;
+            }
+        }
+        console.log(results);
         return results;
     },
 
@@ -397,12 +430,12 @@ cc.Class({
             newLen = Math.floor(newLen / 3);
 
             for (var i = 0; i < remainder; i++) {
-                
+
                 //这里要对type 和level进行判断 然后分类 生成 龙，或者在tile上的 目前先不管
-                var newThing = cc.instantiate(this.thingPrefab);
-                newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(type,level);
+                // var newThing = cc.instantiate(this.thingPrefab);
+                // newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(type,level);
                 var thingData = {
-                    'thing': newThing,
+                    //'thing': newThing,
                     'thingType': type,
                     'thingLevel': level
                 }

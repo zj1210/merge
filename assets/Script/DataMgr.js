@@ -19,7 +19,7 @@ function DataMgr() {
     //二维tile数据
     this.tilesData = [];
     //二维things数据
-    this.thinsgData = [];
+    this.thingsData = [];
     //一维 飞龙数据
     this.dragonsData = [];
 
@@ -66,4 +66,15 @@ DataMgr.prototype.initTile = function (checkpointID, tiles) {
         }
     }
     // console.log(this.tilesData);
+}
+
+//打印tile的数据 debug用
+DataMgr.prototype.debugTileInfo = function() {
+    for (var i = 0; i < this.hallTileHeight; i++) {
+        for (var j = 0; j < this.hallTileWidth; j++) {
+            this.tilesData[i][j] = tiles[i * this.hallTileWidth + j];
+            this.tilesData[i][j].getComponent('Tile').setIndex(j, i);
+            console.log(this.tilesData[i][j].getComponent('Tile').thingType +"  " +this.tilesData[i][j].getComponent('Tile').thingLevl);
+        }
+    }
 }
