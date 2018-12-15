@@ -19,6 +19,9 @@ cc.Class({
         this.originSpriteFrame = this.selectedSprite.spriteFrame;
         this.selectedSprite.spriteFrame = null;
 
+        //标记是否处理 按钮点击事件
+        this.selectClickFlag = true;
+
         //临时的，为了性能。记录 包含触摸点的块
         this.lastNearestTile = null;
         this.currentNearestTile = null;
@@ -44,6 +47,7 @@ cc.Class({
         let self = this;
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             //console.log('touch begin by flower');
+            self.browseThisThing();
             event.stopPropagation();
 
             //摄像机下的触摸点 需要转换为 世界坐标
@@ -63,7 +67,8 @@ cc.Class({
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
-                //console.log('touch move by flower');
+               // console.log('touch move by flower');
+               self.closeSelectClick();
                 event.stopPropagation();
                 //核心逻辑
                 //1 点击跟随 触摸点
@@ -132,6 +137,8 @@ cc.Class({
     touchEnd:function(event) {
         // console.log('touch end by flower');
         let self =this;
+        self.unBrowseThisThing();
+        self.openSelectClick();
         event.stopPropagation();
         self.game.stopCamera();
         self._beginPos = null;
@@ -176,7 +183,19 @@ cc.Class({
     },
 
     selectClick: function () {
+        if(this.selectClickFlag) {
+            console.log('选择thing 按钮 被点击');
+        }
+        
+        //console.log('thingType:  ' + this.thingType + '  ' + 'thingLevel:  ' + this.thingLevel);
+    },
 
+    closeSelectClick:function() {
+        this.selectClickFlag = false;
+    },
+
+    openSelectClick:function() {
+        this.selectClickFlag = true;
     },
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
@@ -201,6 +220,13 @@ cc.Class({
     },
 
 
+    browseThisThing:function() {
+        console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
+    },
+
+    unBrowseThisThing:function() {
+        console.log('不再浏览该物体！');
+    },
 
     thingsUnionTips: function () {
         for (var i = 0; i < this.thingsArray.length; i++) {
