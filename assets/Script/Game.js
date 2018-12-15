@@ -53,6 +53,9 @@ cc.Class({
         this.moveCameraYFlag = false;
         this.moveCameraXSpeed = 0.0;
         this.moveCameraYSpeed = 0.0;
+        //哪个物体被拖动，又移动到了屏幕边缘，在改变摄像机位置的时候，这个物体需要跟着位移 而不是停留在世界坐标系下
+        this.draggingObj = null;
+
         if (!cc.dataMgr) {
             cc.dataMgr = new DataMgr();
         }
@@ -454,16 +457,17 @@ cc.Class({
         return results;
     },
 
-    changeCameraPosition: function (touchPos) {
-        console.log(touchPos);
+    changeCameraPosition: function (touchPos,draggingObj) {
+        //console.log(touchPos);
         var addx = 1;
         var addy = 1;
+        this.draggingObj = draggingObj;
         if (touchPos.x < 60 || touchPos.x > 660) {
             this.moveCameraXFlag = true;
             if (touchPos.x < 60) {
-                this.moveCameraXSpeed = -1;
+                this.moveCameraXSpeed = -addx;
             } else {
-                this.moveCameraXSpeed = 1;
+                this.moveCameraXSpeed = addx;
             }
         } else {
             this.moveCameraXFlag = false;
@@ -473,35 +477,33 @@ cc.Class({
         if (touchPos.y < 60 || touchPos.y > 1220) {
             this.moveCameraYFlag = true;
             if (touchPos.y < 60) {
-                this.moveCameraYSpeed = -1;
+                this.moveCameraYSpeed = -addy;
             } else {
-                this.moveCameraYSpeed = 1;
+                this.moveCameraYSpeed = addy;
             }
         } else {
             this.moveCameraYFlag = false;
             this.moveCameraYSpeed = 0;
         }
+    },
 
-        // if(touchPos.x<60) {
-        //     // let addPos = this.getAddPosition_v2(-addx, 0)
-        //     // this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
-        //     this.moveCameraXFlag = true;
-        // } else if( touchPos.x>660) {
-        //     // let addPos = this.getAddPosition_v2(addx, 0)
-        //     // this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
-        //     this.moveCameraXFlag = true;
-        // } 
+    stopCamera:function() {
+        this.moveCameraXFlag = false;
+        this.moveCameraYFlag = false;
+        this.draggingObj = null;
     },
 
     //移动摄像机
     lateUpdate: function (dt) {
         if (this.moveCameraXFlag) {
             let addPos = this.getAddPosition_v2(this.moveCameraXSpeed, 0);
+            this.draggingObj.setPosition(cc.v2(this.draggingObj.x + addPos.x, this.draggingObj.y + addPos.y));
             this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
         }
 
         if(this.moveCameraYFlag) {
             let addPos = this.getAddPosition_v2(0,this.moveCameraYSpeed);
+            this.draggingObj.setPosition(cc.v2(this.draggingObj.x + addPos.x, this.draggingObj.y + addPos.y));
             this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
         }
     }

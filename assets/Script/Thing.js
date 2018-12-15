@@ -46,13 +46,15 @@ cc.Class({
             //console.log('touch begin by flower');
             event.stopPropagation();
 
+            //摄像机下的触摸点 需要转换为 世界坐标
             let touchPos = event.getLocation();
 
+            var worldTouchPos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
             //console.log(touchPos);
-            self._beginPos = touchPos;
+            self._beginPos = worldTouchPos;
             //物体的世界坐标 触摸点也是世界坐标，做差值得到偏移值
             var worldPosition = self.node.parent.convertToWorldSpaceAR(self.node.position);
-            self._offset = cc.pSub(worldPosition, touchPos);
+            self._offset = cc.pSub(worldPosition, worldTouchPos);
             //必然有物体，因为这个节点就是物体
             //显示tips
             self.selectedSprite.spriteFrame = self.originSpriteFrame;
@@ -67,15 +69,21 @@ cc.Class({
                 //1 点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
                 var touchpos = event.getLocation(); //触摸点的世界坐标 其实是 摄像机坐标系下的坐标
+                console.log('touch pos')
+                console.log(touchpos);
+                //是否需要移动摄像机 若需要，物体的世界坐标也会变化
                 
-                //console.log(touchpos);
-                self.game.changeCameraPosition(touchpos);
-
-                var worldpos = cc.pAdd(touchpos, self._offset); //物体的世界坐标
+                var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
+                var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
                 //console.log(touchpos);
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
                 var nodepos = self.node.parent.parent.convertToNodeSpaceAR(worldpos);
                 self.node.parent.position = nodepos;
+
+                self.game.changeCameraPosition(touchpos,self.node.parent);
+                console.log('obj pos');
+                console.log(self.node.parent.x);
+
                 // console.log(worldPosition);
                 //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
                 //根据触摸点，找到包含触摸点的块
@@ -107,6 +115,7 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_END, function (event) {
             // console.log('touch end by flower');
             event.stopPropagation();
+            self.game.stopCamera();
             self._beginPos = null;
             self._offset = null;
 
