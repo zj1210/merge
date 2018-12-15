@@ -12444,7 +12444,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 1,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -12604,7 +12604,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 2,
+    "thingType": 1,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -12764,7 +12764,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 2,
+    "thingType": 1,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -12924,7 +12924,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 1,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -13084,7 +13084,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 2,
+    "thingType": 1,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -14044,7 +14044,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 1,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -14204,7 +14204,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 1,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -14364,7 +14364,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 1,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -14524,7 +14524,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 1,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -14684,8 +14684,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 1,
+    "thingType": 1,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -14844,8 +14844,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 1,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -32209,7 +32209,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 2000,
-      "height": 1700
+      "height": 1600
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -32260,7 +32260,7 @@
     "node": {
       "__id__": 932
     },
-    "_enabled": false,
+    "_enabled": true,
     "alignMode": 1,
     "_target": null,
     "_alignFlags": 5,
