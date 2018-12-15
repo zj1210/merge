@@ -81,8 +81,8 @@ cc.Class({
                 self.node.parent.position = nodepos;
 
                 self.game.changeCameraPosition(touchpos, self.node.parent);
-                console.log('obj pos');
-                console.log(self.node.parent.x);
+                // console.log('obj pos');
+                // console.log(self.node.parent.x);
 
                 // console.log(worldPosition);
                 //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
@@ -109,6 +109,14 @@ cc.Class({
                         self.thingsUnionTips();
                     }
 
+                } 
+                //当前thing对应的块为null 且和上一次的对应的块不一样 将连通提示关闭
+                else if(!self.currentNearestTile && self.lastNearestTile != self.currentNearestTile) {
+                    if (self.thingsArray) {
+                        self.thingsGoStatic();
+                        //还需要将平移的物体移回；稍后
+                    }
+                    self.lastNearestTile = self.currentNearestTile;
                 }
             }
         }, this.node);
