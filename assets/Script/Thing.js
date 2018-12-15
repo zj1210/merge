@@ -184,7 +184,7 @@ cc.Class({
 
     selectClick: function () {
         if(this.selectClickFlag) {
-            console.log('选择thing 按钮 被点击');
+            //console.log('选择thing 按钮 被点击');
         }
         
         //console.log('thingType:  ' + this.thingType + '  ' + 'thingLevel:  ' + this.thingLevel);
@@ -221,11 +221,11 @@ cc.Class({
 
 
     browseThisThing:function() {
-        console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
+       // console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
     },
 
     unBrowseThisThing:function() {
-        console.log('不再浏览该物体！');
+        //console.log('不再浏览该物体！');
     },
 
     thingsUnionTips: function () {

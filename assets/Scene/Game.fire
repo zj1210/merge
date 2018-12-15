@@ -28124,7 +28124,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -28284,8 +28284,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 3,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -28444,7 +28444,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -28604,7 +28604,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -28764,8 +28764,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 1,
+    "thingType": 3,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -28924,7 +28924,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -29084,8 +29084,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 1,
+    "thingType": 3,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -29244,7 +29244,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -30044,7 +30044,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -30204,7 +30204,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -30364,7 +30364,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -30524,7 +30524,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -30684,7 +30684,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -30844,7 +30844,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -44512,7 +44512,9 @@
     "thingPrefab": {
       "__uuid__": "13cf5ab0-7ec2-46ed-9e23-9a92d350295c"
     },
-    "dragonPrefab": null,
+    "dragonPrefab": {
+      "__uuid__": "a271b49c-d3d3-4ce9-8f88-9fa7f096b9f6"
+    },
     "mapNode": {
       "__id__": 213
     },
