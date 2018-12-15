@@ -69,10 +69,10 @@ cc.Class({
                 //1 点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
                 var touchpos = event.getLocation(); //触摸点的世界坐标 其实是 摄像机坐标系下的坐标
-                console.log('touch pos')
-                console.log(touchpos);
+                // console.log('touch pos')
+                // console.log(touchpos);
                 //是否需要移动摄像机 若需要，物体的世界坐标也会变化
-                
+
                 var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
                 //console.log(touchpos);
@@ -80,7 +80,7 @@ cc.Class({
                 var nodepos = self.node.parent.parent.convertToNodeSpaceAR(worldpos);
                 self.node.parent.position = nodepos;
 
-                self.game.changeCameraPosition(touchpos,self.node.parent);
+                self.game.changeCameraPosition(touchpos, self.node.parent);
                 console.log('obj pos');
                 console.log(self.node.parent.x);
 
@@ -112,66 +112,60 @@ cc.Class({
                 }
             }
         }, this.node);
-        this.node.on(cc.Node.EventType.TOUCH_END, function (event) {
-            // console.log('touch end by flower');
-            event.stopPropagation();
-            self.game.stopCamera();
-            self._beginPos = null;
-            self._offset = null;
-
-            //此tile是否可以放入 确实是在块上(不为null) 
-            if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
-
-                //是否可以合并
-                if (self.thingsArray && self.thingsArray.length > 2) {
-                    //合并算法
-                    self.game.unionAlgorithm(self.thingsArray,self.currentNearestTile);
-                } else {
-                    //只是正常移动
-                    //需要判断是否有物体
-                    //有物体，先保存物体指针，把新物体放入，再找格子，放入物体
-                    if (self.currentNearestTile.getComponent('Tile').thing) {
-                        var temp = self.currentNearestTile.getComponent('Tile').thing;
-                        var tempJs = temp.getChildByName('selectedNode').getComponent('Thing');
-                        var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
-                        var thingType = self.currentNearestTile.getComponent('Tile').thingType;
-                        self.putInTile(self.currentNearestTile);
-
-                        var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
-                        tempJs.changeInTile(tiles[0], thingLevel, thingType);
-                    } else { //没有物体 直接放入
-                        self.putInTile(self.currentNearestTile);
-                    }
-                }
-
-            }
-            //不可放入 移回原来位置
-            else {
-                self.goBack();
-            }
-
-
-            self.selectedSprite.spriteFrame = null;
-
-
-            //玩家松手判定
-            //1，将things,放入 
-            //console.log(self.currentNearestTile);
-
-
-            //根据数量 查表 根据合成数量 返回合成奖励后的数量
-            // 根据数量来生成 新花 龙，精华 三的整数倍 余数 还是生成原来的 返回的是 物品集合
-            //将物品放入格子算法 最大的物品，第一个，放入当前格子（当前还是要记录的）
-            //其余物品如何放置？ 根据其余物品数量，找到相应数量的格子（距离最近的，遍历所有格子，找到前n个最近的），一一播放动画，回调插入
-
-            self.lastNearestTile = null;
-            self.thingsArray = null;
-
-            //cc.dataMgr.debugTileInfo();
+        this.node.on(cc.Node.EventType.TOUCH_END,function (event) { 
+            self.touchEnd(event);
         }, this.node);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) { }, this.node);
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) { 
+            //console.log('touch cancel');
+            self.touchEnd(event);
+        }, this.node);
     },
 
+    touchEnd:function(event) {
+        // console.log('touch end by flower');
+        let self =this;
+        event.stopPropagation();
+        self.game.stopCamera();
+        self._beginPos = null;
+        self._offset = null;
+
+        //此tile是否可以放入 确实是在块上(不为null) 
+        if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
+
+            //是否可以合并
+            if (self.thingsArray && self.thingsArray.length > 2) {
+                //合并算法
+                self.game.unionAlgorithm(self.thingsArray, self.currentNearestTile);
+            } else {
+                //只是正常移动
+                //需要判断是否有物体
+                //有物体，先保存物体指针，把新物体放入，再找格子，放入物体
+                if (self.currentNearestTile.getComponent('Tile').thing) {
+                    var temp = self.currentNearestTile.getComponent('Tile').thing;
+                    var tempJs = temp.getChildByName('selectedNode').getComponent('Thing');
+                    var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
+                    var thingType = self.currentNearestTile.getComponent('Tile').thingType;
+                    self.putInTile(self.currentNearestTile);
+
+                    var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
+                    tempJs.changeInTile(tiles[0], thingLevel, thingType);
+                } else { //没有物体 直接放入
+                    self.putInTile(self.currentNearestTile);
+                }
+            }
+
+        }
+        //不可放入 移回原来位置
+        else {
+            self.goBack();
+        }
+
+
+        self.selectedSprite.spriteFrame = null;
+        self.lastNearestTile = null;
+        self.thingsArray = null;
+        //cc.dataMgr.debugTileInfo();
+    },
 
     selectClick: function () {
 
@@ -183,8 +177,8 @@ cc.Class({
         this.thingType = thingType;
         this.thingLevel = thingLevel;
         var tt = this.thingNode.getComponent('thingImageAndAni');
-        this.thingNode.getComponent('thingImageAndAni').settingSpriteFrame(this.thingType,this.thingLevel);
-       
+        this.thingNode.getComponent('thingImageAndAni').settingSpriteFrame(this.thingType, this.thingLevel);
+
         // //debugger;
         // if (thingType == 1) {
         //     switch (thingLevel) {
@@ -198,7 +192,7 @@ cc.Class({
         // }
     },
 
-    
+
 
     thingsUnionTips: function () {
         for (var i = 0; i < this.thingsArray.length; i++) {

@@ -459,12 +459,12 @@ cc.Class({
 
     changeCameraPosition: function (touchPos,draggingObj) {
         //console.log(touchPos);
-        var addx = 1;
-        var addy = 1;
+        var addx = 3;
+        var addy = 3;
         this.draggingObj = draggingObj;
-        if (touchPos.x < 60 || touchPos.x > 660) {
+        if (touchPos.x < 70 || touchPos.x > 650) {
             this.moveCameraXFlag = true;
-            if (touchPos.x < 60) {
+            if (touchPos.x < 70) {
                 this.moveCameraXSpeed = -addx;
             } else {
                 this.moveCameraXSpeed = addx;
@@ -474,9 +474,9 @@ cc.Class({
             this.moveCameraXSpeed = 0;
         }
 
-        if (touchPos.y < 60 || touchPos.y > 1220) {
+        if (touchPos.y < 70 || touchPos.y > 1210) {
             this.moveCameraYFlag = true;
-            if (touchPos.y < 60) {
+            if (touchPos.y < 70) {
                 this.moveCameraYSpeed = -addy;
             } else {
                 this.moveCameraYSpeed = addy;
