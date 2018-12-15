@@ -25,7 +25,7 @@ cc.Class({
             default: null,
             type: cc.Node,
         },
-        dragonNode: {
+        dragonNodes: {
             default: null,
             type: cc.Node,
         },
@@ -388,7 +388,7 @@ cc.Class({
             unionedThingsArray[i].thing.position = currentNearestTile.position;
             //飞龙 放入 龙层
             if (unionedThingsArray[i].thingType == 3 && unionedThingsArray[i].thingLevel != 0) {
-                this.dragonNode.addChild(unionedThingsArray[i].thing);
+                this.dragonNodes.addChild(unionedThingsArray[i].thing);
 
             } else {
                 this.thingsNode.addChild(unionedThingsArray[i].thing);

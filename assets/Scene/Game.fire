@@ -32126,7 +32126,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "dragonNode",
+    "_name": "dragonsNode",
     "_objFlags": 0,
     "_parent": {
       "__id__": 5
@@ -44521,7 +44521,7 @@
     "thingsNode": {
       "__id__": 930
     },
-    "dragonNode": {
+    "dragonNodes": {
       "__id__": 931
     }
   }
