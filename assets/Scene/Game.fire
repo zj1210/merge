@@ -9724,7 +9724,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -10364,7 +10364,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -10524,7 +10524,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -10684,7 +10684,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -10844,7 +10844,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -11004,7 +11004,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -11164,7 +11164,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -11324,7 +11324,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -11484,7 +11484,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -11644,7 +11644,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -11804,7 +11804,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -11964,7 +11964,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -12124,7 +12124,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -12284,8 +12284,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 1,
+    "thingType": 3,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -12444,8 +12444,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 1,
-    "thingLevel": 1,
+    "thingType": 3,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -12604,8 +12604,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 1,
-    "thingLevel": 1,
+    "thingType": 3,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -12764,8 +12764,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 1,
-    "thingLevel": 1,
+    "thingType": 3,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -12924,8 +12924,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 1,
-    "thingLevel": 1,
+    "thingType": 3,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -13564,8 +13564,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 3,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -13724,7 +13724,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -13884,7 +13884,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -14044,7 +14044,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 1,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -14204,8 +14204,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 1,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -14364,8 +14364,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 1,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -14524,8 +14524,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 1,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -14684,8 +14684,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 1,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -14844,8 +14844,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 1,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -15005,7 +15005,7 @@
     "tileType": 0,
     "skinType": 0,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -15164,8 +15164,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 1,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -15324,8 +15324,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 1,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -15485,7 +15485,7 @@
     "tileType": 0,
     "skinType": 1,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -15645,7 +15645,7 @@
     "tileType": 0,
     "skinType": 0,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -15804,8 +15804,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 1,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -15964,7 +15964,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -16124,7 +16124,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -16924,7 +16924,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -17244,7 +17244,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -17724,7 +17724,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -18364,7 +18364,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -19004,8 +19004,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -19164,8 +19164,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -19324,8 +19324,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -19484,8 +19484,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -19644,8 +19644,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -19804,8 +19804,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -19964,8 +19964,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -20124,8 +20124,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -20284,8 +20284,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -20444,8 +20444,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -20604,8 +20604,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -20764,8 +20764,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -20924,8 +20924,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -21084,8 +21084,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -21244,8 +21244,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -21405,7 +21405,7 @@
     "tileType": 0,
     "skinType": 0,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -21564,8 +21564,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 1,
+    "thingType": 2,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -21725,7 +21725,7 @@
     "tileType": 0,
     "skinType": 0,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -21885,7 +21885,7 @@
     "tileType": 0,
     "skinType": 1,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 2,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -22044,7 +22044,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -22524,7 +22524,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -22844,7 +22844,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -23644,8 +23644,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -24124,8 +24124,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -24444,8 +24444,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -24604,7 +24604,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -24765,7 +24765,7 @@
     "tileType": 0,
     "skinType": 1,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -24924,8 +24924,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -25085,7 +25085,7 @@
     "tileType": 0,
     "skinType": 1,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -25245,7 +25245,7 @@
     "tileType": 0,
     "skinType": 0,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -25404,8 +25404,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 1,
+    "thingType": 2,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -25564,8 +25564,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -25724,8 +25724,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -25885,7 +25885,7 @@
     "tileType": 0,
     "skinType": 0,
     "thingType": 2,
-    "thingLevel": 1,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -26044,8 +26044,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -26364,8 +26364,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -26524,7 +26524,7 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 2,
     "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -26844,8 +26844,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -27004,8 +27004,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -27324,8 +27324,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -27644,8 +27644,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -28124,8 +28124,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -28284,8 +28284,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -28444,8 +28444,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -28604,8 +28604,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -28764,8 +28764,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -28924,8 +28924,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -29084,8 +29084,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -29244,8 +29244,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -29404,8 +29404,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -29564,8 +29564,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -29724,8 +29724,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -29884,8 +29884,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -30044,8 +30044,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -30204,8 +30204,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -30364,8 +30364,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -30524,8 +30524,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -30684,8 +30684,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -30844,8 +30844,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 3,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -31004,8 +31004,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -31164,8 +31164,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -31324,8 +31324,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -31484,8 +31484,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -31644,8 +31644,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -31804,8 +31804,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -31964,8 +31964,8 @@
     "_enabled": true,
     "tileType": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 1,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
