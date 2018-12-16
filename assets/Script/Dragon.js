@@ -122,8 +122,8 @@ cc.Class({
                     }
                     if (self.curCanUnionedDragons.length > 2) {
                         self.dragonUnionTips();
-                        self.lastCanUnionedDragons = self.curCanUnionedDragons;
                     }
+                    self.lastCanUnionedDragons = self.curCanUnionedDragons;
                 }
             }
         }, this.node);
