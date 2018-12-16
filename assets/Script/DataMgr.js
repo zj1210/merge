@@ -19,20 +19,71 @@ function DataMgr() {
     //二维tile数据
     this.tilesData = [];
     //二维things数据
-    this.thinsgData = [];
+    this.thingsData = [];
     //一维 飞龙数据
     this.dragonsData = [];
 
-    this.hallTileWidth = 2;
-    this.hallTileHeight = 4;
+    this.hallTileWidth = 11;
+    this.hallTileHeight = 13;
 
     this.checkpointWidth = 0;
     this.checkpintHeight = 0;
+    //为了简单打算写死，不能处理生成的龙超过9个以上 这种情况数学上没证明，
+    //但是概率应该是极低的3个相同还会归并
+    this.dragonsOffset = [
+        {
+            xOffset: 0,
+            yOffset: 0,
+        },
+        {
+            xOffset: 0,
+            yOffset: 100,
+        },
+
+        {
+            xOffset: -100,
+            yOffset: 0,
+        },
+
+        {
+            xOffset: 0,
+            yOffset: -100,
+        },
+
+        {
+            xOffset: 100,
+            yOffset: 0,
+        },
+
+        {
+            xOffset: -100,
+            yOffset: 100,
+        },
+
+        {
+            xOffset: 100,
+            yOffset: 100,
+        },
+
+        {
+            xOffset: 100,
+            yOffset: -100,
+        },
+        {
+            xOffset: -100,
+            yOffset: 100,
+        },
+        {
+            xOffset: -100,
+            yOffset: -100,
+        }
+    ];
 
     this.init();
 }
 
 DataMgr.prototype.init = function () {
+
     //这里将来要做的是 读取用户的数据，初始化每个块。
     //目前直接使用预定义的。
     //console.log('数据初始化运行');
@@ -66,4 +117,15 @@ DataMgr.prototype.initTile = function (checkpointID, tiles) {
         }
     }
     // console.log(this.tilesData);
+}
+
+//打印tile的数据 debug用
+DataMgr.prototype.debugTileInfo = function () {
+    for (var i = 0; i < this.hallTileHeight; i++) {
+        for (var j = 0; j < this.hallTileWidth; j++) {
+
+
+            console.log(this.tilesData[i][j].getComponent('Tile').thingType + "  " + this.tilesData[i][j].getComponent('Tile').thingLevel);
+        }
+    }
 }

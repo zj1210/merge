@@ -12,6 +12,10 @@ cc.Class({
             type: cc.Prefab,
         },
 
+        dragonPrefab: {
+            default: null,
+            type: cc.Prefab,
+        },
 
         mapNode: {
             default: null,
@@ -21,7 +25,7 @@ cc.Class({
             default: null,
             type: cc.Node,
         },
-        dragonNode: {
+        dragonsNode: {
             default: null,
             type: cc.Node,
         },
@@ -45,6 +49,13 @@ cc.Class({
         //console.log("game onload!");
         // this.tilesHorizontalCount = 6;
         // this.tileVerticalCount = 3;
+        this.moveCameraXFlag = false;
+        this.moveCameraYFlag = false;
+        this.moveCameraXSpeed = 0.0;
+        this.moveCameraYSpeed = 0.0;
+        //哪个物体被拖动，又移动到了屏幕边缘，在改变摄像机位置的时候，这个物体需要跟着位移 而不是停留在世界坐标系下
+        this.draggingObj = null;
+
         if (!cc.dataMgr) {
             cc.dataMgr = new DataMgr();
         }
@@ -344,7 +355,7 @@ cc.Class({
         //1
         var thing0 = thingsArray[0];
         var thing0TileJS = thingsArray[0].getChildByName('selectedNode').getComponent('Thing').relationTileJS;
-       
+
 
         //unionedThingsArray 元素结构
         var thingData = {
@@ -363,20 +374,112 @@ cc.Class({
 
 
         var unionedThingsArray = this.generateUnionedThings(thingsArray.length, thingData.thingType, thingData.thingLevel);
-        
-        
-        //清除已经完成合并的thing
 
         var resultTiles = this.getNearestTileByN(currentNearestTile, unionedThingsArray.length);
-        // console.log('======最近的方块====');
-        // console.log(resultTiles);
-        for (var i = 0; i < unionedThingsArray.length; i++) {
-            unionedThingsArray[i].thing.position = currentNearestTile.position;
-            this.thingsNode.addChild(unionedThingsArray[i].thing);
-            var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
-            thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
+        if (resultTiles.length < unionedThingsArray.length) {
+            debugger;
         }
 
+        for (var i = 0; i < unionedThingsArray.length; i++) {
+            unionedThingsArray[i].thing.position = currentNearestTile.position;
+            //飞龙 放入 龙层
+            if (unionedThingsArray[i].thingType == 3 && unionedThingsArray[i].thingLevel != 0) {
+                this.dragonsNode.addChild(unionedThingsArray[i].thing);
+
+            } else {
+                this.thingsNode.addChild(unionedThingsArray[i].thing);
+                var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
+                thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
+            }
+        }
+
+    },
+
+    union_Dragons_Algorithm: function (curCanUnionedDragons) {
+        var dragon0 = curCanUnionedDragons[0];
+        var dragon0JS = curCanUnionedDragons[0].getComponent('Dragon');
+
+        var dragonData = {
+            'dragon': dragon0,
+            'thingType': dragon0JS.thingType,
+            'thingLevel': dragon0JS.thingLevel
+        };
+        //先把要合并的龙从父节点删除
+        for (var i = 0; i < curCanUnionedDragons.length; i++) {
+
+            curCanUnionedDragons[i].removeFromParent(false);
+        }
+
+        var unionedThingsArray = this.generateUnionedThings(curCanUnionedDragons.length, dragonData.thingType, dragonData.thingLevel);
+
+        var dragonsPositions = this.getDragonPositionsByN(dragon0, unionedThingsArray.length);
+        if (dragonsPositions.length < unionedThingsArray.length) {
+            debugger;
+        }
+
+        for (var i = 0; i < unionedThingsArray.length; i++) {
+            unionedThingsArray[i].thing.position = dragonsPositions[i];
+            this.dragonsNode.addChild(unionedThingsArray[i].thing);
+        }
+    },
+
+    getNearestTileByN: function (tile, N) {
+        var resultTiles = [];
+        var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var tileHeight = hAndW.h;
+        var tileWidth = hAndW.w;
+
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
+                var otherTile = cc.dataMgr.tilesData[i][j];
+                //如果是空的tile
+                if (otherTile.getComponent('Tile').isEmptyTile()) {
+                    //计算与传入的进来的tile的距离 返回平方即可，性能高，毕竟我是找最近的
+                    var dist = cc.pDistanceSQ(tile.position, otherTile.position);
+                    //console.log("dist-->   " + dist);
+                    allEmptyTiles.push({ "tile": otherTile, "dist": dist });
+                }
+            }
+        }
+        //console.log(allEmptyTiles);
+        //按照距离排序
+        allEmptyTiles.sort(function (a, b) {
+            if (a.dist > b.dist) {
+                return 1;
+            } else if (a.dist < b.dist) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        if (allEmptyTiles.length < N) {
+            debugger;
+        }
+
+        for (var i = 0; i < N; i++) {
+            resultTiles.push(allEmptyTiles[i].tile);
+        }
+
+        return resultTiles;
+    },
+
+    //给一条位于中心的龙，用他的位置返回N个周围的位置
+    getDragonPositionsByN:function(dragon0,N) {
+       
+        if(N>8) {
+            debugger;
+        }
+        var dragonsPositions = [];
+        var center = dragon0.position;
+        for(var i = 0; i<N;i++) {
+            var position = cc.pAdd(center,cc.v2(cc.dataMgr.dragonsOffset[i]));
+        
+            dragonsPositions.push(position);
+        }
+
+        return dragonsPositions;
     },
 
     //输入thingsArray 输出以thingData为结构的 数组
@@ -385,6 +488,25 @@ cc.Class({
         var newLen = length + Math.floor((length - 3) >> 1);
         //results是个数组，每个子的 type level可能不一样
         var results = this._generateUnionedThings(newLen, type, level);
+        for (var i = 0; i < results.length; i++) {
+            //龙类 且不是龙蛋
+            if (results[i].thingType == 3) {
+                if (results[i].thingLevel != 0) {
+                    var newDragon = cc.instantiate(this.dragonPrefab);
+                    newDragon.getComponent('Dragon').settingSpriteFrame(results[i].thingType, results[i].thingLevel);
+                    results[i].thing = newDragon;
+                } else {
+                    var newThing = cc.instantiate(this.thingPrefab);
+                    newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(results[i].thingType, results[i].thingLevel);
+                    results[i].thing = newThing;
+                }
+            } else {
+                var newThing = cc.instantiate(this.thingPrefab);
+                newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(results[i].thingType, results[i].thingLevel);
+                results[i].thing = newThing;
+            }
+        }
+        // console.log(results);
         return results;
     },
 
@@ -396,12 +518,11 @@ cc.Class({
             newLen = Math.floor(newLen / 3);
 
             for (var i = 0; i < remainder; i++) {
-                
+
                 //这里要对type 和level进行判断 然后分类 生成 龙，或者在tile上的 目前先不管
-                var newThing = cc.instantiate(this.thingPrefab);
-                newThing.getChildByName('thing').getComponent('thingImageAndAni').settingSpriteFrame(type,level);
+
                 var thingData = {
-                    'thing': newThing,
+                    //'thing': newThing,
                     'thingType': type,
                     'thingLevel': level
                 }
@@ -415,6 +536,77 @@ cc.Class({
         // console.log(results);
 
         return results;
+    },
+
+    findCanUnionDragons: function (dragonNode) {
+        var results = [];
+        results.push(dragonNode);
+        var dragonNodeJS = dragonNode.getComponent('Dragon');
+        var type = dragonNodeJS.thingType;
+        var level = dragonNodeJS.thingLevel;
+        var dragons = this.dragonsNode.children;
+        for (let i = 0; i < dragons.length; i++) {
+            var dragonIJS = dragons[i].getComponent('Dragon');
+            if (dragonNode !== dragons[i] && type == dragonIJS.thingType && level == dragonIJS.thingLevel) {
+                var dis = cc.pDistance(dragonNode.position, dragons[i].position);
+                //console.log(dis);
+                if (dis < 2 * dragonNodeJS.detectionRadius) {
+                    results.push(dragons[i]);
+                }
+            }
+        }
+        return results;
+    },
+
+    changeCameraPosition: function (touchPos, draggingObj) {
+        //console.log(touchPos);
+        var addx = 3;
+        var addy = 3;
+        this.draggingObj = draggingObj;
+        if (touchPos.x < 70 || touchPos.x > 650) {
+            this.moveCameraXFlag = true;
+            if (touchPos.x < 70) {
+                this.moveCameraXSpeed = -addx;
+            } else {
+                this.moveCameraXSpeed = addx;
+            }
+        } else {
+            this.moveCameraXFlag = false;
+            this.moveCameraXSpeed = 0;
+        }
+
+        if (touchPos.y < 70 || touchPos.y > 1210) {
+            this.moveCameraYFlag = true;
+            if (touchPos.y < 70) {
+                this.moveCameraYSpeed = -addy;
+            } else {
+                this.moveCameraYSpeed = addy;
+            }
+        } else {
+            this.moveCameraYFlag = false;
+            this.moveCameraYSpeed = 0;
+        }
+    },
+
+    stopCamera: function () {
+        this.moveCameraXFlag = false;
+        this.moveCameraYFlag = false;
+        this.draggingObj = null;
+    },
+
+    //移动摄像机
+    lateUpdate: function (dt) {
+        if (this.moveCameraXFlag) {
+            let addPos = this.getAddPosition_v2(this.moveCameraXSpeed, 0);
+            this.draggingObj.setPosition(cc.v2(this.draggingObj.x + addPos.x, this.draggingObj.y + addPos.y));
+            this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
+        }
+
+        if (this.moveCameraYFlag) {
+            let addPos = this.getAddPosition_v2(0, this.moveCameraYSpeed);
+            this.draggingObj.setPosition(cc.v2(this.draggingObj.x + addPos.x, this.draggingObj.y + addPos.y));
+            this.camera.setPosition(cc.v2(this.camera.x + addPos.x, this.camera.y + addPos.y));
+        }
     }
 
 });
