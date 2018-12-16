@@ -86,10 +86,7 @@ cc.Class({
                 self.node.parent.position = nodepos;
 
                 self.game.changeCameraPosition(touchpos, self.node.parent);
-                // console.log('obj pos');
-                // console.log(self.node.parent.x);
-
-                // console.log(worldPosition);
+            
                 //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
                 //根据触摸点，找到包含触摸点的块
                 self.currentNearestTile = self.game.getContainPointTile(worldpos);

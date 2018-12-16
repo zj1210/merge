@@ -114,10 +114,11 @@ cc.Class({
                 //当前集合内的龙 和上次 集合内的龙完全一样
                 if (self.curAndLastUnionedDragonsIsSame()) {
                     //完全一样 就什么也不做目前，因为没必要加动画了。
+                    console.log('之前和现在的龙集合一样')
                 } else {
                     //不一样，需要先停止之前的提示动画，若有的话
                     if (self.lastCanUnionedDragons && self.lastCanUnionedDragons.length > 2) {
-                        self.thingsGoStatic();
+                        self.dragonsGoStatic();
                     }
                     if (self.curCanUnionedDragons.length > 2) {
                         self.dragonUnionTips();
@@ -236,11 +237,11 @@ cc.Class({
         }
     },
 
-    thingsGoStatic: function () {
-        if (this.thingsArray) {
-            for (var i = 0; i < this.thingsArray.length; i++) {
-                if (this.node.parent != this.thingsArray[i]) {
-                    this.thingsArray[i].getChildByName('selectedNode').getComponent('Thing').goBack();
+    dragonsGoStatic: function () {
+        if (this.lastCanUnionedDragons) {
+            for (var i = 0; i < this.lastCanUnionedDragons.length; i++) {
+                if (this.node != this.lastCanUnionedDragons[i]) {
+                    this.lastCanUnionedDragons[i].getComponent('Dragon').goBack();
                 }
             }
         }
@@ -260,11 +261,11 @@ cc.Class({
     },
     //移回原本的位置 往originPosition移动 
     goBack: function () {
-        this.selectedSprite.spriteFrame = null;
-        var pNode = this.node.parent;
+        this.underpan.active = false;
+        
         var moveBack = cc.moveTo(0.2, this.originPosition);
-        pNode.stopAllActions();
-        pNode.runAction(moveBack);
+        this.node.stopAllActions();
+        this.node.runAction(moveBack);
     },
 
     //放入tile 需要把现在所在tile置空，目标tile置为现在的数据
