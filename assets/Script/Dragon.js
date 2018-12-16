@@ -22,15 +22,16 @@ cc.Class({
             type: cc.SpriteFrame
         },
         // defaults, set visually when attaching this script to the Canvas
-        underpan:{
-            default:null,
-            type:cc.Node
+        underpan: {
+            default: null,
+            type: cc.Node
         }
     },
 
     settingSpriteFrame(type, level) {
-        this.type = type;
-        this.level = level;
+        //其实是龙，这样命名不太好
+        this.thingType = type;
+        this.thingLevel = level;
         this.thing_spr = this.getComponent(cc.Sprite);
         if (type == 3) {
             if (level == 1) {
@@ -55,6 +56,12 @@ cc.Class({
         this.selectClickFlag = true;
         //搜索到的附近 同类型参与合并的龙
         this.dragonArray = null;
+
+        //检测半径 
+        this.detectionRadius = 160; //两只龙检测范围相交 即 dist<2*detectionRadius;
+
+        this.curCanUnionedDragons = null;
+        this.lastCanUnionedDragons = null;
     },
 
     start: function () {
@@ -81,14 +88,14 @@ cc.Class({
             //必然有物体，因为这个节点就是物体
             //显示tips
             self.underpan.active = true;
-           
+
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
-               // console.log('touch move by flower');
-               self.closeSelectClick();
+                // console.log('touch move by flower');
+                self.closeSelectClick();
                 event.stopPropagation();
-                
+
                 //点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
                 var touchpos = event.getLocation(); //触摸点的摄像机坐标系下的坐标
@@ -100,57 +107,37 @@ cc.Class({
                 self.node.position = nodepos;
 
                 self.game.changeCameraPosition(touchpos, self.node);
-                // console.log('obj pos');
-                // console.log(self.node.parent.x);
 
-                // console.log(worldPosition);
-                //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
-                //根据触摸点，找到包含触摸点的块
-                // self.currentNearestTile = self.game.getContainPointTile(worldpos);
+                //以此龙的坐标为原点，半径为范围查找相交的龙，返回的是一个集合
+                self.curCanUnionedDragons = self.game.findCanUnionDragons(self.node);
 
-                // //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
-                // if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
-                //     if (self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
-                //         if (self.thingsArray) {
-                //             self.thingsGoStatic();
-                //             //还需要将平移的物体移回；稍后
-                //         }
-                //     }
-                //     self.lastNearestTile = self.currentNearestTile;
-                //     //临时放入 内部 需要维护一个临时的，把自己内部的先平移
-                //     let tileJS = self.currentNearestTile.getComponent('Tile');
-                //     tileJS.putInThingTemporarily(self.node.parent);
-                //     //3 查找连通物品
-                //     self.thingsArray = self.game.findConnentedThing(self.currentNearestTile);
-
-                //     //4 将连通物品的selected active 置为true 并且播放往此物品平移的 动画
-                //     if (self.thingsArray && self.thingsArray.length > 2) {
-                //         self.thingsUnionTips();
-                //     }
-
-                // } 
-                // //当前thing对应的块为null 且和上一次的对应的块不一样 将连通提示关闭
-                // else if(!self.currentNearestTile && self.lastNearestTile != self.currentNearestTile) {
-                //     if (self.thingsArray) {
-                //         self.thingsGoStatic();
-                //         //还需要将平移的物体移回；稍后
-                //     }
-                //     self.lastNearestTile = self.currentNearestTile;
-                // }
+                //当前集合内的龙 和上次 集合内的龙完全一样
+                if (self.curAndLastUnionedDragonsIsSame()) {
+                    //完全一样 就什么也不做目前，因为没必要加动画了。
+                } else {
+                    //不一样，需要先停止之前的提示动画，若有的话
+                    if (self.lastCanUnionedDragons && self.lastCanUnionedDragons.length > 2) {
+                        self.thingsGoStatic();
+                    }
+                    if (self.curCanUnionedDragons.length > 2) {
+                        self.dragonUnionTips();
+                        self.lastCanUnionedDragons = self.curCanUnionedDragons;
+                    }
+                }
             }
         }, this.node);
-        this.node.on(cc.Node.EventType.TOUCH_END,function (event) { 
+        this.node.on(cc.Node.EventType.TOUCH_END, function (event) {
             self.touchEnd(event);
         }, this.node);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) { 
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) {
             //console.log('touch cancel');
             self.touchEnd(event);
         }, this.node);
     },
 
-    touchEnd:function(event) {
+    touchEnd: function (event) {
         // console.log('touch end by flower');
-        let self =this;
+        let self = this;
         self.unBrowseThisThing();
         self.openSelectClick();
         event.stopPropagation();
@@ -158,56 +145,30 @@ cc.Class({
         self._beginPos = null;
         self._offset = null;
 
-        //此tile是否可以放入 确实是在块上(不为null) 
-        if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
-
-            //是否可以合并
-            if (self.thingsArray && self.thingsArray.length > 2) {
-                //合并算法
-                self.game.unionAlgorithm(self.thingsArray, self.currentNearestTile);
-            } else {
-                //只是正常移动
-                //需要判断是否有物体
-                //有物体，先保存物体指针，把新物体放入，再找格子，放入物体
-                if (self.currentNearestTile.getComponent('Tile').thing) {
-                    var temp = self.currentNearestTile.getComponent('Tile').thing;
-                    var tempJs = temp.getChildByName('selectedNode').getComponent('Thing');
-                    var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
-                    var thingType = self.currentNearestTile.getComponent('Tile').thingType;
-                    self.putInTile(self.currentNearestTile);
-
-                    var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
-                    tempJs.changeInTile(tiles[0], thingLevel, thingType);
-                } else { //没有物体 直接放入
-                    self.putInTile(self.currentNearestTile);
-                }
-            }
-
-        }
-        //不可放入 移回原来位置
-        else {
-            self.goBack();
+        //是否可以合并
+        if (self.curCanUnionedDragons.length > 2) {
+            //合并算法
+            self.game.union_Dragons_Algorithm(self.curCanUnionedDragons);
         }
 
+        self.underpan.active = false;
 
-        self.underpan = null;
-       
         //cc.dataMgr.debugTileInfo();
     },
 
     selectClick: function () {
-        if(this.selectClickFlag) {
+        if (this.selectClickFlag) {
             //console.log('选择thing 按钮 被点击');
         }
-        
+
         //console.log('thingType:  ' + this.thingType + '  ' + 'thingLevel:  ' + this.thingLevel);
     },
 
-    closeSelectClick:function() {
+    closeSelectClick: function () {
         this.selectClickFlag = false;
     },
 
-    openSelectClick:function() {
+    openSelectClick: function () {
         this.selectClickFlag = true;
     },
 
@@ -233,18 +194,43 @@ cc.Class({
     },
 
 
-    browseThisThing:function() {
-       // console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
+    browseThisThing: function () {
+        //console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
     },
 
-    unBrowseThisThing:function() {
+    unBrowseThisThing: function () {
         //console.log('不再浏览该物体！');
     },
 
-    thingsUnionTips: function () {
-        for (var i = 0; i < this.thingsArray.length; i++) {
-            if (this.node.parent != this.thingsArray[i]) {
-                this.thingsArray[i].getChildByName('selectedNode').getComponent('Thing').goUnionTips(this.node.parent.position);
+    //判断当前范围内的可合并龙集合 和上次的龙集合元素是否完全相同
+    curAndLastUnionedDragonsIsSame: function () {
+        this.curCanUnionedDragons;
+        this.lastCanUnionedDragons;
+        if (this.lastCanUnionedDragons && this.lastCanUnionedDragons.length == this.curCanUnionedDragons.length) {
+            for (var i = 0; i < this.curCanUnionedDragons.length; i++) {
+                var thisDragon = this.curCanUnionedDragons[i];
+                var bFlag = false;
+                for (var j = 0; j < this.lastCanUnionedDragons.length; j++) {
+                    var otherDragon = this.lastCanUnionedDragons[j];
+                    if (thisDragon == otherDragon) {
+                        bFlag = true;
+                        break;
+                    }
+                }
+                if (!bFlag) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    dragonUnionTips: function () {
+        for (var i = 0; i < this.curCanUnionedDragons.length; i++) {
+            if (this.node != this.curCanUnionedDragons[i]) {
+                this.curCanUnionedDragons[i].getComponent('Dragon').goUnionTips(this.node.position);
             }
 
         }
@@ -260,23 +246,17 @@ cc.Class({
         }
     },
 
-    //thingsNode层的坐标空间下 才能保证 动画的准确性   
+    //DragonsNode层的坐标空间下 才能保证 动画的准确性   
     goUnionTips: function (targetPos) {
-        var pNode = this.node.parent;
-        this.selectedSprite.spriteFrame = this.originSpriteFrame;
-        //pNode 从originPosition 往 targetPos位置来回移动
-        var dir = cc.v2(cc.pSub(targetPos, this.originPosition)).normalize();
-        // var move1 = cc.moveBy(0.15, dir.mul(20));
-        // var moveGo = cc.moveBy(0.4, dir.mul(-40));
-        // var moveCome = cc.moveBy(0.4, dir.mul(40));
-        // var moveComeAndgo = cc.sequence(moveGo, moveCome);
-        // var moveLoop = cc.repeat(moveComeAndgo, 40);
-        // var finalAction = cc.sequence(move1, moveLoop);
+        this.underpan.active = true;
+        this.originPosition = this.node.position;
+        //龙 从当前位置 往 targetPos位置来回移动
+        var dir = cc.v2(cc.pSub(targetPos, this.node.position)).normalize();
         var moveCome = cc.moveBy(0.4, dir.mul(20));
         var moveGo = cc.moveBy(0.4, dir.mul(-20));
         var moveComeAndgo = cc.sequence(moveCome, moveGo);
         var moveLoop = cc.repeat(moveComeAndgo, 40);
-        pNode.runAction(moveLoop);
+        this.node.runAction(moveLoop);
     },
     //移回原本的位置 往originPosition移动 
     goBack: function () {
