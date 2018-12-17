@@ -1,14 +1,14 @@
 {
   "ver": "2.0.0",
-  "uuid": "6923f5c0-5f5b-4d09-a69a-881828dc539b",
+  "uuid": "42acf26a-8958-4f78-8988-f677dc30edb2",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "subMetas": {
-    "Coin_Small_Gold": {
+    "kuang03": {
       "ver": "1.0.3",
-      "uuid": "60a76e77-d668-45a0-a417-d33922738e04",
-      "rawTextureUuid": "6923f5c0-5f5b-4d09-a69a-881828dc539b",
+      "uuid": "fbb03841-ac3e-48d5-a3c4-2952f108e76a",
+      "rawTextureUuid": "42acf26a-8958-4f78-8988-f677dc30edb2",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -16,10 +16,10 @@
       "offsetY": 0,
       "trimX": 0,
       "trimY": 0,
-      "width": 109,
-      "height": 139,
-      "rawWidth": 109,
-      "rawHeight": 139,
+      "width": 306,
+      "height": 74,
+      "rawWidth": 306,
+      "rawHeight": 74,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
