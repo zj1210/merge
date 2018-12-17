@@ -584,10 +584,7 @@ cc.Class({
         }
     },
 
-    //根据花的级别 从dataMgr中找到最小的龙级别
-    getCollectionMinDragonLevel:function(flowerLevel) {
-
-    },
+    
 
     // getTileByDragonPosition:function(dragonPosition) {
     //     //debugger;

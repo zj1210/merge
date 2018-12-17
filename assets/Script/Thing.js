@@ -288,6 +288,7 @@ cc.Class({
         this.relationTileJS.thingLevel = tempThingLevel;
         this.relationTileJS.thingType = tempThingType;
         this.originPosition = targetTile.position;
+        this.node.parent.setLocalZOrder(tileJS.thingZOrder);
         var moveGo = cc.moveTo(0.2, targetTile.position);
         pNode.runAction(moveGo);
         // console.log('====看下 所有tile数据')
@@ -307,6 +308,7 @@ cc.Class({
         this.relationTileJS.thingLevel = thingLevel;
         this.relationTileJS.thingType = thingType;
         this.originPosition = targetTile.position;
+        this.node.parent.setLocalZOrder(tileJS.thingZOrder);
         var moveGo = cc.moveTo(0.2, targetTile.position);
         pNode.runAction(moveGo);
     },

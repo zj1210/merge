@@ -68,6 +68,7 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
+        this.thingZOrder = cc.dataMgr.globalZOrder++;
         // console.log("tile onload" + this.node.name);
         //若在关卡就 直接用预置数据，若在大厅 并且大厅没有数据 还是使用预制数据
         if (!cc.dataMgr.isHall || !cc.dataMgr.hasTileData) {
@@ -97,6 +98,7 @@ cc.Class({
     //需要 物品类型thingType 以及物品等级 thingLevel
     generateThings: function () {
         this.thing = cc.instantiate(this.thingPrefab);
+        this.thing.setLocalZOrder(this.thingZOrder);
         this.tempThing = null; //临时物品，手指拖动上去，但没有松手，和棋盘上所有非临时的进行遍历
         this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
         if (!this.thingsNode) {
