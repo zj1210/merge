@@ -28,11 +28,62 @@ function DataMgr() {
 
     this.checkpointWidth = 0;
     this.checkpintHeight = 0;
+    //为了简单打算写死，不能处理生成的龙超过9个以上 这种情况数学上没证明，
+    //但是概率应该是极低的3个相同还会归并
+    this.dragonsOffset = [
+        {
+            xOffset: 0,
+            yOffset: 0,
+        },
+        {
+            xOffset: 0,
+            yOffset: 100,
+        },
+
+        {
+            xOffset: -100,
+            yOffset: 0,
+        },
+
+        {
+            xOffset: 0,
+            yOffset: -100,
+        },
+
+        {
+            xOffset: 100,
+            yOffset: 0,
+        },
+
+        {
+            xOffset: -100,
+            yOffset: 100,
+        },
+
+        {
+            xOffset: 100,
+            yOffset: 100,
+        },
+
+        {
+            xOffset: 100,
+            yOffset: -100,
+        },
+        {
+            xOffset: -100,
+            yOffset: 100,
+        },
+        {
+            xOffset: -100,
+            yOffset: -100,
+        }
+    ];
 
     this.init();
 }
 
 DataMgr.prototype.init = function () {
+
     //这里将来要做的是 读取用户的数据，初始化每个块。
     //目前直接使用预定义的。
     //console.log('数据初始化运行');
@@ -69,12 +120,12 @@ DataMgr.prototype.initTile = function (checkpointID, tiles) {
 }
 
 //打印tile的数据 debug用
-DataMgr.prototype.debugTileInfo = function() {
+DataMgr.prototype.debugTileInfo = function () {
     for (var i = 0; i < this.hallTileHeight; i++) {
         for (var j = 0; j < this.hallTileWidth; j++) {
-            this.tilesData[i][j] = tiles[i * this.hallTileWidth + j];
-            this.tilesData[i][j].getComponent('Tile').setIndex(j, i);
-            console.log(this.tilesData[i][j].getComponent('Tile').thingType +"  " +this.tilesData[i][j].getComponent('Tile').thingLevl);
+
+
+            console.log(this.tilesData[i][j].getComponent('Tile').thingType + "  " + this.tilesData[i][j].getComponent('Tile').thingLevel);
         }
     }
 }
