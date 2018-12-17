@@ -300,6 +300,7 @@ cc.Class({
     },
 
     //此thing的tile被人占了，需要给他放入别的tile中
+    //生成新thing时 也会调用
     changeInTile: function (targetTile, thingLevel, thingType) {
         var pNode = this.node.parent;
         var tileJS = targetTile.getComponent('Tile');

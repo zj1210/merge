@@ -83,6 +83,11 @@ cc.Class({
             self.browseThisThing();
             event.stopPropagation();
 
+            //如果有生成物，需要放置生成物
+            if(self.collectionThing.active) {
+                self.collectionThingClick();
+            }
+
             //摄像机下的触摸点 需要转换为 世界坐标
             let touchPos = event.getLocation();
 
@@ -154,7 +159,7 @@ cc.Class({
         self._offset = null;
 
         //是否可以合并
-        if (self.curCanUnionedDragons.length > 2) {
+        if (self.curCanUnionedDragons &&self.curCanUnionedDragons.length > 2) {
             //合并算法
             self.game.union_Dragons_Algorithm(self.curCanUnionedDragons);
         }
@@ -210,12 +215,55 @@ cc.Class({
         //精华的类型是1 
        this.collectionThing.active = true;
        this.collectionThing.getComponent('thingImageAndAni').settingSpriteFrame(1,heartLevel);
-        
-       
+    
+       //我把数据放在了这里。。。结构有点差，图方便
+       this.collectionThing.thingType = 1;
+       this.collectionThing.thingLevel = heartLevel;
     },
 
     collectionThingClick:function() {
         console.log('生成物被点击！');
+        //var pos = this.node.parent.convertToNodeSpaceAR(this.node.position);
+
+        var pos = this.node.position;
+        //这引擎真垃圾，传参文档是劝退的，弄成成员变量了！！
+        this.resultTiles = this.game.getNearestTileByN_pos(pos,1);
+        if(this.resultTiles!=null) {
+            //有空格 移入棋盘
+            //debugger;
+            console.log(this.resultTiles[0]);
+            this.collectionThingOriginPos  = this.collectionThing.position;
+            var worldpos = this.resultTiles[0].parent.convertToWorldSpaceAR(this.resultTiles[0].position);
+            var nodepos = this.node.convertToNodeSpaceAR(worldpos);
+            var moveTo = cc.moveTo(0.5,nodepos);
+            var seq = cc.sequence(moveTo,cc.callFunc(this.thingMoveToOver,this));
+            this.collectionThing.runAction(seq);
+            
+        }
+        //没有空格 直接转换为货币，飞入UI部分
+        else {
+            debugger;
+            console.log("没有空格：直接转换为货币，飞入UI部分");
+        }
+    },
+
+    thingMoveToOver:function() {
+        //debugger;
+        console.log("生成物-->移动到目标位置！");
+
+        var newThing = this.game.generateThing(this.collectionThing.thingType,this.collectionThing.thingLevel);
+        var thingJs = newThing.getChildByName('selectedNode').getComponent("Thing");
+        var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
+        thingsNode.addChild(newThing);
+
+        var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
+        var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
+        newThing.position = nodepos;
+        thingJs.changeInTile(this.resultTiles[0], this.collectionThing.thingLevel, this.collectionThing.thingType);
+    
+
+        this.collectionThing.position = this.collectionThingOriginPos;
+        this.collectionThing.active = false;
     },
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
@@ -251,8 +299,6 @@ cc.Class({
 
     //判断当前范围内的可合并龙集合 和上次的龙集合元素是否完全相同
     curAndLastUnionedDragonsIsSame: function () {
-        this.curCanUnionedDragons;
-        this.lastCanUnionedDragons;
         if (this.lastCanUnionedDragons && this.lastCanUnionedDragons.length == this.curCanUnionedDragons.length) {
             for (var i = 0; i < this.curCanUnionedDragons.length; i++) {
                 var thisDragon = this.curCanUnionedDragons[i];
@@ -340,18 +386,7 @@ cc.Class({
         // }
     },
 
-    //此thing的tile被人占了，需要给他放入别的tile中
-    changeInTile: function (targetTile, thingLevel, thingType) {
-        var pNode = this.node.parent;
-        var tileJS = targetTile.getComponent('Tile');
-        this.relationTileJS = tileJS;
-        tileJS.thing = pNode;
-        this.relationTileJS.thingLevel = thingLevel;
-        this.relationTileJS.thingType = thingType;
-        this.originPosition = targetTile.position;
-        var moveGo = cc.moveTo(0.2, targetTile.position);
-        pNode.runAction(moveGo);
-    },
+ 
     /**
      * 
       

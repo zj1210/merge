@@ -423,7 +423,7 @@ cc.Class({
         }
     },
 
-    getNearestTileByN: function (tile, N) {
+    getNearestTileByN_pos:function(pos,N) {
         var resultTiles = [];
         var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
         var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
@@ -436,7 +436,7 @@ cc.Class({
                 //如果是空的tile
                 if (otherTile.getComponent('Tile').isEmptyTile()) {
                     //计算与传入的进来的tile的距离 返回平方即可，性能高，毕竟我是找最近的
-                    var dist = cc.pDistanceSQ(tile.position, otherTile.position);
+                    var dist = cc.pDistanceSQ(pos, otherTile.position);
                     //console.log("dist-->   " + dist);
                     allEmptyTiles.push({ "tile": otherTile, "dist": dist });
                 }
@@ -456,11 +456,20 @@ cc.Class({
 
         if (allEmptyTiles.length < N) {
             debugger;
+            //没有空格
+            return null;
         }
 
         for (var i = 0; i < N; i++) {
             resultTiles.push(allEmptyTiles[i].tile);
         }
+
+        return resultTiles;
+    },
+
+    getNearestTileByN: function (tile, N) {
+        
+        var resultTiles = this.getNearestTileByN_pos(tile.position,N);
 
         return resultTiles;
     },
