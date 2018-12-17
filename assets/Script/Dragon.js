@@ -196,7 +196,7 @@ cc.Class({
 
 
     browseThisThing: function () {
-        //console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
+        console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
     },
 
     unBrowseThisThing: function () {
