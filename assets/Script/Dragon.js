@@ -151,6 +151,10 @@ cc.Class({
             //合并算法
             self.game.union_Dragons_Algorithm(self.curCanUnionedDragons);
         }
+        //不能合并的情况下 要判断松手位置是有能采集的花，若有开始采集
+        else {
+
+        }
 
         self.underpan.active = false;
 

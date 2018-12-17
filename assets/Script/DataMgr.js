@@ -81,40 +81,63 @@ function DataMgr() {
     //采集数据 花级别 最低龙级别 采集的结果 采集所需时间
     this.collectionDatas = [
         {
-            "flowerLevel":1,
-            "minDragonLevel":1,
-            "heartLevel":1,
-            "needTime":5
+            "flowerLevel": 1,
+            "minDragonLevel": 1,
+            "heartLevel": 0,
+            "needTime": 5
         },
 
         {
-            "flowerLevel":2,
-            "minDragonLevel":2,
-            "heartLevel":2,
-            "needTime":5
+            "flowerLevel": 2,
+            "minDragonLevel": 2,
+            "heartLevel": 1,
+            "needTime": 5
         },
 
         {
-            "flowerLevel":3,
-            "minDragonLevel":3,
-            "heartLevel":3,
-            "needTime":5
+            "flowerLevel": 3,
+            "minDragonLevel": 3,
+            "heartLevel": 2,
+            "needTime": 5
         },
 
         {
-            "flowerLevel":4,
-            "minDragonLevel":4,
-            "heartLevel":4,
-            "needTime":5
+            "flowerLevel": 4,
+            "minDragonLevel": 4,
+            "heartLevel": 3,
+            "needTime": 5
         },
 
         {
-            "flowerLevel":5,
-            "minDragonLevel":5,
-            "heartLevel":5,
-            "needTime":5
+            "flowerLevel": 5,
+            "minDragonLevel": 5,
+            "heartLevel": 4,
+            "needTime": 5
         }
     ];
+    //每级龙的初始体力值
+    this.dragonStrengthDatas = [
+        {
+            "dragonLevel": 1,
+            "dragonStrength": 5
+        },
+        {
+            "dragonLevel": 2,
+            "dragonStrength": 5
+        },
+        {
+            "dragonLevel": 3,
+            "dragonStrength": 5
+        },
+        {
+            "dragonLevel": 4,
+            "dragonStrength": 5
+        },
+        {
+            "dragonLevel": 5,
+            "dragonStrength": 5
+        }
+    ]
     this.init();
 }
 
