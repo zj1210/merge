@@ -106,7 +106,7 @@ cc.Class({
         // this.thing.position = this.node.position;
         let thingJs = this.thing.getChildByName('selectedNode').getComponent("Thing");
         thingJs.setPositionAndOriginPosition(this.node.position, this.node);
-        thingJs.setTypeAndLevel(this.thingType, this.thingLevel);
+        thingJs.setTypeAndLevel_forNewThing(this.thingType, this.thingLevel);
         // //主要是为了性能，内部不要以这个为准，为了判断自己的临时tile 和当前的临时tile是否一样，不一样才
         // thingJs.setTileTemporarily(this.node);
     },
