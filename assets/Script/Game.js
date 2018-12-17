@@ -482,6 +482,12 @@ cc.Class({
         return dragonsPositions;
     },
 
+    generateThing: function (thingType, thingLevel) {
+        var newThing = cc.instantiate(this.thingPrefab);
+        newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(thingType, thingLevel);
+        return newThing;
+    },
+
     //输入thingsArray 输出以thingData为结构的 数组
     generateUnionedThings: function (length, type, level) {
         //连击奖励公式 len = len +(len-3)/2;
@@ -496,13 +502,11 @@ cc.Class({
                     newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(results[i].thingType, results[i].thingLevel);
                     results[i].thing = newDragon;
                 } else {
-                    var newThing = cc.instantiate(this.thingPrefab);
-                    newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(results[i].thingType, results[i].thingLevel);
+                    var newThing =  this.generateThing(results[i].thingType, results[i].thingLevel);
                     results[i].thing = newThing;
                 }
             } else {
-                var newThing = cc.instantiate(this.thingPrefab);
-                newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(results[i].thingType, results[i].thingLevel);
+                var newThing =  this.generateThing(results[i].thingType, results[i].thingLevel);
                 results[i].thing = newThing;
             }
         }
@@ -570,24 +574,24 @@ cc.Class({
                     var thingJS = tileJS.thing.getChildByName('selectedNode').getComponent('Thing');
                     if (thingJS.thingType == 2) {
                         var minLevel = cc.dataMgr.getCollectionMinDragonLevel(thingJS.thingLevel);
-                        if(minLevel == null) {
+                        if (minLevel == null) {
                             console.log("花的级别不够！！");
                         }
-                        else if(minLevel<=dragonJS.thingLevel) {
+                        else if (minLevel <= dragonJS.thingLevel) {
                             dragonJS.collectionState = true;
-                            dragonJS.playCollection();
+                            dragonJS.playCollection(thingJS.thingLevel);
                         }
                         else {
                             console.log("龙的级别不够！！");
                         }
-                       
+
                     }
                 }
             }
         }
     },
 
-    
+
 
     // getTileByDragonPosition:function(dragonPosition) {
     //     //debugger;

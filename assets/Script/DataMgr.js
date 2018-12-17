@@ -208,6 +208,17 @@ DataMgr.prototype.getCollectionMinDragonLevel = function(flowerLevel) {
     
 }
 
+DataMgr.prototype.getCollectionHeartLevel = function(flowerLevel) {
+    for(var i = 0; i<this.collectionDatas.length; i++) {
+        if(this.collectionDatas[i].flowerLevel == flowerLevel) {
+            return this.collectionDatas[i].heartLevel;
+        }
+    }
+
+    //传入的可收集的花 竟然没有找到返回的精华类别？
+    debugger;
+}
+
 //打印tile的数据 debug用
 DataMgr.prototype.debugTileInfo = function () {
     for (var i = 0; i < this.hallTileHeight; i++) {

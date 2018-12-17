@@ -25,6 +25,10 @@ cc.Class({
         underpan: {
             default: null,
             type: cc.Node
+        },
+        collectionThing:{
+            default:null,
+            type:cc.Node
         }
     },
 
@@ -49,7 +53,7 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
         this.underpan.active = false;
-
+        this.collectionThing.active = false;
         //标记是否处理 按钮点击事件
         this.selectClickFlag = true;
         //搜索到的附近 同类型参与合并的龙
@@ -191,9 +195,27 @@ cc.Class({
         this.selectClickFlag = true;
     },
 
-    playCollection:function() {
+    playCollection:function(flowerLevel) {
         console.log('龙开始采集了。。。');
+        
+        var heartLevel = cc.dataMgr.getCollectionHeartLevel(flowerLevel);
+        //1.需要将heart，放入龙的节点下，并且在龙的头顶
+        this.generateHeartAndPlace(heartLevel);
+        //2.需要找到最近的空格 将龙移动过去，放下心
+        //3.放下心，就是将心从龙节点下 放入到 thingsNode节点下
         this.collectionState =false;
+    },
+
+    generateHeartAndPlace:function(heartLevel) {
+        //精华的类型是1 
+       this.collectionThing.active = true;
+       this.collectionThing.getComponent('thingImageAndAni').settingSpriteFrame(1,heartLevel);
+        
+       
+    },
+
+    collectionThingClick:function() {
+        console.log('生成物被点击！');
     },
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
