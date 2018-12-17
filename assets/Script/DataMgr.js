@@ -86,37 +86,30 @@ function DataMgr() {
     //采集数据 花级别 最低龙级别 采集的结果 采集所需时间
     this.collectionDatas = [
         {
-            "flowerLevel": 1,
+            "flowerLevel": 2,
             "minDragonLevel": 1,
             "heartLevel": 0,
             "needTime": 5
         },
 
         {
-            "flowerLevel": 2,
+            "flowerLevel": 3,
             "minDragonLevel": 2,
             "heartLevel": 1,
             "needTime": 5
         },
 
         {
-            "flowerLevel": 3,
+            "flowerLevel": 4,
             "minDragonLevel": 3,
             "heartLevel": 2,
             "needTime": 5
         },
 
         {
-            "flowerLevel": 4,
+            "flowerLevel": 5,
             "minDragonLevel": 4,
             "heartLevel": 3,
-            "needTime": 5
-        },
-
-        {
-            "flowerLevel": 5,
-            "minDragonLevel": 5,
-            "heartLevel": 4,
             "needTime": 5
         }
     ];
@@ -209,8 +202,10 @@ DataMgr.prototype.getCollectionMinDragonLevel = function(flowerLevel) {
             return this.collectionDatas[i].minDragonLevel;
         }
     }
-    //没返回不可能，进入调试模式
-    debugger;
+
+    //给的花级别 表中没有，目前说明：花的级别很低，不支持采集
+    return null;
+    
 }
 
 //打印tile的数据 debug用

@@ -570,7 +570,10 @@ cc.Class({
                     var thingJS = tileJS.thing.getChildByName('selectedNode').getComponent('Thing');
                     if (thingJS.thingType == 2) {
                         var minLevel = cc.dataMgr.getCollectionMinDragonLevel(thingJS.thingLevel);
-                        if(minLevel<=dragonJS.thingLevel) {
+                        if(minLevel == null) {
+                            console.log("花的级别不够！！");
+                        }
+                        else if(minLevel<=dragonJS.thingLevel) {
                             dragonJS.collectionState = true;
                             dragonJS.playCollection();
                         }
