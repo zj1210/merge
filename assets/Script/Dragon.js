@@ -61,6 +61,8 @@ cc.Class({
         this.curCanUnionedDragons = null;
         this.lastCanUnionedDragons = null;
 
+        //是否在采集状态
+        this.collectionState = false;
         
     },
 
@@ -162,8 +164,9 @@ cc.Class({
                 // var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
                 //用underPan来判断视觉上好点
                 var worldpos = self.underpan.parent.convertToWorldSpaceAR(self.underpan.position);
-                
-                self.game.getFlowerLevelByDragonPosition(worldpos);
+                //传入龙的世界坐标，若有花，且级别够，则采集
+                self.game.collectionFlower(self,worldpos);
+               
             }
         }
 
@@ -186,6 +189,11 @@ cc.Class({
 
     openSelectClick: function () {
         this.selectClickFlag = true;
+    },
+
+    playCollection:function() {
+        console.log('龙开始采集了。。。');
+        this.collectionState =false;
     },
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋

@@ -189,6 +189,24 @@ DataMgr.prototype.getDragonStrength = function(dragonLevel) {
     debugger;
 }
 
+//根据花的级别 从dataMgr中找到最小的龙级别
+DataMgr.prototype.getCollectionMinDragonLevel = function(flowerLevel) {
+    // this.collectionDatas = [
+    //     {
+    //         "flowerLevel": 1,
+    //         "minDragonLevel": 1,
+    //         "heartLevel": 0,
+    //         "needTime": 5
+    //     },
+
+    for(var i = 0; i<this.collectionDatas.length; i++) {
+        if(this.collectionDatas[i].flowerLevel == flowerLevel) {
+            return this.collectionDatas[i].minDragonLevel;
+        }
+    }
+    //没返回不可能，进入调试模式
+    debugger;
+}
 
 //打印tile的数据 debug用
 DataMgr.prototype.debugTileInfo = function () {

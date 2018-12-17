@@ -466,16 +466,16 @@ cc.Class({
     },
 
     //给一条位于中心的龙，用他的位置返回N个周围的位置
-    getDragonPositionsByN:function(dragon0,N) {
-       
-        if(N>8) {
+    getDragonPositionsByN: function (dragon0, N) {
+
+        if (N > 8) {
             debugger;
         }
         var dragonsPositions = [];
         var center = dragon0.position;
-        for(var i = 0; i<N;i++) {
-            var position = cc.pAdd(center,cc.v2(cc.dataMgr.dragonsOffset[i]));
-        
+        for (var i = 0; i < N; i++) {
+            var position = cc.pAdd(center, cc.v2(cc.dataMgr.dragonsOffset[i]));
+
             dragonsPositions.push(position);
         }
 
@@ -558,13 +558,43 @@ cc.Class({
         return results;
     },
 
+    collectionFlower: function (dragonJS, worldpos) {
+        var tile = this.getContainPointTile(worldpos);
+        if (tile != null) {
+            var tileJS = tile.getComponent('Tile');
+            //是绿地 不是雾
+            if (tileJS.tileType == 0) {
 
-    getFlowerLevelByDragonPosition:function(dragonPosition) {
-        //debugger;
-        console.log(dragonPosition);
-        var tile = this.getContainPointTile(dragonPosition);
-        debugger;
+                //有thing 且类型是花
+                if (tileJS.thing != null) {
+                    var thingJS = tileJS.thing.getChildByName('selectedNode').getComponent('Thing');
+                    if (thingJS.thingType == 2) {
+                        var minLevel = cc.dataMgr.getCollectionMinDragonLevel(thingJS.thingLevel);
+                        if(minLevel<=dragonJS.thingLevel) {
+                            dragonJS.collectionState = true;
+                            dragonJS.playCollection();
+                        }
+                        else {
+                            console.log("龙的级别不够！！");
+                        }
+                       
+                    }
+                }
+            }
+        }
     },
+
+    //根据花的级别 从dataMgr中找到最小的龙级别
+    getCollectionMinDragonLevel:function(flowerLevel) {
+
+    },
+
+    // getTileByDragonPosition:function(dragonPosition) {
+    //     //debugger;
+    //     console.log(dragonPosition);
+    //     var tile = this.getContainPointTile(dragonPosition);
+
+    // },
 
 
 
