@@ -178,6 +178,18 @@ DataMgr.prototype.initTile = function (checkpointID, tiles) {
     // console.log(this.tilesData);
 }
 
+
+DataMgr.prototype.getDragonStrength = function(dragonLevel) {
+    for(var i = 0; i<this.dragonStrengthDatas.length; i++) {
+        if(this.dragonStrengthDatas[i].dragonLevel == dragonLevel) {
+            return this.dragonStrengthDatas[i].dragonStrength;
+        }
+    }
+    //不可能执行到这里
+    debugger;
+}
+
+
 //打印tile的数据 debug用
 DataMgr.prototype.debugTileInfo = function () {
     for (var i = 0; i < this.hallTileHeight; i++) {

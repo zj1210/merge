@@ -493,7 +493,7 @@ cc.Class({
             if (results[i].thingType == 3) {
                 if (results[i].thingLevel != 0) {
                     var newDragon = cc.instantiate(this.dragonPrefab);
-                    newDragon.getComponent('Dragon').settingSpriteFrame(results[i].thingType, results[i].thingLevel);
+                    newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(results[i].thingType, results[i].thingLevel);
                     results[i].thing = newDragon;
                 } else {
                     var newThing = cc.instantiate(this.thingPrefab);
@@ -557,6 +557,17 @@ cc.Class({
         }
         return results;
     },
+
+
+    getFlowerLevelByDragonPosition:function(dragonPosition) {
+        //debugger;
+        console.log(dragonPosition);
+        var tile = this.getContainPointTile(dragonPosition);
+        debugger;
+    },
+
+
+
 
     changeCameraPosition: function (touchPos, draggingObj) {
         //console.log(touchPos);

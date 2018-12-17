@@ -30,8 +30,6 @@ cc.Class({
 
     settingSpriteFrame(type, level) {
         //其实是龙，这样命名不太好
-        this.thingType = type;
-        this.thingLevel = level;
         this.thing_spr = this.getComponent(cc.Sprite);
         if (type == 3) {
             if (level == 1) {
@@ -62,9 +60,12 @@ cc.Class({
 
         this.curCanUnionedDragons = null;
         this.lastCanUnionedDragons = null;
+
+        
     },
 
     start: function () {
+        
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
         if (!this.game) {
@@ -114,7 +115,7 @@ cc.Class({
                 //当前集合内的龙 和上次 集合内的龙完全一样
                 if (self.curAndLastUnionedDragonsIsSame()) {
                     //完全一样 就什么也不做目前，因为没必要加动画了。
-                    console.log('之前和现在的龙集合一样')
+                    //console.log('之前和现在的龙集合一样')
                 } else {
                     //不一样，需要先停止之前的提示动画，若有的话
                     if (self.lastCanUnionedDragons && self.lastCanUnionedDragons.length > 2) {
@@ -153,7 +154,17 @@ cc.Class({
         }
         //不能合并的情况下 要判断松手位置是有能采集的花，若有开始采集
         else {
-
+            //有体力
+            if(self.strength>0) {
+                //龙的位置下最近的tile里有花 且级别够
+                // var touchpos = event.getLocation();
+                // var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
+                // var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
+                //用underPan来判断视觉上好点
+                var worldpos = self.underpan.parent.convertToWorldSpaceAR(self.underpan.position);
+                
+                self.game.getFlowerLevelByDragonPosition(worldpos);
+            }
         }
 
         self.underpan.active = false;
@@ -179,11 +190,12 @@ cc.Class({
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
     //thingLevel 0初始，1升一级，以此类推，注意：蒲公英是花级别为0，如果是龙蛋，级别必须为0，龙不在地表上
-    setTypeAndLevel_forNewThing: function (thingType, thingLevel) {
+    setTypeAndLevel_forNewDragon: function (thingType, thingLevel) {
         this.thingType = thingType;
         this.thingLevel = thingLevel;
-        var tt = this.thingNode.getComponent('thingImageAndAni');
-        this.thingNode.getComponent('thingImageAndAni').settingSpriteFrame(this.thingType, this.thingLevel);
+        //debugger;
+        this.strength = cc.dataMgr.getDragonStrength(thingLevel);
+        this.settingSpriteFrame(this.thingType, this.thingLevel);
 
         // //debugger;
         // if (thingType == 1) {
@@ -200,7 +212,7 @@ cc.Class({
 
 
     browseThisThing: function () {
-        console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
+        console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel + '  dragon　strength: ' + this.strength);
     },
 
     unBrowseThisThing: function () {
