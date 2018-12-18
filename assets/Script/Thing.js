@@ -187,17 +187,17 @@ cc.Class({
             //如果是心的话，存为心型货币
             if(this.thingType == 1) {
                
-                // var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-                // var level = this.thingLevel;
+                var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                var level = this.thingLevel;
                 
-                // this.ui.addHeartAndAni(worldpos,level);
+                this.ui.addHeartAndAni(worldpos,level);
 
                 
-                // this.relationTileJS.thing = null;
-                // this.relationTileJS.thingType = 0;
-                // this.relationTileJS.thingLevel = 0;
-                // //this.node.removeFromParent(false);
-                // this.node.destroy();
+                this.relationTileJS.thing = null;
+                this.relationTileJS.thingType = 0;
+                this.relationTileJS.thingLevel = 0;
+                this.node.removeFromParent(false);
+                //this.node.destroy();
             }
         }
         
