@@ -175,6 +175,8 @@ cc.Class({
         }
         //不可放入 移回原来位置
         else {
+            self.relationTileJS.thing = this.node.parent;
+            self.relationTileJS.tempThing = null;
             self.goBack();
         }
 
