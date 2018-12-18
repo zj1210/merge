@@ -41,12 +41,13 @@ cc.Class({
     start: function () {
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
+        this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
         if (!this.game) {
             debugger;
         }
         let self = this;
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
-            //console.log('touch begin by flower');
+            console.log('touch begin by flower');
             self.browseThisThing();
             event.stopPropagation();
 
@@ -67,7 +68,7 @@ cc.Class({
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
-               // console.log('touch move by flower');
+                console.log('touch move by flower');
                self.closeSelectClick();
                 event.stopPropagation();
                 //核心逻辑
@@ -133,7 +134,7 @@ cc.Class({
     },
 
     touchEnd:function(event) {
-        // console.log('touch end by flower');
+         console.log('touch end by flower');
         let self =this;
         self.unBrowseThisThing();
         self.openSelectClick();
@@ -182,7 +183,22 @@ cc.Class({
 
     selectClick: function () {
         if(this.selectClickFlag) {
-            //console.log('选择thing 按钮 被点击');
+            console.log('选择thing 按钮 被点击');
+            //如果是心的话，存为心型货币
+            if(this.thingType == 1) {
+               
+                // var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                // var level = this.thingLevel;
+                
+                // this.ui.addHeartAndAni(worldpos,level);
+
+                
+                // this.relationTileJS.thing = null;
+                // this.relationTileJS.thingType = 0;
+                // this.relationTileJS.thingLevel = 0;
+                // //this.node.removeFromParent(false);
+                // this.node.destroy();
+            }
         }
         
         //console.log('thingType:  ' + this.thingType + '  ' + 'thingLevel:  ' + this.thingLevel);
