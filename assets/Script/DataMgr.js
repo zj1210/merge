@@ -135,16 +135,85 @@ function DataMgr() {
             "dragonLevel": 5,
             "dragonStrength": 5
         }
-    ]
+    ];
+    //每级心的力量
+    this.heartPowerDatas = [
+        {
+            "heartLevel": 0,
+            "heartStrength": 1
+        },
+        {
+            "heartLevel": 1,
+            "heartStrength": 4
+        },
+        {
+            "heartLevel": 2,
+            "heartStrength": 13
+        },
+        {
+            "heartLevel": 3,
+            "heartStrength": 40
+        },
+        {
+            "heartLevel": 4,
+            "heartStrength": 121
+        }
+    ];
     this.init();
 }
 
 DataMgr.prototype.init = function () {
 
+    //用于购买宝箱 金币
+    var coinCount = cc.sys.localStorage.getItem("coinCount");
+    if (!coinCount) {
+        cc.sys.localStorage.setItem("cointCount", 0);
+    }
+    //用于邀请好友的奖励？需求不定，钻石
+    var diamondCount = cc.sys.localStorage.getItem("diamondCount");
+    if (!diamondCount) {
+        cc.sys.localStorage.setItem("diamondCount", 0);
+    }
+
+    //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
+    var heartCount = cc.sys.localStorage.getItem("heartCount");
+    if (!heartCount) {
+        cc.sys.localStorage.setItem("heartCount", 0);
+    }
+
     //这里将来要做的是 读取用户的数据，初始化每个块。
     //目前直接使用预定义的。
     //console.log('数据初始化运行');
+}
 
+DataMgr.prototype.getHeartCount = function() {
+    var heartCount = cc.sys.localStorage.getItem("heartCount");
+    return heartCount; 
+}
+
+DataMgr.prototype.addHeartCount = function(count) {
+    var result = this.getHeartCount() + count;
+    cc.sys.localStorage.setItem("heartCount", result);
+}
+
+DataMgr.prototype.getCoinCount = function() {
+    var coinCount = cc.sys.localStorage.getItem("coinCount");
+    return coinCount; 
+}
+
+DataMgr.prototype.addCoinCount = function(count) {
+    var result = this.getCoinCount() + count;
+    cc.sys.localStorage.setItem("coinCount", result);
+}
+
+DataMgr.prototype.getDiamondCount = function() {
+    var diamondCount = cc.sys.localStorage.getItem("diamondCount");
+    return diamondCount; 
+}
+
+DataMgr.prototype.addDiamondCount = function(count) {
+    var result = this.getDiamondCount() + count;
+    cc.sys.localStorage.setItem("diamondCount", result);
 }
 
 DataMgr.prototype.getCurrentWidthAndHeight = function () {
@@ -177,9 +246,9 @@ DataMgr.prototype.initTile = function (checkpointID, tiles) {
 }
 
 
-DataMgr.prototype.getDragonStrength = function(dragonLevel) {
-    for(var i = 0; i<this.dragonStrengthDatas.length; i++) {
-        if(this.dragonStrengthDatas[i].dragonLevel == dragonLevel) {
+DataMgr.prototype.getDragonStrength = function (dragonLevel) {
+    for (var i = 0; i < this.dragonStrengthDatas.length; i++) {
+        if (this.dragonStrengthDatas[i].dragonLevel == dragonLevel) {
             return this.dragonStrengthDatas[i].dragonStrength;
         }
     }
@@ -188,7 +257,7 @@ DataMgr.prototype.getDragonStrength = function(dragonLevel) {
 }
 
 //根据花的级别 从dataMgr中找到最小的龙级别
-DataMgr.prototype.getCollectionMinDragonLevel = function(flowerLevel) {
+DataMgr.prototype.getCollectionMinDragonLevel = function (flowerLevel) {
     // this.collectionDatas = [
     //     {
     //         "flowerLevel": 1,
@@ -197,20 +266,20 @@ DataMgr.prototype.getCollectionMinDragonLevel = function(flowerLevel) {
     //         "needTime": 5
     //     },
 
-    for(var i = 0; i<this.collectionDatas.length; i++) {
-        if(this.collectionDatas[i].flowerLevel == flowerLevel) {
+    for (var i = 0; i < this.collectionDatas.length; i++) {
+        if (this.collectionDatas[i].flowerLevel == flowerLevel) {
             return this.collectionDatas[i].minDragonLevel;
         }
     }
 
     //给的花级别 表中没有，目前说明：花的级别很低，不支持采集
     return null;
-    
+
 }
 
-DataMgr.prototype.getCollectionHeartLevel = function(flowerLevel) {
-    for(var i = 0; i<this.collectionDatas.length; i++) {
-        if(this.collectionDatas[i].flowerLevel == flowerLevel) {
+DataMgr.prototype.getCollectionHeartLevel = function (flowerLevel) {
+    for (var i = 0; i < this.collectionDatas.length; i++) {
+        if (this.collectionDatas[i].flowerLevel == flowerLevel) {
             return this.collectionDatas[i].heartLevel;
         }
     }
