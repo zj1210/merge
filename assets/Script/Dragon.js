@@ -282,12 +282,24 @@ cc.Class({
             //有空格 移入棋盘
             //debugger;
             //console.log(this.resultTiles[0]);
-            this.collectionThingOriginPos  = this.collectionThing.position;
+            //this.collectionThingOriginPos  = this.collectionThing.position;
+            //在thingsNode层创建一个 图片 让他移动到tile的位置 然后删除它，创建prefab的thing 放入
+            //之所以这样，是因为龙身上的图片移动过程中 移动龙会造成bug，因为那是他的子节点，现在分开了
+            var moveThing = cc.instantiate(this.collectionThing);
+            //debugger;
+            var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
+            thingsNode.addChild(moveThing);
+            var movethingWorldPos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
+            var moveThingNodePos =thingsNode.convertToNodeSpaceAR(movethingWorldPos);
+            moveThing.position = moveThingNodePos;
+           
+            this.collectionThing.active = false;
             var worldpos = this.resultTiles[0].parent.convertToWorldSpaceAR(this.resultTiles[0].position);
-            var nodepos = this.node.convertToNodeSpaceAR(worldpos);
+            var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
             var moveTo = cc.moveTo(0.5,nodepos);
-            var seq = cc.sequence(moveTo,cc.callFunc(this.thingMoveToOver,this));
-            this.collectionThing.runAction(seq);
+            var seq = cc.sequence(moveTo,cc.callFunc(this.thingMoveToOver,this,moveThing));
+            moveThing.setLocalZOrder(9999);
+            moveThing.runAction(seq);
             
         }
         //没有空格 直接转换为货币，飞入UI部分
@@ -297,23 +309,24 @@ cc.Class({
         }
     },
 
-    thingMoveToOver:function() {
+    thingMoveToOver:function(moveThing) {
         //debugger;
         console.log("生成物-->移动到目标位置！");
-
+       
         var newThing = this.game.generateThing(this.collectionThing.thingType,this.collectionThing.thingLevel);
         var thingJs = newThing.getChildByName('selectedNode').getComponent("Thing");
         var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
         thingsNode.addChild(newThing);
 
-        var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
-        var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
-        newThing.position = nodepos;
+        //var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
+        //var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
+        //newThing.position = nodepos;
+        newThing.position = moveThing.position;
         thingJs.changeInTile(this.resultTiles[0], this.collectionThing.thingLevel, this.collectionThing.thingType);
     
-
-        this.collectionThing.position = this.collectionThingOriginPos;
-        this.collectionThing.active = false;
+        moveThing.destroy();
+        //this.collectionThing.position = this.collectionThingOriginPos;
+        
     },
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
