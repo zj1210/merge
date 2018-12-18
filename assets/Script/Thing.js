@@ -181,7 +181,7 @@ cc.Class({
 
     selectClick: function () {
         if(this.selectClickFlag) {
-            //console.log('选择thing 按钮 被点击');
+            console.log('选择thing 按钮 被点击');
         }
         
         //console.log('thingType:  ' + this.thingType + '  ' + 'thingLevel:  ' + this.thingLevel);
