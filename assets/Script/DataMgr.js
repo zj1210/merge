@@ -163,11 +163,10 @@ function DataMgr() {
 }
 
 DataMgr.prototype.init = function () {
-
     //用于购买宝箱 金币
     var coinCount = cc.sys.localStorage.getItem("coinCount");
     if (!coinCount) {
-        cc.sys.localStorage.setItem("cointCount", 0);
+        cc.sys.localStorage.setItem("coinCount", 0);
     }
     //用于邀请好友的奖励？需求不定，钻石
     var diamondCount = cc.sys.localStorage.getItem("diamondCount");
@@ -243,6 +242,15 @@ DataMgr.prototype.initTile = function (checkpointID, tiles) {
         }
     }
     // console.log(this.tilesData);
+}
+
+DataMgr.prototype.getHeartCountByLevel = function(heartLevel) {
+    for (var i = 0; i < this.heartPowerDatas.length; i++) {
+        if (this.heartPowerDatas[i].heartLevel == heartLevel) {
+            return this.heartPowerDatas[i].heartStrength;
+        }
+    }
+    debugger;
 }
 
 
