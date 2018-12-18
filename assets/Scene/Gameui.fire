@@ -34663,7 +34663,15 @@
       "__id__": 939
     },
     "_enabled": true,
-    "label": null
+    "coinLabel": {
+      "__id__": 970
+    },
+    "heartLabel": {
+      "__id__": 988
+    },
+    "diamondLabel": {
+      "__id__": 979
+    }
   },
   {
     "__type__": "cc.Widget",
