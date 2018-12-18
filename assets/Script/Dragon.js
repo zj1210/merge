@@ -25,13 +25,15 @@ cc.Class({
         underpan: {
             default: null,
             type: cc.Node
+        },
+        collectionThing:{
+            default:null,
+            type:cc.Node
         }
     },
 
     settingSpriteFrame(type, level) {
         //其实是龙，这样命名不太好
-        this.thingType = type;
-        this.thingLevel = level;
         this.thing_spr = this.getComponent(cc.Sprite);
         if (type == 3) {
             if (level == 1) {
@@ -51,7 +53,7 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
         this.underpan.active = false;
-
+        this.collectionThing.active = false;
         //标记是否处理 按钮点击事件
         this.selectClickFlag = true;
         //搜索到的附近 同类型参与合并的龙
@@ -62,9 +64,14 @@ cc.Class({
 
         this.curCanUnionedDragons = null;
         this.lastCanUnionedDragons = null;
+
+        //是否在采集状态
+        this.collectionState = false;
+        
     },
 
     start: function () {
+        
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
         if (!this.game) {
@@ -75,6 +82,11 @@ cc.Class({
             //console.log('touch begin by flower');
             self.browseThisThing();
             event.stopPropagation();
+
+            //如果有生成物，需要放置生成物
+            if(self.collectionThing.active) {
+                self.collectionThingClick();
+            }
 
             //摄像机下的触摸点 需要转换为 世界坐标
             let touchPos = event.getLocation();
@@ -114,7 +126,7 @@ cc.Class({
                 //当前集合内的龙 和上次 集合内的龙完全一样
                 if (self.curAndLastUnionedDragonsIsSame()) {
                     //完全一样 就什么也不做目前，因为没必要加动画了。
-                    console.log('之前和现在的龙集合一样')
+                    //console.log('之前和现在的龙集合一样')
                 } else {
                     //不一样，需要先停止之前的提示动画，若有的话
                     if (self.lastCanUnionedDragons && self.lastCanUnionedDragons.length > 2) {
@@ -147,9 +159,24 @@ cc.Class({
         self._offset = null;
 
         //是否可以合并
-        if (self.curCanUnionedDragons.length > 2) {
+        if (self.curCanUnionedDragons &&self.curCanUnionedDragons.length > 2) {
             //合并算法
             self.game.union_Dragons_Algorithm(self.curCanUnionedDragons);
+        }
+        //不能合并的情况下 要判断松手位置是有能采集的花，若有开始采集
+        else {
+            //有体力
+            if(self.strength>0) {
+                //龙的位置下最近的tile里有花 且级别够
+                // var touchpos = event.getLocation();
+                // var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
+                // var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
+                //用underPan来判断视觉上好点
+                var worldpos = self.underpan.parent.convertToWorldSpaceAR(self.underpan.position);
+                //传入龙的世界坐标，若有花，且级别够，则采集
+                self.game.collectionFlower(self,worldpos);
+               
+            }
         }
 
         self.underpan.active = false;
@@ -173,13 +200,80 @@ cc.Class({
         this.selectClickFlag = true;
     },
 
+    playCollection:function(flowerLevel) {
+        console.log('龙开始采集了。。。');
+        
+        var heartLevel = cc.dataMgr.getCollectionHeartLevel(flowerLevel);
+        //1.需要将heart，放入龙的节点下，并且在龙的头顶
+        this.generateHeartAndPlace(heartLevel);
+        //2.需要找到最近的空格 将龙移动过去，放下心
+        //3.放下心，就是将心从龙节点下 放入到 thingsNode节点下
+        this.collectionState =false;
+    },
+
+    generateHeartAndPlace:function(heartLevel) {
+        //精华的类型是1 
+       this.collectionThing.active = true;
+       this.collectionThing.getComponent('thingImageAndAni').settingSpriteFrame(1,heartLevel);
+    
+       //我把数据放在了这里。。。结构有点差，图方便
+       this.collectionThing.thingType = 1;
+       this.collectionThing.thingLevel = heartLevel;
+    },
+
+    collectionThingClick:function() {
+        console.log('生成物被点击！');
+        //var pos = this.node.parent.convertToNodeSpaceAR(this.node.position);
+
+        var pos = this.node.position;
+        //这引擎真垃圾，传参文档是劝退的，弄成成员变量了！！
+        this.resultTiles = this.game.getNearestTileByN_pos(pos,1);
+        if(this.resultTiles!=null) {
+            //有空格 移入棋盘
+            //debugger;
+            console.log(this.resultTiles[0]);
+            this.collectionThingOriginPos  = this.collectionThing.position;
+            var worldpos = this.resultTiles[0].parent.convertToWorldSpaceAR(this.resultTiles[0].position);
+            var nodepos = this.node.convertToNodeSpaceAR(worldpos);
+            var moveTo = cc.moveTo(0.5,nodepos);
+            var seq = cc.sequence(moveTo,cc.callFunc(this.thingMoveToOver,this));
+            this.collectionThing.runAction(seq);
+            
+        }
+        //没有空格 直接转换为货币，飞入UI部分
+        else {
+            debugger;
+            console.log("没有空格：直接转换为货币，飞入UI部分");
+        }
+    },
+
+    thingMoveToOver:function() {
+        //debugger;
+        console.log("生成物-->移动到目标位置！");
+
+        var newThing = this.game.generateThing(this.collectionThing.thingType,this.collectionThing.thingLevel);
+        var thingJs = newThing.getChildByName('selectedNode').getComponent("Thing");
+        var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
+        thingsNode.addChild(newThing);
+
+        var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
+        var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
+        newThing.position = nodepos;
+        thingJs.changeInTile(this.resultTiles[0], this.collectionThing.thingLevel, this.collectionThing.thingType);
+    
+
+        this.collectionThing.position = this.collectionThingOriginPos;
+        this.collectionThing.active = false;
+    },
+
     //thingType 0=没有，1=精华，2=花，3=龙蛋
     //thingLevel 0初始，1升一级，以此类推，注意：蒲公英是花级别为0，如果是龙蛋，级别必须为0，龙不在地表上
-    setTypeAndLevel_forNewThing: function (thingType, thingLevel) {
+    setTypeAndLevel_forNewDragon: function (thingType, thingLevel) {
         this.thingType = thingType;
         this.thingLevel = thingLevel;
-        var tt = this.thingNode.getComponent('thingImageAndAni');
-        this.thingNode.getComponent('thingImageAndAni').settingSpriteFrame(this.thingType, this.thingLevel);
+        //debugger;
+        this.strength = cc.dataMgr.getDragonStrength(thingLevel);
+        this.settingSpriteFrame(this.thingType, this.thingLevel);
 
         // //debugger;
         // if (thingType == 1) {
@@ -196,7 +290,7 @@ cc.Class({
 
 
     browseThisThing: function () {
-        //console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
+        console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel + '  dragon　strength: ' + this.strength);
     },
 
     unBrowseThisThing: function () {
@@ -205,8 +299,6 @@ cc.Class({
 
     //判断当前范围内的可合并龙集合 和上次的龙集合元素是否完全相同
     curAndLastUnionedDragonsIsSame: function () {
-        this.curCanUnionedDragons;
-        this.lastCanUnionedDragons;
         if (this.lastCanUnionedDragons && this.lastCanUnionedDragons.length == this.curCanUnionedDragons.length) {
             for (var i = 0; i < this.curCanUnionedDragons.length; i++) {
                 var thisDragon = this.curCanUnionedDragons[i];
@@ -294,18 +386,7 @@ cc.Class({
         // }
     },
 
-    //此thing的tile被人占了，需要给他放入别的tile中
-    changeInTile: function (targetTile, thingLevel, thingType) {
-        var pNode = this.node.parent;
-        var tileJS = targetTile.getComponent('Tile');
-        this.relationTileJS = tileJS;
-        tileJS.thing = pNode;
-        this.relationTileJS.thingLevel = thingLevel;
-        this.relationTileJS.thingType = thingType;
-        this.originPosition = targetTile.position;
-        var moveGo = cc.moveTo(0.2, targetTile.position);
-        pNode.runAction(moveGo);
-    },
+ 
     /**
      * 
       

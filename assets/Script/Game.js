@@ -423,7 +423,7 @@ cc.Class({
         }
     },
 
-    getNearestTileByN: function (tile, N) {
+    getNearestTileByN_pos:function(pos,N) {
         var resultTiles = [];
         var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
         var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
@@ -436,7 +436,7 @@ cc.Class({
                 //如果是空的tile
                 if (otherTile.getComponent('Tile').isEmptyTile()) {
                     //计算与传入的进来的tile的距离 返回平方即可，性能高，毕竟我是找最近的
-                    var dist = cc.pDistanceSQ(tile.position, otherTile.position);
+                    var dist = cc.pDistanceSQ(pos, otherTile.position);
                     //console.log("dist-->   " + dist);
                     allEmptyTiles.push({ "tile": otherTile, "dist": dist });
                 }
@@ -456,6 +456,8 @@ cc.Class({
 
         if (allEmptyTiles.length < N) {
             debugger;
+            //没有空格
+            return null;
         }
 
         for (var i = 0; i < N; i++) {
@@ -465,21 +467,34 @@ cc.Class({
         return resultTiles;
     },
 
+    getNearestTileByN: function (tile, N) {
+        
+        var resultTiles = this.getNearestTileByN_pos(tile.position,N);
+
+        return resultTiles;
+    },
+
     //给一条位于中心的龙，用他的位置返回N个周围的位置
-    getDragonPositionsByN:function(dragon0,N) {
-       
-        if(N>8) {
+    getDragonPositionsByN: function (dragon0, N) {
+
+        if (N > 8) {
             debugger;
         }
         var dragonsPositions = [];
         var center = dragon0.position;
-        for(var i = 0; i<N;i++) {
-            var position = cc.pAdd(center,cc.v2(cc.dataMgr.dragonsOffset[i]));
-        
+        for (var i = 0; i < N; i++) {
+            var position = cc.pAdd(center, cc.v2(cc.dataMgr.dragonsOffset[i]));
+
             dragonsPositions.push(position);
         }
 
         return dragonsPositions;
+    },
+
+    generateThing: function (thingType, thingLevel) {
+        var newThing = cc.instantiate(this.thingPrefab);
+        newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(thingType, thingLevel);
+        return newThing;
     },
 
     //输入thingsArray 输出以thingData为结构的 数组
@@ -493,16 +508,14 @@ cc.Class({
             if (results[i].thingType == 3) {
                 if (results[i].thingLevel != 0) {
                     var newDragon = cc.instantiate(this.dragonPrefab);
-                    newDragon.getComponent('Dragon').settingSpriteFrame(results[i].thingType, results[i].thingLevel);
+                    newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(results[i].thingType, results[i].thingLevel);
                     results[i].thing = newDragon;
                 } else {
-                    var newThing = cc.instantiate(this.thingPrefab);
-                    newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(results[i].thingType, results[i].thingLevel);
+                    var newThing =  this.generateThing(results[i].thingType, results[i].thingLevel);
                     results[i].thing = newThing;
                 }
             } else {
-                var newThing = cc.instantiate(this.thingPrefab);
-                newThing.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(results[i].thingType, results[i].thingLevel);
+                var newThing =  this.generateThing(results[i].thingType, results[i].thingLevel);
                 results[i].thing = newThing;
             }
         }
@@ -557,6 +570,47 @@ cc.Class({
         }
         return results;
     },
+
+    collectionFlower: function (dragonJS, worldpos) {
+        var tile = this.getContainPointTile(worldpos);
+        if (tile != null) {
+            var tileJS = tile.getComponent('Tile');
+            //是绿地 不是雾
+            if (tileJS.tileType == 0) {
+
+                //有thing 且类型是花
+                if (tileJS.thing != null) {
+                    var thingJS = tileJS.thing.getChildByName('selectedNode').getComponent('Thing');
+                    if (thingJS.thingType == 2) {
+                        var minLevel = cc.dataMgr.getCollectionMinDragonLevel(thingJS.thingLevel);
+                        if (minLevel == null) {
+                            console.log("花的级别不够！！");
+                        }
+                        else if (minLevel <= dragonJS.thingLevel) {
+                            dragonJS.collectionState = true;
+                            dragonJS.playCollection(thingJS.thingLevel);
+                        }
+                        else {
+                            console.log("龙的级别不够！！");
+                        }
+
+                    }
+                }
+            }
+        }
+    },
+
+
+
+    // getTileByDragonPosition:function(dragonPosition) {
+    //     //debugger;
+    //     console.log(dragonPosition);
+    //     var tile = this.getContainPointTile(dragonPosition);
+
+    // },
+
+
+
 
     changeCameraPosition: function (touchPos, draggingObj) {
         //console.log(touchPos);
