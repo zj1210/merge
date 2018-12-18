@@ -67,7 +67,7 @@ cc.Class({
     settingSpriteFrame(type, level) {
         //历史原因 在prefab顶层加入了一个看不见的图片 保证触摸和显示大小匹配
         //this.dragon_Touch_Spr = this.getComponent(cc.Sprite);
-        debugger;
+        //debugger;
         if (type == 3) {
             if (level == 1) {
                 this.dragonSpr.spriteFrame = this.dragon_1_spr;
@@ -277,10 +277,11 @@ cc.Class({
         var pos = this.node.position;
         //这引擎真垃圾，传参文档是劝退的，弄成成员变量了！！
         this.resultTiles = this.game.getNearestTileByN_pos(pos,1);
+        //console.log("是不是上面卡？");
         if(this.resultTiles!=null) {
             //有空格 移入棋盘
             //debugger;
-            console.log(this.resultTiles[0]);
+            //console.log(this.resultTiles[0]);
             this.collectionThingOriginPos  = this.collectionThing.position;
             var worldpos = this.resultTiles[0].parent.convertToWorldSpaceAR(this.resultTiles[0].position);
             var nodepos = this.node.convertToNodeSpaceAR(worldpos);

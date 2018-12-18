@@ -189,7 +189,8 @@ DataMgr.prototype.init = function () {
 
 DataMgr.prototype.getHeartCount = function() {
     var heartCount = cc.sys.localStorage.getItem("heartCount");
-    return heartCount; 
+    
+    return parseInt(heartCount);
 }
 
 DataMgr.prototype.addHeartCount = function(count) {
@@ -199,7 +200,7 @@ DataMgr.prototype.addHeartCount = function(count) {
 
 DataMgr.prototype.getCoinCount = function() {
     var coinCount = cc.sys.localStorage.getItem("coinCount");
-    return coinCount; 
+    return parseInt(coinCount); 
 }
 
 DataMgr.prototype.addCoinCount = function(count) {
@@ -209,12 +210,21 @@ DataMgr.prototype.addCoinCount = function(count) {
 
 DataMgr.prototype.getDiamondCount = function() {
     var diamondCount = cc.sys.localStorage.getItem("diamondCount");
-    return diamondCount; 
+    return parseInt(diamondCount); 
 }
 
 DataMgr.prototype.addDiamondCount = function(count) {
     var result = this.getDiamondCount() + count;
     cc.sys.localStorage.setItem("diamondCount", result);
+}
+
+DataMgr.prototype.getHeartCountByLevel = function(heartLevel) {
+    for (var i = 0; i < this.heartPowerDatas.length; i++) {
+        if (this.heartPowerDatas[i].heartLevel == heartLevel) {
+            return parseInt(this.heartPowerDatas[i].heartStrength);
+        }
+    }
+    debugger;
 }
 
 DataMgr.prototype.getCurrentWidthAndHeight = function () {
@@ -244,15 +254,6 @@ DataMgr.prototype.initTile = function (checkpointID, tiles) {
         }
     }
     // console.log(this.tilesData);
-}
-
-DataMgr.prototype.getHeartCountByLevel = function(heartLevel) {
-    for (var i = 0; i < this.heartPowerDatas.length; i++) {
-        if (this.heartPowerDatas[i].heartLevel == heartLevel) {
-            return this.heartPowerDatas[i].heartStrength;
-        }
-    }
-    debugger;
 }
 
 
