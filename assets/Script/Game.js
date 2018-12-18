@@ -74,7 +74,8 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             //console.log('touch begin by game');
             let touchPos = event.getLocation();
-            //console.log(touchPos);
+            // console.log(touchPos);
+            // console.log(cc.director.getVisibleSize());
             self._beginPos = touchPos;
 
 
@@ -614,12 +615,12 @@ cc.Class({
 
     changeCameraPosition: function (touchPos, draggingObj) {
         //console.log(touchPos);
-        var addx = 3;
-        var addy = 3;
+        var addx = 5;
+        var addy = 5;
         this.draggingObj = draggingObj;
-        if (touchPos.x < 70 || touchPos.x > 650) {
+        if (touchPos.x < cc.dataMgr.edgeMoveCamera || touchPos.x > cc.dataMgr.screenW - cc.dataMgr.edgeMoveCamera) {
             this.moveCameraXFlag = true;
-            if (touchPos.x < 70) {
+            if (touchPos.x < cc.dataMgr.edgeMoveCamera) {
                 this.moveCameraXSpeed = -addx;
             } else {
                 this.moveCameraXSpeed = addx;
@@ -629,9 +630,9 @@ cc.Class({
             this.moveCameraXSpeed = 0;
         }
 
-        if (touchPos.y < 70 || touchPos.y > 1210) {
+        if (touchPos.y < cc.dataMgr.edgeMoveCamera || touchPos.y > cc.dataMgr.screenH - cc.dataMgr.edgeMoveCamera) {
             this.moveCameraYFlag = true;
-            if (touchPos.y < 70) {
+            if (touchPos.y < cc.dataMgr.edgeMoveCamera) {
                 this.moveCameraYSpeed = -addy;
             } else {
                 this.moveCameraYSpeed = addy;

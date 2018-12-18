@@ -21,6 +21,23 @@ cc.Class({
             default: null,
             type: cc.SpriteFrame
         },
+
+        wing_1_spr: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+        wing_2_spr: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+        wing_3_spr: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+        wing_4_spr: {
+            default: null,
+            type: cc.SpriteFrame
+        },
         // defaults, set visually when attaching this script to the Canvas
         underpan: {
             default: null,
@@ -29,22 +46,54 @@ cc.Class({
         collectionThing:{
             default:null,
             type:cc.Node
+        },
+
+        dragonSpr:{
+            default:null,
+            type:cc.Sprite
+        },
+        
+        
+        wing1:{
+            default:null,
+            type:cc.Sprite
+        },
+        wing2:{
+            default:null,
+            type:cc.Sprite
         }
     },
 
     settingSpriteFrame(type, level) {
-        //其实是龙，这样命名不太好
-        this.thing_spr = this.getComponent(cc.Sprite);
+        //历史原因 在prefab顶层加入了一个看不见的图片 保证触摸和显示大小匹配
+        //this.dragon_Touch_Spr = this.getComponent(cc.Sprite);
+        debugger;
         if (type == 3) {
             if (level == 1) {
-                this.thing_spr.spriteFrame = this.dragon_1_spr;
+                this.dragonSpr.spriteFrame = this.dragon_1_spr;
+                this.wing1.spriteFrame = this.wing_1_spr;
+                this.wing2.spriteFrame = this.wing_1_spr;
+                
             } else if (level == 2) {
-                this.thing_spr.spriteFrame = this.dragon_2_spr;
+                this.dragonSpr.spriteFrame = this.dragon_2_spr;
+                this.wing1.spriteFrame = this.wing_2_spr;
+                this.wing2.spriteFrame = this.wing_2_spr;
+                
             } else if (level == 3) {
-                this.thing_spr.spriteFrame = this.dragon_3_spr;
+                this.dragonSpr.spriteFrame = this.dragon_3_spr;
+                this.wing1.spriteFrame = this.wing_3_spr;
+                this.wing2.spriteFrame = this.wing_3_spr;
+              
             } else if (level == 4) {
-                this.thing_spr.spriteFrame = this.dragon_4_spr;
+                this.dragonSpr.spriteFrame = this.dragon_4_spr;
+                this.wing1.spriteFrame = this.wing_4_spr;
+                this.wing2.spriteFrame = this.wing_4_spr;
+                
             }
+            // this.node.width = this.dragonSpr.spriteFrame._rect.width;
+            // this.node.height = this.dragonSpr.spriteFrame._rect.height;
+            
+            this.node.setContentSize(this.dragonSpr.node.getContentSize());
         } else {
             debugger;
         }
@@ -186,7 +235,7 @@ cc.Class({
 
     selectClick: function () {
         if (this.selectClickFlag) {
-            //console.log('选择thing 按钮 被点击');
+            console.log('选择dragon 按钮 被点击');
         }
 
         //console.log('thingType:  ' + this.thingType + '  ' + 'thingLevel:  ' + this.thingLevel);

@@ -15,7 +15,9 @@ function DataMgr() {
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
     this.hasTileData = false;
     this.isHall = true; //要么在大厅，要么在关卡。
-
+    this.screenW = cc.director.getVisibleSize().width;
+    this.screenH = cc.director.getVisibleSize().height;
+    this.edgeMoveCamera = 70;
     //为了解决所有thingsNode上的z序问题
     //思路：根据tile的加载顺序 给上面的thing zOrder 设置为全局的这个 每次递增
     //可以解决问题
