@@ -1,9 +1,142 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "",
+  "_name": "dragonCollection",
   "_objFlags": 0,
-  "_duration": 0,
-  "sample": 60,
-  "curveData": {},
+  "_native": "",
+  "_duration": 1.3333333333333333,
+  "sample": 30,
+  "speed": 1,
+  "wrapMode": "2",
+  "curveData": {
+    "props": {
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 0
+        },
+        {
+          "frame": 0.6666666666666666,
+          "value": -35
+        },
+        {
+          "frame": 1.3333333333333333,
+          "value": 0
+        }
+      ],
+      "position": [
+        {
+          "frame": 0,
+          "value": [
+            0,
+            53.3
+          ]
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": [
+            -13.1,
+            53.3
+          ]
+        },
+        {
+          "frame": 0.6666666666666666,
+          "value": [
+            -12.7,
+            44.8
+          ]
+        },
+        {
+          "frame": 1,
+          "value": [
+            -0.9,
+            43
+          ]
+        },
+        {
+          "frame": 1.3333333333333333,
+          "value": [
+            0,
+            53.3
+          ]
+        }
+      ]
+    },
+    "paths": {
+      "wing1": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.6,
+                "y": 0.8
+              }
+            },
+            {
+              "frame": 1.3333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ]
+        }
+      },
+      "wing2": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1.2,
+                "y": 1
+              }
+            },
+            {
+              "frame": 1.3333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ],
+          "skewY": [
+            {
+              "frame": 0,
+              "value": 5
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": -5
+            },
+            {
+              "frame": 1.3333333333333333,
+              "value": 5
+            }
+          ]
+        }
+      }
+    }
+  },
   "events": []
 }
