@@ -15,6 +15,12 @@ cc.Class({
             tooltip: "只有地皮是雾这个值才有意义，默认值是100",
         },
 
+        fogState:{
+            default:0,
+            displayName:"雾的游戏状态",
+            tooltip: "0代表是雾，1代表雾已经解锁了，是宝箱",
+        },
+
         skinType: {
             default: 0,
             displayName: "地皮是深绿还是浅绿",
@@ -123,14 +129,9 @@ cc.Class({
         this.fog = cc.instantiate(this.fogPrefab);
         this.fog.setLocalZOrder(this.thingZOrder);
         this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
-      
+        this.fog.position = this.node.position;
         this.thingsNode.addChild(this.fog);
-        // // this.thing.position = this.node.position;
-        // let thingJs = this.thing.getChildByName('selectedNode').getComponent("Thing");
-        // thingJs.setPositionAndOriginPosition(this.node.position, this.node);
-        // thingJs.setTypeAndLevel_forNewThing(this.thingType, this.thingLevel);
-        // //主要是为了性能，内部不要以这个为准，为了判断自己的临时tile 和当前的临时tile是否一样，不一样才
-        // thingJs.setTileTemporarily(this.node);
+        this.fog.getComponent('Fog').settingFog(this.fogState,this.fogAmount);
     },
 
     //需要 物品类型thingType 以及物品等级 thingLevel
