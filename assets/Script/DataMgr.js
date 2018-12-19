@@ -161,6 +161,46 @@ function DataMgr() {
             "heartStrength": 121
         }
     ];
+    
+    this.heartDescDatas = [
+        {
+            "flowerLevel": 1,
+            "name": "生命之花幼芽",
+            "levelDesc": "级别1",
+            "desc": "合并以生成一朵“生命之花”"
+        },
+
+        {
+            "flowerLevel": 2,
+            "name": "生命之花",
+            "levelDesc": "级别2",
+            "desc": "采集以获取“生命精华”(将巨龙放置到它上面进行采集)"
+        },
+
+        {
+            "flowerLevel": 3,
+            "name": "蓝色生命之花",
+            "levelDesc": "级别3",
+            "desc": "采集以获取“微型生命之球”"
+        },
+
+        {
+            "flowerLevel": 4,
+            "name": "发光的生命之花",
+            "levelDesc": "级别4",
+            "desc": "采集以获取“小型生命之球”"
+        },
+
+        {
+            "flowerLevel": 5,
+            "name": "双生生命之花",
+            "levelDesc": "级别4",
+            "desc": "采集以获取“生命之球”"
+        },
+    ];
+
+
+    
     this.init();
 }
 
@@ -185,6 +225,27 @@ DataMgr.prototype.init = function () {
     //这里将来要做的是 读取用户的数据，初始化每个块。
     //目前直接使用预定义的。
     //console.log('数据初始化运行');
+}
+
+DataMgr.prototype.getDescByTypeAndLevel = function(type,level) {
+    //精华
+    if(type == 1) {
+        for(var i = 0; i<this.heartDescDatas.length; i++) {
+            if(this.heartDescDatas[i].flowerLevel == level) {
+                return this.heartDescDatas[i];
+            }
+        }
+    }
+    //花
+    else if(type == 2) {
+
+    }
+    //龙蛋和龙
+    else if(type == 3) {
+
+    }
+
+
 }
 
 DataMgr.prototype.getHeartCount = function() {

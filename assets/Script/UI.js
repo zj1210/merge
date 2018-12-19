@@ -19,6 +19,21 @@ cc.Class({
             default: null,
             type: cc.Prefab,
         },
+
+        nameLevelLabel:{
+            default:null,
+            type:cc.Label
+        },
+
+        nameLevelLabel:{
+            default:null,
+            type:cc.Label
+        },
+
+        descLabel:{
+            default:null,
+            type:cc.Label
+        }
         // defaults, set visually when attaching this script to the Canvas
 
     },
