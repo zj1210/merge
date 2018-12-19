@@ -120,9 +120,11 @@ cc.Class({
     },
 
     start: function () {
-        
+
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
+        this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
+
         if (!this.game) {
             debugger;
         }
@@ -354,10 +356,13 @@ cc.Class({
 
     browseThisThing: function () {
         console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel + '  dragon　strength: ' + this.strength);
+        
+    this.ui.addDescForClick(this.thingType,this.thingLevel);
     },
 
     unBrowseThisThing: function () {
         //console.log('不再浏览该物体！');
+        this.ui.clearDescForUnClick();
     },
 
     //判断当前范围内的可合并龙集合 和上次的龙集合元素是否完全相同

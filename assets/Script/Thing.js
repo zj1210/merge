@@ -254,10 +254,13 @@ cc.Class({
 
     browseThisThing: function () {
         console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
+        this.ui.addDescForClick(this.thingType,this.thingLevel);
     },
 
     unBrowseThisThing: function () {
         //console.log('不再浏览该物体！');
+        
+        this.ui.clearDescForUnClick();
     },
 
     thingsUnionTips: function () {

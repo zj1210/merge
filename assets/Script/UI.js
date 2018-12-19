@@ -82,6 +82,19 @@ cc.Class({
         this.refreshUI();
     },
 
+
+    addDescForClick:function(thingType,thingLevel) {
+        var descDatas = cc.dataMgr.getDescByTypeAndLevel(thingType,thingLevel);
+        //debugger;
+        this.nameLevelLabel.string = descDatas.name + "-" + descDatas.levelDesc;
+        this.descLabel.string = descDatas.desc;
+    },
+
+    clearDescForUnClick:function() {
+        this.nameLevelLabel.string = "未选中任何东西";
+        this.descLabel.string = "";
+    },
+
     // called every frame
     update: function (dt) {
 

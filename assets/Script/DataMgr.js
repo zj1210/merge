@@ -132,10 +132,6 @@ function DataMgr() {
         {
             "dragonLevel": 4,
             "dragonStrength": 5
-        },
-        {
-            "dragonLevel": 5,
-            "dragonStrength": 5
         }
     ];
     //每级心的力量
@@ -163,6 +159,43 @@ function DataMgr() {
     ];
     
     this.heartDescDatas = [
+        {
+            "heartLevel": 0,
+            "name": "生命精华",
+            "levelDesc": "级别0",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[0].heartStrength
+        },
+
+        {
+            "heartLevel": 1,
+            "name": "微型生命之球",
+            "levelDesc": "级别1",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[1].heartStrength
+        },
+
+        {
+            "heartLevel": 2,
+            "name": "小生命之球",
+            "levelDesc": "级别2",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[2].heartStrength
+        },
+
+        {
+            "heartLevel": 3,
+            "name": "生命之球",
+            "levelDesc": "级别3",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[3].heartStrength
+        },
+
+        {
+            "heartLevel": 4,
+            "name": "强力生命之球",
+            "levelDesc": "级别4",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[4].heartStrength
+        },
+    ];
+
+    this.flowerDescDatas = [
         {
             "flowerLevel": 1,
             "name": "生命之花幼芽",
@@ -194,11 +227,50 @@ function DataMgr() {
         {
             "flowerLevel": 5,
             "name": "双生生命之花",
-            "levelDesc": "级别4",
+            "levelDesc": "级别5",
             "desc": "采集以获取“生命之球”"
         },
     ];
 
+    //龙和蛋描述，
+    //龙的特殊性：点龙的时候要描述出->龙的剩余体力，不能用这套系统了
+    this.dragonDescDatas = [
+        {
+            "dragonLevel": 0,
+            "name": "深红龙蛋",
+            "levelDesc": "级别0",
+            "desc": "合并3个来孵化一头龙"
+        },
+
+        {
+            "dragonLevel": 1,
+            "name": "深红龙幼崽",
+            "levelDesc": "级别1",
+            "desc": "总体力：" + this.dragonStrengthDatas[0].dragonStrength
+        },
+
+        {
+            "dragonLevel": 2,
+            "name": "年幼的深红龙",
+            "levelDesc": "级别2",
+            "desc":  "总体力：" + this.dragonStrengthDatas[1].dragonStrength
+        },
+
+        {
+            "dragonLevel": 3,
+            "name": "深红龙",
+            "levelDesc": "级别3",
+            "desc":  "总体力：" + this.dragonStrengthDatas[2].dragonStrength
+        },
+
+        {
+            "dragonLevel": 4,
+            "name": "贵族深红龙",
+            "levelDesc": "级别4",
+            "desc":  "总体力：" + this.dragonStrengthDatas[3].dragonStrength
+        }
+       
+    ];
 
     
     this.init();
@@ -231,18 +303,26 @@ DataMgr.prototype.getDescByTypeAndLevel = function(type,level) {
     //精华
     if(type == 1) {
         for(var i = 0; i<this.heartDescDatas.length; i++) {
-            if(this.heartDescDatas[i].flowerLevel == level) {
+            if(this.heartDescDatas[i].heartLevel == level) {
                 return this.heartDescDatas[i];
             }
         }
     }
     //花
     else if(type == 2) {
-
+        for(var i = 0; i<this.flowerDescDatas.length; i++) {
+            if(this.flowerDescDatas[i].flowerLevel == level) {
+                return this.flowerDescDatas[i];
+            }
+        }
     }
     //龙蛋和龙
     else if(type == 3) {
-
+        for(var i = 0; i<this.dragonDescDatas.length; i++) {
+            if(this.dragonDescDatas[i].dragonLevel == level) {
+                return this.dragonDescDatas[i];
+            }
+        }
     }
 
 
