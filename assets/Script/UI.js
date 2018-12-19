@@ -83,11 +83,17 @@ cc.Class({
     },
 
 
-    addDescForClick:function(thingType,thingLevel) {
+    //strength 用于显示龙 剩余的体力
+    addDescForClick:function(thingType,thingLevel,strength) {
         var descDatas = cc.dataMgr.getDescByTypeAndLevel(thingType,thingLevel);
         //debugger;
         this.nameLevelLabel.string = descDatas.name + "-" + descDatas.levelDesc;
-        this.descLabel.string = descDatas.desc;
+        if(thingType == 3 && thingLevel>0) {
+            this.descLabel.string = descDatas.desc + "  " + "剩余体力：" + strength;
+        } else {
+            this.descLabel.string = descDatas.desc;
+        }
+        
     },
 
     clearDescForUnClick:function() {

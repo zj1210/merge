@@ -43,24 +43,24 @@ cc.Class({
             default: null,
             type: cc.Node
         },
-        collectionThing:{
-            default:null,
-            type:cc.Node
+        collectionThing: {
+            default: null,
+            type: cc.Node
         },
 
-        dragonSpr:{
-            default:null,
-            type:cc.Sprite
+        dragonSpr: {
+            default: null,
+            type: cc.Sprite
         },
-        
-        
-        wing1:{
-            default:null,
-            type:cc.Sprite
+
+
+        wing1: {
+            default: null,
+            type: cc.Sprite
         },
-        wing2:{
-            default:null,
-            type:cc.Sprite
+        wing2: {
+            default: null,
+            type: cc.Sprite
         }
     },
 
@@ -73,26 +73,26 @@ cc.Class({
                 this.dragonSpr.spriteFrame = this.dragon_1_spr;
                 this.wing1.spriteFrame = this.wing_1_spr;
                 this.wing2.spriteFrame = this.wing_1_spr;
-                
+
             } else if (level == 2) {
                 this.dragonSpr.spriteFrame = this.dragon_2_spr;
                 this.wing1.spriteFrame = this.wing_2_spr;
                 this.wing2.spriteFrame = this.wing_2_spr;
-                
+
             } else if (level == 3) {
                 this.dragonSpr.spriteFrame = this.dragon_3_spr;
                 this.wing1.spriteFrame = this.wing_3_spr;
                 this.wing2.spriteFrame = this.wing_3_spr;
-              
+
             } else if (level == 4) {
                 this.dragonSpr.spriteFrame = this.dragon_4_spr;
                 this.wing1.spriteFrame = this.wing_4_spr;
                 this.wing2.spriteFrame = this.wing_4_spr;
-                
+
             }
             // this.node.width = this.dragonSpr.spriteFrame._rect.width;
             // this.node.height = this.dragonSpr.spriteFrame._rect.height;
-            
+
             this.node.setContentSize(this.dragonSpr.node.getContentSize());
         } else {
             debugger;
@@ -116,7 +116,7 @@ cc.Class({
 
         //是否在采集状态
         this.collectionState = false;
-        
+
     },
 
     start: function () {
@@ -135,7 +135,7 @@ cc.Class({
             event.stopPropagation();
 
             //如果有生成物，需要放置生成物
-            if(self.collectionThing.active) {
+            if (self.collectionThing.active) {
                 self.collectionThingClick();
             }
 
@@ -210,14 +210,14 @@ cc.Class({
         self._offset = null;
 
         //是否可以合并
-        if (self.curCanUnionedDragons &&self.curCanUnionedDragons.length > 2) {
+        if (self.curCanUnionedDragons && self.curCanUnionedDragons.length > 2) {
             //合并算法
             self.game.union_Dragons_Algorithm(self.curCanUnionedDragons);
         }
         //不能合并的情况下 要判断松手位置是有能采集的花，若有开始采集
         else {
             //有体力
-            if(self.strength>0) {
+            if (self.strength > 0) {
                 //龙的位置下最近的tile里有花 且级别够
                 // var touchpos = event.getLocation();
                 // var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
@@ -225,8 +225,8 @@ cc.Class({
                 //用underPan来判断视觉上好点
                 var worldpos = self.underpan.parent.convertToWorldSpaceAR(self.underpan.position);
                 //传入龙的世界坐标，若有花，且级别够，则采集
-                self.game.collectionFlower(self,worldpos);
-               
+                self.game.collectionFlower(self, worldpos);
+
             }
         }
 
@@ -251,36 +251,36 @@ cc.Class({
         this.selectClickFlag = true;
     },
 
-    playCollection:function(flowerLevel) {
+    playCollection: function (flowerLevel) {
         console.log('龙开始采集了。。。');
-        
+
         var heartLevel = cc.dataMgr.getCollectionHeartLevel(flowerLevel);
         //1.需要将heart，放入龙的节点下，并且在龙的头顶
         this.generateHeartAndPlace(heartLevel);
         //2.需要找到最近的空格 将龙移动过去，放下心
         //3.放下心，就是将心从龙节点下 放入到 thingsNode节点下
-        this.collectionState =false;
+        this.collectionState = false;
     },
 
-    generateHeartAndPlace:function(heartLevel) {
+    generateHeartAndPlace: function (heartLevel) {
         //精华的类型是1 
-       this.collectionThing.active = true;
-       this.collectionThing.getComponent('thingImageAndAni').settingSpriteFrame(1,heartLevel);
-    
-       //我把数据放在了这里。。。结构有点差，图方便
-       this.collectionThing.thingType = 1;
-       this.collectionThing.thingLevel = heartLevel;
+        this.collectionThing.active = true;
+        this.collectionThing.getComponent('thingImageAndAni').settingSpriteFrame(1, heartLevel);
+
+        //我把数据放在了这里。。。结构有点差，图方便
+        this.collectionThing.thingType = 1;
+        this.collectionThing.thingLevel = heartLevel;
     },
 
-    collectionThingClick:function() {
+    collectionThingClick: function () {
         console.log('生成物被点击！');
         //var pos = this.node.parent.convertToNodeSpaceAR(this.node.position);
 
         var pos = this.node.position;
         //这引擎真垃圾，传参文档是劝退的，弄成成员变量了！！
-        this.resultTiles = this.game.getNearestTileByN_pos(pos,1);
+        this.resultTiles = this.game.getNearestTileByN_pos(pos, 1);
         //console.log("是不是上面卡？");
-        if(this.resultTiles!=null) {
+        if (this.resultTiles != null) {
             //有空格 移入棋盘
             //debugger;
             //console.log(this.resultTiles[0]);
@@ -292,17 +292,17 @@ cc.Class({
             var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
             thingsNode.addChild(moveThing);
             var movethingWorldPos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
-            var moveThingNodePos =thingsNode.convertToNodeSpaceAR(movethingWorldPos);
+            var moveThingNodePos = thingsNode.convertToNodeSpaceAR(movethingWorldPos);
             moveThing.position = moveThingNodePos;
-           
+
             this.collectionThing.active = false;
             var worldpos = this.resultTiles[0].parent.convertToWorldSpaceAR(this.resultTiles[0].position);
             var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
-            var moveTo = cc.moveTo(0.5,nodepos);
-            var seq = cc.sequence(moveTo,cc.callFunc(this.thingMoveToOver,this,moveThing));
+            var moveTo = cc.moveTo(0.5, nodepos);
+            var seq = cc.sequence(moveTo, cc.callFunc(this.thingMoveToOver, this, moveThing));
             moveThing.setLocalZOrder(9999);
             moveThing.runAction(seq);
-            
+
         }
         //没有空格 直接转换为货币，飞入UI部分
         else {
@@ -311,11 +311,11 @@ cc.Class({
         }
     },
 
-    thingMoveToOver:function(moveThing) {
+    thingMoveToOver: function (moveThing) {
         //debugger;
         console.log("生成物-->移动到目标位置！");
-       
-        var newThing = this.game.generateThing(this.collectionThing.thingType,this.collectionThing.thingLevel);
+
+        var newThing = this.game.generateThing(this.collectionThing.thingType, this.collectionThing.thingLevel);
         var thingJs = newThing.getChildByName('selectedNode').getComponent("Thing");
         var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
         thingsNode.addChild(newThing);
@@ -325,10 +325,10 @@ cc.Class({
         //newThing.position = nodepos;
         newThing.position = moveThing.position;
         thingJs.changeInTile(this.resultTiles[0], this.collectionThing.thingLevel, this.collectionThing.thingType);
-    
+
         moveThing.destroy();
         //this.collectionThing.position = this.collectionThingOriginPos;
-        
+
     },
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
@@ -356,8 +356,8 @@ cc.Class({
 
     browseThisThing: function () {
         console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel + '  dragon　strength: ' + this.strength);
-        
-    this.ui.addDescForClick(this.thingType,this.thingLevel);
+
+        this.ui.addDescForClick(this.thingType, this.thingLevel,this.strength);
     },
 
     unBrowseThisThing: function () {
@@ -422,7 +422,7 @@ cc.Class({
     //移回原本的位置 往originPosition移动 
     goBack: function () {
         this.underpan.active = false;
-        
+
         var moveBack = cc.moveTo(0.2, this.originPosition);
         this.node.stopAllActions();
         this.node.runAction(moveBack);
@@ -454,7 +454,7 @@ cc.Class({
         // }
     },
 
- 
+
     /**
      * 
       
