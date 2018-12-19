@@ -140,6 +140,16 @@ cc.Class({
         return cc.v2(addX, addY);
     },
 
+    //给如一个世界坐标，返回坐标下的tile，如果tile上有fog，就返回null
+    getContainPointTile_FogIsNull:function(worldPos) {
+        var tile = this.getContainPointTile(worldPos);
+        if(tile && tile.getComponent('Tile').fog) {
+            return null;
+        }
+
+        return tile;
+    },
+
     getContainPointTile: function (worldPos) {
 
         //var touchPos = this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);

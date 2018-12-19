@@ -96,8 +96,9 @@ cc.Class({
                 //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
                 //根据触摸点，找到包含触摸点的块
                 //console.log(worldpos);
-                self.currentNearestTile = self.game.getContainPointTile(worldpos);
-
+                self.currentNearestTile = self.game.getContainPointTile_FogIsNull(worldpos);
+                
+                //debugger;
                 //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
                 if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
                     if (self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
