@@ -127,7 +127,7 @@ function DataMgr() {
         },
         {
             "dragonLevel": 3,
-            "dragonStrength": 1
+            "dragonStrength": 5
         },
         {
             "dragonLevel": 4,

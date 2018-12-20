@@ -78,16 +78,22 @@ cc.Class({
                 this.dragonSpr.spriteFrame = this.dragon_2_spr;
                 this.wing1.spriteFrame = this.wing_2_spr;
                 this.wing2.spriteFrame = this.wing_2_spr;
+				this.wing1.node.position = cc.v2(-19,-15);
+				this.wing2.node.position = cc.v2(-4.5,-16);
 
             } else if (level == 3) {
                 this.dragonSpr.spriteFrame = this.dragon_3_spr;
                 this.wing1.spriteFrame = this.wing_3_spr;
                 this.wing2.spriteFrame = this.wing_3_spr;
+				this.wing1.node.position = cc.v2(-40,10);
+				this.wing2.node.position = cc.v2(-12,14);
 
             } else if (level == 4) {
                 this.dragonSpr.spriteFrame = this.dragon_4_spr;
                 this.wing1.spriteFrame = this.wing_4_spr;
                 this.wing2.spriteFrame = this.wing_4_spr;
+				this.wing1.node.position = cc.v2(-102,-20);
+				this.wing2.node.position = cc.v2(-60,-7);
 
             }
             // this.node.width = this.dragonSpr.spriteFrame._rect.width;
