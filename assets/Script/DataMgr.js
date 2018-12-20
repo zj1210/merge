@@ -127,7 +127,7 @@ function DataMgr() {
         },
         {
             "dragonLevel": 3,
-            "dragonStrength": 5
+            "dragonStrength": 1
         },
         {
             "dragonLevel": 4,
@@ -157,7 +157,7 @@ function DataMgr() {
             "heartStrength": 121
         }
     ];
-    
+
     this.heartDescDatas = [
         {
             "heartLevel": 0,
@@ -253,26 +253,27 @@ function DataMgr() {
             "dragonLevel": 2,
             "name": "年幼的深红龙",
             "levelDesc": "级别2",
-            "desc":  "总体力：" + this.dragonStrengthDatas[1].dragonStrength
+            "desc": "总体力：" + this.dragonStrengthDatas[1].dragonStrength
         },
 
         {
             "dragonLevel": 3,
             "name": "深红龙",
             "levelDesc": "级别3",
-            "desc":  "总体力：" + this.dragonStrengthDatas[2].dragonStrength
+            "desc": "总体力：" + this.dragonStrengthDatas[2].dragonStrength
         },
 
         {
             "dragonLevel": 4,
             "name": "贵族深红龙",
             "levelDesc": "级别4",
-            "desc":  "总体力：" + this.dragonStrengthDatas[3].dragonStrength
+            "desc": "总体力：" + this.dragonStrengthDatas[3].dragonStrength
         }
-       
+
     ];
 
-    
+    //龙巢里的龙 将来要持久化 数据结构 只需插入 时间 进入级别
+    this.dragonNestDatas = [];
     this.init();
 }
 
@@ -299,27 +300,31 @@ DataMgr.prototype.init = function () {
     //console.log('数据初始化运行');
 }
 
-DataMgr.prototype.getDescByTypeAndLevel = function(type,level) {
+DataMgr.prototype.pushDragonToNest = function (time, level) {
+    this.dragonNestDatas.push({ "time": time, "level": level });
+}
+
+DataMgr.prototype.getDescByTypeAndLevel = function (type, level) {
     //精华
-    if(type == 1) {
-        for(var i = 0; i<this.heartDescDatas.length; i++) {
-            if(this.heartDescDatas[i].heartLevel == level) {
+    if (type == 1) {
+        for (var i = 0; i < this.heartDescDatas.length; i++) {
+            if (this.heartDescDatas[i].heartLevel == level) {
                 return this.heartDescDatas[i];
             }
         }
     }
     //花
-    else if(type == 2) {
-        for(var i = 0; i<this.flowerDescDatas.length; i++) {
-            if(this.flowerDescDatas[i].flowerLevel == level) {
+    else if (type == 2) {
+        for (var i = 0; i < this.flowerDescDatas.length; i++) {
+            if (this.flowerDescDatas[i].flowerLevel == level) {
                 return this.flowerDescDatas[i];
             }
         }
     }
     //龙蛋和龙
-    else if(type == 3) {
-        for(var i = 0; i<this.dragonDescDatas.length; i++) {
-            if(this.dragonDescDatas[i].dragonLevel == level) {
+    else if (type == 3) {
+        for (var i = 0; i < this.dragonDescDatas.length; i++) {
+            if (this.dragonDescDatas[i].dragonLevel == level) {
                 return this.dragonDescDatas[i];
             }
         }
@@ -328,38 +333,38 @@ DataMgr.prototype.getDescByTypeAndLevel = function(type,level) {
 
 }
 
-DataMgr.prototype.getHeartCount = function() {
+DataMgr.prototype.getHeartCount = function () {
     var heartCount = cc.sys.localStorage.getItem("heartCount");
-    
+
     return parseInt(heartCount);
 }
 
-DataMgr.prototype.addHeartCount = function(count) {
+DataMgr.prototype.addHeartCount = function (count) {
     var result = this.getHeartCount() + count;
     cc.sys.localStorage.setItem("heartCount", result);
 }
 
-DataMgr.prototype.getCoinCount = function() {
+DataMgr.prototype.getCoinCount = function () {
     var coinCount = cc.sys.localStorage.getItem("coinCount");
-    return parseInt(coinCount); 
+    return parseInt(coinCount);
 }
 
-DataMgr.prototype.addCoinCount = function(count) {
+DataMgr.prototype.addCoinCount = function (count) {
     var result = this.getCoinCount() + count;
     cc.sys.localStorage.setItem("coinCount", result);
 }
 
-DataMgr.prototype.getDiamondCount = function() {
+DataMgr.prototype.getDiamondCount = function () {
     var diamondCount = cc.sys.localStorage.getItem("diamondCount");
-    return parseInt(diamondCount); 
+    return parseInt(diamondCount);
 }
 
-DataMgr.prototype.addDiamondCount = function(count) {
+DataMgr.prototype.addDiamondCount = function (count) {
     var result = this.getDiamondCount() + count;
     cc.sys.localStorage.setItem("diamondCount", result);
 }
 
-DataMgr.prototype.getHeartCountByLevel = function(heartLevel) {
+DataMgr.prototype.getHeartCountByLevel = function (heartLevel) {
     for (var i = 0; i < this.heartPowerDatas.length; i++) {
         if (this.heartPowerDatas[i].heartLevel == heartLevel) {
             return parseInt(this.heartPowerDatas[i].heartStrength);
@@ -429,7 +434,7 @@ DataMgr.prototype.getCollectionMinDragonLevel = function (flowerLevel) {
 
 }
 
-DataMgr.prototype.getNeedTimeByFlowerLevel = function(flowerLevel) {
+DataMgr.prototype.getNeedTimeByFlowerLevel = function (flowerLevel) {
     for (var i = 0; i < this.collectionDatas.length; i++) {
         if (this.collectionDatas[i].flowerLevel == flowerLevel) {
             return this.collectionDatas[i].needTime;

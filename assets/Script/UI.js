@@ -20,6 +20,12 @@ cc.Class({
             type: cc.Prefab,
         },
 
+
+        dragonPrefab: {
+            default: null,
+            type: cc.Prefab,
+        },
+
         nameLevelLabel: {
             default: null,
             type: cc.Label
@@ -42,6 +48,11 @@ cc.Class({
         descNode: {
             default: null,
             type: cc.Node
+        },
+
+        dragonNestNode:{
+            default:null,
+            type:cc.Node
         }
         // defaults, set visually when attaching this script to the Canvas
 
@@ -67,8 +78,7 @@ cc.Class({
     },
 
     addHeartAndAni: function (camerapos, level) {
-        // console.log(camerapos);
-        // console.log(level);
+      
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
         var collectionThingNode = cc.instantiate(this.collectionThingPrefab);
         this.node.addChild(collectionThingNode);
@@ -84,11 +94,31 @@ cc.Class({
 
         var heartStrength = cc.dataMgr.getHeartCountByLevel(level);
         cc.dataMgr.addHeartCount(heartStrength);
-        //debugger;
+    },
+
+    addDragonToNest:function(camerapos,level) {
+        var nodepos = this.node.convertToNodeSpaceAR(camerapos);
+        
+        var dragonNode = cc.instantiate(this.dragonPrefab);
+        this.node.addChild(dragonNode);
+        dragonNode.position = nodepos;
+        dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, level);
+        dragonNode.remove
+        var targetPos = this.dragonNestNode.position;
+        var action = cc.moveTo(2.0, targetPos);
+        var action2 = cc.scaleTo(2.0,0.5);
+        var together = cc.spawn(action, action2);
+        var seq = cc.sequence(together, cc.callFunc(this.moveToDragonNestOver, this, dragonNode));
+        dragonNode.runAction(seq);
+
+       cc.dataMgr.pushDragonToNest(Date.now(),level);
+    },
+
+    moveToDragonNestOver: function (dragonNode) {
+       dragonNode.destroy();
     },
 
     moveToLabelOver: function (collectionThingNode) {
-        //console.log(collectionThingNode);
         this.refreshUI();
     },
 
