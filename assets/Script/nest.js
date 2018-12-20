@@ -10,7 +10,18 @@ cc.Class({
         zzz:{
             default:null,
             type:cc.Node
+        },
+
+        dragonCountLabel:{
+            default:null,
+            type:cc.Label
         }
+    },
+
+    onLoad: function () {
+
+        //cc.dataMgr.
+
     },
 
     nestInOver:function() {
