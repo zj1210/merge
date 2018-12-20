@@ -22,6 +22,12 @@
           "frame": 3,
           "value": 60
         }
+      ],
+      "rotation": [
+        {
+          "frame": 0,
+          "value": 0
+        }
       ]
     },
     "paths": {

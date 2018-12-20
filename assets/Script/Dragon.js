@@ -158,7 +158,7 @@ cc.Class({
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
-
+        this.node.getChildByName("progressNode").active =false;
         if (!this.game) {
             debugger;
         }
@@ -192,6 +192,10 @@ cc.Class({
                 // console.log('touch move by flower');
                 self.closeSelectClick();
                 event.stopPropagation();
+
+                if(self.collectionState == true) {
+                    self.collectionInterrupt();
+                }
 
                 //点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
@@ -288,6 +292,7 @@ cc.Class({
     playCollection: function (flowerLevel) {
         console.log('龙开始采集了。。。');
         this.collectionState = true;
+        this.node.getChildByName("progressNode").active =true;
         this.node.getChildByName('dragonNode').getComponent(cc.Animation).play("dragonCollection");
         this.unschedule(this.collectionOver);
         var needTime = cc.dataMgr.getNeedTimeByFlowerLevel(flowerLevel);
@@ -296,7 +301,7 @@ cc.Class({
         this.scheduleOnce(this.collectionOver, needTime);
 
       
-
+        this.node.getChildByName("progressNode").runAction(this.myProgressTo_act(needTime, 1.0,0.0));
         // var heartLevel = cc.dataMgr.getCollectionHeartLevel(flowerLevel);
        
         // this.generateHeartAndPlace(heartLevel);
@@ -304,14 +309,35 @@ cc.Class({
 
     },
 
-    collectionOver:function() {
+    collectionInterrupt:function() {
+        this.unschedule(this.collectionOver);
         this.node.getChildByName('dragonNode').getComponent(cc.Animation).play("dragonDefault");
+        this.node.getChildByName("progressNode").active =false;
+        this.collectionState = false;
+        this.currentFlowerLevel = null;
+    },
+
+    collectionOver:function() {
+       
         var heartLevel = cc.dataMgr.getCollectionHeartLevel(this.currentFlowerLevel);
 
         this.generateHeartAndPlace(heartLevel);
 
-        this.collectionState = false;
-        this.currentFlowerLevel = null;
+       this.collectionInterrupt();
+    },
+
+
+    myProgressTo_act(timeT, aimProgress, baseProgress) {
+        let action = cc.delayTime(timeT);
+        action.aimProgress = aimProgress;
+        action.baseProgress = baseProgress;
+        action.update = function (dt) {
+            let node = action.getTarget();
+            if (node && node.getComponent(cc.ProgressBar)) {
+                node.getComponent(cc.ProgressBar).progress = baseProgress + dt * (this.aimProgress - this.baseProgress);
+            }
+        };
+        return action;
     },
 
 
