@@ -26,6 +26,9 @@ cc.Class({
         this.lastNearestTile = null;
         this.currentNearestTile = null;
         this.thingsArray = null;
+
+        //用于标记是否执行touchend
+        this.isDestroy = false;
     },
 
     //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
@@ -47,7 +50,7 @@ cc.Class({
         }
         let self = this;
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
-            console.log('touch begin by flower');
+            // console.log('touch begin by flower');
             self.browseThisThing();
             event.stopPropagation();
 
@@ -68,9 +71,11 @@ cc.Class({
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
-                console.log('touch move by flower');
-               self.closeSelectClick();
+                // console.log('touch move by flower');
+                self.closeSelectClick();
                 event.stopPropagation();
+
+                //self.isMove = true;
                 //核心逻辑
                 //1 点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
@@ -87,12 +92,13 @@ cc.Class({
                 self.node.parent.position = nodepos;
 
                 self.game.changeCameraPosition(touchpos, self.node.parent);
-            
+
                 //2 判断离哪个块近，暂时将那个块的物品平移，将那个块的 当前物品置为此物品 
                 //根据触摸点，找到包含触摸点的块
                 //console.log(worldpos);
-                self.currentNearestTile = self.game.getContainPointTile(worldpos);
-
+                self.currentNearestTile = self.game.getContainPointTile_FogIsNull(worldpos);
+                
+                //debugger;
                 //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
                 if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
                     if (self.lastNearestTile) { //之前有最近点，需要将那个things从骚动的移动改为静止
@@ -113,9 +119,9 @@ cc.Class({
                         self.thingsUnionTips();
                     }
 
-                } 
+                }
                 //当前thing对应的块为null 且和上一次的对应的块不一样 将连通提示关闭
-                else if(!self.currentNearestTile && self.lastNearestTile != self.currentNearestTile) {
+                else if (!self.currentNearestTile && self.lastNearestTile != self.currentNearestTile) {
                     if (self.thingsArray) {
                         self.thingsGoStatic();
                         //还需要将平移的物体移回；稍后
@@ -124,57 +130,61 @@ cc.Class({
                 }
             }
         }, this.node);
-        this.node.on(cc.Node.EventType.TOUCH_END,function (event) { 
+        this.node.on(cc.Node.EventType.TOUCH_END, function (event) {
             self.touchEnd(event);
         }, this.node);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) { 
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) {
             //console.log('touch cancel');
             self.touchEnd(event);
         }, this.node);
     },
 
-    touchEnd:function(event) {
-         console.log('touch end by flower');
-        let self =this;
+    touchEnd: function (event) {
+        console.log('touch end by flower');
+        let self = this;
+        event.stopPropagation();
         self.unBrowseThisThing();
         self.openSelectClick();
-        event.stopPropagation();
+
+        if (this.isDestroy == false) {
+            //此tile是否可以放入 确实是在块上(不为null) 
+            if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
+
+                //是否可以合并
+                if (self.thingsArray && self.thingsArray.length > 2) {
+                    //合并算法
+                    self.game.unionAlgorithm(self.thingsArray, self.currentNearestTile);
+                } else {
+                    //只是正常移动
+                    //需要判断是否有物体
+                    //有物体，先保存物体指针，把新物体放入，再找格子，放入物体
+                    if (self.currentNearestTile.getComponent('Tile').thing) {
+                        var temp = self.currentNearestTile.getComponent('Tile').thing;
+                        var tempJs = temp.getChildByName('selectedNode').getComponent('Thing');
+                        var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
+                        var thingType = self.currentNearestTile.getComponent('Tile').thingType;
+                        self.putInTile(self.currentNearestTile);
+
+                        var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
+                        tempJs.changeInTile(tiles[0], thingLevel, thingType);
+                    } else { //没有物体 直接放入
+                        self.putInTile(self.currentNearestTile);
+                    }
+                }
+
+            }
+            //不可放入 移回原来位置
+            else {
+                self.relationTileJS.thing = this.node.parent;
+                self.relationTileJS.tempThing = null;
+                self.goBack();
+            }
+        }
+
+
         self.game.stopCamera();
         self._beginPos = null;
         self._offset = null;
-
-        //此tile是否可以放入 确实是在块上(不为null) 
-        if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
-
-            //是否可以合并
-            if (self.thingsArray && self.thingsArray.length > 2) {
-                //合并算法
-                self.game.unionAlgorithm(self.thingsArray, self.currentNearestTile);
-            } else {
-                //只是正常移动
-                //需要判断是否有物体
-                //有物体，先保存物体指针，把新物体放入，再找格子，放入物体
-                if (self.currentNearestTile.getComponent('Tile').thing) {
-                    var temp = self.currentNearestTile.getComponent('Tile').thing;
-                    var tempJs = temp.getChildByName('selectedNode').getComponent('Thing');
-                    var thingLevel = self.currentNearestTile.getComponent('Tile').thingLevel;
-                    var thingType = self.currentNearestTile.getComponent('Tile').thingType;
-                    self.putInTile(self.currentNearestTile);
-
-                    var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
-                    tempJs.changeInTile(tiles[0], thingLevel, thingType);
-                } else { //没有物体 直接放入
-                    self.putInTile(self.currentNearestTile);
-                }
-            }
-
-        }
-        //不可放入 移回原来位置
-        else {
-            self.goBack();
-        }
-
-
         self.selectedSprite.spriteFrame = null;
         self.lastNearestTile = null;
         self.thingsArray = null;
@@ -182,33 +192,41 @@ cc.Class({
     },
 
     selectClick: function () {
-        if(this.selectClickFlag) {
+        if (this.selectClickFlag) {
             console.log('选择thing 按钮 被点击');
             //如果是心的话，存为心型货币
-            if(this.thingType == 1) {
-               
-                // var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-                // var level = this.thingLevel;
-                
-                // this.ui.addHeartAndAni(worldpos,level);
+            if (this.thingType == 1) {
 
-                
-                // this.relationTileJS.thing = null;
-                // this.relationTileJS.thingType = 0;
-                // this.relationTileJS.thingLevel = 0;
-                // //this.node.removeFromParent(false);
-                // this.node.destroy();
+                var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                console.log(worldpos);
+                // self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
+
+                var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
+                var level = this.thingLevel;
+
+                this.ui.addHeartAndAni(camerapos, level);
+
+
+                this.relationTileJS.thing = null;
+                this.relationTileJS.thingType = 0;
+                this.relationTileJS.thingLevel = 0;
+                //this.node.parent.removeFromParent(false);
+
+                this.node.parent.destroy();
+                this.isDestroy = true;
+                //this.node.destroy();
             }
+
         }
-        
+
         //console.log('thingType:  ' + this.thingType + '  ' + 'thingLevel:  ' + this.thingLevel);
     },
 
-    closeSelectClick:function() {
+    closeSelectClick: function () {
         this.selectClickFlag = false;
     },
 
-    openSelectClick:function() {
+    openSelectClick: function () {
         this.selectClickFlag = true;
     },
 
@@ -234,12 +252,15 @@ cc.Class({
     },
 
 
-    browseThisThing:function() {
+    browseThisThing: function () {
         console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
+        this.ui.addDescForClick(this.thingType,this.thingLevel);
     },
 
-    unBrowseThisThing:function() {
+    unBrowseThisThing: function () {
         //console.log('不再浏览该物体！');
+        
+        this.ui.clearDescForUnClick();
     },
 
     thingsUnionTips: function () {

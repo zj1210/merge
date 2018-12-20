@@ -9,6 +9,18 @@ cc.Class({
             tooltip: "0标记着是绿地块，1标记着是雾",
         },
 
+        fogAmount:{
+            default:100,
+            displayName:"雾需要多少精华解锁",
+            tooltip: "只有地皮是雾这个值才有意义，默认值是100",
+        },
+
+        fogState:{
+            default:0,
+            displayName:"雾的游戏状态",
+            tooltip: "0代表是雾，1代表雾已经解锁了，是宝箱",
+        },
+
         skinType: {
             default: 0,
             displayName: "地皮是深绿还是浅绿",
@@ -52,6 +64,12 @@ cc.Class({
             tooltip: "thing的Prefab",
         },
 
+        fogPrefab:{
+            default:null,
+            type:cc.Prefab,
+            tooltip: "fog的Prefab",
+        },
+
         flowerSpriteFrame1: {
             default: null,
             type: cc.SpriteFrame,
@@ -68,6 +86,9 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
+        this.thing = null;
+        this.tempThing = null;
+        this.fog = null;
         this.thingZOrder = cc.dataMgr.globalZOrder++;
         // console.log("tile onload" + this.node.name);
         //若在关卡就 直接用预置数据，若在大厅 并且大厅没有数据 还是使用预制数据
@@ -87,12 +108,30 @@ cc.Class({
         }
 
         this.generateLand();
-        if (this.thingType > 0) {
+        if(this.tileType == 1) {
+            if(this.thingType != 0 || this.thingLevel != 0) {
+                console.log("error:有雾，却设置了物品类别或者物品等级！");
+                debugger;
+            }
+        }
+        if(this.tileType == 1) {
+            this.generateFog();
+        }
+        else if (this.thingType > 0) {
             this.generateThings();
         }
 
         // this.generateImageByTypeAndLevel(thingType, thingLevel);
 
+    },
+
+    generateFog: function () {
+        this.fog = cc.instantiate(this.fogPrefab);
+        this.fog.setLocalZOrder(this.thingZOrder);
+        this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
+        this.fog.position = this.node.position;
+        this.thingsNode.addChild(this.fog);
+        this.fog.getComponent('Fog').settingFog(this.fogState,this.fogAmount);
     },
 
     //需要 物品类型thingType 以及物品等级 thingLevel
@@ -101,9 +140,7 @@ cc.Class({
         this.thing.setLocalZOrder(this.thingZOrder);
         this.tempThing = null; //临时物品，手指拖动上去，但没有松手，和棋盘上所有非临时的进行遍历
         this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
-        if (!this.thingsNode) {
-            debugger;
-        }
+       
         this.thingsNode.addChild(this.thing);
         // this.thing.position = this.node.position;
         let thingJs = this.thing.getChildByName('selectedNode').getComponent("Thing");
@@ -132,6 +169,7 @@ cc.Class({
 
     //tile 上是不是没东西
     isEmptyTile:function() {
+        //是绿地 且 没有thing
         if(this.tileType == 0 && this.thing == null) {
             return true;
         }

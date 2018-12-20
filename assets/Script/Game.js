@@ -74,7 +74,8 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             //console.log('touch begin by game');
             let touchPos = event.getLocation();
-            //console.log(touchPos);
+            // console.log(touchPos);
+            // console.log(cc.director.getVisibleSize());
             self._beginPos = touchPos;
 
 
@@ -137,6 +138,16 @@ cc.Class({
         // if (addY > this._roomHeight / 2 - cc.dataMgr.canvasH / 2 - this.camera.y)
         //     addY = this._roomHeight / 2 - cc.dataMgr.canvasH / 2 - this.camera.y;
         return cc.v2(addX, addY);
+    },
+
+    //给如一个世界坐标，返回坐标下的tile，如果tile上有fog，就返回null
+    getContainPointTile_FogIsNull:function(worldPos) {
+        var tile = this.getContainPointTile(worldPos);
+        if(tile && tile.getComponent('Tile').fog) {
+            return null;
+        }
+
+        return tile;
     },
 
     getContainPointTile: function (worldPos) {
@@ -614,12 +625,12 @@ cc.Class({
 
     changeCameraPosition: function (touchPos, draggingObj) {
         //console.log(touchPos);
-        var addx = 3;
-        var addy = 3;
+        var addx = 5;
+        var addy = 5;
         this.draggingObj = draggingObj;
-        if (touchPos.x < 70 || touchPos.x > 650) {
+        if (touchPos.x < cc.dataMgr.edgeMoveCamera || touchPos.x > cc.dataMgr.screenW - cc.dataMgr.edgeMoveCamera) {
             this.moveCameraXFlag = true;
-            if (touchPos.x < 70) {
+            if (touchPos.x < cc.dataMgr.edgeMoveCamera) {
                 this.moveCameraXSpeed = -addx;
             } else {
                 this.moveCameraXSpeed = addx;
@@ -629,9 +640,9 @@ cc.Class({
             this.moveCameraXSpeed = 0;
         }
 
-        if (touchPos.y < 70 || touchPos.y > 1210) {
+        if (touchPos.y < cc.dataMgr.edgeMoveCamera || touchPos.y > cc.dataMgr.screenH - cc.dataMgr.edgeMoveCamera) {
             this.moveCameraYFlag = true;
-            if (touchPos.y < 70) {
+            if (touchPos.y < cc.dataMgr.edgeMoveCamera) {
                 this.moveCameraYSpeed = -addy;
             } else {
                 this.moveCameraYSpeed = addy;

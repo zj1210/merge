@@ -15,7 +15,9 @@ function DataMgr() {
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
     this.hasTileData = false;
     this.isHall = true; //要么在大厅，要么在关卡。
-
+    this.screenW = cc.director.getVisibleSize().width;
+    this.screenH = cc.director.getVisibleSize().height;
+    this.edgeMoveCamera = 70;
     //为了解决所有thingsNode上的z序问题
     //思路：根据tile的加载顺序 给上面的thing zOrder 设置为全局的这个 每次递增
     //可以解决问题
@@ -130,10 +132,6 @@ function DataMgr() {
         {
             "dragonLevel": 4,
             "dragonStrength": 5
-        },
-        {
-            "dragonLevel": 5,
-            "dragonStrength": 5
         }
     ];
     //每级心的力量
@@ -159,6 +157,122 @@ function DataMgr() {
             "heartStrength": 121
         }
     ];
+    
+    this.heartDescDatas = [
+        {
+            "heartLevel": 0,
+            "name": "生命精华",
+            "levelDesc": "级别0",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[0].heartStrength
+        },
+
+        {
+            "heartLevel": 1,
+            "name": "微型生命之球",
+            "levelDesc": "级别1",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[1].heartStrength
+        },
+
+        {
+            "heartLevel": 2,
+            "name": "小生命之球",
+            "levelDesc": "级别2",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[2].heartStrength
+        },
+
+        {
+            "heartLevel": 3,
+            "name": "生命之球",
+            "levelDesc": "级别3",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[3].heartStrength
+        },
+
+        {
+            "heartLevel": 4,
+            "name": "强力生命之球",
+            "levelDesc": "级别4",
+            "desc": "点击收集，可用于治疗死地。治疗之力：" + this.heartPowerDatas[4].heartStrength
+        },
+    ];
+
+    this.flowerDescDatas = [
+        {
+            "flowerLevel": 1,
+            "name": "生命之花幼芽",
+            "levelDesc": "级别1",
+            "desc": "合并以生成一朵“生命之花”"
+        },
+
+        {
+            "flowerLevel": 2,
+            "name": "生命之花",
+            "levelDesc": "级别2",
+            "desc": "采集以获取“生命精华”(将巨龙放置到它上面进行采集)"
+        },
+
+        {
+            "flowerLevel": 3,
+            "name": "蓝色生命之花",
+            "levelDesc": "级别3",
+            "desc": "采集以获取“微型生命之球”"
+        },
+
+        {
+            "flowerLevel": 4,
+            "name": "发光的生命之花",
+            "levelDesc": "级别4",
+            "desc": "采集以获取“小型生命之球”"
+        },
+
+        {
+            "flowerLevel": 5,
+            "name": "双生生命之花",
+            "levelDesc": "级别5",
+            "desc": "采集以获取“生命之球”"
+        },
+    ];
+
+    //龙和蛋描述，
+    //龙的特殊性：点龙的时候要描述出->龙的剩余体力，不能用这套系统了
+    this.dragonDescDatas = [
+        {
+            "dragonLevel": 0,
+            "name": "深红龙蛋",
+            "levelDesc": "级别0",
+            "desc": "合并3个来孵化一头龙"
+        },
+
+        {
+            "dragonLevel": 1,
+            "name": "深红龙幼崽",
+            "levelDesc": "级别1",
+            "desc": "总体力：" + this.dragonStrengthDatas[0].dragonStrength
+        },
+
+        {
+            "dragonLevel": 2,
+            "name": "年幼的深红龙",
+            "levelDesc": "级别2",
+            "desc":  "总体力：" + this.dragonStrengthDatas[1].dragonStrength
+        },
+
+        {
+            "dragonLevel": 3,
+            "name": "深红龙",
+            "levelDesc": "级别3",
+            "desc":  "总体力：" + this.dragonStrengthDatas[2].dragonStrength
+        },
+
+        {
+            "dragonLevel": 4,
+            "name": "贵族深红龙",
+            "levelDesc": "级别4",
+            "desc":  "总体力：" + this.dragonStrengthDatas[3].dragonStrength
+        }
+       
+    ];
+
+    
     this.init();
 }
 
@@ -185,9 +299,39 @@ DataMgr.prototype.init = function () {
     //console.log('数据初始化运行');
 }
 
+DataMgr.prototype.getDescByTypeAndLevel = function(type,level) {
+    //精华
+    if(type == 1) {
+        for(var i = 0; i<this.heartDescDatas.length; i++) {
+            if(this.heartDescDatas[i].heartLevel == level) {
+                return this.heartDescDatas[i];
+            }
+        }
+    }
+    //花
+    else if(type == 2) {
+        for(var i = 0; i<this.flowerDescDatas.length; i++) {
+            if(this.flowerDescDatas[i].flowerLevel == level) {
+                return this.flowerDescDatas[i];
+            }
+        }
+    }
+    //龙蛋和龙
+    else if(type == 3) {
+        for(var i = 0; i<this.dragonDescDatas.length; i++) {
+            if(this.dragonDescDatas[i].dragonLevel == level) {
+                return this.dragonDescDatas[i];
+            }
+        }
+    }
+
+
+}
+
 DataMgr.prototype.getHeartCount = function() {
     var heartCount = cc.sys.localStorage.getItem("heartCount");
-    return heartCount; 
+    
+    return parseInt(heartCount);
 }
 
 DataMgr.prototype.addHeartCount = function(count) {
@@ -197,7 +341,7 @@ DataMgr.prototype.addHeartCount = function(count) {
 
 DataMgr.prototype.getCoinCount = function() {
     var coinCount = cc.sys.localStorage.getItem("coinCount");
-    return coinCount; 
+    return parseInt(coinCount); 
 }
 
 DataMgr.prototype.addCoinCount = function(count) {
@@ -207,12 +351,21 @@ DataMgr.prototype.addCoinCount = function(count) {
 
 DataMgr.prototype.getDiamondCount = function() {
     var diamondCount = cc.sys.localStorage.getItem("diamondCount");
-    return diamondCount; 
+    return parseInt(diamondCount); 
 }
 
 DataMgr.prototype.addDiamondCount = function(count) {
     var result = this.getDiamondCount() + count;
     cc.sys.localStorage.setItem("diamondCount", result);
+}
+
+DataMgr.prototype.getHeartCountByLevel = function(heartLevel) {
+    for (var i = 0; i < this.heartPowerDatas.length; i++) {
+        if (this.heartPowerDatas[i].heartLevel == heartLevel) {
+            return parseInt(this.heartPowerDatas[i].heartStrength);
+        }
+    }
+    debugger;
 }
 
 DataMgr.prototype.getCurrentWidthAndHeight = function () {
@@ -242,15 +395,6 @@ DataMgr.prototype.initTile = function (checkpointID, tiles) {
         }
     }
     // console.log(this.tilesData);
-}
-
-DataMgr.prototype.getHeartCountByLevel = function(heartLevel) {
-    for (var i = 0; i < this.heartPowerDatas.length; i++) {
-        if (this.heartPowerDatas[i].heartLevel == heartLevel) {
-            return this.heartPowerDatas[i].heartStrength;
-        }
-    }
-    debugger;
 }
 
 
@@ -283,6 +427,14 @@ DataMgr.prototype.getCollectionMinDragonLevel = function (flowerLevel) {
     //给的花级别 表中没有，目前说明：花的级别很低，不支持采集
     return null;
 
+}
+
+DataMgr.prototype.getNeedTimeByFlowerLevel = function(flowerLevel) {
+    for (var i = 0; i < this.collectionDatas.length; i++) {
+        if (this.collectionDatas[i].flowerLevel == flowerLevel) {
+            return this.collectionDatas[i].needTime;
+        }
+    }
 }
 
 DataMgr.prototype.getCollectionHeartLevel = function (flowerLevel) {
