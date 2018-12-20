@@ -1,0 +1,264 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "nestzzz",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 4,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": "2",
+  "curveData": {
+    "paths": {
+      "zzz/FX_Zzz1": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -37.1,
+                63
+              ]
+            },
+            {
+              "frame": 1,
+              "value": [
+                -58.550000000000026,
+                101.50000000000006
+              ]
+            },
+            {
+              "frame": 2,
+              "value": [
+                -80,
+                140
+              ]
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "frame": 1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "frame": 2,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 1,
+              "value": 127.5
+            },
+            {
+              "frame": 2,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "zzz/FX_Zzz3": {
+        "props": {
+          "position": [
+            {
+              "frame": 2,
+              "value": [
+                -37.1,
+                63
+              ]
+            },
+            {
+              "frame": 4,
+              "value": [
+                -80,
+                140
+              ]
+            }
+          ],
+          "scale": [
+            {
+              "frame": 2,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "frame": 4,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 2,
+              "value": 255
+            },
+            {
+              "frame": 4,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "zzz/FX_Zzz2": {
+        "props": {
+          "position": [
+            {
+              "frame": 1,
+              "value": [
+                -37.1,
+                63
+              ]
+            },
+            {
+              "frame": 3,
+              "value": [
+                -80,
+                140
+              ]
+            }
+          ],
+          "scale": [
+            {
+              "frame": 1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "frame": 3,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 1,
+              "value": 255
+            },
+            {
+              "frame": 3,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "zzz/FX_Zzz4": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                -58.550000000000026,
+                101.50000000000006
+              ]
+            },
+            {
+              "frame": 1,
+              "value": [
+                -80,
+                140
+              ]
+            },
+            {
+              "frame": 3,
+              "value": [
+                -37.1,
+                63
+              ]
+            },
+            {
+              "frame": 4,
+              "value": [
+                -58.550000000000026,
+                101.50000000000006
+              ]
+            }
+          ],
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.5,
+                "y": 0.5
+              }
+            },
+            {
+              "frame": 1,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            },
+            {
+              "frame": 3,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "frame": 4,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0.5,
+                "y": 0.5
+              }
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 127.5
+            },
+            {
+              "frame": 1,
+              "value": 0
+            },
+            {
+              "frame": 3,
+              "value": 0
+            },
+            {
+              "frame": 4,
+              "value": 127.5
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}
