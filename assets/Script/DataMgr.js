@@ -429,6 +429,14 @@ DataMgr.prototype.getCollectionMinDragonLevel = function (flowerLevel) {
 
 }
 
+DataMgr.prototype.getNeedTimeByFlowerLevel = function(flowerLevel) {
+    for (var i = 0; i < this.collectionDatas.length; i++) {
+        if (this.collectionDatas[i].flowerLevel == flowerLevel) {
+            return this.collectionDatas[i].needTime;
+        }
+    }
+}
+
 DataMgr.prototype.getCollectionHeartLevel = function (flowerLevel) {
     for (var i = 0; i < this.collectionDatas.length; i++) {
         if (this.collectionDatas[i].flowerLevel == flowerLevel) {

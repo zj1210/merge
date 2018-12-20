@@ -117,7 +117,41 @@ cc.Class({
         //是否在采集状态
         this.collectionState = false;
 
+
+
+        //龙的状态： 0 默认寻路 1 被点击   2  采集  3 合并提示态
+        //每次的状态更新 都要调用 此脚本的状态改变函数
+        // this.lastDragonState = -1;
+        // this.currentDragonState = 0;
+        // this.dragonActionByState();
+
     },
+
+    //麻烦 先废弃
+    // dragonActionByState: function () {
+    //     if (this.currentDragonState != this.lastDragonState) {
+    //         this.lastDragonState = this.currentDragonState;
+    //         switch (this.currentDragonState) {
+    //             case 0:
+
+    //                 break;
+    //             case 1:
+
+    //                 break;
+    //             case 2:
+
+    //                 break;
+    //             case 3:
+
+    //                 break;
+
+    //             default:
+    //                 console.log("什么态也不是？不可能");
+    //                 debugger;
+    //                 break;
+    //         }
+    //     }
+    //},
 
     start: function () {
 
@@ -253,14 +287,34 @@ cc.Class({
 
     playCollection: function (flowerLevel) {
         console.log('龙开始采集了。。。');
+        this.collectionState = true;
+        this.node.getChildByName('dragonNode').getComponent(cc.Animation).play("dragonCollection");
+        this.unschedule(this.collectionOver);
+        var needTime = cc.dataMgr.getNeedTimeByFlowerLevel(flowerLevel);
 
-        var heartLevel = cc.dataMgr.getCollectionHeartLevel(flowerLevel);
-        //1.需要将heart，放入龙的节点下，并且在龙的头顶
-        this.generateHeartAndPlace(heartLevel);
-        //2.需要找到最近的空格 将龙移动过去，放下心
-        //3.放下心，就是将心从龙节点下 放入到 thingsNode节点下
-        this.collectionState = false;
+        this.currentFlowerLevel = flowerLevel;
+        this.scheduleOnce(this.collectionOver, needTime);
+
+      
+
+        // var heartLevel = cc.dataMgr.getCollectionHeartLevel(flowerLevel);
+       
+        // this.generateHeartAndPlace(heartLevel);
+     
+
     },
+
+    collectionOver:function() {
+        this.node.getChildByName('dragonNode').getComponent(cc.Animation).play("dragonDefault");
+        var heartLevel = cc.dataMgr.getCollectionHeartLevel(this.currentFlowerLevel);
+
+        this.generateHeartAndPlace(heartLevel);
+
+        this.collectionState = false;
+        this.currentFlowerLevel = null;
+    },
+
+
 
     generateHeartAndPlace: function (heartLevel) {
         //精华的类型是1 
@@ -357,7 +411,7 @@ cc.Class({
     browseThisThing: function () {
         console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel + '  dragon　strength: ' + this.strength);
 
-        this.ui.addDescForClick(this.thingType, this.thingLevel,this.strength);
+        this.ui.addDescForClick(this.thingType, this.thingLevel, this.strength);
     },
 
     unBrowseThisThing: function () {
