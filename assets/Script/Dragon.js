@@ -320,10 +320,31 @@ cc.Class({
     collectionOver:function() {
        
         var heartLevel = cc.dataMgr.getCollectionHeartLevel(this.currentFlowerLevel);
-
         this.generateHeartAndPlace(heartLevel);
+        this.collectionInterrupt();
 
-       this.collectionInterrupt();
+        this.strength--;
+        if(this.strength<1) { 
+            console.log("龙：没有体力了，回龙巢休息");
+            this.goToDragonNest();
+        }
+    },
+
+    //将龙移入龙巢
+    goToDragonNest:function() {
+
+        
+        var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+        //console.log(worldpos);
+        // self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
+
+        var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
+        var level = this.thingLevel;
+
+        this.ui.addDragonToNest(camerapos, level);
+
+        this.node.destroy();
+       
     },
 
 
