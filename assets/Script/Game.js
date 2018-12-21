@@ -60,7 +60,7 @@ cc.Class({
             cc.dataMgr = new DataMgr();
         }
         //初始化最好写在start里面，我在别的地方有onload来初始化 Game里面的一些数据 比如tile里的onload
-
+        this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
     },
 
     start: function () {
@@ -78,6 +78,8 @@ cc.Class({
             // console.log(cc.director.getVisibleSize());
             self._beginPos = touchPos;
 
+
+            self.ui.clearDescForUnClick();
 
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {

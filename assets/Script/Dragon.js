@@ -469,7 +469,7 @@ cc.Class({
 
     unBrowseThisThing: function () {
         //console.log('不再浏览该物体！');
-        this.ui.clearDescForUnClick();
+        //this.ui.clearDescForUnClick();
     },
 
     //判断当前范围内的可合并龙集合 和上次的龙集合元素是否完全相同
