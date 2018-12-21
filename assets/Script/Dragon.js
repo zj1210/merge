@@ -295,8 +295,13 @@ cc.Class({
             //合并算法
             self.game.union_Dragons_Algorithm(self.curCanUnionedDragons);
         }
-        //不能合并的情况下 要判断松手位置是有能采集的花，若有开始采集
+        //不能合并的情况下 要判断松手位置是有能采集的花，若有开始采集,还要判断当前他是否有生成物，若有先放置
         else {
+            //若有生成物 先放置
+            if(self.collectionThing.active) {
+                self.collectionThingClick();
+            }
+
             //有体力
             if (self.strength >= 0) {
                 //龙的位置下最近的tile里有花 且级别够
