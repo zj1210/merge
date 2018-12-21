@@ -272,6 +272,37 @@ function DataMgr() {
 
     ];
 
+    //宝箱概率数据 这里的概率为了方便算法执行，进行的是 介于 上一个概率值 和当前概率值之间的数，就表示随到了
+    this.treasureChestDatas = [
+        //为了算法简便，前置一个
+        {
+            "probability": 0.0
+        },
+       
+        {
+            "category": "coin",
+            "count": 1,
+            "probability": 0.0
+        },
+       
+        {
+            "category": "flower",
+            "level": 1,
+            "probability": 0.3
+        },
+       
+        {
+            "category": "dragon",
+            "level": 0,
+            "probability": 0.5
+        },
+        
+        {
+            "category": "heart",
+            "level": 0,
+            "probability": 1.0
+        }
+    ];
     //龙巢里的龙 将来要持久化 数据结构 只需插入 时间 进入级别
     this.dragonNestDatas = [];
     this.init();
@@ -299,6 +330,19 @@ DataMgr.prototype.init = function () {
     //目前直接使用预定义的。
     //console.log('数据初始化运行');
 }
+
+
+
+DataMgr.prototype.randomTreasure = function () {
+    var p = Math.random();
+    for (var i = 1; i < this.treasureChestDatas.length; i++) {
+        if (p >= this.treasureChestDatas[i - 1].probability && p < this.treasureChestDatas[i].probability) {
+            //debugger;
+            return this.treasureChestDatas[i];
+        }
+    }
+}
+
 
 DataMgr.prototype.pushDragonToNest = function (time, level) {
     this.dragonNestDatas.push({ "time": time, "level": level });

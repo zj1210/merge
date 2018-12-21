@@ -17657,12 +17657,12 @@
       "__id__": 469
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
-    "fogState": 0,
+    "fogState": 1,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -17822,12 +17822,12 @@
       "__id__": 474
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
-    "fogState": 0,
+    "fogState": 1,
     "skinType": 0,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -17987,12 +17987,12 @@
       "__id__": 479
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
-    "fogState": 0,
+    "fogState": 1,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -18152,12 +18152,12 @@
       "__id__": 484
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
-    "fogState": 0,
+    "fogState": 1,
     "skinType": 0,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -18317,12 +18317,12 @@
       "__id__": 489
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
-    "fogState": 0,
+    "fogState": 1,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -18482,12 +18482,12 @@
       "__id__": 494
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
-    "fogState": 0,
+    "fogState": 1,
     "skinType": 0,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -18647,12 +18647,12 @@
       "__id__": 499
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
-    "fogState": 0,
+    "fogState": 1,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -18812,12 +18812,12 @@
       "__id__": 504
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
-    "fogState": 0,
+    "fogState": 1,
     "skinType": 0,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -26072,12 +26072,12 @@
       "__id__": 724
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
     "fogState": 0,
     "skinType": 0,
-    "thingType": 2,
-    "thingLevel": 3,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -26237,12 +26237,12 @@
       "__id__": 729
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
     "fogState": 0,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 3,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -26402,12 +26402,12 @@
       "__id__": 734
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
     "fogState": 0,
     "skinType": 0,
-    "thingType": 2,
-    "thingLevel": 3,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -26567,12 +26567,12 @@
       "__id__": 739
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
     "fogState": 0,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -26732,12 +26732,12 @@
       "__id__": 744
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
     "fogState": 0,
     "skinType": 0,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -26897,12 +26897,12 @@
       "__id__": 749
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
     "fogState": 0,
     "skinType": 1,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -27062,12 +27062,12 @@
       "__id__": 754
     },
     "_enabled": true,
-    "tileType": 0,
+    "tileType": 1,
     "fogAmount": 100,
     "fogState": 0,
     "skinType": 0,
-    "thingType": 2,
-    "thingLevel": 1,
+    "thingType": 0,
+    "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -33945,7 +33945,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "3",
+    "_N$string": "0",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",

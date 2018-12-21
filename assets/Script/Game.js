@@ -468,7 +468,7 @@ cc.Class({
         });
 
         if (allEmptyTiles.length < N) {
-            debugger;
+            //debugger;
             //没有空格
             return null;
         }

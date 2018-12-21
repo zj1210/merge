@@ -131,7 +131,7 @@ cc.Class({
         this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
         this.fog.position = this.node.position;
         this.thingsNode.addChild(this.fog);
-        this.fog.getComponent('Fog').settingFog(this.fogState,this.fogAmount);
+        this.fog.getComponent('Fog').settingFog(this.fogState,this.fogAmount,this.node);
     },
 
     //需要 物品类型thingType 以及物品等级 thingLevel
