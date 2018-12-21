@@ -63,10 +63,16 @@ cc.Class({
             type: cc.Sprite
         },
 
-        tipsLabel:{
+        tipsNode:{
             default:null,
-            type:cc.Label
-        }
+            type:cc.Node
+	
+        },
+
+		progressNode:{
+            default:null,
+            type:cc.Node
+			}
     },
 
     settingSpriteFrame(type, level) {
@@ -83,22 +89,34 @@ cc.Class({
                 this.dragonSpr.spriteFrame = this.dragon_2_spr;
                 this.wing1.spriteFrame = this.wing_2_spr;
                 this.wing2.spriteFrame = this.wing_2_spr;
-				this.wing1.node.position = cc.v2(-19,-15);
-				this.wing2.node.position = cc.v2(-4.5,-16);
+				this.wing1.node.position = cc.v2(-19,15);
+				this.wing2.node.position = cc.v2(-4.5,16);
+
+				this.collectionThing.position = cc.v2(0,80);
+                this.progressNode.position = cc.v2(0,190);
+				this.tipsNode.position = cc.v2(0,190);
 
             } else if (level == 3) {
                 this.dragonSpr.spriteFrame = this.dragon_3_spr;
                 this.wing1.spriteFrame = this.wing_3_spr;
                 this.wing2.spriteFrame = this.wing_3_spr;
-				this.wing1.node.position = cc.v2(-40,10);
-				this.wing2.node.position = cc.v2(-12,14);
+				this.wing1.node.position = cc.v2(-40,83);
+				this.wing2.node.position = cc.v2(-12,85);
+
+				this.collectionThing.position = cc.v2(0,130);
+                this.progressNode.position = cc.v2(0,260);
+				this.tipsNode.position = cc.v2(0,130);
 
             } else if (level == 4) {
                 this.dragonSpr.spriteFrame = this.dragon_4_spr;
                 this.wing1.spriteFrame = this.wing_4_spr;
                 this.wing2.spriteFrame = this.wing_4_spr;
-				this.wing1.node.position = cc.v2(-102,-20);
-				this.wing2.node.position = cc.v2(-60,-7);
+				this.wing1.node.position = cc.v2(-102,83);
+				this.wing2.node.position = cc.v2(-60,85);
+
+				this.collectionThing.position = cc.v2(0,130);
+                this.progressNode.position = cc.v2(0,300);
+				this.tipsNode.position = cc.v2(0,130);
 
             }
             // this.node.width = this.dragonSpr.spriteFrame._rect.width;
@@ -366,10 +384,11 @@ cc.Class({
 
     changeLabel:function(value) {
        
-        this.tipsLabel.string = value;
-
+        //this.tipsLabel.string = value;
+		var tipsLabel = this.tipsNode.getChildByName("tipsLabel").getComponent(cc.Label);
+		tipsLabel.string = value;
      
-        this.tipsLabel.node.getComponent(cc.Animation).play('tipsLabel');
+        tipsLabel.node.getComponent(cc.Animation).play('tipsLabel');
 
     },
 
