@@ -261,7 +261,7 @@ cc.Class({
         //不能合并的情况下 要判断松手位置是有能采集的花，若有开始采集
         else {
             //有体力
-            if (self.strength > 0) {
+            if (self.strength >= 0) {
                 //龙的位置下最近的tile里有花 且级别够
                 // var touchpos = event.getLocation();
                 // var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
@@ -296,6 +296,10 @@ cc.Class({
     },
 
     playCollection: function (flowerLevel) {
+        if(this.strength <=0) {
+            this.goToDragonNest();
+            return;
+        }
         console.log('龙开始采集了。。。');
         this.collectionState = true;
         this.node.getChildByName("progressNode").active =true;
@@ -330,10 +334,13 @@ cc.Class({
         this.collectionInterrupt();
 
         this.strength--;
-        if(this.strength<1) { 
-            console.log("龙：没有体力了，回龙巢休息");
-            this.goToDragonNest();
-        }
+        // if(this.strength<1) { 
+        //     console.log("龙：没有体力了，回龙巢休息");
+        //     // this.collectionThingClick();
+        //     this.scheduleOnce(this.collectionThingClick,0.1);
+        //      this.scheduleOnce(this.goToDragonNest,3.0);
+           
+        // }
     },
 
     //将龙移入龙巢
@@ -395,7 +402,7 @@ cc.Class({
             //在thingsNode层创建一个 图片 让他移动到tile的位置 然后删除它，创建prefab的thing 放入
             //之所以这样，是因为龙身上的图片移动过程中 移动龙会造成bug，因为那是他的子节点，现在分开了
             var moveThing = cc.instantiate(this.collectionThing);
-            //debugger;
+           // debugger;
             var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
             thingsNode.addChild(moveThing);
             var movethingWorldPos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
