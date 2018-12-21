@@ -8,36 +8,39 @@
  */
 
 
+const {
+    ccclass,
+    property
+} = cc._decorator;
+@ccclass
+export default class DataMgr extends cc.Component {
 
-
-
-function DataMgr() {
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
-    this.hasTileData = false;
-    this.isHall = true; //要么在大厅，要么在关卡。
-    this.screenW = cc.director.getVisibleSize().width;
-    this.screenH = cc.director.getVisibleSize().height;
-    this.edgeMoveCamera = 70;
+    hasTileData = false;
+    isHall = true; //要么在大厅，要么在关卡。
+    screenW = cc.director.getVisibleSize().width;
+    screenH = cc.director.getVisibleSize().height;
+    edgeMoveCamera = 70;
     //为了解决所有thingsNode上的z序问题
     //思路：根据tile的加载顺序 给上面的thing zOrder 设置为全局的这个 每次递增
     //可以解决问题
-    this.globalZOrder = 0;
+    globalZOrder = 0;
     //一下三个数组 是进 关卡，或者大厅 根据关卡摆放生成的数据结构，只有大厅的数据会退出游戏时，永久存储。关卡只记录进度
     //二维tile数据
-    this.tilesData = [];
+    tilesData = [];
     //二维things数据
-    this.thingsData = [];
+    thingsData = [];
     //一维 飞龙数据
-    this.dragonsData = [];
+    dragonsData = [];
 
-    this.hallTileWidth = 11;
-    this.hallTileHeight = 13;
+    hallTileWidth = 11;
+    hallTileHeight = 13;
 
-    this.checkpointWidth = 0;
-    this.checkpintHeight = 0;
+    checkpointWidth = 0;
+    checkpintHeight = 0;
     //为了简单打算写死，不能处理生成的龙超过9个以上 这种情况数学上没证明，
     //但是概率应该是极低的3个相同还会归并
-    this.dragonsOffset = [
+    dragonsOffset = [
         {
             xOffset: 0,
             yOffset: 0,
@@ -86,7 +89,7 @@ function DataMgr() {
         }
     ];
     //采集数据 花级别 最低龙级别 采集的结果 采集所需时间
-    this.collectionDatas = [
+    collectionDatas = [
         {
             "flowerLevel": 2,
             "minDragonLevel": 1,
@@ -116,7 +119,7 @@ function DataMgr() {
         }
     ];
     //每级龙的初始体力值
-    this.dragonStrengthDatas = [
+    dragonStrengthDatas = [
         {
             "dragonLevel": 1,
             "dragonStrength": 5
@@ -135,7 +138,7 @@ function DataMgr() {
         }
     ];
     //每级心的力量
-    this.heartPowerDatas = [
+    heartPowerDatas = [
         {
             "heartLevel": 0,
             "heartStrength": 1
@@ -158,7 +161,7 @@ function DataMgr() {
         }
     ];
 
-    this.heartDescDatas = [
+    heartDescDatas = [
         {
             "heartLevel": 0,
             "name": "生命精华",
@@ -195,7 +198,7 @@ function DataMgr() {
         },
     ];
 
-    this.flowerDescDatas = [
+    flowerDescDatas = [
         {
             "flowerLevel": 1,
             "name": "生命之花幼芽",
@@ -234,7 +237,7 @@ function DataMgr() {
 
     //龙和蛋描述，
     //龙的特殊性：点龙的时候要描述出->龙的剩余体力，不能用这套系统了
-    this.dragonDescDatas = [
+    dragonDescDatas = [
         {
             "dragonLevel": 0,
             "name": "深红龙蛋",
@@ -273,30 +276,30 @@ function DataMgr() {
     ];
 
     //宝箱概率数据 这里的概率为了方便算法执行，进行的是 介于 上一个概率值 和当前概率值之间的数，就表示随到了
-    this.treasureChestDatas = [
+    treasureChestDatas = [
         //为了算法简便，前置一个
         {
             "probability": 0.0
         },
-       
+
         {
             "category": "coin",
             "count": 1,
             "probability": 0.0
         },
-       
+
         {
             "category": "flower",
             "level": 1,
             "probability": 0.3
         },
-       
+
         {
             "category": "dragon",
             "level": 0,
             "probability": 0.5
         },
-        
+
         {
             "category": "heart",
             "level": 0,
@@ -304,206 +307,209 @@ function DataMgr() {
         }
     ];
     //龙巢里的龙 将来要持久化 数据结构 只需插入 时间 进入级别
-    this.dragonNestDatas = [];
-    this.init();
-}
-
-DataMgr.prototype.init = function () {
-    //用于购买宝箱 金币
-    var coinCount = cc.sys.localStorage.getItem("coinCount");
-    if (!coinCount) {
-        cc.sys.localStorage.setItem("coinCount", 0);
-    }
-    //用于邀请好友的奖励？需求不定，钻石
-    var diamondCount = cc.sys.localStorage.getItem("diamondCount");
-    if (!diamondCount) {
-        cc.sys.localStorage.setItem("diamondCount", 0);
-    }
-
-    //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
-    var heartCount = cc.sys.localStorage.getItem("heartCount");
-    if (!heartCount) {
-        cc.sys.localStorage.setItem("heartCount", 0);
-    }
-
-    //这里将来要做的是 读取用户的数据，初始化每个块。
-    //目前直接使用预定义的。
-    //console.log('数据初始化运行');
-}
+    dragonNestDatas = [];
+    // init();
 
 
-
-DataMgr.prototype.randomTreasure = function () {
-    var p = Math.random();
-    for (var i = 1; i < this.treasureChestDatas.length; i++) {
-        if (p >= this.treasureChestDatas[i - 1].probability && p < this.treasureChestDatas[i].probability) {
-            //debugger;
-            return this.treasureChestDatas[i];
+    init() {
+        //用于购买宝箱 金币
+        var coinCount = cc.sys.localStorage.getItem("coinCount");
+        if (!coinCount) {
+            cc.sys.localStorage.setItem("coinCount", 0);
         }
-    }
-}
+        //用于邀请好友的奖励？需求不定，钻石
+        var diamondCount = cc.sys.localStorage.getItem("diamondCount");
+        if (!diamondCount) {
+            cc.sys.localStorage.setItem("diamondCount", 0);
+        }
+
+        //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
+        var heartCount = cc.sys.localStorage.getItem("heartCount");
+        if (!heartCount) {
+            cc.sys.localStorage.setItem("heartCount", 0);
+        }
+
+        //这里将来要做的是 读取用户的数据，初始化每个块。
+        //目前直接使用预定义的。
+        //console.log('数据初始化运行');
+    };
 
 
-DataMgr.prototype.pushDragonToNest = function (time, level) {
-    this.dragonNestDatas.push({ "time": time, "level": level });
-}
 
-DataMgr.prototype.getDescByTypeAndLevel = function (type, level) {
-    //精华
-    if (type == 1) {
-        for (var i = 0; i < this.heartDescDatas.length; i++) {
-            if (this.heartDescDatas[i].heartLevel == level) {
-                return this.heartDescDatas[i];
+    randomTreasure() {
+        var p = Math.random();
+        for (var i = 1; i < this.treasureChestDatas.length; i++) {
+            if (p >= this.treasureChestDatas[i - 1].probability && p < this.treasureChestDatas[i].probability) {
+                //debugger;
+                return this.treasureChestDatas[i];
             }
         }
-    }
-    //花
-    else if (type == 2) {
-        for (var i = 0; i < this.flowerDescDatas.length; i++) {
-            if (this.flowerDescDatas[i].flowerLevel == level) {
-                return this.flowerDescDatas[i];
+    };
+
+
+    pushDragonToNest(time, level) {
+        this.dragonNestDatas.push({ "time": time, "level": level });
+    };
+
+    getDescByTypeAndLevel(type, level) {
+        //精华
+        if (type == 1) {
+            for (var i = 0; i < this.heartDescDatas.length; i++) {
+                if (this.heartDescDatas[i].heartLevel == level) {
+                    return this.heartDescDatas[i];
+                }
             }
         }
-    }
-    //龙蛋和龙
-    else if (type == 3) {
-        for (var i = 0; i < this.dragonDescDatas.length; i++) {
-            if (this.dragonDescDatas[i].dragonLevel == level) {
-                return this.dragonDescDatas[i];
+        //花
+        else if (type == 2) {
+            for (var i = 0; i < this.flowerDescDatas.length; i++) {
+                if (this.flowerDescDatas[i].flowerLevel == level) {
+                    return this.flowerDescDatas[i];
+                }
             }
         }
-    }
-
-
-}
-
-DataMgr.prototype.getHeartCount = function () {
-    var heartCount = cc.sys.localStorage.getItem("heartCount");
-
-    return parseInt(heartCount);
-}
-
-DataMgr.prototype.addHeartCount = function (count) {
-    var result = this.getHeartCount() + count;
-    cc.sys.localStorage.setItem("heartCount", result);
-}
-
-DataMgr.prototype.getCoinCount = function () {
-    var coinCount = cc.sys.localStorage.getItem("coinCount");
-    return parseInt(coinCount);
-}
-
-DataMgr.prototype.addCoinCount = function (count) {
-    var result = this.getCoinCount() + count;
-    cc.sys.localStorage.setItem("coinCount", result);
-}
-
-DataMgr.prototype.getDiamondCount = function () {
-    var diamondCount = cc.sys.localStorage.getItem("diamondCount");
-    return parseInt(diamondCount);
-}
-
-DataMgr.prototype.addDiamondCount = function (count) {
-    var result = this.getDiamondCount() + count;
-    cc.sys.localStorage.setItem("diamondCount", result);
-}
-
-DataMgr.prototype.getHeartCountByLevel = function (heartLevel) {
-    for (var i = 0; i < this.heartPowerDatas.length; i++) {
-        if (this.heartPowerDatas[i].heartLevel == heartLevel) {
-            return parseInt(this.heartPowerDatas[i].heartStrength);
+        //龙蛋和龙
+        else if (type == 3) {
+            for (var i = 0; i < this.dragonDescDatas.length; i++) {
+                if (this.dragonDescDatas[i].dragonLevel == level) {
+                    return this.dragonDescDatas[i];
+                }
+            }
         }
-    }
-    debugger;
-}
 
-DataMgr.prototype.getCurrentWidthAndHeight = function () {
-    if (this.isHall) {
-        return {
-            w: this.hallTileWidth,
-            h: this.hallTileHeight
-        };
-    } else {
-        return {
-            w: this.checkpointWidth,
-            h: this.checkpintHeight
-        };
-    }
-}
 
-//checkpointID 大厅是0 关卡的从1开始类推 mapNode的tile必须按照从左到右，从上到下的顺序摆放
-DataMgr.prototype.initTile = function (checkpointID, tiles) {
-    //console.log(tiles);
-    for (var i = 0; i < this.hallTileHeight; i++) {
-        this.tilesData[i] = [];
-    }
-    for (var i = 0; i < this.hallTileHeight; i++) {
-        for (var j = 0; j < this.hallTileWidth; j++) {
-            this.tilesData[i][j] = tiles[i * this.hallTileWidth + j];
-            this.tilesData[i][j].getComponent('Tile').setIndex(j, i);
+    };
+
+    getHeartCount() {
+        var heartCount = cc.sys.localStorage.getItem("heartCount");
+
+        return parseInt(heartCount);
+    };
+
+    addHeartCount(count) {
+        var result = this.getHeartCount() + count;
+        cc.sys.localStorage.setItem("heartCount", result);
+    };
+
+    getCoinCount() {
+        var coinCount = cc.sys.localStorage.getItem("coinCount");
+        return parseInt(coinCount);
+    };
+
+    addCoinCount(count) {
+        var result = this.getCoinCount() + count;
+        cc.sys.localStorage.setItem("coinCount", result);
+    };
+
+    getDiamondCount() {
+        var diamondCount = cc.sys.localStorage.getItem("diamondCount");
+        return parseInt(diamondCount);
+    };
+
+    addDiamondCount(count) {
+        var result = this.getDiamondCount() + count;
+        cc.sys.localStorage.setItem("diamondCount", result);
+    };
+
+    getHeartCountByLevel(heartLevel) {
+        for (var i = 0; i < this.heartPowerDatas.length; i++) {
+            if (this.heartPowerDatas[i].heartLevel == heartLevel) {
+                return parseInt(this.heartPowerDatas[i].heartStrength);
+            }
         }
-    }
-    // console.log(this.tilesData);
-}
+        debugger;
+    };
 
-
-DataMgr.prototype.getDragonStrength = function (dragonLevel) {
-    for (var i = 0; i < this.dragonStrengthDatas.length; i++) {
-        if (this.dragonStrengthDatas[i].dragonLevel == dragonLevel) {
-            return this.dragonStrengthDatas[i].dragonStrength;
+    getCurrentWidthAndHeight() {
+        if (this.isHall) {
+            return {
+                w: this.hallTileWidth,
+                h: this.hallTileHeight
+            };
+        } else {
+            return {
+                w: this.checkpointWidth,
+                h: this.checkpintHeight
+            };
         }
-    }
-    //不可能执行到这里
-    debugger;
-}
+    };
 
-//根据花的级别 从dataMgr中找到最小的龙级别
-DataMgr.prototype.getCollectionMinDragonLevel = function (flowerLevel) {
-    // this.collectionDatas = [
-    //     {
-    //         "flowerLevel": 1,
-    //         "minDragonLevel": 1,
-    //         "heartLevel": 0,
-    //         "needTime": 5
-    //     },
-
-    for (var i = 0; i < this.collectionDatas.length; i++) {
-        if (this.collectionDatas[i].flowerLevel == flowerLevel) {
-            return this.collectionDatas[i].minDragonLevel;
+    //checkpointID 大厅是0 关卡的从1开始类推 mapNode的tile必须按照从左到右，从上到下的顺序摆放
+    initTile(checkpointID, tiles) {
+        //console.log(tiles);
+        for (var i = 0; i < this.hallTileHeight; i++) {
+            this.tilesData[i] = [];
         }
-    }
-
-    //给的花级别 表中没有，目前说明：花的级别很低，不支持采集
-    return null;
-
-}
-
-DataMgr.prototype.getNeedTimeByFlowerLevel = function (flowerLevel) {
-    for (var i = 0; i < this.collectionDatas.length; i++) {
-        if (this.collectionDatas[i].flowerLevel == flowerLevel) {
-            return this.collectionDatas[i].needTime;
+        for (var i = 0; i < this.hallTileHeight; i++) {
+            for (var j = 0; j < this.hallTileWidth; j++) {
+                this.tilesData[i][j] = tiles[i * this.hallTileWidth + j];
+                this.tilesData[i][j].getComponent('Tile').setIndex(j, i);
+            }
         }
-    }
-}
+        // console.log(this.tilesData);
+    };
 
-DataMgr.prototype.getCollectionHeartLevel = function (flowerLevel) {
-    for (var i = 0; i < this.collectionDatas.length; i++) {
-        if (this.collectionDatas[i].flowerLevel == flowerLevel) {
-            return this.collectionDatas[i].heartLevel;
+
+    getDragonStrength(dragonLevel) {
+        for (var i = 0; i < this.dragonStrengthDatas.length; i++) {
+            if (this.dragonStrengthDatas[i].dragonLevel == dragonLevel) {
+                return this.dragonStrengthDatas[i].dragonStrength;
+            }
         }
-    }
+        //不可能执行到这里
+        debugger;
+    };
 
-    //传入的可收集的花 竟然没有找到返回的精华类别？
-    debugger;
-}
+    //根据花的级别 从dataMgr中找到最小的龙级别
+    getCollectionMinDragonLevel(flowerLevel) {
+        // this.collectionDatas = [
+        //     {
+        //         "flowerLevel": 1,
+        //         "minDragonLevel": 1,
+        //         "heartLevel": 0,
+        //         "needTime": 5
+        //     },
 
-//打印tile的数据 debug用
-DataMgr.prototype.debugTileInfo = function () {
-    for (var i = 0; i < this.hallTileHeight; i++) {
-        for (var j = 0; j < this.hallTileWidth; j++) {
-
-
-            console.log(this.tilesData[i][j].getComponent('Tile').thingType + "  " + this.tilesData[i][j].getComponent('Tile').thingLevel);
+        for (var i = 0; i < this.collectionDatas.length; i++) {
+            if (this.collectionDatas[i].flowerLevel == flowerLevel) {
+                return this.collectionDatas[i].minDragonLevel;
+            }
         }
-    }
+
+        //给的花级别 表中没有，目前说明：花的级别很低，不支持采集
+        return null;
+
+    };
+
+    getNeedTimeByFlowerLevel(flowerLevel) {
+        for (var i = 0; i < this.collectionDatas.length; i++) {
+            if (this.collectionDatas[i].flowerLevel == flowerLevel) {
+                return this.collectionDatas[i].needTime;
+            }
+        }
+    };
+
+    getCollectionHeartLevel(flowerLevel) {
+        for (var i = 0; i < this.collectionDatas.length; i++) {
+            if (this.collectionDatas[i].flowerLevel == flowerLevel) {
+                return this.collectionDatas[i].heartLevel;
+            }
+        }
+
+        //传入的可收集的花 竟然没有找到返回的精华类别？
+        debugger;
+    };
+
+    //打印tile的数据 debug用
+    debugTileInfo() {
+        for (var i = 0; i < this.hallTileHeight; i++) {
+            for (var j = 0; j < this.hallTileWidth; j++) {
+
+
+                console.log(this.tilesData[i][j].getComponent('Tile').thingType + "  " + this.tilesData[i][j].getComponent('Tile').thingLevel);
+            }
+        }
+    };
+
 }
+
