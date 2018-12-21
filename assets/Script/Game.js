@@ -597,14 +597,18 @@ cc.Class({
                     if (thingJS.thingType == 2) {
                         var minLevel = cc.dataMgr.getCollectionMinDragonLevel(thingJS.thingLevel);
                         if (minLevel == null) {
-                            console.log("花的级别不够！！");
+                            //console.log("花的级别不够！！");
+
+                            dragonJS.changeLabel("花的级别不够!");
                         }
                         else if (minLevel <= dragonJS.thingLevel) {
                             dragonJS.collectionState = true;
                             dragonJS.playCollection(thingJS.thingLevel);
                         }
                         else {
-                            console.log("龙的级别不够！！");
+                            //console.log("龙的级别不够！！");
+
+                            dragonJS.changeLabel("龙的级别不够!");
                         }
 
                     }

@@ -61,6 +61,11 @@ cc.Class({
         wing2: {
             default: null,
             type: cc.Sprite
+        },
+
+        tipsLabel:{
+            default:null,
+            type:cc.Label
         }
     },
 
@@ -109,6 +114,7 @@ cc.Class({
     onLoad: function () {
         this.underpan.active = false;
         this.collectionThing.active = false;
+       
         //标记是否处理 按钮点击事件
         this.selectClickFlag = true;
         //搜索到的附近 同类型参与合并的龙
@@ -297,9 +303,12 @@ cc.Class({
 
     playCollection: function (flowerLevel) {
         if(this.strength <=0) {
-            this.goToDragonNest();
+            this.changeLabel("太累了!");
+            this.scheduleOnce(this.goToDragonNest,1.0);
+          //  this.goToDragonNest();
             return;
         }
+     
         console.log('龙开始采集了。。。');
         this.collectionState = true;
         this.node.getChildByName("progressNode").active =true;
@@ -316,6 +325,15 @@ cc.Class({
        
         // this.generateHeartAndPlace(heartLevel);
      
+
+    },
+
+    changeLabel:function(value) {
+       
+        this.tipsLabel.string = value;
+
+     
+        this.tipsLabel.node.getComponent(cc.Animation).play('tipsLabel');
 
     },
 
