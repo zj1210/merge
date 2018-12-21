@@ -59,7 +59,27 @@ cc.Class({
         tujianBtnNode: {
             default: null,
             type: cc.Node
-        }
+        },
+
+        tujianLayer:{
+            default:null,
+            type:cc.Node
+        },
+
+        tujianFlower:{
+            default:null,
+            type:cc.Node
+        },
+
+        tujianHeart:{
+            default:null,
+            type:cc.Node
+        },
+
+        tujianDragon:{
+            default:null,
+            type:cc.Node
+        },
         // defaults, set visually when attaching this script to the Canvas
 
     },
@@ -86,19 +106,30 @@ cc.Class({
 
     //图鉴按钮被点击
     tujianClick: function () {
+        console.log("图鉴按钮点击了！");
+        this.tujianLayer.active = true;
         if (this.thingType == 1) {
+            this.tujianHeart.active = true;
 
+            this.tujianDragon.active = false;
+            this.tujianFlower.active = false;
         } else if (this.thingType == 2) {
+            this.tujianFlower.active = true;
 
+            this.tujianDragon.active = false;
+            this.tujianHeart.active = false;
         } else if (this.thingType == 3) {
+            this.tujianDragon.active = true;
 
+            this.tujianHeart.active = false;
+            this.tujianFlower.active = false;
         } else {
             debugger;
         }
     },
 
     tujianCloseClick:function() {
-
+        this.tujianLayer.active = false;
     },
 
     addHeartAndAni: function (camerapos, level) {
@@ -154,6 +185,8 @@ cc.Class({
         //根据这个值 来处理 图鉴按钮被点击
         this.thingType = thingType;
         var descDatas = cc.dataMgr.getDescByTypeAndLevel(thingType, thingLevel);
+
+        this.tujianBtnNode.active = true;
         //debugger;
         this.nameLevelLabel.string = descDatas.name + "-" + descDatas.levelDesc;
         if (thingType == 3 && thingLevel > 0) {
@@ -163,6 +196,8 @@ cc.Class({
         }
 
     },
+
+
 
     clearDescForUnClick: function () {
         this.nameLevelLabel.string = "未选中任何东西";
