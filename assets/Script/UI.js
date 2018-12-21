@@ -97,6 +97,10 @@ cc.Class({
         }
     },
 
+    tujianCloseClick:function() {
+
+    },
+
     addHeartAndAni: function (camerapos, level) {
 
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
