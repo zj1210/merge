@@ -53,6 +53,12 @@ cc.Class({
         dragonNestNode: {
             default: null,
             type: cc.Node
+        },
+
+        //图鉴按钮 node 用于控制是否显示 在是否点击物品的情况下
+        tujianBtnNode: {
+            default: null,
+            type: cc.Node
         }
         // defaults, set visually when attaching this script to the Canvas
 
@@ -76,6 +82,19 @@ cc.Class({
 
     start: function () {
 
+    },
+
+    //图鉴按钮被点击
+    tujianClick: function () {
+        if (this.thingType == 1) {
+
+        } else if (this.thingType == 2) {
+
+        } else if (this.thingType == 3) {
+
+        } else {
+            debugger;
+        }
     },
 
     addHeartAndAni: function (camerapos, level) {
@@ -120,7 +139,7 @@ cc.Class({
         dragonNode.destroy();
     },
 
-   
+
     moveToLabelOver: function (collectionThingNode) {
         this.refreshUI();
     },
@@ -128,6 +147,8 @@ cc.Class({
 
     //strength 用于显示龙 剩余的体力
     addDescForClick: function (thingType, thingLevel, strength) {
+        //根据这个值 来处理 图鉴按钮被点击
+        this.thingType = thingType;
         var descDatas = cc.dataMgr.getDescByTypeAndLevel(thingType, thingLevel);
         //debugger;
         this.nameLevelLabel.string = descDatas.name + "-" + descDatas.levelDesc;
@@ -142,6 +163,8 @@ cc.Class({
     clearDescForUnClick: function () {
         this.nameLevelLabel.string = "未选中任何东西";
         this.descLabel.string = "";
+
+        this.tujianBtnNode.active = false;
     },
 
     unDescClick: function () {
