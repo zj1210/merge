@@ -278,25 +278,25 @@ function DataMgr() {
         {
             "probability": 0.0
         },
-        //实际概率  0.0-0.0
+       
         {
             "category": "coin",
             "count": 1,
             "probability": 0.0
         },
-        //实际概率  0.3-0.1
+       
         {
             "category": "flower",
             "level": 1,
             "probability": 0.3
         },
-        //实际概率   0.5- 0.3
+       
         {
             "category": "dragon",
             "level": 0,
             "probability": 0.5
         },
-        //实际概率  1.0- 0.5
+        
         {
             "category": "heart",
             "level": 0,
@@ -337,7 +337,7 @@ DataMgr.prototype.randomTreasure = function () {
     var p = Math.random();
     for (var i = 1; i < this.treasureChestDatas.length; i++) {
         if (p >= this.treasureChestDatas[i - 1].probability && p < this.treasureChestDatas[i].probability) {
-            debugger;
+            //debugger;
             return this.treasureChestDatas[i];
         }
     }

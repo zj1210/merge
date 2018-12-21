@@ -63,7 +63,7 @@ cc.Class({
                 break;
 
             case "dragon":
-
+            this.fog_GenerateThing(3, treasureData.level);
                 break;
 
             case "heart":
