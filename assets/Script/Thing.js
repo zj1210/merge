@@ -260,7 +260,7 @@ cc.Class({
     unBrowseThisThing: function () {
         //console.log('不再浏览该物体！');
         
-        this.ui.clearDescForUnClick();
+        //this.ui.clearDescForUnClick();
     },
 
     thingsUnionTips: function () {
