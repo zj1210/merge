@@ -171,10 +171,17 @@ cc.Class({
         this.game = cc.find("Canvas").getComponent('Game');
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
         this.node.getChildByName("progressNode").active =false;
+
+
+
+        var dragonNode = this.node.getChildByName('dragonNode');
         if (!this.game) {
             debugger;
         }
         let self = this;
+
+        var lastTouchX= 0.0;
+        var curTouchX = 0.0;
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             //console.log('touch begin by flower');
             self.browseThisThing();
@@ -187,7 +194,7 @@ cc.Class({
 
             //摄像机下的触摸点 需要转换为 世界坐标
             let touchPos = event.getLocation();
-
+            lastTouchX = touchPos.x;
             var worldTouchPos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
             //console.log(touchPos);
             self._beginPos = worldTouchPos;
@@ -199,6 +206,10 @@ cc.Class({
             self.underpan.active = true;
 
         }, this.node);
+
+      
+        var dnAction1 = cc.scaleTo(0.2,-1,1);
+        var dnAction2 = cc.scaleTo(0.2,1,1);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
                 // console.log('touch move by flower');
@@ -209,9 +220,28 @@ cc.Class({
                     self.collectionInterrupt();
                 }
 
+                
+
                 //点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
                 var touchpos = event.getLocation(); //触摸点的摄像机坐标系下的坐标
+
+                
+                curTouchX = touchpos.x;
+
+               
+                if(curTouchX>lastTouchX) {
+                   
+                    dragonNode.runAction(dnAction1);
+                    
+                } else {
+                  
+                   dragonNode.runAction(dnAction2);
+                }
+
+                lastTouchX = curTouchX;
+
+
                 //是否需要移动摄像机 若需要，物体的世界坐标也会变化
                 var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
@@ -249,6 +279,7 @@ cc.Class({
         }, this.node);
     },
 
+  
     touchEnd: function (event) {
         // console.log('touch end by flower');
         let self = this;
