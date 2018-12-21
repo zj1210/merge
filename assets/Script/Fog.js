@@ -78,6 +78,8 @@ cc.Class({
     },
 
     fog_GenerateThing: function (thingType, thingLevel) {
+        this.tile.getComponent('Tile').fog = null;
+        this.tile.getComponent('Tile').tileType = 0;
         var newThing = cc.instantiate(this.thingPrefab);
         newThing.position = this.node.position;
         var thingJS = newThing.getChildByName('selectedNode').getComponent('Thing');
@@ -88,7 +90,8 @@ cc.Class({
        
     
         thingJS.changeInTile(this.tile, thingLevel, thingType);
-    
+        // debugger;
+        // cc.dataMgr.debugTileInfo();
         this.node.destroy();
     },
 
