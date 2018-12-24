@@ -94,7 +94,7 @@ export default class DataMgr extends cc.Component {
             "flowerLevel": 2,
             "minDragonLevel": 1,
             "heartLevel": 0,
-            "needTime": 5
+            "needTime": 1
         },
 
         {
@@ -312,22 +312,22 @@ export default class DataMgr extends cc.Component {
     dragonNestDuration = [
         {
             "dragonLevel": 1,
-            "duration": 60,
+            "duration": 4,
         },
 
         {
             "dragonLevel": 2,
-            "duration": 45
+            "duration": 4
         },
 
         {
             "dragonLevel": 3,
-            "duration": 30
+            "duration": 4
         },
 
         {
             "dragonLevel": 4,
-            "duration": 15
+            "duration": 4
         },
     ];
 
@@ -567,13 +567,46 @@ export default class DataMgr extends cc.Component {
         debugger;
     };
 
+
+    //数据持久化，游戏内货币不用处理，已经做好了，这里要做的是
+    /**
+     * 1: tile层持久化， 每个tile上面是什么东西？
+     * tileType: 0绿地 1雾
+     * fogAmount：雾需要多少精华解锁
+     * fogState：雾的游戏状态 0代表是雾，1代表雾已经解锁了，是宝箱
+     *thingType： 0=没有，1=精华，2=花，3=龙蛋
+     * thingLevel：物品的级别
+     * dontWant：0默认要这个块，除非特殊需求，这个块不要了，置为1，功能好像没做
+     * 
+     */
+    saveGameData() {
+        var tilePersistenceDatas = [];
+        for (var i = 0; i < this.hallTileHeight; i++) {
+            for (var j = 0; j < this.hallTileWidth; j++) {
+
+                var tileData = {};
+                var tileJS = this.tilesData[i][j].getComponent('Tile');
+                tileData.tileType = tileJS.tileType;
+                tileData.fogAmount = tileJS.fogAmount;
+                tileData.fogState = tileJS.fogState;
+                tileData.thingType = tileJS.thingType;
+                tileData.thingLevel = tileJS.thingLevel;
+                tileData.dontWant = tileJS.dontWant;
+                tilePersistenceDatas.push(tileData);
+            }
+        }
+        
+        cc.sys.localStorage.setItem("tileData", JSON.stringify(tilePersistenceDatas));
+    };
+
     //打印tile的数据 debug用
     debugTileInfo() {
         for (var i = 0; i < this.hallTileHeight; i++) {
             for (var j = 0; j < this.hallTileWidth; j++) {
 
 
-                console.log(this.tilesData[i][j].getComponent('Tile').thingType + "  " + this.tilesData[i][j].getComponent('Tile').thingLevel);
+                //console.log(this.tilesData[i][j].getComponent('Tile').thingType + "  " + this.tilesData[i][j].getComponent('Tile').thingLevel);
+                console.log(this.tilesData[i][j].getComponent('Tile'));
             }
         }
     };
