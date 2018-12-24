@@ -106,6 +106,8 @@ cc.Class({
             cc.dataMgr.addHeartCount(-this.fogAmount);
             cc.find("Canvas/uiLayer").getComponent('UI').refreshUI();
             this.fogState = 1;
+            //必须同步到tile，否则无法持久化数据
+            this.tile.getComponent('Tile').fogState = 1;
             this.settingState(1);
         } else {
             console.log("心不够啊！");

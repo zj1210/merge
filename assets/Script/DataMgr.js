@@ -340,8 +340,8 @@ export default class DataMgr extends cc.Component {
      * }
      */
     dragonNestDatas = [];
-
-
+    //数据持久化 解码后的 各个tile数据
+    hallTileData = null;
     init() {
         //用于购买宝箱 金币
         var coinCount = cc.sys.localStorage.getItem("coinCount");
@@ -360,9 +360,14 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("heartCount", 0);
         }
 
-        //这里将来要做的是 读取用户的数据，初始化每个块。
-        //目前直接使用预定义的。
-        //console.log('数据初始化运行');
+
+        var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
+        if(!strHallTileData) {
+            this.hallTileData = null;
+        } else {
+            this.hallTileData = JSON.parse(strHallTileData);
+            console.log(this.hallTileData);
+        }
     };
 
     
@@ -596,7 +601,7 @@ export default class DataMgr extends cc.Component {
             }
         }
         
-        cc.sys.localStorage.setItem("tileData", JSON.stringify(tilePersistenceDatas));
+        cc.sys.localStorage.setItem("hallTileData", JSON.stringify(tilePersistenceDatas));
     };
 
     //打印tile的数据 debug用

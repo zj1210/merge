@@ -62,6 +62,11 @@ cc.Class({
         if (!cc.dataMgr) {
             cc.dataMgr = new DataMgr();
             cc.dataMgr.init();
+
+            /**
+         * 初始化块的数据结构,0标记的是大厅数据
+         */
+            cc.dataMgr.initTile(0, this.node.getChildByName('gameLayer').getChildByName('mapNode').children);
         }
         //初始化最好写在start里面，我在别的地方有onload来初始化 Game里面的一些数据 比如tile里的onload
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
@@ -69,11 +74,6 @@ cc.Class({
 
     start: function () {
         //debugger;
-        /**
-         * 初始化块的数据结构,0标记的是大厅数据
-         */
-        cc.dataMgr.initTile(0, this.node.getChildByName('gameLayer').getChildByName('mapNode').children);
-
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
