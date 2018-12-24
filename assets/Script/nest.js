@@ -27,5 +27,11 @@ cc.Class({
         this.node.getComponent(cc.Animation).play('nestzzz');
     },
 
+    noDragonAni:function() {
+        this.zzz.active = false;
+        this.node.getComponent(cc.Animation).stop('nestzzz');
+    }
+    
+
    
 });

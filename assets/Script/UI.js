@@ -122,6 +122,8 @@ cc.Class({
 
         if(len <1) {
             this.countDownLabel.node.active = false;
+
+            this.dragonNestNode.getComponent('nest').noDragonAni();
         } else {
             this.countDownLabel.node.active = true;
             var totleSecond = cc.dataMgr.getCurrentDragonCountDown();
