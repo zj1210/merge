@@ -140,19 +140,24 @@ cc.Class({
 
      
 
-        // var dragonNode = cc.instantiate(this.dragonPrefab);
-        // this.node.addChild(dragonNode);
-        // dragonNode.position = this.dragonNestNode.position;
-        // dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, level);
-      
-        // var targetPos = this.dragonNestNode.position;
-        // var action = cc.moveTo(2.0, targetPos);
-        // var action2 = cc.scaleTo(2.0, 0.5);
-        // var together = cc.spawn(action, action2);
-        // var seq = cc.sequence(together, cc.callFunc(this.moveToDragonNestOver, this, dragonNode));
-        // dragonNode.runAction(seq);
+        var dragonNode = cc.instantiate(this.dragonPrefab);
+        this.node.addChild(dragonNode);
+        dragonNode.position = this.dragonNestNode.position;
+        dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, outDragonData.level);
+        dragonNode.scale = 0.0;
+        var targetPos = cc.v2(0,0);
+        var action = cc.moveTo(2.0, targetPos);
+        var action2 = cc.scaleTo(2.0, 1);
+        var together = cc.spawn(action, action2);
+        var seq = cc.sequence(together, cc.callFunc(this.dragonMoveOutNestOver, this, dragonNode));
+        dragonNode.runAction(seq);
 
-        // cc.dataMgr.pushDragonToNest(Date.now(), level);
+    },
+
+    dragonMoveOutNestOver:function(dragonNode) {
+        dragonNode.removeFromParent(false);
+        var dragonsNode = cc.find("Canvas/gameLayer/dragonsNode");
+        dragonsNode.addChild(dragonNode);
     },
 
     setTimeToLabel: function (dx, label) {
