@@ -111,7 +111,7 @@ cc.Class({
     },
 
     start: function () {
-
+        this.game = cc.find("Canvas").getComponent('Game');
         this.schedule(this.refreshDragonNestInfo, 1);
     },
 
@@ -141,12 +141,24 @@ cc.Class({
      
 
         var dragonNode = cc.instantiate(this.dragonPrefab);
-        this.node.addChild(dragonNode);
-        dragonNode.position = this.dragonNestNode.position;
         dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, outDragonData.level);
+        var dragonsNode = cc.find("Canvas/gameLayer/dragonsNode");
+        dragonsNode.addChild(dragonNode);
+        var camerapos = this.dragonNestNode.parent.convertToWorldSpaceAR(this.dragonNestNode.position);
+        //debugger;
+        var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
+        var nodepos = dragonsNode.convertToNodeSpaceAR(worldpos);
+        dragonNode.position = nodepos;
+       
         dragonNode.scale = 0.0;
-        var targetPos = cc.v2(0,0);
-        var action = cc.moveTo(2.0, targetPos);
+
+
+
+
+        var targetPos = cc.v2(360,640);
+        var targetWorldpos = cc.v2(targetPos.x + this.game.camera.position.x, targetPos.y + this.game.camera.position.y);
+        var targetNodepos = dragonsNode.convertToNodeSpaceAR(targetWorldpos);
+        var action = cc.moveTo(2.0, targetNodepos);
         var action2 = cc.scaleTo(2.0, 1);
         var together = cc.spawn(action, action2);
         var seq = cc.sequence(together, cc.callFunc(this.dragonMoveOutNestOver, this, dragonNode));
@@ -155,9 +167,12 @@ cc.Class({
     },
 
     dragonMoveOutNestOver:function(dragonNode) {
-        dragonNode.removeFromParent(false);
-        var dragonsNode = cc.find("Canvas/gameLayer/dragonsNode");
-        dragonsNode.addChild(dragonNode);
+       
+        // dragonNode.removeFromParent(false);
+        // var dragonsNode = cc.find("Canvas/gameLayer/dragonsNode");
+        // var pos =  dragonsNode.convertToNodeSpaceAR(dragonNode.position);
+        // dragonsNode.addChild(dragonNode);
+        // dragonNode.position = pos;
     },
 
     setTimeToLabel: function (dx, label) {
