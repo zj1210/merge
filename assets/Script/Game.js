@@ -1,3 +1,6 @@
+
+import DataMgr from 'DataMgr';
+
 cc.Class({
     extends: cc.Component,
 
@@ -58,12 +61,14 @@ cc.Class({
 
         if (!cc.dataMgr) {
             cc.dataMgr = new DataMgr();
+            cc.dataMgr.init();
         }
         //初始化最好写在start里面，我在别的地方有onload来初始化 Game里面的一些数据 比如tile里的onload
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
     },
 
     start: function () {
+        //debugger;
         /**
          * 初始化块的数据结构,0标记的是大厅数据
          */
@@ -143,9 +148,9 @@ cc.Class({
     },
 
     //给如一个世界坐标，返回坐标下的tile，如果tile上有fog，就返回null
-    getContainPointTile_FogIsNull:function(worldPos) {
+    getContainPointTile_FogIsNull: function (worldPos) {
         var tile = this.getContainPointTile(worldPos);
-        if(tile && tile.getComponent('Tile').fog) {
+        if (tile && tile.getComponent('Tile').fog) {
             return null;
         }
 
@@ -436,7 +441,7 @@ cc.Class({
         }
     },
 
-    getNearestTileByN_pos:function(pos,N) {
+    getNearestTileByN_pos: function (pos, N) {
         var resultTiles = [];
         var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
         var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
@@ -481,8 +486,8 @@ cc.Class({
     },
 
     getNearestTileByN: function (tile, N) {
-        
-        var resultTiles = this.getNearestTileByN_pos(tile.position,N);
+
+        var resultTiles = this.getNearestTileByN_pos(tile.position, N);
 
         return resultTiles;
     },
@@ -524,11 +529,11 @@ cc.Class({
                     newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(results[i].thingType, results[i].thingLevel);
                     results[i].thing = newDragon;
                 } else {
-                    var newThing =  this.generateThing(results[i].thingType, results[i].thingLevel);
+                    var newThing = this.generateThing(results[i].thingType, results[i].thingLevel);
                     results[i].thing = newThing;
                 }
             } else {
-                var newThing =  this.generateThing(results[i].thingType, results[i].thingLevel);
+                var newThing = this.generateThing(results[i].thingType, results[i].thingLevel);
                 results[i].thing = newThing;
             }
         }

@@ -43,7 +43,7 @@ cc.Class({
             type: cc.Prefab,
         },
 
-       
+
         // defaults, set visually when attaching this script to the Canvas
 
     },
@@ -59,16 +59,16 @@ cc.Class({
                 break;
 
             case "flower":
-            this.fog_GenerateThing(2, treasureData.level);
+                this.fog_GenerateThing(2, treasureData.level);
                 break;
 
             case "dragon":
-            this.fog_GenerateThing(3, treasureData.level);
+                this.fog_GenerateThing(3, treasureData.level);
                 break;
 
             case "heart":
-               this.fog_GenerateThing(1, treasureData.level);
-                
+                this.fog_GenerateThing(1, treasureData.level);
+
                 break;
 
             default:
@@ -78,17 +78,20 @@ cc.Class({
     },
 
     fog_GenerateThing: function (thingType, thingLevel) {
+        this.tile.getComponent('Tile').fog = null;
+        this.tile.getComponent('Tile').tileType = 0;
         var newThing = cc.instantiate(this.thingPrefab);
         newThing.position = this.node.position;
         var thingJS = newThing.getChildByName('selectedNode').getComponent('Thing');
         thingJS.setTypeAndLevel_forNewThing(thingType, thingLevel);
-        
+
 
         cc.find("Canvas/gameLayer/thingsNode").addChild(newThing);
-       
-    
+
+
         thingJS.changeInTile(this.tile, thingLevel, thingType);
-    
+        // debugger;
+        // cc.dataMgr.debugTileInfo();
         this.node.destroy();
     },
 
@@ -97,7 +100,7 @@ cc.Class({
         console.log('fog被点击了！');
 
         var heartCount = cc.dataMgr.getHeartCount();
-        if (heartCount > this.fogAmount) {
+        if (heartCount >= this.fogAmount) {
             //心够，将来可能是弹窗
             //解锁雾 可以在动画回调里设置
             cc.dataMgr.addHeartCount(-this.fogAmount);
@@ -109,15 +112,13 @@ cc.Class({
         }
     },
 
-    settingFog: function (fogState, fogAmount,tile) {
+    //初始化加载的时候 来调用 不播放动画!!!!!
+
+    settingFog: function (fogState, fogAmount, tile) {
 
         this.fogAmount = fogAmount;
-        this.settingState(fogState);
 
-        this.tile = tile;
-    },
 
-    settingState: function (fogState) {
         this.fogState = fogState;
         if (this.fogState == 0) {
             this.reLockLabel.string = this.fogAmount + "精华解锁";
@@ -126,10 +127,36 @@ cc.Class({
             this.reLockLabel.node.active = false;
             this.fog.active = false;
             this.box.active = true;
+
         } else {
             console.log("未知 fogState " + fogState);
             debugger;
         }
+
+        this.tile = tile;
+    },
+
+    //播放动画，游戏的操作！！！！
+    settingState: function (fogState) {
+        this.fogState = fogState;
+        if (this.fogState == 0) {
+            this.reLockLabel.string = this.fogAmount + "精华解锁";
+            this.box.active = false;
+        } else if (this.fogState == 1) {
+            this.reLockLabel.node.active = false;
+
+            this.fog.getComponent(cc.Animation).play('fogOut');
+            this.scheduleOnce(this.fogOutOver, 1.1);
+        } else {
+            console.log("未知 fogState " + fogState);
+            debugger;
+        }
+    },
+
+    fogOutOver: function () {
+        this.fog.active = false;
+        this.box.active = true;
+        //this.box.getComponent(cc.Animation).play('boxIn');
     }
 
 });

@@ -166,7 +166,18 @@ cc.Class({
                         self.putInTile(self.currentNearestTile);
 
                         var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
-                        tempJs.changeInTile(tiles[0], thingLevel, thingType);
+                        //若有格子 才处理
+                        if(tiles) {
+                            tempJs.changeInTile(tiles[0], thingLevel, thingType);
+                        } 
+                        //没有格子就不可交换
+                        else {
+                            //debugger;
+                            self.relationTileJS.thing = this.node.parent;
+                            self.relationTileJS.tempThing = null;
+                            self.goBack();
+                        }
+                        
                     } else { //没有物体 直接放入
                         self.putInTile(self.currentNearestTile);
                     }
