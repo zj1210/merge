@@ -12,10 +12,7 @@ cc.Class({
             type:cc.Node
         },
 
-        dragonCountLabel:{
-            default:null,
-            type:cc.Label
-        }
+       
     },
 
     onLoad: function () {
@@ -29,6 +26,12 @@ cc.Class({
         this.zzz.active = true;
         this.node.getComponent(cc.Animation).play('nestzzz');
     },
+
+    noDragonAni:function() {
+        this.zzz.active = false;
+        this.node.getComponent(cc.Animation).stop('nestzzz');
+    }
+    
 
    
 });

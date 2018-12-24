@@ -92,7 +92,7 @@ cc.Class({
         this.thingZOrder = cc.dataMgr.globalZOrder++;
         // console.log("tile onload" + this.node.name);
         //若在关卡就 直接用预置数据，若在大厅 并且大厅没有数据 还是使用预制数据
-        if (!cc.dataMgr.isHall || !cc.dataMgr.hasTileData) {
+        if (!cc.dataMgr.isHall || !cc.dataMgr.hallTileData) {
             //根据数据 放置物品，虽然他们不在一个层级，但是位置可以复用，因为父节点位置一样
             //测试用
 
@@ -105,6 +105,22 @@ cc.Class({
             }
         } else {
             //使用本地数据
+            var name_num = this.node.name.substring(4);//Tile0_0 --> 0_0
+            var arr_num = name_num.split("_"); //0_0 --> [0,0];
+            //console.log(arr_num);
+            var wAndH = cc.dataMgr.getCurrentWidthAndHeight();
+            var height = parseInt(arr_num[0]);
+            var width = parseInt(arr_num[1]);
+            var tileData = cc.dataMgr.hallTileData[height*wAndH.w + width];
+            //console.log(tileData);
+            //数据的解析 一定要先判断是否为雾，若为雾，要判断是否为宝箱态，最后才去管 雾的精华数，
+            //因为 我在把雾解锁后，并没有管雾的解锁精华数，所以他还是初始值
+            this.tileType = tileData.tileType;
+            this.fogAmount = tileData.fogAmount;
+            this.fogState = tileData.fogState;
+            this.thingType = tileData.thingType;
+            this.thingLevel = tileData.thingLevel;
+            this.dontWant = tileData.dontWant;
         }
 
         this.generateLand();

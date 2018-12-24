@@ -94,7 +94,7 @@ export default class DataMgr extends cc.Component {
             "flowerLevel": 2,
             "minDragonLevel": 1,
             "heartLevel": 0,
-            "needTime": 5
+            "needTime": 1
         },
 
         {
@@ -306,12 +306,54 @@ export default class DataMgr extends cc.Component {
             "probability": 1.0
         }
     ];
-    //龙巢里的龙 将来要持久化 数据结构 只需插入 时间 进入级别
+
+
+    //duration 单位：秒
+    dragonNestDuration = [
+        {
+            "dragonLevel": 1,
+            "duration": 4,
+        },
+
+        {
+            "dragonLevel": 2,
+            "duration": 4
+        },
+
+        {
+            "dragonLevel": 3,
+            "duration": 4
+        },
+
+        {
+            "dragonLevel": 4,
+            "duration": 4
+        },
+    ];
+
+
+    //龙巢里的龙 将来要持久化 数据结构 只需插入 醒来时间 和 进入级别
+    /**
+     * {
+     *     "level" : 1/2/3/4/..  龙的级别
+     *     "wakeUpTime" : 5213213123//单位秒 1972年到现在的秒数、
+     * }
+     */
     dragonNestDatas = [];
-    // init();
-
-
+    //数据持久化 解码后的 各个tile数据
+    hallTileData = null;
     init() {
+        cc.game.on(cc.game.EVENT_HIDE, function () {
+            console.log("datamgr  hide");
+            cc.dataMgr.saveGameData();
+        });
+        cc.game.on(cc.game.EVENT_SHOW, function () {
+            console.log("datamgr  show");
+
+        });
+
+
+
         //用于购买宝箱 金币
         var coinCount = cc.sys.localStorage.getItem("coinCount");
         if (!coinCount) {
@@ -329,11 +371,21 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("heartCount", 0);
         }
 
-        //这里将来要做的是 读取用户的数据，初始化每个块。
-        //目前直接使用预定义的。
-        //console.log('数据初始化运行');
-    };
 
+        var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
+        var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
+        if (!strHallTileData) {
+            this.hallTileData = null;
+        } else {
+            //块上数据
+            this.hallTileData = JSON.parse(strHallTileData);
+            //龙层数据
+            this.dragonDatas = JSON.parse(strDragonData);
+            //龙巢数据
+
+            console.log(this.dragonDatas);
+        }
+    };
 
 
     randomTreasure() {
@@ -346,9 +398,46 @@ export default class DataMgr extends cc.Component {
         }
     };
 
+    getDragonNestDurationByLevel(level) {
+        for (var i = 0; i < this.dragonNestDuration.length; i++) {
+            if (this.dragonNestDuration[i].dragonLevel == level) {
+                return this.dragonNestDuration[i].duration;
+            }
+        }
+    };
+
+    //将最早放入队列的龙取出来
+    dequeueDragonNest() {
+        return this.dragonNestDatas.shift();
+    };
+
+    //龙巢是否有龙
+    isHaveDragon() {
+        if (this.dragonNestDatas.length > 0) {
+            return true;
+        }
+
+        return false;
+    };
 
     pushDragonToNest(time, level) {
-        this.dragonNestDatas.push({ "time": time, "level": level });
+        var wakeUpTime;
+        //若有龙 以最后一条龙的结束时间为开始
+        if (this.isHaveDragon()) {
+            var len = this.dragonNestDatas.length;
+            wakeUpTime = this.dragonNestDatas[len - 1].wakeUpTime + this.getDragonNestDurationByLevel(level);
+        } else {
+            wakeUpTime = time / 1000 + this.getDragonNestDurationByLevel(level);
+        }
+
+        this.dragonNestDatas.push({ "level": level, "wakeUpTime": wakeUpTime });
+    };
+
+    getCurrentDragonCountDown() {
+        var wut = this.dragonNestDatas[0].wakeUpTime;
+        var ct = Date.now() / 1000;
+
+        return wut - ct;
     };
 
     getDescByTypeAndLevel(type, level) {
@@ -500,13 +589,68 @@ export default class DataMgr extends cc.Component {
         debugger;
     };
 
+
+    //数据持久化，游戏内货币不用处理，已经做好了，这里要做的是
+    /**
+     * 1: tile层持久化， 每个tile上面是什么东西？
+     * tileType: 0绿地 1雾
+     * fogAmount：雾需要多少精华解锁
+     * fogState：雾的游戏状态 0代表是雾，1代表雾已经解锁了，是宝箱
+     *thingType： 0=没有，1=精华，2=花，3=龙蛋
+     * thingLevel：物品的级别
+     * dontWant：0默认要这个块，除非特殊需求，这个块不要了，置为1，功能好像没做
+     * 2:龙层持久化，把龙层的所有龙持久化
+     * 1：thingType 类型 冗余数据 但是打算存起来，永远都是3
+     * 2：thingLevel 龙级别
+     * 3：strength 龙剩余体力
+     * 4: position cc.v2 龙的坐标，也储存把，不然加载后，这些龙我不知道放在什么地方
+     */
+    saveGameData() {
+        var tilePersistenceDatas = [];
+        for (var i = 0; i < this.hallTileHeight; i++) {
+            for (var j = 0; j < this.hallTileWidth; j++) {
+
+                var tileData = {};
+                var tileJS = this.tilesData[i][j].getComponent('Tile');
+                tileData.tileType = tileJS.tileType;
+                tileData.fogAmount = tileJS.fogAmount;
+                tileData.fogState = tileJS.fogState;
+                tileData.thingType = tileJS.thingType;
+                tileData.thingLevel = tileJS.thingLevel;
+                tileData.dontWant = tileJS.dontWant;
+                tilePersistenceDatas.push(tileData);
+            }
+        }
+
+        cc.sys.localStorage.setItem("hallTileData", JSON.stringify(tilePersistenceDatas));
+
+
+        var dragonPersistenceDatas = [];
+
+        //作为数据层，去持有界面的数据 写法很不好，目前没有太好的办法
+        var dragonsNode = cc.find("Canvas/gameLayer/dragonsNode");
+        var dragons = dragonsNode.children;
+        for (var i = 0; i < dragons.length; i++) {
+            var dragonData = {};
+            var dragonJS = dragons[i].getComponent('Dragon');
+            dragonData.thingType = dragonJS.thingType;
+            dragonData.thingLevel = dragonJS.thingLevel;
+            dragonData.strength = dragonJS.strength;
+            dragonData.position = dragons[i].position;
+            dragonPersistenceDatas.push(dragonData);
+        }
+
+        cc.sys.localStorage.setItem("dragonDatas",JSON.stringify(dragonPersistenceDatas));
+    };
+
     //打印tile的数据 debug用
     debugTileInfo() {
         for (var i = 0; i < this.hallTileHeight; i++) {
             for (var j = 0; j < this.hallTileWidth; j++) {
 
 
-                console.log(this.tilesData[i][j].getComponent('Tile').thingType + "  " + this.tilesData[i][j].getComponent('Tile').thingLevel);
+                //console.log(this.tilesData[i][j].getComponent('Tile').thingType + "  " + this.tilesData[i][j].getComponent('Tile').thingLevel);
+                console.log(this.tilesData[i][j].getComponent('Tile'));
             }
         }
     };
