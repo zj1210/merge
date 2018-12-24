@@ -122,10 +122,11 @@ cc.Class({
 
         if(len <1) {
             this.countDownLabel.node.active = false;
-
+            this.dragonCountLabel.node.active =false;
             this.dragonNestNode.getComponent('nest').noDragonAni();
         } else {
             this.countDownLabel.node.active = true;
+            this.dragonCountLabel.node.active = true;
             var totleSecond = cc.dataMgr.getCurrentDragonCountDown();
             if(totleSecond<1) {
                 console.log("龙出巢逻辑！！todo");
