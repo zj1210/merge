@@ -306,9 +306,40 @@ export default class DataMgr extends cc.Component {
             "probability": 1.0
         }
     ];
-    //龙巢里的龙 将来要持久化 数据结构 只需插入 时间 进入级别
+
+
+    //duration 单位：秒
+    dragonNestDuration = [
+        {
+            "dragonLevel": 1,
+            "duration": 60,
+        },
+
+        {
+            "dragonLevel": 2,
+            "duration": 45
+        },
+
+        {
+            "dragonLevel": 3,
+            "duration": 30
+        },
+
+        {
+            "dragonLevel": 4,
+            "duration": 15
+        },
+    ];
+
+
+    //龙巢里的龙 将来要持久化 数据结构 只需插入 醒来时间 和 进入级别
+    /**
+     * {
+     *     "level" : 1/2/3/4/..  龙的级别
+     *     "wakeUpTime" : 5213213123//单位秒 1972年到现在的秒数、
+     * }
+     */
     dragonNestDatas = [];
-    // init();
 
 
     init() {
@@ -334,8 +365,7 @@ export default class DataMgr extends cc.Component {
         //console.log('数据初始化运行');
     };
 
-
-
+    
     randomTreasure() {
         var p = Math.random();
         for (var i = 1; i < this.treasureChestDatas.length; i++) {
@@ -346,9 +376,46 @@ export default class DataMgr extends cc.Component {
         }
     };
 
+    getDragonNestDurationByLevel(level) {
+        for (var i = 0; i < this.dragonNestDuration.length; i++) {
+            if (this.dragonNestDuration[i].dragonLevel == level) {
+                return this.dragonNestDuration[i].duration;
+            }
+        }
+    };
+
+    //将最早放入队列的龙取出来
+    dequeueDragonNest() {
+        return this.dragonNestDatas.shift();
+    };
+
+    //龙巢是否有龙
+    isHaveDragon() {
+        if(this.dragonNestDatas.length>0) {
+            return true;
+        }
+
+        return false;
+    };
 
     pushDragonToNest(time, level) {
-        this.dragonNestDatas.push({ "time": time, "level": level });
+        var wakeUpTime;
+        //若有龙 以最后一条龙的结束时间为开始
+        if(this.isHaveDragon()) {
+            var len = this.dragonNestDatas.length;
+            wakeUpTime = this.dragonNestDatas[len - 1].wakeUpTime + this.getDragonNestDurationByLevel(level);
+        } else {
+            wakeUpTime = time/1000 + this.getDragonNestDurationByLevel(level);
+        }
+    
+        this.dragonNestDatas.push({ "level": level, "wakeUpTime": wakeUpTime });
+    };
+
+    getCurrentDragonCountDown() {
+        var wut = this.dragonNestDatas[0].wakeUpTime;
+        var ct = Date.now()/1000;
+        
+        return wut - ct;
     };
 
     getDescByTypeAndLevel(type, level) {

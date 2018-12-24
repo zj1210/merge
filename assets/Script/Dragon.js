@@ -63,16 +63,16 @@ cc.Class({
             type: cc.Sprite
         },
 
-        tipsNode:{
-            default:null,
-            type:cc.Node
-	
+        tipsNode: {
+            default: null,
+            type: cc.Node
+
         },
 
-		progressNode:{
-            default:null,
-            type:cc.Node
-			}
+        progressNode: {
+            default: null,
+            type: cc.Node
+        }
     },
 
     settingSpriteFrame(type, level) {
@@ -89,34 +89,34 @@ cc.Class({
                 this.dragonSpr.spriteFrame = this.dragon_2_spr;
                 this.wing1.spriteFrame = this.wing_2_spr;
                 this.wing2.spriteFrame = this.wing_2_spr;
-				this.wing1.node.position = cc.v2(-19,15);
-				this.wing2.node.position = cc.v2(-4.5,16);
+                this.wing1.node.position = cc.v2(-19, 15);
+                this.wing2.node.position = cc.v2(-4.5, 16);
 
-				this.collectionThing.position = cc.v2(0,80);
-                this.progressNode.position = cc.v2(0,190);
-				this.tipsNode.position = cc.v2(0,190);
+                this.collectionThing.position = cc.v2(0, 80);
+                this.progressNode.position = cc.v2(0, 190);
+                this.tipsNode.position = cc.v2(0, 190);
 
             } else if (level == 3) {
                 this.dragonSpr.spriteFrame = this.dragon_3_spr;
                 this.wing1.spriteFrame = this.wing_3_spr;
                 this.wing2.spriteFrame = this.wing_3_spr;
-				this.wing1.node.position = cc.v2(-40,83);
-				this.wing2.node.position = cc.v2(-12,85);
+                this.wing1.node.position = cc.v2(-40, 83);
+                this.wing2.node.position = cc.v2(-12, 85);
 
-				this.collectionThing.position = cc.v2(0,130);
-                this.progressNode.position = cc.v2(0,260);
-				this.tipsNode.position = cc.v2(0,130);
+                this.collectionThing.position = cc.v2(0, 130);
+                this.progressNode.position = cc.v2(0, 260);
+                this.tipsNode.position = cc.v2(0, 130);
 
             } else if (level == 4) {
                 this.dragonSpr.spriteFrame = this.dragon_4_spr;
                 this.wing1.spriteFrame = this.wing_4_spr;
                 this.wing2.spriteFrame = this.wing_4_spr;
-				this.wing1.node.position = cc.v2(-102,83);
-				this.wing2.node.position = cc.v2(-60,85);
+                this.wing1.node.position = cc.v2(-102, 83);
+                this.wing2.node.position = cc.v2(-60, 85);
 
-				this.collectionThing.position = cc.v2(0,130);
-                this.progressNode.position = cc.v2(0,300);
-				this.tipsNode.position = cc.v2(0,130);
+                this.collectionThing.position = cc.v2(0, 130);
+                this.progressNode.position = cc.v2(0, 300);
+                this.tipsNode.position = cc.v2(0, 130);
 
             }
             // this.node.width = this.dragonSpr.spriteFrame._rect.width;
@@ -132,7 +132,7 @@ cc.Class({
     onLoad: function () {
         this.underpan.active = false;
         this.collectionThing.active = false;
-       
+
         //标记是否处理 按钮点击事件
         this.selectClickFlag = true;
         //搜索到的附近 同类型参与合并的龙
@@ -188,7 +188,7 @@ cc.Class({
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
-        this.node.getChildByName("progressNode").active =false;
+        this.node.getChildByName("progressNode").active = false;
 
 
 
@@ -198,7 +198,7 @@ cc.Class({
         }
         let self = this;
 
-        var lastTouchX= 0.0;
+        var lastTouchX = 0.0;
         var curTouchX = 0.0;
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             //console.log('touch begin by flower');
@@ -225,36 +225,36 @@ cc.Class({
 
         }, this.node);
 
-      
-        var dnAction1 = cc.scaleTo(0.2,-1,1);
-        var dnAction2 = cc.scaleTo(0.2,1,1);
+
+        var dnAction1 = cc.scaleTo(0.2, -1, 1);
+        var dnAction2 = cc.scaleTo(0.2, 1, 1);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
                 // console.log('touch move by flower');
                 self.closeSelectClick();
                 event.stopPropagation();
 
-                if(self.collectionState == true) {
+                if (self.collectionState == true) {
                     self.collectionInterrupt();
                 }
 
-                
+
 
                 //点击跟随 触摸点
                 //物体的世界坐标 = touchPos+ _offset;
                 var touchpos = event.getLocation(); //触摸点的摄像机坐标系下的坐标
 
-                
+
                 curTouchX = touchpos.x;
 
-               
-                if(curTouchX>lastTouchX) {
-                   
+
+                if (curTouchX > lastTouchX) {
+
                     dragonNode.runAction(dnAction1);
-                    
+
                 } else {
-                  
-                   dragonNode.runAction(dnAction2);
+
+                    dragonNode.runAction(dnAction2);
                 }
 
                 lastTouchX = curTouchX;
@@ -297,7 +297,7 @@ cc.Class({
         }, this.node);
     },
 
-  
+
     touchEnd: function (event) {
         // console.log('touch end by flower');
         let self = this;
@@ -316,7 +316,7 @@ cc.Class({
         //不能合并的情况下 要判断松手位置是有能采集的花，若有开始采集,还要判断当前他是否有生成物，若有先放置
         else {
             //若有生成物 先放置
-            if(self.collectionThing.active) {
+            if (self.collectionThing.active) {
                 self.collectionThingClick();
             }
 
@@ -356,16 +356,16 @@ cc.Class({
     },
 
     playCollection: function (flowerLevel) {
-        if(this.strength <=0) {
+        if (this.strength <= 0) {
             this.changeLabel("太累了!");
-            this.scheduleOnce(this.goToDragonNest,1.0);
-          //  this.goToDragonNest();
+            this.scheduleOnce(this.goToDragonNest, 1.0);
+            //  this.goToDragonNest();
             return;
         }
-     
+
         console.log('龙开始采集了。。。');
         this.collectionState = true;
-        this.node.getChildByName("progressNode").active =true;
+        this.node.getChildByName("progressNode").active = true;
         this.node.getChildByName('dragonNode').getComponent(cc.Animation).play("dragonCollection");
         this.unschedule(this.collectionOver);
         var needTime = cc.dataMgr.getNeedTimeByFlowerLevel(flowerLevel);
@@ -373,35 +373,35 @@ cc.Class({
         this.currentFlowerLevel = flowerLevel;
         this.scheduleOnce(this.collectionOver, needTime);
 
-      
-        this.node.getChildByName("progressNode").runAction(this.myProgressTo_act(needTime, 1.0,0.0));
+
+        this.node.getChildByName("progressNode").runAction(this.myProgressTo_act(needTime, 1.0, 0.0));
         // var heartLevel = cc.dataMgr.getCollectionHeartLevel(flowerLevel);
-       
+
         // this.generateHeartAndPlace(heartLevel);
-     
+
 
     },
 
-    changeLabel:function(value) {
-       
+    changeLabel: function (value) {
+
         //this.tipsLabel.string = value;
-		var tipsLabel = this.tipsNode.getChildByName("tipsLabel").getComponent(cc.Label);
-		tipsLabel.string = value;
-     
+        var tipsLabel = this.tipsNode.getChildByName("tipsLabel").getComponent(cc.Label);
+        tipsLabel.string = value;
+
         tipsLabel.node.getComponent(cc.Animation).play('tipsLabel');
 
     },
 
-    collectionInterrupt:function() {
+    collectionInterrupt: function () {
         this.unschedule(this.collectionOver);
         this.node.getChildByName('dragonNode').getComponent(cc.Animation).play("dragonDefault");
-        this.node.getChildByName("progressNode").active =false;
+        this.node.getChildByName("progressNode").active = false;
         this.collectionState = false;
         this.currentFlowerLevel = null;
     },
 
-    collectionOver:function() {
-       
+    collectionOver: function () {
+
         var heartLevel = cc.dataMgr.getCollectionHeartLevel(this.currentFlowerLevel);
         this.generateHeartAndPlace(heartLevel);
         this.collectionInterrupt();
@@ -412,14 +412,14 @@ cc.Class({
         //     // this.collectionThingClick();
         //     this.scheduleOnce(this.collectionThingClick,0.1);
         //      this.scheduleOnce(this.goToDragonNest,3.0);
-           
+
         // }
     },
 
     //将龙移入龙巢
-    goToDragonNest:function() {
+    goToDragonNest: function () {
 
-        
+
         var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
         //console.log(worldpos);
         // self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
@@ -430,7 +430,7 @@ cc.Class({
         this.ui.addDragonToNest(camerapos, level);
 
         this.node.destroy();
-       
+
     },
 
 
@@ -475,7 +475,7 @@ cc.Class({
             //在thingsNode层创建一个 图片 让他移动到tile的位置 然后删除它，创建prefab的thing 放入
             //之所以这样，是因为龙身上的图片移动过程中 移动龙会造成bug，因为那是他的子节点，现在分开了
             var moveThing = cc.instantiate(this.collectionThing);
-           // debugger;
+            // debugger;
             var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
             thingsNode.addChild(moveThing);
             var movethingWorldPos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
@@ -493,12 +493,12 @@ cc.Class({
         }
         //没有空格 直接转换为货币，飞入UI部分
         else {
-             //debugger;
+            //debugger;
             console.log("没有空格：直接转换为货币，飞入UI部分");
             var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
             var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
             this.collectionThing.active = false;
-            this.ui.addHeartAndAni(camerapos,this.collectionThing.thingLevel);
+            this.ui.addHeartAndAni(camerapos, this.collectionThing.thingLevel);
         }
     },
 

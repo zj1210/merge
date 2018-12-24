@@ -12,10 +12,7 @@ cc.Class({
             type:cc.Node
         },
 
-        dragonCountLabel:{
-            default:null,
-            type:cc.Label
-        }
+       
     },
 
     onLoad: function () {

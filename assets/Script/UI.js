@@ -61,24 +61,34 @@ cc.Class({
             type: cc.Node
         },
 
-        tujianLayer:{
-            default:null,
-            type:cc.Node
+        tujianLayer: {
+            default: null,
+            type: cc.Node
         },
 
-        tujianFlower:{
-            default:null,
-            type:cc.Node
+        tujianFlower: {
+            default: null,
+            type: cc.Node
         },
 
-        tujianHeart:{
-            default:null,
-            type:cc.Node
+        tujianHeart: {
+            default: null,
+            type: cc.Node
         },
 
-        tujianDragon:{
+        tujianDragon: {
+            default: null,
+            type: cc.Node
+        },
+
+        dragonCountLabel:{
             default:null,
-            type:cc.Node
+            type:cc.Label
+        },
+
+        countDownLabel:{
+            default:null,
+            type:cc.Label
         },
         // defaults, set visually when attaching this script to the Canvas
 
@@ -102,6 +112,56 @@ cc.Class({
 
     start: function () {
 
+        this.schedule(this.refreshDragonNestInfo, 1);
+    },
+
+    refreshDragonNestInfo:function() {
+        //console.log("-----每秒 刷新龙巢");
+        var len = cc.dataMgr.dragonNestDatas.length;
+        this.dragonCountLabel.string = len;
+
+        if(len <1) {
+            this.countDownLabel.node.active = false;
+        } else {
+            this.countDownLabel.node.active = true;
+            var totleSecond = cc.dataMgr.getCurrentDragonCountDown();
+            if(totleSecond<1) {
+                console.log("龙出巢逻辑！！todo");
+                this.dragonMoveOutNest();
+            }
+
+            this.setTimeToLabel(totleSecond, this.countDownLabel);
+        }
+    },
+
+    dragonMoveOutNest:function() {
+        var outDragonData = cc.dataMgr.dequeueDragonNest();
+        console.log(outDragonData);
+
+     
+
+        // var dragonNode = cc.instantiate(this.dragonPrefab);
+        // this.node.addChild(dragonNode);
+        // dragonNode.position = this.dragonNestNode.position;
+        // dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, level);
+      
+        // var targetPos = this.dragonNestNode.position;
+        // var action = cc.moveTo(2.0, targetPos);
+        // var action2 = cc.scaleTo(2.0, 0.5);
+        // var together = cc.spawn(action, action2);
+        // var seq = cc.sequence(together, cc.callFunc(this.moveToDragonNestOver, this, dragonNode));
+        // dragonNode.runAction(seq);
+
+        // cc.dataMgr.pushDragonToNest(Date.now(), level);
+    },
+
+    setTimeToLabel: function (dx, label) {
+        //dx-->29分54秒
+        let m = parseInt(dx / 60);
+        let s = parseInt(dx - (60 * m));
+
+        // label.string = m + "分" + s + "秒";
+        label.string = m + ":" + s;
     },
 
     //图鉴按钮被点击
@@ -128,7 +188,7 @@ cc.Class({
         }
     },
 
-    tujianCloseClick:function() {
+    tujianCloseClick: function () {
         this.tujianLayer.active = false;
     },
 
@@ -158,7 +218,7 @@ cc.Class({
         this.node.addChild(dragonNode);
         dragonNode.position = nodepos;
         dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, level);
-        dragonNode.remove
+     
         var targetPos = this.dragonNestNode.position;
         var action = cc.moveTo(2.0, targetPos);
         var action2 = cc.scaleTo(2.0, 0.5);
