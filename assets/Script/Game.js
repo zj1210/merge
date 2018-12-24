@@ -67,12 +67,32 @@ cc.Class({
          * 初始化块的数据结构,0标记的是大厅数据
          */
             cc.dataMgr.initTile(0, this.node.getChildByName('gameLayer').getChildByName('mapNode').children);
+
         }
         //初始化最好写在start里面，我在别的地方有onload来初始化 Game里面的一些数据 比如tile里的onload
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
     },
 
+    initDragons:function() {
+        
+        var dragonDatas = cc.dataMgr.dragonDatas;
+        if(!dragonDatas) {
+            return;
+        }
+        for(var i = 0; i<dragonDatas.length; i++) {
+            var newDragon = cc.instantiate(this.dragonPrefab);
+            //这里代码会把 龙的体力 设置为 默认数据，需要再设置一遍
+            newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(dragonDatas[i].thingType, dragonDatas[i].thingLevel);
+            newDragon.getComponent('Dragon').strength = dragonDatas[i].strength;
+
+            newDragon.position = dragonDatas[i].position;
+            this.dragonsNode.addChild(newDragon);
+        }
+    },
+
     start: function () {
+        //根据持久化数据，持久化龙层，todo：龙巢的恢复
+        this.initDragons();
         //debugger;
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没

@@ -362,15 +362,21 @@ export default class DataMgr extends cc.Component {
 
 
         var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
-        if(!strHallTileData) {
+        var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
+        if (!strHallTileData) {
             this.hallTileData = null;
         } else {
+            //块上数据
             this.hallTileData = JSON.parse(strHallTileData);
-            console.log(this.hallTileData);
+            //龙层数据
+            this.dragonDatas = JSON.parse(strDragonData);
+            //龙巢数据
+
+            console.log(this.dragonDatas);
         }
     };
 
-    
+
     randomTreasure() {
         var p = Math.random();
         for (var i = 1; i < this.treasureChestDatas.length; i++) {
@@ -396,7 +402,7 @@ export default class DataMgr extends cc.Component {
 
     //龙巢是否有龙
     isHaveDragon() {
-        if(this.dragonNestDatas.length>0) {
+        if (this.dragonNestDatas.length > 0) {
             return true;
         }
 
@@ -406,20 +412,20 @@ export default class DataMgr extends cc.Component {
     pushDragonToNest(time, level) {
         var wakeUpTime;
         //若有龙 以最后一条龙的结束时间为开始
-        if(this.isHaveDragon()) {
+        if (this.isHaveDragon()) {
             var len = this.dragonNestDatas.length;
             wakeUpTime = this.dragonNestDatas[len - 1].wakeUpTime + this.getDragonNestDurationByLevel(level);
         } else {
-            wakeUpTime = time/1000 + this.getDragonNestDurationByLevel(level);
+            wakeUpTime = time / 1000 + this.getDragonNestDurationByLevel(level);
         }
-    
+
         this.dragonNestDatas.push({ "level": level, "wakeUpTime": wakeUpTime });
     };
 
     getCurrentDragonCountDown() {
         var wut = this.dragonNestDatas[0].wakeUpTime;
-        var ct = Date.now()/1000;
-        
+        var ct = Date.now() / 1000;
+
         return wut - ct;
     };
 
@@ -582,7 +588,11 @@ export default class DataMgr extends cc.Component {
      *thingType： 0=没有，1=精华，2=花，3=龙蛋
      * thingLevel：物品的级别
      * dontWant：0默认要这个块，除非特殊需求，这个块不要了，置为1，功能好像没做
-     * 
+     * 2:龙层持久化，把龙层的所有龙持久化
+     * 1：thingType 类型 冗余数据 但是打算存起来，永远都是3
+     * 2：thingLevel 龙级别
+     * 3：strength 龙剩余体力
+     * 4: position cc.v2 龙的坐标，也储存把，不然加载后，这些龙我不知道放在什么地方
      */
     saveGameData() {
         var tilePersistenceDatas = [];
@@ -600,8 +610,26 @@ export default class DataMgr extends cc.Component {
                 tilePersistenceDatas.push(tileData);
             }
         }
-        
+
         cc.sys.localStorage.setItem("hallTileData", JSON.stringify(tilePersistenceDatas));
+
+
+        var dragonPersistenceDatas = [];
+
+        //作为数据层，去持有界面的数据 写法很不好，目前没有太好的办法
+        var dragonsNode = cc.find("Canvas/gameLayer/dragonsNode");
+        var dragons = dragonsNode.children;
+        for (var i = 0; i < dragons.length; i++) {
+            var dragonData = {};
+            var dragonJS = dragons[i].getComponent('Dragon');
+            dragonData.thingType = dragonJS.thingType;
+            dragonData.thingLevel = dragonJS.thingLevel;
+            dragonData.strength = dragonJS.strength;
+            dragonData.position = dragons[i].position;
+            dragonPersistenceDatas.push(dragonData);
+        }
+
+        cc.sys.localStorage.setItem("dragonDatas",JSON.stringify(dragonPersistenceDatas));
     };
 
     //打印tile的数据 debug用
