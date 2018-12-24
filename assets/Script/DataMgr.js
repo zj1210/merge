@@ -343,6 +343,17 @@ export default class DataMgr extends cc.Component {
     //数据持久化 解码后的 各个tile数据
     hallTileData = null;
     init() {
+        cc.game.on(cc.game.EVENT_HIDE, function () {
+            console.log("datamgr  hide");
+            cc.dataMgr.saveGameData();
+        });
+        cc.game.on(cc.game.EVENT_SHOW, function () {
+            console.log("datamgr  show");
+
+        });
+
+
+
         //用于购买宝箱 金币
         var coinCount = cc.sys.localStorage.getItem("coinCount");
         if (!coinCount) {
