@@ -14,6 +14,8 @@ const {
 } = cc._decorator;
 @ccclass
 export default class DataMgr extends cc.Component {
+    //以年月日 时分 来标记版本，目前只用于清空数据
+    version = "201812251112"
 
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
     hasTileData = false;
@@ -122,7 +124,7 @@ export default class DataMgr extends cc.Component {
     dragonStrengthDatas = [
         {
             "dragonLevel": 1,
-            "dragonStrength": 500
+            "dragonStrength": 2
         },
         {
             "dragonLevel": 2,
@@ -312,7 +314,7 @@ export default class DataMgr extends cc.Component {
     dragonNestDuration = [
         {
             "dragonLevel": 1,
-            "duration": 4,
+            "duration": 20,
         },
 
         {
@@ -352,7 +354,15 @@ export default class DataMgr extends cc.Component {
 
         });
 
+        let version = cc.sys.localStorage.getItem("version");
 
+        if (version != this.version) {
+            cc.sys.localStorage.setItem("version", this.version);
+            this.resetData();
+
+            // //leadStep =0 ,表示是在 新手引导的阶段
+            // cc.dataMgr.userData.leadStep = 0;
+        }
 
         //用于购买宝箱 金币
         var coinCount = cc.sys.localStorage.getItem("coinCount");
@@ -373,19 +383,44 @@ export default class DataMgr extends cc.Component {
 
 
         var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
-        var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
+
         if (!strHallTileData) {
             this.hallTileData = null;
         } else {
             //块上数据
             this.hallTileData = JSON.parse(strHallTileData);
+        }
+        var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
+
+        if (!strDragonData) {
+            this.dragonDatas = null;
+        } else {
             //龙层数据
             this.dragonDatas = JSON.parse(strDragonData);
-            //龙巢数据
-
-            console.log(this.dragonDatas);
         }
+
+        var strDragonNestDatas = cc.sys.localStorage.getItem("dragonNestDatas");
+
+        if (!strDragonNestDatas) {
+            this.dragonNestDatas = [];
+        } else {
+            //龙巢数据
+            debugger;
+            this.dragonNestDatas = JSON.parse(strDragonNestDatas);
+            console.log(this.dragonNestDatas);
+        }
+
+
+
+
+
     };
+
+    resetData() {
+        cc.sys.localStorage.setItem("hallTileData", "");
+        cc.sys.localStorage.setItem("dragonDatas", "");
+        cc.sys.localStorage.setItem("dragonNestDatas", "");
+    }
 
 
     randomTreasure() {
@@ -427,7 +462,7 @@ export default class DataMgr extends cc.Component {
             var len = this.dragonNestDatas.length;
             wakeUpTime = this.dragonNestDatas[len - 1].wakeUpTime + this.getDragonNestDurationByLevel(level);
         } else {
-            wakeUpTime = time / 1000 + this.getDragonNestDurationByLevel(level);
+            wakeUpTime = parseInt(time / 1000) + this.getDragonNestDurationByLevel(level);
         }
 
         this.dragonNestDatas.push({ "level": level, "wakeUpTime": wakeUpTime });
@@ -640,9 +675,11 @@ export default class DataMgr extends cc.Component {
             dragonPersistenceDatas.push(dragonData);
         }
 
-        cc.sys.localStorage.setItem("dragonDatas",JSON.stringify(dragonPersistenceDatas));
+        cc.sys.localStorage.setItem("dragonDatas", JSON.stringify(dragonPersistenceDatas));
 
-        //存储龙巢内的龙
+        //存储龙巢内的龙  数据不用解析了，本来就是纯数据的结构
+        cc.sys.localStorage.setItem("dragonNestDatas", JSON.stringify(this.dragonNestDatas));
+
     };
 
     //打印tile的数据 debug用
