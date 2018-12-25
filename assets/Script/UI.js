@@ -112,6 +112,9 @@ cc.Class({
 
     start: function () {
         this.game = cc.find("Canvas").getComponent('Game');
+        if(cc.dataMgr.dragonNestDatas.length>0) {
+            this.dragonNestNode.getComponent('nest').nestInOver();
+        }
         this.schedule(this.refreshDragonNestInfo, 1);
     },
 
@@ -179,6 +182,10 @@ cc.Class({
     },
 
     setTimeToLabel: function (dx, label) {
+        if(dx<0) { //负的
+            label.string = "";
+            return;
+        }
         //dx-->29分54秒
         let m = parseInt(dx / 60);
         let s = parseInt(dx - (60 * m));
