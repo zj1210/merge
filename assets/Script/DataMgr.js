@@ -163,6 +163,15 @@ export default class DataMgr extends cc.Component {
         }
     ];
 
+    shopDatas = [
+        {
+            treasureChestPrice:2
+        },
+        {
+            dragonEggPrice:1
+        }
+    ];
+
     heartDescDatas = [
         {
             "heartLevel": 0,

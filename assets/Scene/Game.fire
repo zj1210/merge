@@ -51943,7 +51943,13 @@
     "node": {
       "__id__": 1358
     },
-    "_enabled": true
+    "_enabled": true,
+    "treasureChestLabel": {
+      "__id__": 1389
+    },
+    "dragonEggLabel": {
+      "__id__": 1406
+    }
   },
   {
     "__type__": "cc.Button",

@@ -12,15 +12,29 @@ cc.Class({
         //     type:cc.Node
         // },
 
-       
+        treasureChestLabel:{
+            default:null,
+            type:cc.Label
+        },
+
+        dragonEggLabel:{
+            default:null,
+            type:cc.Label
+        },
+
     },
 
     onLoad: function () {
 
         //cc.dataMgr.
-
+        
     },
 
+    /**
+     * 不管任何购买，首先要判断的逻辑是 钻石或者金币是否足够？
+     * 若足够，棋盘上是否有空格？
+     * 只有过了这两个判断，才可购买
+     */
     treasureChestClick:function() {
         console.log("treasureChest Click!");
     },
