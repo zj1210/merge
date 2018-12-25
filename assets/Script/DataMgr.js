@@ -122,7 +122,7 @@ export default class DataMgr extends cc.Component {
     dragonStrengthDatas = [
         {
             "dragonLevel": 1,
-            "dragonStrength": 5
+            "dragonStrength": 500
         },
         {
             "dragonLevel": 2,
@@ -308,7 +308,7 @@ export default class DataMgr extends cc.Component {
     ];
 
 
-    //duration 单位：秒
+    //duration 单位：秒 休息时间
     dragonNestDuration = [
         {
             "dragonLevel": 1,
@@ -641,6 +641,8 @@ export default class DataMgr extends cc.Component {
         }
 
         cc.sys.localStorage.setItem("dragonDatas",JSON.stringify(dragonPersistenceDatas));
+
+        //存储龙巢内的龙
     };
 
     //打印tile的数据 debug用

@@ -238,13 +238,14 @@ cc.Class({
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
 
         var dragonNode = cc.instantiate(this.dragonPrefab);
+        dragonNode.scaleX = -1;
         this.node.addChild(dragonNode);
         dragonNode.position = nodepos;
         dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, level);
      
         var targetPos = this.dragonNestNode.position;
         var action = cc.moveTo(2.0, targetPos);
-        var action2 = cc.scaleTo(2.0, 0.5);
+        var action2 = cc.scaleTo(2.0, -0.5,0.5);
         var together = cc.spawn(action, action2);
         var seq = cc.sequence(together, cc.callFunc(this.moveToDragonNestOver, this, dragonNode));
         dragonNode.runAction(seq);

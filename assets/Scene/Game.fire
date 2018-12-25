@@ -35270,7 +35270,7 @@
       }
     ],
     "_tag": -1,
-    "_active": false,
+    "_active": true,
     "_components": [],
     "_prefab": null,
     "_id": "cdBqWnOD1H/KN78vr9dLCc",
@@ -36265,7 +36265,7 @@
       }
     ],
     "_tag": -1,
-    "_active": false,
+    "_active": true,
     "_components": [],
     "_prefab": null,
     "_id": "9d+d1QA3tDd76orE8Yj6LM",
@@ -36496,7 +36496,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 83,
+      "width": 93,
       "height": 55
     },
     "_rotationX": 0,
