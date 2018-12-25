@@ -50374,24 +50374,28 @@
         "__id__": 1375
       },
       {
+        "__id__": 1377
+      },
+      {
         "__id__": 1379
       },
       {
         "__id__": 1381
       },
       {
-        "__id__": 1383
+        "__id__": 1384
       },
       {
         "__id__": 1386
-      },
-      {
-        "__id__": 1388
       }
     ],
     "_tag": -1,
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 1389
+      }
+    ],
     "_prefab": null,
     "_id": "adUwgrLcZOaqH6drFXuOAj",
     "_opacity": 255,
@@ -50442,9 +50446,6 @@
     "_components": [
       {
         "__id__": 1376
-      },
-      {
-        "__id__": 1377
       }
     ],
     "_prefab": null,
@@ -50511,71 +50512,6 @@
     "_atlas": null
   },
   {
-    "__type__": "cc.Button",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1375
-    },
-    "_enabled": true,
-    "transition": 3,
-    "pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [
-      {
-        "__id__": 1378
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 214,
-      "g": 214,
-      "b": 214,
-      "a": 255
-    },
-    "_N$disabledColor": {
-      "__type__": "cc.Color",
-      "r": 124,
-      "g": 124,
-      "b": 124,
-      "a": 255
-    },
-    "_N$normalSprite": null,
-    "_N$pressedSprite": null,
-    "pressedSprite": null,
-    "_N$hoverSprite": null,
-    "hoverSprite": null,
-    "_N$disabledSprite": null,
-    "_N$target": {
-      "__id__": 1375
-    }
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 1358
-    },
-    "component": "Shop",
-    "handler": "treasureChestClick",
-    "customEventData": ""
-  },
-  {
     "__type__": "cc.Node",
     "_name": "box01",
     "_objFlags": 0,
@@ -50587,7 +50523,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1380
+        "__id__": 1378
       }
     ],
     "_prefab": null,
@@ -50632,7 +50568,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1379
+      "__id__": 1377
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -50665,7 +50601,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1382
+        "__id__": 1380
       }
     ],
     "_prefab": null,
@@ -50710,7 +50646,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1381
+      "__id__": 1379
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -50743,10 +50679,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1384
+        "__id__": 1382
       },
       {
-        "__id__": 1385
+        "__id__": 1383
       }
     ],
     "_prefab": null,
@@ -50791,7 +50727,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1383
+      "__id__": 1381
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -50813,7 +50749,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1383
+      "__id__": 1381
     },
     "_enabled": true,
     "_color": {
@@ -50837,7 +50773,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1387
+        "__id__": 1385
       }
     ],
     "_prefab": null,
@@ -50882,7 +50818,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1386
+      "__id__": 1384
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -50911,10 +50847,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1389
+        "__id__": 1387
       },
       {
-        "__id__": 1390
+        "__id__": 1388
       }
     ],
     "_prefab": null,
@@ -50959,7 +50895,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1388
+      "__id__": 1386
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -50981,7 +50917,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1388
+      "__id__": 1386
     },
     "_enabled": true,
     "_color": {
@@ -50992,6 +50928,71 @@
       "a": 255
     },
     "_width": 4
+  },
+  {
+    "__type__": "cc.Button",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1374
+    },
+    "_enabled": true,
+    "transition": 3,
+    "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
+    "hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "duration": 0.1,
+    "zoomScale": 1.1,
+    "clickEvents": [
+      {
+        "__id__": 1390
+      }
+    ],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 214,
+      "g": 214,
+      "b": 214,
+      "a": 255
+    },
+    "_N$disabledColor": {
+      "__type__": "cc.Color",
+      "r": 124,
+      "g": 124,
+      "b": 124,
+      "a": 255
+    },
+    "_N$normalSprite": null,
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
+    "_N$target": {
+      "__id__": 1374
+    }
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1358
+    },
+    "component": "Shop",
+    "handler": "treasureChestClick",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Node",
@@ -51005,24 +51006,28 @@
         "__id__": 1392
       },
       {
+        "__id__": 1394
+      },
+      {
         "__id__": 1396
       },
       {
         "__id__": 1398
       },
       {
-        "__id__": 1400
+        "__id__": 1401
       },
       {
         "__id__": 1403
-      },
-      {
-        "__id__": 1405
       }
     ],
     "_tag": -1,
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 1406
+      }
+    ],
     "_prefab": null,
     "_id": "8fbyk7zkNHTLL1s60qrES8",
     "_opacity": 255,
@@ -51073,9 +51078,6 @@
     "_components": [
       {
         "__id__": 1393
-      },
-      {
-        "__id__": 1394
       }
     ],
     "_prefab": null,
@@ -51142,71 +51144,6 @@
     "_atlas": null
   },
   {
-    "__type__": "cc.Button",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1392
-    },
-    "_enabled": true,
-    "transition": 3,
-    "pressedColor": {
-      "__type__": "cc.Color",
-      "r": 211,
-      "g": 211,
-      "b": 211,
-      "a": 255
-    },
-    "hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [
-      {
-        "__id__": 1395
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 214,
-      "g": 214,
-      "b": 214,
-      "a": 255
-    },
-    "_N$disabledColor": {
-      "__type__": "cc.Color",
-      "r": 124,
-      "g": 124,
-      "b": 124,
-      "a": 255
-    },
-    "_N$normalSprite": null,
-    "_N$pressedSprite": null,
-    "pressedSprite": null,
-    "_N$hoverSprite": null,
-    "hoverSprite": null,
-    "_N$disabledSprite": null,
-    "_N$target": {
-      "__id__": 1392
-    }
-  },
-  {
-    "__type__": "cc.ClickEvent",
-    "target": {
-      "__id__": 1358
-    },
-    "component": "Shop",
-    "handler": "dragonEggClick",
-    "customEventData": ""
-  },
-  {
     "__type__": "cc.Node",
     "_name": "dj_dragon0101",
     "_objFlags": 0,
@@ -51218,7 +51155,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1397
+        "__id__": 1395
       }
     ],
     "_prefab": null,
@@ -51263,7 +51200,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1396
+      "__id__": 1394
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -51296,7 +51233,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1399
+        "__id__": 1397
       }
     ],
     "_prefab": null,
@@ -51341,7 +51278,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1398
+      "__id__": 1396
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -51374,10 +51311,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1401
+        "__id__": 1399
       },
       {
-        "__id__": 1402
+        "__id__": 1400
       }
     ],
     "_prefab": null,
@@ -51422,7 +51359,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1400
+      "__id__": 1398
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -51444,7 +51381,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1400
+      "__id__": 1398
     },
     "_enabled": true,
     "_color": {
@@ -51468,7 +51405,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1404
+        "__id__": 1402
       }
     ],
     "_prefab": null,
@@ -51513,7 +51450,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1403
+      "__id__": 1401
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -51542,10 +51479,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1406
+        "__id__": 1404
       },
       {
-        "__id__": 1407
+        "__id__": 1405
       }
     ],
     "_prefab": null,
@@ -51590,7 +51527,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1405
+      "__id__": 1403
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -51612,7 +51549,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1405
+      "__id__": 1403
     },
     "_enabled": true,
     "_color": {
@@ -51623,6 +51560,71 @@
       "a": 255
     },
     "_width": 4
+  },
+  {
+    "__type__": "cc.Button",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1391
+    },
+    "_enabled": true,
+    "transition": 3,
+    "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
+    "hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "duration": 0.1,
+    "zoomScale": 1.1,
+    "clickEvents": [
+      {
+        "__id__": 1407
+      }
+    ],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 214,
+      "g": 214,
+      "b": 214,
+      "a": 255
+    },
+    "_N$disabledColor": {
+      "__type__": "cc.Color",
+      "r": 124,
+      "g": 124,
+      "b": 124,
+      "a": 255
+    },
+    "_N$normalSprite": null,
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
+    "_N$target": {
+      "__id__": 1391
+    }
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 1358
+    },
+    "component": "Shop",
+    "handler": "dragonEggClick",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Widget",
@@ -51945,10 +51947,10 @@
     },
     "_enabled": true,
     "treasureChestLabel": {
-      "__id__": 1389
+      "__id__": 1387
     },
     "dragonEggLabel": {
-      "__id__": 1406
+      "__id__": 1404
     },
     "shopTipsLabel": {
       "__id__": 1370
