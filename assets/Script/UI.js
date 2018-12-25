@@ -278,6 +278,9 @@ cc.Class({
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
 
         var dragonNode = cc.instantiate(this.dragonPrefab);
+        // dragonNode.off(cc.Node.EventType.TOUCH_START,);
+        // dragonNode.off(cc.Node.EventType.TOUCH_MOVE);
+        // dragonNode.off(cc.Node.EventType.TOUCH_END);
         dragonNode.scaleX = -1;
         this.node.addChild(dragonNode);
         dragonNode.position = nodepos;

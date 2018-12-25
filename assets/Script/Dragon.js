@@ -428,7 +428,7 @@ cc.Class({
         var level = this.thingLevel;
 
         this.ui.addDragonToNest(camerapos, level);
-
+      
         this.node.destroy();
 
     },
