@@ -51710,7 +51710,7 @@
     "elastic": true,
     "bounceDuration": 0.23,
     "scrollEvents": [],
-    "cancelInnerEvents": true,
+    "cancelInnerEvents": false,
     "_N$horizontalScrollBar": null,
     "_N$verticalScrollBar": null
   },
