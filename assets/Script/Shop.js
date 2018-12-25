@@ -63,7 +63,7 @@ cc.Class({
             var tile = this.getTile();
             if(tile) {
         
-                this.purchaseSuccessLogic();
+                this.purchaseSuccessLogic(goodsPrice,tile,"treasureChest");
             } else {
                 this.shopTipsFadeIn("没有位置放置物品，购买失败!");
             }
@@ -76,7 +76,7 @@ cc.Class({
     getTile:function() {
         var gameJS = cc.find("Canvas").getComponent('Game');
         var resultTiles = gameJS.getNearestTileByN_pos(cc.v2(0,0), 1);
-        if (this.resultTiles != null) {
+        if (resultTiles != null) {
             return resultTiles[0];
         } else {
             return null;
@@ -92,7 +92,9 @@ cc.Class({
 
         var gameJS = cc.find("Canvas").getComponent('Game');
         gameJS.generateAndPutThing(tile,thingName);
-
+        //刷新ui
+        var uiJS =cc.find("Canvas/uiLayer").getComponent('UI');
+        uiJS.refreshUI();
         this.shopTipsFadeIn("购买成功,已放入领地!");
     },
 

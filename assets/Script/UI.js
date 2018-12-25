@@ -113,7 +113,7 @@ cc.Class({
     refreshUI: function () {
         this.coinLabel.string = cc.dataMgr.getCoinCount();
         this.heartLabel.string = cc.dataMgr.getHeartCount();
-        this.diamondLabel.string = cc.dataMgr.getDiamondCount();
+       
     },
 
     start: function () {

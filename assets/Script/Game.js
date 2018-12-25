@@ -645,7 +645,7 @@ cc.Class({
 
     //专注于将商城购买成功的物品，放入tile中
     generateAndPutThing:function(tile,thingName)  {
-
+        
     },
 
     changeCameraPosition: function (touchPos, draggingObj) {
