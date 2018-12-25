@@ -304,7 +304,7 @@ export default class DataMgr extends cc.Component {
         {
             "category": "coin",
             "count": 1,
-            "probability": 0.0
+            "probability": 1.0
         },
 
         {

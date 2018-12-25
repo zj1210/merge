@@ -95,6 +95,11 @@ cc.Class({
         shopLayer:{
             default:null,
             type:cc.Node
+        },
+
+        coinPrefab:{
+            default:null,
+            type:cc.Prefab
         }
         // defaults, set visually when attaching this script to the Canvas
 
@@ -234,6 +239,24 @@ cc.Class({
 
     addHeartAndAni: function (camerapos, level) {
 
+        var nodepos = this.node.convertToNodeSpaceAR(camerapos);
+        var collectionThingNode = cc.instantiate(this.collectionThingPrefab);
+        this.node.addChild(collectionThingNode);
+        collectionThingNode.position = nodepos;
+        collectionThingNode.getComponent('thingImageAndAni').settingSpriteFrame(1, level);
+
+        var targetPos = cc.pAdd(this.heartLabel.node.parent.position, cc.v2(70, 0));
+        var action = cc.moveTo(1.0, targetPos);
+        var action2 = cc.fadeOut(1.0);
+        var together = cc.spawn(action, action2);
+        var seq = cc.sequence(together, cc.callFunc(this.moveToLabelOver, this, collectionThingNode));
+        collectionThingNode.runAction(seq);
+
+        var heartStrength = cc.dataMgr.getHeartCountByLevel(level);
+        cc.dataMgr.addHeartCount(heartStrength);
+    },
+
+    addCoinAndAni:function(camerapos,count) {
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
         var collectionThingNode = cc.instantiate(this.collectionThingPrefab);
         this.node.addChild(collectionThingNode);
