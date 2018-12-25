@@ -90,6 +90,12 @@ cc.Class({
             default:null,
             type:cc.Label
         },
+
+        //商城界面
+        shopLayer:{
+            default:null,
+            type:cc.Node
+        }
         // defaults, set visually when attaching this script to the Canvas
 
     },
@@ -220,6 +226,10 @@ cc.Class({
 
     tujianCloseClick: function () {
         this.tujianLayer.active = false;
+    },
+
+    shopLayerClick:function() {
+        this.shopLayer.active = true;
     },
 
     addHeartAndAni: function (camerapos, level) {

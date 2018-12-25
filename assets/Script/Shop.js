@@ -31,6 +31,7 @@ cc.Class({
 
     closeClick:function() {
         console.log("close click!");
+        this.node.active = false;
     }
 
     // nestInOver:function() {
