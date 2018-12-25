@@ -258,20 +258,20 @@ cc.Class({
 
     addCoinAndAni:function(camerapos,count) {
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
-        var collectionThingNode = cc.instantiate(this.collectionThingPrefab);
-        this.node.addChild(collectionThingNode);
-        collectionThingNode.position = nodepos;
-        collectionThingNode.getComponent('thingImageAndAni').settingSpriteFrame(1, level);
+        var coinNode = cc.instantiate(this.coinPrefab);
+        this.node.addChild(coinNode);
+        coinNode.position = nodepos;
+        coinNode.getChildByName('tips').getComponent(cc.Label).string = '+' + count;
 
-        var targetPos = cc.pAdd(this.heartLabel.node.parent.position, cc.v2(70, 0));
+        var targetPos = cc.pAdd(this.coinLabel.node.parent.position, cc.v2(70, 0));
         var action = cc.moveTo(1.0, targetPos);
         var action2 = cc.fadeOut(1.0);
         var together = cc.spawn(action, action2);
-        var seq = cc.sequence(together, cc.callFunc(this.moveToLabelOver, this, collectionThingNode));
-        collectionThingNode.runAction(seq);
+        var seq = cc.sequence(together, cc.callFunc(this.moveToLabelOver, this, coinNode));
+        coinNode.runAction(seq);
 
-        var heartStrength = cc.dataMgr.getHeartCountByLevel(level);
-        cc.dataMgr.addHeartCount(heartStrength);
+       
+        cc.dataMgr.addCoinCount(count);
     },
 
     addDragonToNest: function (camerapos, level) {
@@ -299,7 +299,8 @@ cc.Class({
     },
 
 
-    moveToLabelOver: function (collectionThingNode) {
+    moveToLabelOver: function (moveNode) {
+        moveNode.destroy();
         this.refreshUI();
     },
 

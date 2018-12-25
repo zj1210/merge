@@ -52,10 +52,16 @@ cc.Class({
         console.log('宝箱被点击了！');
 
         var treasureData = cc.dataMgr.randomTreasure();
-
+        var game = cc.find("Canvas").getComponent('Game');
         switch (treasureData.category) {
             case "coin":
-
+                this.tile.getComponent('Tile').fog = null;
+                this.tile.getComponent('Tile').tileType = 0;
+                this.node.destroy();
+                var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                var camerapos = cc.v2(worldpos.x - game.camera.position.x, worldpos.y - game.camera.position.y);
+                var count = treasureData.count;
+                cc.find("Canvas/uiLayer").getComponent('UI').addCoinAndAni(camerapos, count);
                 break;
 
             case "flower":

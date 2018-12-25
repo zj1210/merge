@@ -36787,6 +36787,9 @@
     },
     "shopLayer": {
       "__id__": 1358
+    },
+    "coinPrefab": {
+      "__uuid__": "f348ae43-c1bb-44af-b530-edb3148d96a5"
     }
   },
   {

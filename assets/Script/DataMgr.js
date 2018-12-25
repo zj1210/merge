@@ -2,7 +2,7 @@
  * map数据结构定义，用灵活的数据结构目前我还很难想到，至少需要3天。
  * 项目周期非常的短，准备使用简单粗暴的数据结构，能想到的就是在界面里
  * 的map下放入一个矩形区域的地图块，这个块中若是有空隙就很难办，将来
- * 如果有这个需求，打算将那些不要的快的active置为false，那么数据结构
+ * 如果有这个需求，打算将那些不要的块的active置为false，那么数据结构
  * 也要相应的调整，在读取地图的时候将所有数据读取到，根据块的active来
  * 做相应的处理。 块以行排列，一行一行的形式
  */
@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2018-12-25-1645"
+    version = "2018-12-25-1755"
 
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
     hasTileData = false;
@@ -304,26 +304,26 @@ export default class DataMgr extends cc.Component {
         {
             "category": "coin",
             "count": 1,
-            "probability": 1.0
+            "probability": 0.2
         },
 
         {
             "category": "flower",
             "level": 1,
-            "probability": 0.3
+            "probability": 0.4
         },
 
         {
             "category": "dragon",
             "level": 0,
-            "probability": 0.5
+            "probability": 1.0
         },
 
-        {
-            "category": "heart",
-            "level": 0,
-            "probability": 1.0
-        }
+        // {
+        //     "category": "heart",
+        //     "level": 0,
+        //     "probability": 1.0
+        // }
     ];
 
 
