@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "201812251112"
+    version = "201812251113"
 
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
     hasTileData = false;
@@ -314,7 +314,7 @@ export default class DataMgr extends cc.Component {
     dragonNestDuration = [
         {
             "dragonLevel": 1,
-            "duration": 20,
+            "duration": 180,
         },
 
         {
@@ -405,9 +405,9 @@ export default class DataMgr extends cc.Component {
             this.dragonNestDatas = [];
         } else {
             //龙巢数据
-            debugger;
+            
             this.dragonNestDatas = JSON.parse(strDragonNestDatas);
-            console.log(this.dragonNestDatas);
+           // console.log(this.dragonNestDatas);
         }
 
 
