@@ -31,7 +31,7 @@ cc.Class({
 
     onLoad: function () {
 
-        this.shopTipsLabel.node.active = false;
+        //this.shopTipsLabel.node.active = false;
       
         for(var i = 0; i<cc.dataMgr.shopDatas.length; i++) {
             if(cc.dataMgr.shopDatas[i].name == "treasureChest") {
@@ -65,7 +65,7 @@ cc.Class({
         
                 this.purchaseSuccessLogic(goodsPrice,tile,"treasureChest");
             } else {
-                this.shopTipsFadeIn("没有位置放置物品，购买失败!");
+                this.shopTipsFadeIn("没有格子,购买失败!");
             }
         } else {
             //金币不够
@@ -100,6 +100,8 @@ cc.Class({
 
     shopTipsFadeIn:function(strContent) {
         console.log(strContent);
+        this.shopTipsLabel.string = strContent;
+        this.shopTipsLabel.node.getComponent(cc.Animation).play("shopTips");
     },
 
     dragonEggClick: function () {
