@@ -643,16 +643,10 @@ cc.Class({
     },
 
 
+    //专注于将商城购买成功的物品，放入tile中
+    generateAndPutThing:function(tile,thingName)  {
 
-    // getTileByDragonPosition:function(dragonPosition) {
-    //     //debugger;
-    //     console.log(dragonPosition);
-    //     var tile = this.getContainPointTile(dragonPosition);
-
-    // },
-
-
-
+    },
 
     changeCameraPosition: function (touchPos, draggingObj) {
         //console.log(touchPos);

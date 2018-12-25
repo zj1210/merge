@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "201812251114"
+    version = "2018-12-25-1330"
 
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
     hasTileData = false;
@@ -163,13 +163,21 @@ export default class DataMgr extends cc.Component {
         }
     ];
 
+    //商城 物品 价格表
     shopDatas = [
+        //宝箱
         {
-            treasureChestPrice:2
+            
+            "name":"treasureChest",
+            "price": 2
         },
+        //龙蛋
         {
-            dragonEggPrice:1
-        }
+            "name":"dragonEgg",
+            "price": 1
+        },
+        
+       
     ];
 
     heartDescDatas = [
@@ -376,13 +384,13 @@ export default class DataMgr extends cc.Component {
         //用于购买宝箱 金币
         var coinCount = cc.sys.localStorage.getItem("coinCount");
         if (!coinCount) {
-            cc.sys.localStorage.setItem("coinCount", 0);
+            cc.sys.localStorage.setItem("coinCount", 100);
         }
-        //用于邀请好友的奖励？需求不定，钻石
-        var diamondCount = cc.sys.localStorage.getItem("diamondCount");
-        if (!diamondCount) {
-            cc.sys.localStorage.setItem("diamondCount", 0);
-        }
+        // //用于邀请好友的奖励？需求不定，钻石
+        // var diamondCount = cc.sys.localStorage.getItem("diamondCount");
+        // if (!diamondCount) {
+        //     cc.sys.localStorage.setItem("diamondCount", 0);
+        // }
 
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
         var heartCount = cc.sys.localStorage.getItem("heartCount");
@@ -414,9 +422,9 @@ export default class DataMgr extends cc.Component {
             this.dragonNestDatas = [];
         } else {
             //龙巢数据
-            
+
             this.dragonNestDatas = JSON.parse(strDragonNestDatas);
-           // console.log(this.dragonNestDatas);
+            // console.log(this.dragonNestDatas);
         }
 
 
@@ -426,6 +434,8 @@ export default class DataMgr extends cc.Component {
     };
 
     resetData() {
+        cc.sys.localStorage.setItem("coinCount", 100);
+        cc.sys.localStorage.setItem("heartCount", 0);
         cc.sys.localStorage.setItem("hallTileData", "");
         cc.sys.localStorage.setItem("dragonDatas", "");
         cc.sys.localStorage.setItem("dragonNestDatas", "");
