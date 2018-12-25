@@ -73,13 +73,13 @@ cc.Class({
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
     },
 
-    initDragons:function() {
-        
+    initDragons: function () {
+
         var dragonDatas = cc.dataMgr.dragonDatas;
-        if(!dragonDatas) {
+        if (!dragonDatas) {
             return;
         }
-        for(var i = 0; i<dragonDatas.length; i++) {
+        for (var i = 0; i < dragonDatas.length; i++) {
             var newDragon = cc.instantiate(this.dragonPrefab);
             //这里代码会把 龙的体力 设置为 默认数据，需要再设置一遍
             newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(dragonDatas[i].thingType, dragonDatas[i].thingLevel);
@@ -644,8 +644,24 @@ cc.Class({
 
 
     //专注于将商城购买成功的物品，放入tile中
-    generateAndPutThing:function(tile,thingName)  {
-        
+    generateAndPutThing: function (tile, thingName) {
+        switch (thingName) {
+            case "treasureChest":
+                var tileJS = tile.getComponent("Tile");
+                tileJS.generateTreasureChest();
+                break;
+            case "dragonEgg":
+                var newThing = this.generateThing(3, 0);
+                this.thingsNode.addChild(newThing);
+                newThing.position = tile.position;
+                var thingJs = newThing.getChildByName('selectedNode').getComponent('Thing');
+                thingJs.changeInTile(tile, 0, 3);
+                break;
+
+            default:
+                //不可能执行到这里，用户买的到底是什么？
+                debugger;
+        }
     },
 
     changeCameraPosition: function (touchPos, draggingObj) {

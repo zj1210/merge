@@ -82,7 +82,7 @@ cc.Class({
             return null;
         }
     },
-
+   
     //1 扣钱
     //2 生成与放置
     //3 提示购买成功
@@ -104,6 +104,22 @@ cc.Class({
 
     dragonEggClick: function () {
         console.log("dragonEgg Click!");
+
+        var curCoinCount = cc.dataMgr.getCoinCount();
+        var goodsPrice = parseInt(this.dragonEggLabel.string);
+        if(curCoinCount >= goodsPrice) {
+            var tile = this.getTile();
+            if(tile) {
+        
+                this.purchaseSuccessLogic(goodsPrice,tile,"dragonEgg");
+            } else {
+                this.shopTipsFadeIn("没有位置放置物品，购买失败!");
+            }
+        } else {
+            //金币不够
+            this.shopTipsFadeIn("金币不足!");
+        }
+
     },
 
     closeClick: function () {

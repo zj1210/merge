@@ -9,15 +9,15 @@ cc.Class({
             tooltip: "0标记着是绿地块，1标记着是雾",
         },
 
-        fogAmount:{
-            default:100,
-            displayName:"雾需要多少精华解锁",
+        fogAmount: {
+            default: 100,
+            displayName: "雾需要多少精华解锁",
             tooltip: "只有地皮是雾这个值才有意义，默认值是100",
         },
 
-        fogState:{
-            default:0,
-            displayName:"雾的游戏状态",
+        fogState: {
+            default: 0,
+            displayName: "雾的游戏状态",
             tooltip: "0代表是雾，1代表雾已经解锁了，是宝箱",
         },
 
@@ -64,9 +64,9 @@ cc.Class({
             tooltip: "thing的Prefab",
         },
 
-        fogPrefab:{
-            default:null,
-            type:cc.Prefab,
+        fogPrefab: {
+            default: null,
+            type: cc.Prefab,
             tooltip: "fog的Prefab",
         },
 
@@ -111,7 +111,7 @@ cc.Class({
             var wAndH = cc.dataMgr.getCurrentWidthAndHeight();
             var height = parseInt(arr_num[0]);
             var width = parseInt(arr_num[1]);
-            var tileData = cc.dataMgr.hallTileData[height*wAndH.w + width];
+            var tileData = cc.dataMgr.hallTileData[height * wAndH.w + width];
             //console.log(tileData);
             //数据的解析 一定要先判断是否为雾，若为雾，要判断是否为宝箱态，最后才去管 雾的精华数，
             //因为 我在把雾解锁后，并没有管雾的解锁精华数，所以他还是初始值
@@ -124,13 +124,13 @@ cc.Class({
         }
 
         this.generateLand();
-        if(this.tileType == 1) {
-            if(this.thingType != 0 || this.thingLevel != 0) {
+        if (this.tileType == 1) {
+            if (this.thingType != 0 || this.thingLevel != 0) {
                 console.log("error:有雾，却设置了物品类别或者物品等级！");
                 debugger;
             }
         }
-        if(this.tileType == 1) {
+        if (this.tileType == 1) {
             this.generateFog();
         }
         else if (this.thingType > 0) {
@@ -147,7 +147,7 @@ cc.Class({
         this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
         this.fog.position = this.node.position;
         this.thingsNode.addChild(this.fog);
-        this.fog.getComponent('Fog').settingFog(this.fogState,this.fogAmount,this.node);
+        this.fog.getComponent('Fog').settingFog(this.fogState, this.fogAmount, this.node);
     },
 
     //需要 物品类型thingType 以及物品等级 thingLevel
@@ -156,7 +156,7 @@ cc.Class({
         this.thing.setLocalZOrder(this.thingZOrder);
         this.tempThing = null; //临时物品，手指拖动上去，但没有松手，和棋盘上所有非临时的进行遍历
         this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
-       
+
         this.thingsNode.addChild(this.thing);
         // this.thing.position = this.node.position;
         let thingJs = this.thing.getChildByName('selectedNode').getComponent("Thing");
@@ -165,6 +165,28 @@ cc.Class({
         // //主要是为了性能，内部不要以这个为准，为了判断自己的临时tile 和当前的临时tile是否一样，不一样才
         // thingJs.setTileTemporarily(this.node);
     },
+
+
+    //用于商城购买宝箱后，生成宝箱，由于现在的结构是宝箱与雾关联在一起的
+    //所以要先生成雾，然后设置fogState为1 即可，当时没有考虑好
+    generateTreasureChest: function () {
+        this.fog = cc.instantiate(this.fogPrefab);
+        this.fog.setLocalZOrder(this.thingZOrder);
+        this.thingsNode = cc.find("Canvas/gameLayer/thingsNode");
+        this.fog.position = this.node.position;
+        this.thingsNode.addChild(this.fog);
+        //结构不好，这里把初始的雾解锁数量设置为：999999
+        //或许有一天，可以根据这个值来判断哪些位置生成过宝箱？挖坑了
+        this.fog.getComponent('Fog').settingFog(1, 999999, this.node);
+        this.tileType = 1;
+        this.fogAmount = 999999;
+        this.fogState = 1;
+        this.thingType = 0;
+        this.thingLevel = 0;
+       
+    },
+
+
 
     //根据上面的数据结构生成物品，放入物品层，物品层也是一个二维数组数据结构
     //雾，没有物品，数组中的元素都为null。
@@ -184,9 +206,9 @@ cc.Class({
     },
 
     //tile 上是不是没东西
-    isEmptyTile:function() {
+    isEmptyTile: function () {
         //是绿地 且 没有thing
-        if(this.tileType == 0 && this.thing == null) {
+        if (this.tileType == 0 && this.thing == null) {
             return true;
         }
         return false;
