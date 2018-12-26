@@ -204,7 +204,7 @@ cc.Class({
             //console.log('touch begin by flower');
             self.browseThisThing();
             event.stopPropagation();
-
+            cc.audioMgr.playEffect("btn_click");
             //如果有生成物，需要放置生成物
             if (self.collectionThing.active) {
                 self.collectionThingClick();
@@ -428,7 +428,7 @@ cc.Class({
         var level = this.thingLevel;
 
         this.ui.addDragonToNest(camerapos, level);
-
+      
         this.node.destroy();
 
     },

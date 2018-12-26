@@ -90,6 +90,17 @@ cc.Class({
             default:null,
             type:cc.Label
         },
+
+        //商城界面
+        shopLayer:{
+            default:null,
+            type:cc.Node
+        },
+
+        coinPrefab:{
+            default:null,
+            type:cc.Prefab
+        }
         // defaults, set visually when attaching this script to the Canvas
 
     },
@@ -107,11 +118,14 @@ cc.Class({
     refreshUI: function () {
         this.coinLabel.string = cc.dataMgr.getCoinCount();
         this.heartLabel.string = cc.dataMgr.getHeartCount();
-        this.diamondLabel.string = cc.dataMgr.getDiamondCount();
+       
     },
 
     start: function () {
         this.game = cc.find("Canvas").getComponent('Game');
+        if(cc.dataMgr.dragonNestDatas.length>0) {
+            this.dragonNestNode.getComponent('nest').nestInOver();
+        }
         this.schedule(this.refreshDragonNestInfo, 1);
     },
 
@@ -179,6 +193,10 @@ cc.Class({
     },
 
     setTimeToLabel: function (dx, label) {
+        if(dx<0) { //负的
+            label.string = "";
+            return;
+        }
         //dx-->29分54秒
         let m = parseInt(dx / 60);
         let s = parseInt(dx - (60 * m));
@@ -190,6 +208,7 @@ cc.Class({
     //图鉴按钮被点击
     tujianClick: function () {
         console.log("图鉴按钮点击了！");
+        cc.audioMgr.playEffect("UI");
         this.tujianLayer.active = true;
         if (this.thingType == 1) {
             this.tujianHeart.active = true;
@@ -212,7 +231,13 @@ cc.Class({
     },
 
     tujianCloseClick: function () {
+        cc.audioMgr.playEffect("UI");
         this.tujianLayer.active = false;
+    },
+
+    shopLayerClick:function() {
+        cc.audioMgr.playEffect("UI");
+        this.shopLayer.active = true;
     },
 
     addHeartAndAni: function (camerapos, level) {
@@ -232,19 +257,45 @@ cc.Class({
 
         var heartStrength = cc.dataMgr.getHeartCountByLevel(level);
         cc.dataMgr.addHeartCount(heartStrength);
+
+        cc.audioMgr.playEffect("heartGo");
+    },
+
+    addCoinAndAni:function(camerapos,count) {
+        var nodepos = this.node.convertToNodeSpaceAR(camerapos);
+        var coinNode = cc.instantiate(this.coinPrefab);
+        this.node.addChild(coinNode);
+        coinNode.position = nodepos;
+        coinNode.getChildByName('tips').getComponent(cc.Label).string = '+' + count;
+
+        var targetPos = cc.pAdd(this.coinLabel.node.parent.position, cc.v2(70, 0));
+        var action = cc.moveTo(1.0, targetPos);
+        var action2 = cc.fadeOut(1.0);
+        var together = cc.spawn(action, action2);
+        var seq = cc.sequence(together, cc.callFunc(this.moveToLabelOver, this, coinNode));
+        coinNode.runAction(seq);
+
+       
+        cc.dataMgr.addCoinCount(count);
+
+        cc.audioMgr.playEffect("coin");
     },
 
     addDragonToNest: function (camerapos, level) {
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
 
         var dragonNode = cc.instantiate(this.dragonPrefab);
+        // dragonNode.off(cc.Node.EventType.TOUCH_START,);
+        // dragonNode.off(cc.Node.EventType.TOUCH_MOVE);
+        // dragonNode.off(cc.Node.EventType.TOUCH_END);
+        dragonNode.scaleX = -1;
         this.node.addChild(dragonNode);
         dragonNode.position = nodepos;
         dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, level);
      
         var targetPos = this.dragonNestNode.position;
         var action = cc.moveTo(2.0, targetPos);
-        var action2 = cc.scaleTo(2.0, 0.5);
+        var action2 = cc.scaleTo(2.0, -0.5,0.5);
         var together = cc.spawn(action, action2);
         var seq = cc.sequence(together, cc.callFunc(this.moveToDragonNestOver, this, dragonNode));
         dragonNode.runAction(seq);
@@ -258,7 +309,8 @@ cc.Class({
     },
 
 
-    moveToLabelOver: function (collectionThingNode) {
+    moveToLabelOver: function (moveNode) {
+        moveNode.destroy();
         this.refreshUI();
     },
 
@@ -290,12 +342,14 @@ cc.Class({
     },
 
     unDescClick: function () {
+        cc.audioMgr.playEffect("UI");
         console.log("unDescClick");
         this.descNode.active = true;
         this.unDescNode.active = false;
     },
 
     descClick: function () {
+        cc.audioMgr.playEffect("UI");
         console.log("descClick");
         this.descNode.active = false;
         this.unDescNode.active = true;

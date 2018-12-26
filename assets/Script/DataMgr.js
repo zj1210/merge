@@ -2,7 +2,7 @@
  * map数据结构定义，用灵活的数据结构目前我还很难想到，至少需要3天。
  * 项目周期非常的短，准备使用简单粗暴的数据结构，能想到的就是在界面里
  * 的map下放入一个矩形区域的地图块，这个块中若是有空隙就很难办，将来
- * 如果有这个需求，打算将那些不要的快的active置为false，那么数据结构
+ * 如果有这个需求，打算将那些不要的块的active置为false，那么数据结构
  * 也要相应的调整，在读取地图的时候将所有数据读取到，根据块的active来
  * 做相应的处理。 块以行排列，一行一行的形式
  */
@@ -14,6 +14,12 @@ const {
 } = cc._decorator;
 @ccclass
 export default class DataMgr extends cc.Component {
+    //以年月日 时分 来标记版本，目前只用于清空数据
+    version = "2018-12-26-1509";
+
+    //是否播放音效和背景音乐
+    playEffect = true;
+    playBg = true;
 
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
     hasTileData = false;
@@ -35,6 +41,12 @@ export default class DataMgr extends cc.Component {
 
     hallTileWidth = 11;
     hallTileHeight = 13;
+
+    //用于规范摄像机区域的值  他不是对称的
+    hallLeftWidth = 3000;
+    hallRightWidth = 5500;
+    hallUpHeight = 4000;
+    hallDownHeight = 1800;
 
     checkpointWidth = 0;
     checkpintHeight = 0;
@@ -122,7 +134,7 @@ export default class DataMgr extends cc.Component {
     dragonStrengthDatas = [
         {
             "dragonLevel": 1,
-            "dragonStrength": 5
+            "dragonStrength": 2
         },
         {
             "dragonLevel": 2,
@@ -159,6 +171,23 @@ export default class DataMgr extends cc.Component {
             "heartLevel": 4,
             "heartStrength": 121
         }
+    ];
+
+    //商城 物品 价格表
+    shopDatas = [
+        //宝箱
+        {
+            
+            "name":"treasureChest",
+            "price": 2
+        },
+        //龙蛋
+        {
+            "name":"dragonEgg",
+            "price": 1
+        },
+        
+       
     ];
 
     heartDescDatas = [
@@ -285,34 +314,34 @@ export default class DataMgr extends cc.Component {
         {
             "category": "coin",
             "count": 1,
-            "probability": 0.0
+            "probability": 0.2
         },
 
         {
             "category": "flower",
             "level": 1,
-            "probability": 0.3
+            "probability": 0.4
         },
 
         {
             "category": "dragon",
             "level": 0,
-            "probability": 0.5
+            "probability": 1.0
         },
 
-        {
-            "category": "heart",
-            "level": 0,
-            "probability": 1.0
-        }
+        // {
+        //     "category": "heart",
+        //     "level": 0,
+        //     "probability": 1.0
+        // }
     ];
 
 
-    //duration 单位：秒
+    //duration 单位：秒 休息时间
     dragonNestDuration = [
         {
             "dragonLevel": 1,
-            "duration": 4,
+            "duration": 10,
         },
 
         {
@@ -352,18 +381,26 @@ export default class DataMgr extends cc.Component {
 
         });
 
+        let version = cc.sys.localStorage.getItem("version");
 
+        if (version != this.version) {
+            cc.sys.localStorage.setItem("version", this.version);
+            this.resetData();
+
+            // //leadStep =0 ,表示是在 新手引导的阶段
+            // cc.dataMgr.userData.leadStep = 0;
+        }
 
         //用于购买宝箱 金币
         var coinCount = cc.sys.localStorage.getItem("coinCount");
         if (!coinCount) {
-            cc.sys.localStorage.setItem("coinCount", 0);
+            cc.sys.localStorage.setItem("coinCount", 100);
         }
-        //用于邀请好友的奖励？需求不定，钻石
-        var diamondCount = cc.sys.localStorage.getItem("diamondCount");
-        if (!diamondCount) {
-            cc.sys.localStorage.setItem("diamondCount", 0);
-        }
+        // //用于邀请好友的奖励？需求不定，钻石
+        // var diamondCount = cc.sys.localStorage.getItem("diamondCount");
+        // if (!diamondCount) {
+        //     cc.sys.localStorage.setItem("diamondCount", 0);
+        // }
 
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
         var heartCount = cc.sys.localStorage.getItem("heartCount");
@@ -373,19 +410,46 @@ export default class DataMgr extends cc.Component {
 
 
         var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
-        var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
+
         if (!strHallTileData) {
             this.hallTileData = null;
         } else {
             //块上数据
             this.hallTileData = JSON.parse(strHallTileData);
+        }
+        var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
+
+        if (!strDragonData) {
+            this.dragonDatas = null;
+        } else {
             //龙层数据
             this.dragonDatas = JSON.parse(strDragonData);
+        }
+
+        var strDragonNestDatas = cc.sys.localStorage.getItem("dragonNestDatas");
+
+        if (!strDragonNestDatas) {
+            this.dragonNestDatas = [];
+        } else {
             //龙巢数据
 
-            console.log(this.dragonDatas);
+            this.dragonNestDatas = JSON.parse(strDragonNestDatas);
+            // console.log(this.dragonNestDatas);
         }
+
+
+
+
+
     };
+
+    resetData() {
+        cc.sys.localStorage.setItem("coinCount", 100);
+        cc.sys.localStorage.setItem("heartCount", 0);
+        cc.sys.localStorage.setItem("hallTileData", "");
+        cc.sys.localStorage.setItem("dragonDatas", "");
+        cc.sys.localStorage.setItem("dragonNestDatas", "");
+    }
 
 
     randomTreasure() {
@@ -427,7 +491,7 @@ export default class DataMgr extends cc.Component {
             var len = this.dragonNestDatas.length;
             wakeUpTime = this.dragonNestDatas[len - 1].wakeUpTime + this.getDragonNestDurationByLevel(level);
         } else {
-            wakeUpTime = time / 1000 + this.getDragonNestDurationByLevel(level);
+            wakeUpTime = parseInt(time / 1000) + this.getDragonNestDurationByLevel(level);
         }
 
         this.dragonNestDatas.push({ "level": level, "wakeUpTime": wakeUpTime });
@@ -640,7 +704,11 @@ export default class DataMgr extends cc.Component {
             dragonPersistenceDatas.push(dragonData);
         }
 
-        cc.sys.localStorage.setItem("dragonDatas",JSON.stringify(dragonPersistenceDatas));
+        cc.sys.localStorage.setItem("dragonDatas", JSON.stringify(dragonPersistenceDatas));
+
+        //存储龙巢内的龙  数据不用解析了，本来就是纯数据的结构
+        cc.sys.localStorage.setItem("dragonNestDatas", JSON.stringify(this.dragonNestDatas));
+
     };
 
     //打印tile的数据 debug用
