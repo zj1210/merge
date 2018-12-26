@@ -51,6 +51,7 @@ cc.Class({
         let self = this;
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             // console.log('touch begin by flower');
+            cc.audioMgr.playEffect("btn_click");
             self.browseThisThing();
             event.stopPropagation();
 
