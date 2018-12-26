@@ -33,7 +33,7 @@ export default class AudioMgr extends cc.Component {
 
     //type_s 为这个音乐的名称
     playEffect(type_s) {
-        if (cc.dataMgr.userData.playEffect) {
+        if (cc.dataMgr.playEffect) {
             let source = this._audioSource_o[type_s];
             if (source) {
                 source.play();
@@ -49,7 +49,7 @@ export default class AudioMgr extends cc.Component {
     }
 
     playBg() {
-        if (cc.dataMgr.userData.playBg) {
+        if (cc.dataMgr.playBg) {
             let source = this._audioSource_o["bg"];
             if (source) {
                 source.play();
