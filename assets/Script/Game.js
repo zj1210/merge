@@ -121,31 +121,10 @@ cc.Class({
                 self._beginPos = movePos;
 
 
-                //和 小猫互动
-                // if (cc.dataMgr.userData.onTouchCat) {
-                //     //这里是在和小猫互动
-                //     let disPos = cc.v2(addX, addY);
-                //     if (disPos.mag() > 10) {
-                //         self._beginPos = movePos
-                //         self.addTouchEffect();
-                //     }
-                // } else
-                //     self.refreshCatPoint();
             }
 
         }, this.node);
-        // this.node.on(cc.Node.EventType.TOUCH_END, function (touch) {
-        //     //没有和小猫互动的时候才会 隐藏菜单 和 满足这些条件才隐藏 pop
-        //     if (!cc.dataMgr.userData.onTouchCat && cc.dataMgr.userData.leadStep != 10 && cc.dataMgr.userData.leadStep != 100) {
-        //         if (!cc.dataMgr.userData.showCatTake && cc.dataMgr.userData.popType != "pop_catTake") {
-        //             console.log("-- game touch end --");
-        //             cc.dataMgr.userData.popType = null;
-        //             self.showPop();
-        //             cc.dataMgr.userData.touchCatName = null;
-        //         }
-        //     }
-        // }, this.node);
-        // this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (touch) {}, this.node);
+       
     },
 
     // called every frame
@@ -156,14 +135,14 @@ cc.Class({
 
     //输入相机的 dx，dy，根据限制来加工处理，返回一份要求的dx，dy，防止移动出最大范围
     getAddPosition_v2: function (addX, addY) {
-        // if (addX < -this._roomWidth / 2 + cc.dataMgr.canvasW / 2 - this.camera.x)
-        //     addX = -this._roomWidth / 2 + cc.dataMgr.canvasW / 2 - this.camera.x;
-        // if (addX > this._roomWidth / 2 - cc.dataMgr.canvasW / 2 - this.camera.x)
-        //     addX = this._roomWidth / 2 - cc.dataMgr.canvasW / 2 - this.camera.x;
-        // if (addY < -this._roomHeight / 2 + cc.dataMgr.canvasH / 2 - this.camera.y)
-        //     addY = -this._roomHeight / 2 + cc.dataMgr.canvasH / 2 - this.camera.y;
-        // if (addY > this._roomHeight / 2 - cc.dataMgr.canvasH / 2 - this.camera.y)
-        //     addY = this._roomHeight / 2 - cc.dataMgr.canvasH / 2 - this.camera.y;
+        if (addX < -cc.dataMgr.hallLeftWidth / 2 + cc.dataMgr.screenW / 2 - this.camera.x)
+            addX = -cc.dataMgr.hallLeftWidth / 2 + cc.dataMgr.screenW / 2 - this.camera.x;
+        if (addX > cc.dataMgr.hallRightWidth / 2 - cc.dataMgr.screenW / 2 - this.camera.x)
+            addX = cc.dataMgr.hallRightWidth / 2 - cc.dataMgr.screenW / 2 - this.camera.x;
+        if (addY < -cc.dataMgr.hallDownHeight / 2 + cc.dataMgr.screenH / 2 - this.camera.y)
+            addY = -cc.dataMgr.hallDownHeight / 2 + cc.dataMgr.screenH / 2 - this.camera.y;
+        if (addY > cc.dataMgr.hallUpHeight / 2 - cc.dataMgr.screenH / 2 - this.camera.y)
+            addY = cc.dataMgr.hallUpHeight / 2 - cc.dataMgr.screenH / 2 - this.camera.y;
         return cc.v2(addX, addY);
     },
 
@@ -666,8 +645,8 @@ cc.Class({
 
     changeCameraPosition: function (touchPos, draggingObj) {
         //console.log(touchPos);
-        var addx = 5;
-        var addy = 5;
+        var addx = 8;
+        var addy = 8;
         this.draggingObj = draggingObj;
         if (touchPos.x < cc.dataMgr.edgeMoveCamera || touchPos.x > cc.dataMgr.screenW - cc.dataMgr.edgeMoveCamera) {
             this.moveCameraXFlag = true;

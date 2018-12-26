@@ -38,6 +38,12 @@ export default class DataMgr extends cc.Component {
     hallTileWidth = 11;
     hallTileHeight = 13;
 
+    //用于规范摄像机区域的值  他不是对称的
+    hallLeftWidth = 3000;
+    hallRightWidth = 5500;
+    hallUpHeight = 4000;
+    hallDownHeight = 1800;
+
     checkpointWidth = 0;
     checkpintHeight = 0;
     //为了简单打算写死，不能处理生成的龙超过9个以上 这种情况数学上没证明，
