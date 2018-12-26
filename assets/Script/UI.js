@@ -254,6 +254,8 @@ cc.Class({
 
         var heartStrength = cc.dataMgr.getHeartCountByLevel(level);
         cc.dataMgr.addHeartCount(heartStrength);
+
+        cc.audioMgr.playEffect("heartGo");
     },
 
     addCoinAndAni:function(camerapos,count) {
@@ -272,6 +274,8 @@ cc.Class({
 
        
         cc.dataMgr.addCoinCount(count);
+
+        cc.audioMgr.playEffect("coin");
     },
 
     addDragonToNest: function (camerapos, level) {

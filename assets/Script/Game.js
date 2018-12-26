@@ -415,6 +415,15 @@ cc.Class({
                 this.thingsNode.addChild(unionedThingsArray[i].thing);
                 var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
                 thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
+                
+                //精华合成音
+                if (unionedThingsArray[i].thingType == 1) {
+                    cc.audioMgr.playEffect("heart");
+                } 
+                //花合成音
+                else if(unionedThingsArray[i].thingType == 2) {
+                    cc.audioMgr.playEffect("flower");
+                }
             }
         }
 

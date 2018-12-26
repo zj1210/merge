@@ -226,6 +226,8 @@ cc.Class({
 
                 this.node.parent.destroy();
                 this.isDestroy = true;
+
+                
                 //this.node.destroy();
             }
 
