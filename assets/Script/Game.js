@@ -69,13 +69,6 @@ cc.Class({
             cc.dataMgr.initTile(0, this.node.getChildByName('gameLayer').getChildByName('mapNode').children);
 
         }
-
-        if (!cc.audioMgr) {
-            //let AudioMgr = require("AudioMgr");
-            cc.audioMgr = new AudioMgr();
-            cc.audioMgr.onLoad();
-        }
-        
         //初始化最好写在start里面，我在别的地方有onload来初始化 Game里面的一些数据 比如tile里的onload
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
     },
