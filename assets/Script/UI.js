@@ -208,6 +208,7 @@ cc.Class({
     //图鉴按钮被点击
     tujianClick: function () {
         console.log("图鉴按钮点击了！");
+        cc.audioMgr.playEffect("UI");
         this.tujianLayer.active = true;
         if (this.thingType == 1) {
             this.tujianHeart.active = true;
@@ -230,10 +231,12 @@ cc.Class({
     },
 
     tujianCloseClick: function () {
+        cc.audioMgr.playEffect("UI");
         this.tujianLayer.active = false;
     },
 
     shopLayerClick:function() {
+        cc.audioMgr.playEffect("UI");
         this.shopLayer.active = true;
     },
 
@@ -339,12 +342,14 @@ cc.Class({
     },
 
     unDescClick: function () {
+        cc.audioMgr.playEffect("UI");
         console.log("unDescClick");
         this.descNode.active = true;
         this.unDescNode.active = false;
     },
 
     descClick: function () {
+        cc.audioMgr.playEffect("UI");
         console.log("descClick");
         this.descNode.active = false;
         this.unDescNode.active = true;
