@@ -75,7 +75,7 @@ cc.Class({
             cc.audioMgr = new AudioMgr();
             cc.audioMgr.onLoad();
         }
-
+        
         //初始化最好写在start里面，我在别的地方有onload来初始化 Game里面的一些数据 比如tile里的onload
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
     },
@@ -98,9 +98,6 @@ cc.Class({
     },
 
     start: function () {
-
-        cc.audioMgr.playBg();
-
         //根据持久化数据，持久化龙层，todo：龙巢的恢复
         this.initDragons();
         //debugger;
