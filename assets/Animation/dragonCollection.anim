@@ -135,6 +135,18 @@
             }
           ]
         }
+      },
+      "soundNode": {
+        "comps": {
+          "cc.AudioSource": {
+            "volume": [
+              {
+                "frame": 0,
+                "value": 1
+              }
+            ]
+          }
+        }
       }
     }
   },
