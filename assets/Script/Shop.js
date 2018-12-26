@@ -57,6 +57,9 @@ cc.Class({
      */
     treasureChestClick: function () {
         console.log("treasureChest Click!");
+
+        cc.audioMgr.playEffect("btn_click");
+
         var curCoinCount = cc.dataMgr.getCoinCount();
         var goodsPrice = parseInt(this.treasureChestLabel.string);
         if(curCoinCount >= goodsPrice) {
@@ -107,6 +110,8 @@ cc.Class({
     dragonEggClick: function () {
         console.log("dragonEgg Click!");
 
+        cc.audioMgr.playEffect("btn_click");
+        
         var curCoinCount = cc.dataMgr.getCoinCount();
         var goodsPrice = parseInt(this.dragonEggLabel.string);
         if(curCoinCount >= goodsPrice) {
