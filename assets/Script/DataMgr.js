@@ -15,12 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2018-12-25-1755";
-
-    //是否播放背景声
-    playBg = true;
-    //是否播放音效
-    playEffect = true;
+    version = "2018-12-25-1755"
 
     //是否有地图数据，没有就从界面读取，有就从用户数据读取
     hasTileData = false;
@@ -42,6 +37,12 @@ export default class DataMgr extends cc.Component {
 
     hallTileWidth = 11;
     hallTileHeight = 13;
+
+    //用于规范摄像机区域的值  他不是对称的
+    hallLeftWidth = 3000;
+    hallRightWidth = 5500;
+    hallUpHeight = 4000;
+    hallDownHeight = 1800;
 
     checkpointWidth = 0;
     checkpintHeight = 0;
