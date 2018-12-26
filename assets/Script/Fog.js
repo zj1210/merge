@@ -119,6 +119,7 @@ cc.Class({
             cc.audioMgr.playEffect("fog");
         } else {
             console.log("心不够啊！");
+            cc.audioMgr.playEffect("btn_click");
         }
     },
 
