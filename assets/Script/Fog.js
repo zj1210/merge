@@ -50,7 +50,7 @@ cc.Class({
 
     boxClick: function () {
         console.log('宝箱被点击了！');
-
+        cc.audioMgr.playEffect("boxOpen");
         var treasureData = cc.dataMgr.randomTreasure();
         var game = cc.find("Canvas").getComponent('Game');
         switch (treasureData.category) {
@@ -115,6 +115,8 @@ cc.Class({
             //必须同步到tile，否则无法持久化数据
             this.tile.getComponent('Tile').fogState = 1;
             this.settingState(1);
+
+            cc.audioMgr.playEffect("fog");
         } else {
             console.log("心不够啊！");
         }
