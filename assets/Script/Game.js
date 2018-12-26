@@ -410,6 +410,7 @@ cc.Class({
             if (unionedThingsArray[i].thingType == 3 && unionedThingsArray[i].thingLevel != 0) {
                 this.dragonsNode.addChild(unionedThingsArray[i].thing);
 
+                cc.audioMgr.playEffect("dragon");
             } else {
                 this.thingsNode.addChild(unionedThingsArray[i].thing);
                 var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
@@ -444,6 +445,8 @@ cc.Class({
         for (var i = 0; i < unionedThingsArray.length; i++) {
             unionedThingsArray[i].thing.position = dragonsPositions[i];
             this.dragonsNode.addChild(unionedThingsArray[i].thing);
+
+            cc.audioMgr.playEffect("dragon");
         }
     },
 
