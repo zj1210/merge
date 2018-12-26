@@ -118,12 +118,12 @@
     },
     "_rotationX": 0,
     "_rotationY": 0,
-    "_scaleX": 0.9,
-    "_scaleY": 0.9,
+    "_scaleX": 1,
+    "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -5,
-      "y": -10
+      "x": 0,
+      "y": 0
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -235,6 +235,10 @@
     "_clips": [
       {
         "__uuid__": "79ffee05-fb76-48be-aeaf-0e3f6d61295b"
+      },
+      null,
+      {
+        "__uuid__": "70b6b7b2-e73a-43e7-806a-2fb96f802a32"
       }
     ],
     "playOnLoad": false
