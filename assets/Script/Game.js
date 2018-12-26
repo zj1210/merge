@@ -1,6 +1,6 @@
 
 import DataMgr from 'DataMgr';
-
+import AudioMgr from 'AudioMgr';
 cc.Class({
     extends: cc.Component,
 
