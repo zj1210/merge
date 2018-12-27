@@ -51,19 +51,33 @@ cc.Class({
     boxClick: function () {
         console.log('宝箱被点击了！');
         cc.audioMgr.playEffect("boxOpen");
+
+        this.box.getComponent(cc.Animation).play('boxOpen');
+
         var treasureData = cc.dataMgr.randomTreasure();
         var game = cc.find("Canvas").getComponent('Game');
         switch (treasureData.category) {
             case "coin":
-                this.tile.getComponent('Tile').fog = null;
-                this.tile.getComponent('Tile').tileType = 0;
-                this.node.destroy();
-                var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-                var camerapos = cc.v2(worldpos.x - game.camera.position.x, worldpos.y - game.camera.position.y);
-                var count = treasureData.count;
-                cc.find("Canvas/uiLayer").getComponent('UI').addCoinAndAni(camerapos, count);
-                break;
+                // this.tile.getComponent('Tile').fog = null;
+                // this.tile.getComponent('Tile').tileType = 0;
+                // this.node.destroy();
+                // var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                // var camerapos = cc.v2(worldpos.x - game.camera.position.x, worldpos.y - game.camera.position.y);
+                // var count = treasureData.count;
+                // cc.find("Canvas/uiLayer").getComponent('UI').addCoinAndAni(camerapos, count);
 
+                this.scheduleOnce(function () {
+                    this.tile.getComponent('Tile').fog = null;
+                    this.tile.getComponent('Tile').tileType = 0;
+                    this.node.destroy();
+                    var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                    var camerapos = cc.v2(worldpos.x - game.camera.position.x, worldpos.y - game.camera.position.y);
+                    var count = treasureData.count;
+                    cc.find("Canvas/uiLayer").getComponent('UI').addCoinAndAni(camerapos, count);
+
+                }.bind(this), 1.1);
+
+                break;
             case "flower":
                 this.fog_GenerateThing(2, treasureData.level);
                 break;
@@ -84,22 +98,46 @@ cc.Class({
     },
 
     fog_GenerateThing: function (thingType, thingLevel) {
-        this.tile.getComponent('Tile').fog = null;
-        this.tile.getComponent('Tile').tileType = 0;
-        var newThing = cc.instantiate(this.thingPrefab);
-        newThing.position = this.node.position;
-        var thingJS = newThing.getChildByName('selectedNode').getComponent('Thing');
-        thingJS.setTypeAndLevel_forNewThing(thingType, thingLevel);
 
-
-        cc.find("Canvas/gameLayer/thingsNode").addChild(newThing);
-
-
-        thingJS.changeInTile(this.tile, thingLevel, thingType);
         // debugger;
         // cc.dataMgr.debugTileInfo();
-        this.node.destroy();
+
+
+        this.scheduleOnce(function (thingType, thingLevel) {
+            this.tile.getComponent('Tile').fog = null;
+            this.tile.getComponent('Tile').tileType = 0;
+            var newThing = cc.instantiate(this.thingPrefab);
+            newThing.position = this.node.position;
+            var thingJS = newThing.getChildByName('selectedNode').getComponent('Thing');
+            thingJS.setTypeAndLevel_forNewThing(thingType, thingLevel);
+
+
+            cc.find("Canvas/gameLayer/thingsNode").addChild(newThing);
+
+
+            thingJS.changeInTile(this.tile, thingLevel, thingType);
+
+            this.node.destroy();
+        }.bind(this, thingType, thingLevel), 1.1);
     },
+
+    // destroyByAniOver:function(thingType,thingLevel) {
+
+    //     this.tile.getComponent('Tile').fog = null;
+    //     this.tile.getComponent('Tile').tileType = 0;
+    //     var newThing = cc.instantiate(this.thingPrefab);
+    //     newThing.position = this.node.position;
+    //     var thingJS = newThing.getChildByName('selectedNode').getComponent('Thing');
+    //     thingJS.setTypeAndLevel_forNewThing(thingType, thingLevel);
+
+
+    //     cc.find("Canvas/gameLayer/thingsNode").addChild(newThing);
+
+
+    //     thingJS.changeInTile(this.tile, thingLevel, thingType);
+
+    //     this.node.destroy();
+    // },
 
 
     fogClick: function () {
@@ -119,6 +157,7 @@ cc.Class({
             cc.audioMgr.playEffect("fog");
         } else {
             console.log("心不够啊！");
+            cc.audioMgr.playEffect("btn_click");
         }
     },
 

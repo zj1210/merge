@@ -166,7 +166,7 @@
       "__id__": 2
     },
     "_enabled": true,
-    "transition": 3,
+    "transition": 0,
     "pressedColor": {
       "__type__": "cc.Color",
       "r": 211,
@@ -236,7 +236,6 @@
       {
         "__uuid__": "79ffee05-fb76-48be-aeaf-0e3f6d61295b"
       },
-      null,
       {
         "__uuid__": "70b6b7b2-e73a-43e7-806a-2fb96f802a32"
       }
