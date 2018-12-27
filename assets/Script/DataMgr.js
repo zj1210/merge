@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2018-12-26-1507";
+    version = "2018-12-27-1558";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -370,7 +370,7 @@ export default class DataMgr extends cc.Component {
     ];
 
     //蒲公英的生成周期 单位：秒
-    dandelionPeriod = 36;
+    dandelionPeriod = 8;
 
     //龙巢里的龙 将来要持久化 数据结构 只需插入 醒来时间 和 进入级别
     /**
@@ -455,7 +455,7 @@ export default class DataMgr extends cc.Component {
     };
 
     resetData() {
-        cc.sys.localStorage.setItem("coinCount", 1000);
+        cc.sys.localStorage.setItem("coinCount", 10);
         cc.sys.localStorage.setItem("heartCount", 0);
         cc.sys.localStorage.setItem("hallTileData", "");
         cc.sys.localStorage.setItem("dragonDatas", "");
