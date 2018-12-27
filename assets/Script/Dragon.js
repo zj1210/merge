@@ -562,7 +562,7 @@ cc.Class({
         this.strength = cc.dataMgr.getDragonStrength(thingLevel);
         this.settingSpriteFrame(this.thingType, this.thingLevel);
 
-        //debugger;
+      
         // if (thingType == 1) {
         //     switch (thingLevel) {
         //         case 1:
