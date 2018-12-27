@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2018-12-26-1509";
+    version = "2018-12-26-1507";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -179,12 +179,12 @@ export default class DataMgr extends cc.Component {
         {
             
             "name":"treasureChest",
-            "price": 2
+            "price": 1
         },
         //龙蛋
         {
             "name":"dragonEgg",
-            "price": 8
+            "price": 5
         },
         
        
@@ -314,14 +314,15 @@ export default class DataMgr extends cc.Component {
         {
             "category": "coin",
             "count": 1,
-            "probability": 0.3
+            "probability": 0.2
         },
 
-        // {
-        //     "category": "flower",
-        //     "level": 1,
-        //     "probability": 0.8
-        // },
+        {
+            "category": "flower",
+            "level": 1,
+            "probability": 0.9
+
+        },
 
         {
             "category": "dragon",
