@@ -188,7 +188,7 @@ cc.Class({
 
     },
 
-    //麻烦 先废弃
+    //麻烦先废弃
     // dragonActionByState: function () {
     //     if (this.currentDragonState != this.lastDragonState) {
     //         this.lastDragonState = this.currentDragonState;
