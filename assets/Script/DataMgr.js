@@ -106,47 +106,47 @@ export default class DataMgr extends cc.Component {
             "flowerLevel": 2,
             "minDragonLevel": 1,
             "heartLevel": 0,
-            "needTime": 1
+            "needTime": 8
         },
 
         {
             "flowerLevel": 3,
-            "minDragonLevel": 2,
-            "heartLevel": 1,
-            "needTime": 5
+            "minDragonLevel": 1,
+            "heartLevel": 0,
+            "needTime": 4
         },
 
         {
             "flowerLevel": 4,
-            "minDragonLevel": 3,
-            "heartLevel": 2,
-            "needTime": 5
+            "minDragonLevel": 1,
+            "heartLevel": 1,
+            "needTime": 8
         },
 
         {
             "flowerLevel": 5,
-            "minDragonLevel": 4,
-            "heartLevel": 3,
-            "needTime": 5
+            "minDragonLevel": 1,
+            "heartLevel": 1,
+            "needTime": 4
         }
     ];
     //每级龙的初始体力值
     dragonStrengthDatas = [
         {
             "dragonLevel": 1,
-            "dragonStrength": 2
+            "dragonStrength": 3
         },
         {
             "dragonLevel": 2,
-            "dragonStrength": 5
+            "dragonStrength": 11
         },
         {
             "dragonLevel": 3,
-            "dragonStrength": 1
+            "dragonStrength": 36
         },
         {
             "dragonLevel": 4,
-            "dragonStrength": 5
+            "dragonStrength": 112
         }
     ];
     //每级心的力量
@@ -165,11 +165,11 @@ export default class DataMgr extends cc.Component {
         },
         {
             "heartLevel": 3,
-            "heartStrength": 40
+            "heartStrength": 41
         },
         {
             "heartLevel": 4,
-            "heartStrength": 121
+            "heartStrength": 126
         }
     ];
 
@@ -184,7 +184,7 @@ export default class DataMgr extends cc.Component {
         //龙蛋
         {
             "name":"dragonEgg",
-            "price": 1
+            "price": 8
         },
         
        
@@ -314,14 +314,14 @@ export default class DataMgr extends cc.Component {
         {
             "category": "coin",
             "count": 1,
-            "probability": 0.2
+            "probability": 0.3
         },
 
-        {
-            "category": "flower",
-            "level": 1,
-            "probability": 0.4
-        },
+        // {
+        //     "category": "flower",
+        //     "level": 1,
+        //     "probability": 0.8
+        // },
 
         {
             "category": "dragon",
@@ -341,22 +341,22 @@ export default class DataMgr extends cc.Component {
     dragonNestDuration = [
         {
             "dragonLevel": 1,
-            "duration": 10,
+            "duration": 60,
         },
 
         {
             "dragonLevel": 2,
-            "duration": 4
+            "duration": 60
         },
 
         {
             "dragonLevel": 3,
-            "duration": 4
+            "duration": 60
         },
 
         {
             "dragonLevel": 4,
-            "duration": 4
+            "duration": 60
         },
     ];
 
