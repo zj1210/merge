@@ -216,10 +216,6 @@ cc.Class({
         } else {
             console.log("没有空格，无法收集蒲公英");
         }
-       
-
-
-       
 
     },
 
