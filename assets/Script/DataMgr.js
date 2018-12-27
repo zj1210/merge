@@ -337,7 +337,7 @@ export default class DataMgr extends cc.Component {
     //duration 单位：秒 休息时间
     dragonNestDuration = [
         {
-            "dragonLe2vel": 1,
+            "dragonLevel": 1,
             "duration": 60,
         },
 
