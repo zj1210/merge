@@ -33919,7 +33919,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 6,
+      "width": 0,
       "height": 40
     },
     "_rotationX": 0,
@@ -34764,7 +34764,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 251,
+      "width": 245,
       "height": 40
     },
     "_rotationX": 0,
@@ -35792,7 +35792,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 93,
+      "width": 83,
       "height": 55
     },
     "_rotationX": 0,
@@ -36181,7 +36181,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 93,
+      "width": 83,
       "height": 55
     },
     "_rotationX": 0,
@@ -36985,7 +36985,7 @@
       "__id__": 939
     },
     "component": "UI",
-    "handler": "shopLayerClick",
+    "handler": "dandelionGenerateClick",
     "customEventData": ""
   },
   {
@@ -37024,7 +37024,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 104,
+      "width": 98,
       "height": 40
     },
     "_rotationX": 0,
@@ -37172,6 +37172,12 @@
     },
     "coinPrefab": {
       "__uuid__": "f348ae43-c1bb-44af-b530-edb3148d96a5"
+    },
+    "dandelionNode": {
+      "__id__": 1030
+    },
+    "thingPrefab": {
+      "__uuid__": "13cf5ab0-7ec2-46ed-9e23-9a92d350295c"
     }
   },
   {
