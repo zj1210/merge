@@ -228,6 +228,14 @@ export default class DataMgr extends cc.Component {
     ];
 
     flowerDescDatas = [
+
+        {
+            "flowerLevel": 0,
+            "name": "蒲公英",
+            "levelDesc": "级别0",
+            "desc": "合并生成生命之花幼芽"
+        },
+
         {
             "flowerLevel": 1,
             "name": "生命之花幼芽",
@@ -360,6 +368,8 @@ export default class DataMgr extends cc.Component {
         },
     ];
 
+    //蒲公英的生成周期 单位：秒
+    dandelionPeriod = 36;
 
     //龙巢里的龙 将来要持久化 数据结构 只需插入 醒来时间 和 进入级别
     /**

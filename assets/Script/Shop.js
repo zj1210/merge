@@ -62,7 +62,8 @@ cc.Class({
         var curCoinCount = cc.dataMgr.getCoinCount();
         var goodsPrice = parseInt(this.treasureChestLabel.string);
         if (curCoinCount >= goodsPrice) {
-            var tile = this.getTile();
+            var gameJS = cc.find("Canvas").getComponent('Game');
+            var tile = gameJS.getTile();
             if (tile) {
 
                 this.purchaseSuccessLogic(goodsPrice, tile, "treasureChest");
@@ -75,15 +76,7 @@ cc.Class({
         }
     },
 
-    getTile: function () {
-        var gameJS = cc.find("Canvas").getComponent('Game');
-        var resultTiles = gameJS.getNearestTileByN_pos(cc.v2(0, 0), 1);
-        if (resultTiles != null) {
-            return resultTiles[0];
-        } else {
-            return null;
-        }
-    },
+  
 
     //1 扣钱
     //2 生成与放置
@@ -113,7 +106,8 @@ cc.Class({
         var curCoinCount = cc.dataMgr.getCoinCount();
         var goodsPrice = parseInt(this.dragonEggLabel.string);
         if (curCoinCount >= goodsPrice) {
-            var tile = this.getTile();
+            var gameJS = cc.find("Canvas").getComponent('Game');
+            var tile = gameJS.getTile();
             if (tile) {
 
                 this.purchaseSuccessLogic(goodsPrice, tile, "dragonEgg");

@@ -81,28 +81,38 @@ cc.Class({
             type: cc.Node
         },
 
-        dragonCountLabel:{
-            default:null,
-            type:cc.Label
+        dragonCountLabel: {
+            default: null,
+            type: cc.Label
         },
 
-        countDownLabel:{
-            default:null,
-            type:cc.Label
+        countDownLabel: {
+            default: null,
+            type: cc.Label
         },
 
         //商城界面
-        shopLayer:{
-            default:null,
-            type:cc.Node
+        shopLayer: {
+            default: null,
+            type: cc.Node
         },
 
-        coinPrefab:{
+        coinPrefab: {
+            default: null,
+            type: cc.Prefab
+        },
+
+
+
+        dandelionNode: {
+            default: null,
+            type: cc.Node
+        },
+
+        thingPrefab:{
             default:null,
             type:cc.Prefab
         }
-        // defaults, set visually when attaching this script to the Canvas
-
     },
 
     // use this for initialization
@@ -118,31 +128,40 @@ cc.Class({
     refreshUI: function () {
         this.coinLabel.string = cc.dataMgr.getCoinCount();
         this.heartLabel.string = cc.dataMgr.getHeartCount();
-       
+
     },
 
     start: function () {
         this.game = cc.find("Canvas").getComponent('Game');
-        if(cc.dataMgr.dragonNestDatas.length>0) {
+        if (cc.dataMgr.dragonNestDatas.length > 0) {
             this.dragonNestNode.getComponent('nest').nestInOver();
         }
         this.schedule(this.refreshDragonNestInfo, 1);
+
+        //生成蒲公英
+        this.dandelionPeriod = cc.dataMgr.dandelionPeriod;
+        this.dandelionTimeLabel = this.dandelionNode.getChildByName('dandeLionLabel').getComponent(cc.Label);
+        this.dandelionTimeLabel.node.active = false;
+        //this.dandelionTimeLabel.string = this.dandelionPeriod;
+        this.dandelionGenBtn = this.dandelionNode.getChildByName('dandelionIcon').getComponent(cc.Button);
+        this.dandelionGenBtn.interactable = false;
+        this.schedule(this.generateDandelion,1);
     },
 
-    refreshDragonNestInfo:function() {
+    refreshDragonNestInfo: function () {
         //console.log("-----每秒 刷新龙巢");
         var len = cc.dataMgr.dragonNestDatas.length;
         this.dragonCountLabel.string = len;
 
-        if(len <1) {
+        if (len < 1) {
             this.countDownLabel.node.active = false;
-            this.dragonCountLabel.node.active =false;
+            this.dragonCountLabel.node.active = false;
             this.dragonNestNode.getComponent('nest').noDragonAni();
         } else {
             this.countDownLabel.node.active = true;
             this.dragonCountLabel.node.active = true;
             var totleSecond = cc.dataMgr.getCurrentDragonCountDown();
-            if(totleSecond<1) {
+            if (totleSecond < 1) {
                 console.log("龙出巢逻辑！！todo");
                 this.dragonMoveOutNest();
             }
@@ -151,11 +170,64 @@ cc.Class({
         }
     },
 
-    dragonMoveOutNest:function() {
+    generateDandelion:function() {
+        this.dandelionPeriod--;
+
+        this.dandelionNode.getChildByName("circleMask").getComponent(cc.Sprite).fillRange = this.dandelionPeriod/cc.dataMgr.dandelionPeriod;
+        //到时间了 点击可以生成蒲公英
+        if(this.dandelionPeriod<=0) {
+            this.dandelionGenBtn.interactable = true;
+            this.unschedule(this.generateDandelion);
+            console.log("赶快收集吧");
+        } else {
+            //this.dandelionTimeLabel.string = this.dandelionPeriod;
+        }
+    },
+
+    //生成蒲公英
+    dandelionGenerateClick:function() {
+        cc.audioMgr.playEffect("btn_click");
+
+        var thingsNode = cc.find("Canvas/gameLayer/thingsNode");
+        var camerapos = this.dandelionNode.parent.convertToWorldSpaceAR(this.dandelionNode.position);
+        //debugger;
+        var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
+        var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
+
+        var tile = this.game.getTile(nodepos);
+        if(tile) {
+            this.dandelionGenBtn.interactable = false;
+            this.dandelionPeriod = cc.dataMgr.dandelionPeriod;
+            this.schedule(this.generateDandelion,1);
+
+            var dandelion = cc.instantiate(this.thingPrefab);
+            dandelion.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(2, 0);
+    
+            
+            thingsNode.addChild(dandelion);
+
+
+           
+            dandelion.position = nodepos;
+
+
+            var thingJs = dandelion.getChildByName('selectedNode').getComponent('Thing');
+            thingJs.changeInTile(tile, 0, 2);
+        } else {
+            console.log("没有空格，无法收集蒲公英");
+        }
+       
+
+
+       
+
+    },
+
+    dragonMoveOutNest: function () {
         var outDragonData = cc.dataMgr.dequeueDragonNest();
         console.log(outDragonData);
 
-     
+
 
         var dragonNode = cc.instantiate(this.dragonPrefab);
         dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, outDragonData.level);
@@ -166,13 +238,13 @@ cc.Class({
         var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
         var nodepos = dragonsNode.convertToNodeSpaceAR(worldpos);
         dragonNode.position = nodepos;
-       
+
         dragonNode.scale = 0.0;
 
 
 
 
-        var targetPos = cc.v2(360,640);
+        var targetPos = cc.v2(360, 640);
         var targetWorldpos = cc.v2(targetPos.x + this.game.camera.position.x, targetPos.y + this.game.camera.position.y);
         var targetNodepos = dragonsNode.convertToNodeSpaceAR(targetWorldpos);
         var action = cc.moveTo(2.0, targetNodepos);
@@ -183,8 +255,8 @@ cc.Class({
 
     },
 
-    dragonMoveOutNestOver:function(dragonNode) {
-       
+    dragonMoveOutNestOver: function (dragonNode) {
+
         // dragonNode.removeFromParent(false);
         // var dragonsNode = cc.find("Canvas/gameLayer/dragonsNode");
         // var pos =  dragonsNode.convertToNodeSpaceAR(dragonNode.position);
@@ -193,7 +265,7 @@ cc.Class({
     },
 
     setTimeToLabel: function (dx, label) {
-        if(dx<0) { //负的
+        if (dx < 0) { //负的
             label.string = "";
             return;
         }
@@ -235,7 +307,7 @@ cc.Class({
         this.tujianLayer.active = false;
     },
 
-    shopLayerClick:function() {
+    shopLayerClick: function () {
         cc.audioMgr.playEffect("UI");
         this.shopLayer.active = true;
     },
@@ -261,7 +333,7 @@ cc.Class({
         cc.audioMgr.playEffect("heartGo");
     },
 
-    addCoinAndAni:function(camerapos,count) {
+    addCoinAndAni: function (camerapos, count) {
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
         var coinNode = cc.instantiate(this.coinPrefab);
         this.node.addChild(coinNode);
@@ -275,7 +347,7 @@ cc.Class({
         var seq = cc.sequence(together, cc.callFunc(this.moveToLabelOver, this, coinNode));
         coinNode.runAction(seq);
 
-       
+
         cc.dataMgr.addCoinCount(count);
 
         cc.audioMgr.playEffect("coin");
@@ -292,10 +364,10 @@ cc.Class({
         this.node.addChild(dragonNode);
         dragonNode.position = nodepos;
         dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, level);
-     
+
         var targetPos = this.dragonNestNode.position;
         var action = cc.moveTo(2.0, targetPos);
-        var action2 = cc.scaleTo(2.0, -0.5,0.5);
+        var action2 = cc.scaleTo(2.0, -0.5, 0.5);
         var together = cc.spawn(action, action2);
         var seq = cc.sequence(together, cc.callFunc(this.moveToDragonNestOver, this, dragonNode));
         dragonNode.runAction(seq);
