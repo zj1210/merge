@@ -228,6 +228,14 @@ export default class DataMgr extends cc.Component {
     ];
 
     flowerDescDatas = [
+
+        {
+            "flowerLevel": 0,
+            "name": "蒲公英",
+            "levelDesc": "级别0",
+            "desc": "合并生成生命之花幼芽"
+        },
+
         {
             "flowerLevel": 1,
             "name": "生命之花幼芽",
