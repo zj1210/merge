@@ -34764,7 +34764,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 245,
+      "width": 251,
       "height": 40
     },
     "_rotationX": 0,
@@ -35376,7 +35376,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "e03a1458-1d5a-4092-8d1e-05d3b3036734"
+      "__uuid__": "b5274b61-106a-48a5-b477-05864143d68b"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -35527,7 +35527,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 996
+      "__id__": 993
     }
   },
   {
@@ -35792,7 +35792,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 83,
+      "width": 93,
       "height": 55
     },
     "_rotationX": 0,
@@ -36181,7 +36181,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 83,
+      "width": 93,
       "height": 55
     },
     "_rotationX": 0,
@@ -36718,10 +36718,10 @@
         "__id__": 1031
       },
       {
-        "__id__": 1033
+        "__id__": 1035
       },
       {
-        "__id__": 1037
+        "__id__": 1038
       }
     ],
     "_tag": -1,
@@ -36766,7 +36766,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Border - Gold",
+    "_name": "dandelionIcon",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1030
@@ -36777,6 +36777,9 @@
     "_components": [
       {
         "__id__": 1032
+      },
+      {
+        "__id__": 1033
       }
     ],
     "_prefab": null,
@@ -36825,91 +36828,10 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "e03a1458-1d5a-4092-8d1e-05d3b3036734"
+      "__uuid__": "1ceba1a5-b2d2-45e3-a5f3-53920ec0749c"
     },
     "_type": 0,
     "_sizeMode": 0,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_atlas": null
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "dandelionIcon",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1030
-    },
-    "_children": [],
-    "_tag": -1,
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 1034
-      },
-      {
-        "__id__": 1035
-      }
-    ],
-    "_prefab": null,
-    "_id": "f6nBiKYs1LkbIgGZJqAH3i",
-    "_opacity": 255,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "_cascadeOpacityEnabled": true,
-    "_anchorPoint": {
-      "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
-    },
-    "_contentSize": {
-      "__type__": "cc.Size",
-      "width": 122,
-      "height": 118
-    },
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_scaleX": 0.6,
-    "_scaleY": 0.6,
-    "_position": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_skewX": 0,
-    "_skewY": 0,
-    "_localZOrder": 0,
-    "_globalZOrder": 0,
-    "_opacityModifyRGB": false,
-    "groupIndex": 0
-  },
-  {
-    "__type__": "cc.Sprite",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1033
-    },
-    "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "9c846cc6-f5bb-4a2b-bb9f-8a1eec55f277"
-    },
-    "_type": 0,
-    "_sizeMode": 1,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -36928,7 +36850,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1033
+      "__id__": 1031
     },
     "_enabled": true,
     "transition": 3,
@@ -36950,7 +36872,7 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 1036
+        "__id__": 1034
       }
     ],
     "_N$interactable": true,
@@ -36976,7 +36898,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 1033
+      "__id__": 1030
     }
   },
   {
@@ -36997,13 +36919,13 @@
     },
     "_children": [],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
-        "__id__": 1038
+        "__id__": 1036
       },
       {
-        "__id__": 1039
+        "__id__": 1037
       }
     ],
     "_prefab": null,
@@ -37048,7 +36970,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1037
+      "__id__": 1035
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -37070,7 +36992,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1037
+      "__id__": 1035
     },
     "_enabled": true,
     "_color": {
@@ -37081,6 +37003,84 @@
       "a": 255
     },
     "_width": 3
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "circleMask",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1030
+    },
+    "_children": [],
+    "_tag": -1,
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 1039
+      }
+    ],
+    "_prefab": null,
+    "_id": "ab1/XxpmRKnZ/Sl0/GtsmU",
+    "_opacity": 255,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 136,
+      "g": 136,
+      "b": 136,
+      "a": 255
+    },
+    "_cascadeOpacityEnabled": true,
+    "_anchorPoint": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_contentSize": {
+      "__type__": "cc.Size",
+      "width": 100,
+      "height": 100
+    },
+    "_rotationX": 0,
+    "_rotationY": 0,
+    "_scaleX": 1,
+    "_scaleY": 1,
+    "_position": {
+      "__type__": "cc.Vec2",
+      "x": 3.6,
+      "y": -4
+    },
+    "_skewX": 0,
+    "_skewY": 0,
+    "_localZOrder": 0,
+    "_globalZOrder": 0,
+    "_opacityModifyRGB": false,
+    "groupIndex": 0
+  },
+  {
+    "__type__": "cc.Sprite",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1038
+    },
+    "_enabled": true,
+    "_spriteFrame": {
+      "__uuid__": "1ceba1a5-b2d2-45e3-a5f3-53920ec0749c"
+    },
+    "_type": 3,
+    "_sizeMode": 0,
+    "_fillType": 2,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0.5,
+      "y": 0.5
+    },
+    "_fillStart": 0.25,
+    "_fillRange": 1,
+    "_isTrimmedMode": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
+    "_atlas": null
   },
   {
     "__type__": "cc.Widget",

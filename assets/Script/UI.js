@@ -141,7 +141,8 @@ cc.Class({
         //生成蒲公英
         this.dandelionPeriod = cc.dataMgr.dandelionPeriod;
         this.dandelionTimeLabel = this.dandelionNode.getChildByName('dandeLionLabel').getComponent(cc.Label);
-        this.dandelionTimeLabel.string = this.dandelionPeriod;
+        this.dandelionTimeLabel.node.active = false;
+        //this.dandelionTimeLabel.string = this.dandelionPeriod;
         this.dandelionGenBtn = this.dandelionNode.getChildByName('dandelionIcon').getComponent(cc.Button);
         this.dandelionGenBtn.interactable = false;
         this.schedule(this.generateDandelion,1);
@@ -171,13 +172,15 @@ cc.Class({
 
     generateDandelion:function() {
         this.dandelionPeriod--;
+
+        this.dandelionNode.getChildByName("circleMask").getComponent(cc.Sprite).fillRange = this.dandelionPeriod/cc.dataMgr.dandelionPeriod;
         //到时间了 点击可以生成蒲公英
         if(this.dandelionPeriod<=0) {
             this.dandelionGenBtn.interactable = true;
             this.unschedule(this.generateDandelion);
             console.log("赶快收集吧");
         } else {
-            this.dandelionTimeLabel.string = this.dandelionPeriod;
+            //this.dandelionTimeLabel.string = this.dandelionPeriod;
         }
     },
 
