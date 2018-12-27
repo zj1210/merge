@@ -75,7 +75,7 @@ cc.Class({
                     var count = treasureData.count;
                     cc.find("Canvas/uiLayer").getComponent('UI').addCoinAndAni(camerapos, count);
 
-                }.bind(this), 1.1);
+                }.bind(this), 0.5);
 
                 break;
             case "flower":
@@ -118,7 +118,7 @@ cc.Class({
             thingJS.changeInTile(this.tile, thingLevel, thingType);
 
             this.node.destroy();
-        }.bind(this, thingType, thingLevel), 1.1);
+        }.bind(this, thingType, thingLevel), 0.5);
     },
 
     // destroyByAniOver:function(thingType,thingLevel) {
