@@ -262,6 +262,40 @@
             }
           ]
         }
+      },
+      "soundNode": {
+        "comps": {
+          "cc.AudioSource": {
+            "volume": [
+              {
+                "frame": 0,
+                "value": 0
+              }
+            ]
+          }
+        }
+      },
+      "eyeNode": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            },
+            {
+              "frame": 0.6666666666666666,
+              "value": false
+            },
+            {
+              "frame": 0.8333333333333334,
+              "value": true
+            },
+            {
+              "frame": 1,
+              "value": false
+            }
+          ]
+        }
       }
     }
   },

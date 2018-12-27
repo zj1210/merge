@@ -66,13 +66,37 @@ cc.Class({
         tipsNode: {
             default: null,
             type: cc.Node
-
-        },
+		},
 
         progressNode: {
             default: null,
             type: cc.Node
-        }
+        },
+
+		eyeSprite:{
+            default: null,
+            type: cc.Sprite
+	    },
+
+		eye01_spr: {
+            default: null,
+            type: cc.SpriteFrame
+		},
+
+		eye02_spr: {
+            default: null,
+            type: cc.SpriteFrame
+		},
+
+		eye03_spr: {
+            default: null,
+            type: cc.SpriteFrame
+		},
+
+		eye04_spr: {
+            default: null,
+            type: cc.SpriteFrame
+		},
     },
 
     settingSpriteFrame(type, level) {
@@ -84,13 +108,16 @@ cc.Class({
                 this.dragonSpr.spriteFrame = this.dragon_1_spr;
                 this.wing1.spriteFrame = this.wing_1_spr;
                 this.wing2.spriteFrame = this.wing_1_spr;
-
+				this.eyeSprite.spriteFrame = this.eye01_spr;
+               
             } else if (level == 2) {
                 this.dragonSpr.spriteFrame = this.dragon_2_spr;
                 this.wing1.spriteFrame = this.wing_2_spr;
                 this.wing2.spriteFrame = this.wing_2_spr;
                 this.wing1.node.position = cc.v2(-19, 15);
                 this.wing2.node.position = cc.v2(-4.5, 16);
+				this.eyeSprite.spriteFrame = this.eye02_spr;
+				this.eyeSprite.node.position = cc.v2(-36.5, 66.3);
 
                 this.collectionThing.position = cc.v2(0, 80);
                 this.progressNode.position = cc.v2(0, 190);
@@ -102,6 +129,8 @@ cc.Class({
                 this.wing2.spriteFrame = this.wing_3_spr;
                 this.wing1.node.position = cc.v2(-40, 83);
                 this.wing2.node.position = cc.v2(-12, 85);
+				this.eyeSprite.spriteFrame = this.eye03_spr;
+				this.eyeSprite.node.position = cc.v2(-73.3, 140.4);
 
                 this.collectionThing.position = cc.v2(0, 130);
                 this.progressNode.position = cc.v2(0, 260);
@@ -113,6 +142,8 @@ cc.Class({
                 this.wing2.spriteFrame = this.wing_4_spr;
                 this.wing1.node.position = cc.v2(-102, 83);
                 this.wing2.node.position = cc.v2(-60, 85);
+				this.eyeSprite.spriteFrame = this.eye04_spr;
+				this.eyeSprite.node.position = cc.v2(-99.5, 182.4);
 
                 this.collectionThing.position = cc.v2(0, 130);
                 this.progressNode.position = cc.v2(0, 300);
@@ -157,7 +188,7 @@ cc.Class({
 
     },
 
-    //麻烦 先废弃
+    //麻烦先废弃
     // dragonActionByState: function () {
     //     if (this.currentDragonState != this.lastDragonState) {
     //         this.lastDragonState = this.currentDragonState;
@@ -204,7 +235,7 @@ cc.Class({
             //console.log('touch begin by flower');
             self.browseThisThing();
             event.stopPropagation();
-
+            cc.audioMgr.playEffect("btn_click");
             //如果有生成物，需要放置生成物
             if (self.collectionThing.active) {
                 self.collectionThingClick();
@@ -531,7 +562,7 @@ cc.Class({
         this.strength = cc.dataMgr.getDragonStrength(thingLevel);
         this.settingSpriteFrame(this.thingType, this.thingLevel);
 
-        // //debugger;
+      
         // if (thingType == 1) {
         //     switch (thingLevel) {
         //         case 1:

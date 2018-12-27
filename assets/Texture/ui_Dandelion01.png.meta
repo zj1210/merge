@@ -1,0 +1,30 @@
+{
+  "ver": "2.0.0",
+  "uuid": "814fea1d-f7f4-4948-b6b2-7a8ca935b523",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "ui_Dandelion01": {
+      "ver": "1.0.3",
+      "uuid": "1ceba1a5-b2d2-45e3-a5f3-53920ec0749c",
+      "rawTextureUuid": "814fea1d-f7f4-4948-b6b2-7a8ca935b523",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 110,
+      "height": 113,
+      "rawWidth": 110,
+      "rawHeight": 113,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
