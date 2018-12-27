@@ -188,7 +188,7 @@ cc.Class({
 
     },
 
-    //麻烦 先废弃
+    //麻烦先废弃
     // dragonActionByState: function () {
     //     if (this.currentDragonState != this.lastDragonState) {
     //         this.lastDragonState = this.currentDragonState;
@@ -562,7 +562,7 @@ cc.Class({
         this.strength = cc.dataMgr.getDragonStrength(thingLevel);
         this.settingSpriteFrame(this.thingType, this.thingLevel);
 
-        // //debugger;
+      
         // if (thingType == 1) {
         //     switch (thingLevel) {
         //         case 1:

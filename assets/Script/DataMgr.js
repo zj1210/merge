@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2018-12-26-1509";
+    version = "2018-12-27-1558";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -106,47 +106,47 @@ export default class DataMgr extends cc.Component {
             "flowerLevel": 2,
             "minDragonLevel": 1,
             "heartLevel": 0,
-            "needTime": 1
+            "needTime": 8
         },
 
         {
             "flowerLevel": 3,
-            "minDragonLevel": 2,
-            "heartLevel": 1,
-            "needTime": 5
+            "minDragonLevel": 1,
+            "heartLevel": 0,
+            "needTime": 4
         },
 
         {
             "flowerLevel": 4,
-            "minDragonLevel": 3,
-            "heartLevel": 2,
-            "needTime": 5
+            "minDragonLevel": 1,
+            "heartLevel": 1,
+            "needTime": 8
         },
 
         {
             "flowerLevel": 5,
-            "minDragonLevel": 4,
-            "heartLevel": 3,
-            "needTime": 5
+            "minDragonLevel": 1,
+            "heartLevel": 1,
+            "needTime": 4
         }
     ];
     //每级龙的初始体力值
     dragonStrengthDatas = [
         {
             "dragonLevel": 1,
-            "dragonStrength": 2
+            "dragonStrength": 3
         },
         {
             "dragonLevel": 2,
-            "dragonStrength": 5
+            "dragonStrength": 11
         },
         {
             "dragonLevel": 3,
-            "dragonStrength": 1
+            "dragonStrength": 36
         },
         {
             "dragonLevel": 4,
-            "dragonStrength": 5
+            "dragonStrength": 112
         }
     ];
     //每级心的力量
@@ -165,11 +165,11 @@ export default class DataMgr extends cc.Component {
         },
         {
             "heartLevel": 3,
-            "heartStrength": 40
+            "heartStrength": 41
         },
         {
             "heartLevel": 4,
-            "heartStrength": 121
+            "heartStrength": 126
         }
     ];
 
@@ -179,12 +179,12 @@ export default class DataMgr extends cc.Component {
         {
             
             "name":"treasureChest",
-            "price": 2
+            "price": 1
         },
         //龙蛋
         {
             "name":"dragonEgg",
-            "price": 1
+            "price": 5
         },
         
        
@@ -228,6 +228,14 @@ export default class DataMgr extends cc.Component {
     ];
 
     flowerDescDatas = [
+
+        {
+            "flowerLevel": 0,
+            "name": "蒲公英",
+            "levelDesc": "级别0",
+            "desc": "合并生成生命之花幼芽"
+        },
+
         {
             "flowerLevel": 1,
             "name": "生命之花幼芽",
@@ -320,7 +328,8 @@ export default class DataMgr extends cc.Component {
         {
             "category": "flower",
             "level": 1,
-            "probability": 0.4
+            "probability": 0.9
+
         },
 
         {
@@ -341,25 +350,27 @@ export default class DataMgr extends cc.Component {
     dragonNestDuration = [
         {
             "dragonLevel": 1,
-            "duration": 10,
+            "duration": 60,
         },
 
         {
             "dragonLevel": 2,
-            "duration": 4
+            "duration": 60
         },
 
         {
             "dragonLevel": 3,
-            "duration": 4
+            "duration": 60
         },
 
         {
             "dragonLevel": 4,
-            "duration": 4
+            "duration": 60
         },
     ];
 
+    //蒲公英的生成周期 单位：秒
+    dandelionPeriod = 8;
 
     //龙巢里的龙 将来要持久化 数据结构 只需插入 醒来时间 和 进入级别
     /**
@@ -444,7 +455,7 @@ export default class DataMgr extends cc.Component {
     };
 
     resetData() {
-        cc.sys.localStorage.setItem("coinCount", 100);
+        cc.sys.localStorage.setItem("coinCount", 10);
         cc.sys.localStorage.setItem("heartCount", 0);
         cc.sys.localStorage.setItem("hallTileData", "");
         cc.sys.localStorage.setItem("dragonDatas", "");

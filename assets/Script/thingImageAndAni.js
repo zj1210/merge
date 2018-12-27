@@ -8,7 +8,7 @@ cc.Class({
     properties: {
 
         // default, set visually when attaching this script to the Canvas
-        //todo 定义 N多的 图片 和动画
+        //todo 定义 N多的 图片  和动画
 
 
 

@@ -368,6 +368,26 @@ cc.Class({
         return resultTiles;
     },
 
+
+    //以 (0,0)为中心找到空闲tile
+    getTile: function (pos) {
+        var tempPos;
+        if(pos) {
+            tempPos = pos;
+        } else {
+            tempPos = cc.v2(0, 0);
+        }
+       
+
+
+        var resultTiles = this.getNearestTileByN_pos(tempPos, 1);
+        if (resultTiles != null) {
+            return resultTiles[0];
+        } else {
+            return null;
+        }
+    },
+
     //输入一个things 数组，返回一个 生成的things 数组
     unionAlgorithm: function (thingsArray, currentNearestTile) {
         //1 先取出第一个thing的关联tile 将来以这个搜寻空格
