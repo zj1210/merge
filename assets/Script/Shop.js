@@ -22,9 +22,9 @@ cc.Class({
             type: cc.Label
         },
 
-        shopTipsLabel:{
-            default:null,
-            type:cc.Label
+        shopTipsLabel: {
+            default: null,
+            type: cc.Label
         }
 
     },
@@ -32,11 +32,11 @@ cc.Class({
     onLoad: function () {
 
         //this.shopTipsLabel.node.active = false;
-      
-        for(var i = 0; i<cc.dataMgr.shopDatas.length; i++) {
-            if(cc.dataMgr.shopDatas[i].name == "treasureChest") {
+
+        for (var i = 0; i < cc.dataMgr.shopDatas.length; i++) {
+            if (cc.dataMgr.shopDatas[i].name == "treasureChest") {
                 this.treasureChestLabel.string = cc.dataMgr.shopDatas[i].price;
-            } else if(cc.dataMgr.shopDatas[i].name == "dragonEgg") {
+            } else if (cc.dataMgr.shopDatas[i].name == "dragonEgg") {
                 this.dragonEggLabel.string = cc.dataMgr.shopDatas[i].price;
             }
         }
@@ -57,13 +57,15 @@ cc.Class({
      */
     treasureChestClick: function () {
         console.log("treasureChest Click!");
+        cc.audioMgr.playEffect("btn_click");
+
         var curCoinCount = cc.dataMgr.getCoinCount();
         var goodsPrice = parseInt(this.treasureChestLabel.string);
-        if(curCoinCount >= goodsPrice) {
+        if (curCoinCount >= goodsPrice) {
             var tile = this.getTile();
-            if(tile) {
-        
-                this.purchaseSuccessLogic(goodsPrice,tile,"treasureChest");
+            if (tile) {
+
+                this.purchaseSuccessLogic(goodsPrice, tile, "treasureChest");
             } else {
                 this.shopTipsFadeIn("没有格子,购买失败!");
             }
@@ -73,32 +75,32 @@ cc.Class({
         }
     },
 
-    getTile:function() {
+    getTile: function () {
         var gameJS = cc.find("Canvas").getComponent('Game');
-        var resultTiles = gameJS.getNearestTileByN_pos(cc.v2(0,0), 1);
+        var resultTiles = gameJS.getNearestTileByN_pos(cc.v2(0, 0), 1);
         if (resultTiles != null) {
             return resultTiles[0];
         } else {
             return null;
         }
     },
-   
+
     //1 扣钱
     //2 生成与放置
     //3 提示购买成功
     //参数： 扣除多少钱，放入哪个tile，tile中放入什么东西
-    purchaseSuccessLogic:function(amountDeducted,tile,thingName) {
+    purchaseSuccessLogic: function (amountDeducted, tile, thingName) {
         cc.dataMgr.addCoinCount(-amountDeducted);
 
         var gameJS = cc.find("Canvas").getComponent('Game');
-        gameJS.generateAndPutThing(tile,thingName);
+        gameJS.generateAndPutThing(tile, thingName);
         //刷新ui
-        var uiJS =cc.find("Canvas/uiLayer").getComponent('UI');
+        var uiJS = cc.find("Canvas/uiLayer").getComponent('UI');
         uiJS.refreshUI();
         this.shopTipsFadeIn("购买成功,已放入领地!");
     },
 
-    shopTipsFadeIn:function(strContent) {
+    shopTipsFadeIn: function (strContent) {
         console.log(strContent);
         this.shopTipsLabel.string = strContent;
         this.shopTipsLabel.node.getComponent(cc.Animation).play("shopTips");
@@ -106,14 +108,15 @@ cc.Class({
 
     dragonEggClick: function () {
         console.log("dragonEgg Click!");
+        cc.audioMgr.playEffect("btn_click");
 
         var curCoinCount = cc.dataMgr.getCoinCount();
         var goodsPrice = parseInt(this.dragonEggLabel.string);
-        if(curCoinCount >= goodsPrice) {
+        if (curCoinCount >= goodsPrice) {
             var tile = this.getTile();
-            if(tile) {
-        
-                this.purchaseSuccessLogic(goodsPrice,tile,"dragonEgg");
+            if (tile) {
+
+                this.purchaseSuccessLogic(goodsPrice, tile, "dragonEgg");
             } else {
                 this.shopTipsFadeIn("没有位置放置物品，购买失败!");
             }
@@ -126,6 +129,7 @@ cc.Class({
 
     closeClick: function () {
         console.log("close click!");
+        cc.audioMgr.playEffect("UI");
         this.node.active = false;
     }
 

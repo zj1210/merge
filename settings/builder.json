@@ -30,7 +30,7 @@
   "title": "merge",
   "webOrientation": "auto",
   "wechatgame": {
-    "REMOTE_SERVER_ROOT": "",
+    "REMOTE_SERVER_ROOT": "https://bpw.blyule.com/merge_1",
     "appid": "wxfece06b250c43b30",
     "isSubdomain": false,
     "orientation": "portrait",
