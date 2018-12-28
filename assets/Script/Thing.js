@@ -46,13 +46,15 @@ cc.Class({
         this.game = cc.find("Canvas").getComponent('Game');
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
 
-        var ratio = this.game.camera.getComponent(cc.Camera).zoomRatio;
+        
         if (!this.game) {
             debugger;
         }
         let self = this;
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             // console.log('touch begin by flower');
+
+            self.ratio = self.game.camera.getComponent(cc.Camera).zoomRatio;
             cc.audioMgr.playEffect("btn_click");
             self.browseThisThing();
             event.stopPropagation();
@@ -89,8 +91,8 @@ cc.Class({
                 // console.log('touch pos')
                 // console.log(touchpos);
                 //是否需要移动摄像机 若需要，物体的世界坐标也会变化
-                var tempX = self._offset.x * ratio;
-                var tempY = self._offset.y * ratio;
+                var tempX = self._offset.x * self.ratio;
+                var tempY = self._offset.y * self.ratio;
                 var tempV = cc.v2(tempX,tempY);
                 var camerapos = cc.pAdd(touchpos, tempV); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);

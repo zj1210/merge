@@ -221,7 +221,7 @@ cc.Class({
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
         this.node.getChildByName("progressNode").active = false;
 
-
+    
 
         var dragonNode = this.node.getChildByName('dragonNode');
         if (!this.game) {
@@ -232,6 +232,7 @@ cc.Class({
         var lastTouchX = 0.0;
         var curTouchX = 0.0;
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+            self.ratio = self.game.camera.getComponent(cc.Camera).zoomRatio;
             //console.log('touch begin by flower');
             self.browseThisThing();
             event.stopPropagation();
@@ -292,7 +293,11 @@ cc.Class({
 
 
                 //是否需要移动摄像机 若需要，物体的世界坐标也会变化
-                var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
+                var tempX = self._offset.x * self.ratio;
+                var tempY = self._offset.y * self.ratio;
+                var tempV = cc.v2(tempX,tempY);
+                var camerapos = cc.pAdd(touchpos, tempV); //物体的摄像机坐标系
+                //var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
                 var nodepos = self.node.parent.convertToNodeSpaceAR(worldpos);
