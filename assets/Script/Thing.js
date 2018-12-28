@@ -45,6 +45,8 @@ cc.Class({
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
+
+        var ratio = this.game.camera.getComponent(cc.Camera).zoomRatio;
         if (!this.game) {
             debugger;
         }
@@ -87,8 +89,10 @@ cc.Class({
                 // console.log('touch pos')
                 // console.log(touchpos);
                 //是否需要移动摄像机 若需要，物体的世界坐标也会变化
-
-                var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
+                var tempX = self._offset.x * ratio;
+                var tempY = self._offset.y * ratio;
+                var tempV = cc.v2(tempX,tempY);
+                var camerapos = cc.pAdd(touchpos, tempV); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
 
                 // var dis = cc.pDistanceSQ(worldpos,self._beginPos);
@@ -227,15 +231,28 @@ cc.Class({
             //如果是心的话，存为心型货币
             if (this.thingType == 1) {
 
-                var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                //var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.parent.getChildByName('thing').position);
                 console.log(worldpos);
                 // self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
-
-                var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
+               // console.log(this.game.camera.getComponent(cc.Camera));
+                //var camerapos = this.game.camera.getComponent(cc.Camera).getWorldToCameraPoint(worldpos);
+                
+              //  var m = this.game.camera.getComponent(cc.Camera).getWorldToCameraMatrix();
+              var m = this.game.camera.getComponent(cc.Camera).getNodeToCameraTransform(this.node.parent.getChildByName('thing'));
+                
+              
+              
+              var camerapos = cc.v2();
+              camerapos = cc.pointApplyAffineTransform(this.node.parent.getChildByName('thing').position,m);
+            //   cc.vmath.vec2.transformMat4(camerapos, this.node.parent.getChildByName('thing').position, m);
+                //var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
+               console.log(camerapos);
+               
                 var level = this.thingLevel;
 
                 this.ui.addHeartAndAni(camerapos, level);
-
+                //this.ui.addHeartAndAni(worldpos, level);
 
                 this.relationTileJS.thing = null;
                 this.relationTileJS.thingType = 0;

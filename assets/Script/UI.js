@@ -109,9 +109,9 @@ cc.Class({
             type: cc.Node
         },
 
-        thingPrefab:{
-            default:null,
-            type:cc.Prefab
+        thingPrefab: {
+            default: null,
+            type: cc.Prefab
         }
     },
 
@@ -145,7 +145,7 @@ cc.Class({
         //this.dandelionTimeLabel.string = this.dandelionPeriod;
         this.dandelionGenBtn = this.dandelionNode.getChildByName('dandelionIcon').getComponent(cc.Button);
         this.dandelionGenBtn.interactable = false;
-        this.schedule(this.generateDandelion,1);
+        this.schedule(this.generateDandelion, 1);
     },
 
     refreshDragonNestInfo: function () {
@@ -170,12 +170,12 @@ cc.Class({
         }
     },
 
-    generateDandelion:function() {
+    generateDandelion: function () {
         this.dandelionPeriod--;
 
-        this.dandelionNode.getChildByName("circleMask").getComponent(cc.Sprite).fillRange = this.dandelionPeriod/cc.dataMgr.dandelionPeriod;
+        this.dandelionNode.getChildByName("circleMask").getComponent(cc.Sprite).fillRange = this.dandelionPeriod / cc.dataMgr.dandelionPeriod;
         //到时间了 点击可以生成蒲公英
-        if(this.dandelionPeriod<=0) {
+        if (this.dandelionPeriod <= 0) {
             this.dandelionGenBtn.interactable = true;
             this.unschedule(this.generateDandelion);
             console.log("赶快收集吧");
@@ -185,29 +185,29 @@ cc.Class({
     },
 
     //生成蒲公英
-    dandelionGenerateClick:function() {
+    dandelionGenerateClick: function () {
         cc.audioMgr.playEffect("btn_click");
 
         var thingsNode = cc.find("Canvas/gameLayer/thingsNode");
         var camerapos = this.dandelionNode.parent.convertToWorldSpaceAR(this.dandelionNode.position);
-    
+
         var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
         var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
 
         var tile = this.game.getTile(nodepos);
-        if(tile) {
+        if (tile) {
             this.dandelionGenBtn.interactable = false;
             this.dandelionPeriod = cc.dataMgr.dandelionPeriod;
-            this.schedule(this.generateDandelion,1);
+            this.schedule(this.generateDandelion, 1);
 
             var dandelion = cc.instantiate(this.thingPrefab);
             dandelion.getChildByName('selectedNode').getComponent('Thing').setTypeAndLevel_forNewThing(2, 0);
-    
-            
+
+
             thingsNode.addChild(dandelion);
 
 
-           
+
             dandelion.position = nodepos;
 
 
@@ -309,8 +309,9 @@ cc.Class({
     },
 
     addHeartAndAni: function (camerapos, level) {
-
-        var nodepos = this.node.convertToNodeSpaceAR(camerapos);
+       // var worldpos =  this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
+       // var nodepos = this.node.convertToNodeSpaceAR(camerapos);
+        var nodepos =cc.pSub(camerapos,cc.v2(cc.dataMgr.screenW/2,cc.dataMgr.screenH/2));
         var collectionThingNode = cc.instantiate(this.collectionThingPrefab);
         this.node.addChild(collectionThingNode);
         collectionThingNode.position = nodepos;
@@ -328,6 +329,28 @@ cc.Class({
 
         cc.audioMgr.playEffect("heartGo");
     },
+
+    // addHeartAndAni: function (worldpos, level) {
+    //     // var worldpos =  this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
+    //     // var nodepos = this.node.convertToNodeSpaceAR(camerapos);
+    //     var nodepos = this.node.convertToNodeSpaceAR(worldpos);
+    //     var collectionThingNode = cc.instantiate(this.collectionThingPrefab);
+    //     this.node.addChild(collectionThingNode);
+    //     collectionThingNode.position = nodepos;
+    //     collectionThingNode.getComponent('thingImageAndAni').settingSpriteFrame(1, level);
+
+    //     var targetPos = cc.pAdd(this.heartLabel.node.parent.position, cc.v2(70, 0));
+    //     var action = cc.moveTo(1.0, targetPos);
+    //     var action2 = cc.fadeOut(1.0);
+    //     var together = cc.spawn(action, action2);
+    //     var seq = cc.sequence(together, cc.callFunc(this.moveToLabelOver, this, collectionThingNode));
+    //     collectionThingNode.runAction(seq);
+
+    //     var heartStrength = cc.dataMgr.getHeartCountByLevel(level);
+    //     cc.dataMgr.addHeartCount(heartStrength);
+
+    //     cc.audioMgr.playEffect("heartGo");
+    // },
 
     addCoinAndAni: function (camerapos, count) {
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
