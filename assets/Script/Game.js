@@ -146,14 +146,14 @@ cc.Class({
 
     //输入相机的 dx，dy，根据限制来加工处理，返回一份要求的dx，dy，防止移动出最大范围
     getAddPosition_v2: function (addX, addY) {
-        // if (addX < -cc.dataMgr.hallLeftWidth / 2 + cc.dataMgr.screenW / 2 - this.camera.x)
-        //     addX = -cc.dataMgr.hallLeftWidth / 2 + cc.dataMgr.screenW / 2 - this.camera.x;
-        // if (addX > cc.dataMgr.hallRightWidth / 2 - cc.dataMgr.screenW / 2 - this.camera.x)
-        //     addX = cc.dataMgr.hallRightWidth / 2 - cc.dataMgr.screenW / 2 - this.camera.x;
-        // if (addY < -cc.dataMgr.hallDownHeight / 2 + cc.dataMgr.screenH / 2 - this.camera.y)
-        //     addY = -cc.dataMgr.hallDownHeight / 2 + cc.dataMgr.screenH / 2 - this.camera.y;
-        // if (addY > cc.dataMgr.hallUpHeight / 2 - cc.dataMgr.screenH / 2 - this.camera.y)
-        //     addY = cc.dataMgr.hallUpHeight / 2 - cc.dataMgr.screenH / 2 - this.camera.y;
+        if (addX < -cc.dataMgr.hallLeftWidth / 2 + cc.dataMgr.screenW / 2 - this.camera.x)
+            addX = -cc.dataMgr.hallLeftWidth / 2 + cc.dataMgr.screenW / 2 - this.camera.x;
+        if (addX > cc.dataMgr.hallRightWidth / 2 - cc.dataMgr.screenW / 2 - this.camera.x)
+            addX = cc.dataMgr.hallRightWidth / 2 - cc.dataMgr.screenW / 2 - this.camera.x;
+        if (addY < -cc.dataMgr.hallDownHeight / 2 + cc.dataMgr.screenH / 2 - this.camera.y)
+            addY = -cc.dataMgr.hallDownHeight / 2 + cc.dataMgr.screenH / 2 - this.camera.y;
+        if (addY > cc.dataMgr.hallUpHeight / 2 - cc.dataMgr.screenH / 2 - this.camera.y)
+            addY = cc.dataMgr.hallUpHeight / 2 - cc.dataMgr.screenH / 2 - this.camera.y;
         return cc.v2(addX, addY);
     },
 
