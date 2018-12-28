@@ -195,7 +195,7 @@
         "__id__": 5
       }
     ],
-    "zoomRatio": 0.5
+    "zoomRatio": 1
   },
   {
     "__type__": "cc.Node",

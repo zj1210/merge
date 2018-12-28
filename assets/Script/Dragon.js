@@ -537,8 +537,15 @@ cc.Class({
         else {
             //debugger;
             console.log("没有空格：直接转换为货币，飞入UI部分");
-            var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
-            var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
+            // var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
+            // var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
+          
+          
+            var m = this.game.camera.getComponent(cc.Camera).getNodeToCameraTransform(this.collectionThing);
+
+            var camerapos = cc.v2();
+            camerapos = cc.pointApplyAffineTransform(this.collectionThing.position, m);
+          
             this.collectionThing.active = false;
             this.ui.addHeartAndAni(camerapos, this.collectionThing.thingLevel);
         }
