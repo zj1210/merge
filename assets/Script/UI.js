@@ -191,7 +191,9 @@ cc.Class({
         var thingsNode = cc.find("Canvas/gameLayer/thingsNode");
         var camerapos = this.dandelionNode.parent.convertToWorldSpaceAR(this.dandelionNode.position);
 
-        var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
+        //var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
+       
+        var worldpos = this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
         var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
 
         var tile = this.game.getTile(nodepos);
