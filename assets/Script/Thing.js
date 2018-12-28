@@ -69,6 +69,9 @@ cc.Class({
             self.selectedSprite.spriteFrame = self.originSpriteFrame;
             self.relationTileJS.thing = null;
             self.relationTileJS.tempThing = self.node.parent;
+
+            //点击这一刻的时间 毫秒
+            self.touchBeginTime = Date.now();
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
@@ -88,10 +91,10 @@ cc.Class({
                 var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
 
-                var dis = cc.pDistanceSQ(worldpos,self._beginPos);
-                if(dis>600) {
-                    self.closeSelectClick();
-                }
+                // var dis = cc.pDistanceSQ(worldpos,self._beginPos);
+                // if(dis>600) {
+                //     self.closeSelectClick();
+                // }
                 // console.log(worldpos);
                 // console.log(self._beginPos);
                 // console.log(dis);
@@ -153,7 +156,9 @@ cc.Class({
         let self = this;
         event.stopPropagation();
         self.unBrowseThisThing();
-        self.openSelectClick();
+
+        
+        //self.openSelectClick();
 
         if (this.isDestroy == false) {
             //此tile是否可以放入 确实是在块上(不为null) 
@@ -212,7 +217,12 @@ cc.Class({
     },
 
     selectClick: function () {
-        if (this.selectClickFlag) {
+
+        //松手这一刻的毫秒
+        var endTouchTime = Date.now();
+        var dt = endTouchTime - this.touchBeginTime;
+        console.log("点击松开 时间差--->    " +dt);
+        if(dt<150) {
             console.log('选择thing 按钮 被点击');
             //如果是心的话，存为心型货币
             if (this.thingType == 1) {
@@ -235,22 +245,27 @@ cc.Class({
                 this.node.parent.destroy();
                 this.isDestroy = true;
 
+        }
+
+
+        // if (this.selectClickFlag) {
+            
                 
-                //this.node.destroy();
-            }
+        //         //this.node.destroy();
+        //     }
 
         }
 
         //console.log('thingType:  ' + this.thingType + '  ' + 'thingLevel:  ' + this.thingLevel);
     },
 
-    closeSelectClick: function () {
-        this.selectClickFlag = false;
-    },
+    // closeSelectClick: function () {
+    //     this.selectClickFlag = false;
+    // },
 
-    openSelectClick: function () {
-        this.selectClickFlag = true;
-    },
+    // openSelectClick: function () {
+    //     this.selectClickFlag = true;
+    // },
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
     //thingLevel 0初始，1升一级，以此类推，注意：蒲公英是花级别为0，如果是龙蛋，级别必须为0，龙不在地表上
