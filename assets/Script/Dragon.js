@@ -215,7 +215,7 @@ cc.Class({
     //},
 
     start: function () {
-
+       // console.log("dragon start");
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
@@ -395,7 +395,7 @@ cc.Class({
         if (this.strength <= 0) {
             this.changeLabel("太累了!");
             this.scheduleOnce(this.goToDragonNest, 1.0);
-            //  this.goToDragonNest();
+            this.node.targetOff(this.node);
             return;
         }
 
@@ -443,13 +443,7 @@ cc.Class({
         this.collectionInterrupt();
 
         this.strength--;
-        // if(this.strength<1) { 
-        //     console.log("龙：没有体力了，回龙巢休息");
-        //     // this.collectionThingClick();
-        //     this.scheduleOnce(this.collectionThingClick,0.1);
-        //      this.scheduleOnce(this.goToDragonNest,3.0);
-
-        // }
+        
     },
 
     //将龙移入龙巢

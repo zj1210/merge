@@ -391,7 +391,9 @@ cc.Class({
         this.node.addChild(dragonNode);
         dragonNode.position = nodepos;
         dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, level);
-
+        dragonNode.removeComponent('Dragon');
+        // dragonNode.targetOff(dragonNode);
+        // console.log("dragon target off");
         var targetPos = this.dragonNestNode.position;
         var action = cc.moveTo(2.0, targetPos);
         var action2 = cc.scaleTo(2.0, -0.5, 0.5);
