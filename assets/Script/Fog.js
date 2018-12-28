@@ -69,11 +69,18 @@ cc.Class({
                 this.scheduleOnce(function () {
                     this.tile.getComponent('Tile').fog = null;
                     this.tile.getComponent('Tile').tileType = 0;
-                    this.node.destroy();
-                    var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-                    var camerapos = cc.v2(worldpos.x - game.camera.position.x, worldpos.y - game.camera.position.y);
+                
+                    //var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                    //var camerapos = cc.v2(worldpos.x - game.camera.position.x, worldpos.y - game.camera.position.y);
+
+                    var m = game.camera.getComponent(cc.Camera).getNodeToCameraTransform(this.box);
+                    var camerapos = cc.v2();
+                    camerapos = cc.pointApplyAffineTransform(this.box.position,m);
+
                     var count = treasureData.count;
                     cc.find("Canvas/uiLayer").getComponent('UI').addCoinAndAni(camerapos, count);
+
+                    this.node.destroy();
 
                 }.bind(this), 0.5);
 

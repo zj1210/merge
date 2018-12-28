@@ -311,7 +311,8 @@ cc.Class({
     addHeartAndAni: function (camerapos, level) {
        // var worldpos =  this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
        // var nodepos = this.node.convertToNodeSpaceAR(camerapos);
-        var nodepos =cc.pSub(camerapos,cc.v2(cc.dataMgr.screenW/2,cc.dataMgr.screenH/2));
+        //var nodepos =cc.pSub(camerapos,cc.v2(cc.dataMgr.screenW/2,cc.dataMgr.screenH/2));
+        var nodepos = this.node.convertToNodeSpaceAR(camerapos);
         var collectionThingNode = cc.instantiate(this.collectionThingPrefab);
         this.node.addChild(collectionThingNode);
         collectionThingNode.position = nodepos;

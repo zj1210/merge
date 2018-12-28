@@ -232,8 +232,8 @@ cc.Class({
             if (this.thingType == 1) {
 
                 //var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-                var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.parent.getChildByName('thing').position);
-                console.log(worldpos);
+                //var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.parent.getChildByName('thing').position);
+                //console.log(worldpos);
                 // self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
                // console.log(this.game.camera.getComponent(cc.Camera));
                 //var camerapos = this.game.camera.getComponent(cc.Camera).getWorldToCameraPoint(worldpos);
