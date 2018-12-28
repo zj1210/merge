@@ -73,7 +73,7 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
                 // console.log('touch move by flower');
-                self.closeSelectClick();
+               
                 event.stopPropagation();
 
                 //self.isMove = true;
@@ -87,6 +87,14 @@ cc.Class({
 
                 var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
+
+                var dis = cc.pDistanceSQ(worldpos,self._beginPos);
+                if(dis>600) {
+                    self.closeSelectClick();
+                }
+                // console.log(worldpos);
+                // console.log(self._beginPos);
+                // console.log(dis);
                 //console.log(touchpos);
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
                 var nodepos = self.node.parent.parent.convertToNodeSpaceAR(worldpos);
