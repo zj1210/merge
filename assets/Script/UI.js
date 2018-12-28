@@ -233,7 +233,10 @@ cc.Class({
         dragonsNode.addChild(dragonNode);
         var camerapos = this.dragonNestNode.parent.convertToWorldSpaceAR(this.dragonNestNode.position);
         //debugger;
-        var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
+        //var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
+        
+        
+        var worldpos = this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
         var nodepos = dragonsNode.convertToNodeSpaceAR(worldpos);
         dragonNode.position = nodepos;
 
