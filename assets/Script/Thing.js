@@ -210,6 +210,12 @@ cc.Class({
                 self.relationTileJS.tempThing = null;
                 self.goBack();
             }
+        } else {
+            //现在是以时间来进行区分 点击 可 平移 所以move事件可能已经调用，
+            //也就意味着：可能搜寻到了联通物，那些thing已经开始骚动 需要将那些thing的骚动关闭
+            if (self.thingsArray) {
+                self.thingsGoStatic();
+            }
         }
 
 
