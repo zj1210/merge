@@ -380,7 +380,9 @@ cc.Class({
         // dragonNode.off(cc.Node.EventType.TOUCH_START,);
         // dragonNode.off(cc.Node.EventType.TOUCH_MOVE);
         // dragonNode.off(cc.Node.EventType.TOUCH_END);
-        dragonNode.scaleX = -1;
+        var ratio = this.game.camera.getComponent(cc.Camera).zoomRatio;
+        dragonNode.scaleX = -ratio;
+        dragonNode.scaleY = ratio;
         this.node.addChild(dragonNode);
         dragonNode.position = nodepos;
         dragonNode.getComponent('Dragon').setTypeAndLevel_forNewDragon(3, level);
@@ -404,6 +406,20 @@ cc.Class({
     moveToLabelOver: function (moveNode) {
         moveNode.destroy();
         this.refreshUI();
+    },
+
+    cameraZoomOutClick:function() {
+        var camera = this.game.camera.getComponent(cc.Camera);
+        if(camera.zoomRatio>0.5) {
+            camera.zoomRatio -=0.1;
+        }
+    },
+    
+    cameraZoomInClick:function() {
+        var camera = this.game.camera.getComponent(cc.Camera);
+        if(camera.zoomRatio<1.0) {
+            camera.zoomRatio +=0.1;
+        }
     },
 
 

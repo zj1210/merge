@@ -66,37 +66,37 @@ cc.Class({
         tipsNode: {
             default: null,
             type: cc.Node
-		},
+        },
 
         progressNode: {
             default: null,
             type: cc.Node
         },
 
-		eyeSprite:{
+        eyeSprite: {
             default: null,
             type: cc.Sprite
-	    },
+        },
 
-		eye01_spr: {
+        eye01_spr: {
             default: null,
             type: cc.SpriteFrame
-		},
+        },
 
-		eye02_spr: {
+        eye02_spr: {
             default: null,
             type: cc.SpriteFrame
-		},
+        },
 
-		eye03_spr: {
+        eye03_spr: {
             default: null,
             type: cc.SpriteFrame
-		},
+        },
 
-		eye04_spr: {
+        eye04_spr: {
             default: null,
             type: cc.SpriteFrame
-		},
+        },
     },
 
     settingSpriteFrame(type, level) {
@@ -108,16 +108,16 @@ cc.Class({
                 this.dragonSpr.spriteFrame = this.dragon_1_spr;
                 this.wing1.spriteFrame = this.wing_1_spr;
                 this.wing2.spriteFrame = this.wing_1_spr;
-				this.eyeSprite.spriteFrame = this.eye01_spr;
-               
+                this.eyeSprite.spriteFrame = this.eye01_spr;
+
             } else if (level == 2) {
                 this.dragonSpr.spriteFrame = this.dragon_2_spr;
                 this.wing1.spriteFrame = this.wing_2_spr;
                 this.wing2.spriteFrame = this.wing_2_spr;
                 this.wing1.node.position = cc.v2(-19, 15);
                 this.wing2.node.position = cc.v2(-4.5, 16);
-				this.eyeSprite.spriteFrame = this.eye02_spr;
-				this.eyeSprite.node.position = cc.v2(-36.5, 66.3);
+                this.eyeSprite.spriteFrame = this.eye02_spr;
+                this.eyeSprite.node.position = cc.v2(-36.5, 66.3);
 
                 this.collectionThing.position = cc.v2(0, 80);
                 this.progressNode.position = cc.v2(0, 190);
@@ -129,8 +129,8 @@ cc.Class({
                 this.wing2.spriteFrame = this.wing_3_spr;
                 this.wing1.node.position = cc.v2(-40, 83);
                 this.wing2.node.position = cc.v2(-12, 85);
-				this.eyeSprite.spriteFrame = this.eye03_spr;
-				this.eyeSprite.node.position = cc.v2(-73.3, 140.4);
+                this.eyeSprite.spriteFrame = this.eye03_spr;
+                this.eyeSprite.node.position = cc.v2(-73.3, 140.4);
 
                 this.collectionThing.position = cc.v2(0, 130);
                 this.progressNode.position = cc.v2(0, 260);
@@ -142,8 +142,8 @@ cc.Class({
                 this.wing2.spriteFrame = this.wing_4_spr;
                 this.wing1.node.position = cc.v2(-102, 83);
                 this.wing2.node.position = cc.v2(-60, 85);
-				this.eyeSprite.spriteFrame = this.eye04_spr;
-				this.eyeSprite.node.position = cc.v2(-99.5, 182.4);
+                this.eyeSprite.spriteFrame = this.eye04_spr;
+                this.eyeSprite.node.position = cc.v2(-99.5, 182.4);
 
                 this.collectionThing.position = cc.v2(0, 130);
                 this.progressNode.position = cc.v2(0, 300);
@@ -221,7 +221,7 @@ cc.Class({
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
         this.node.getChildByName("progressNode").active = false;
 
-    
+
 
         var dragonNode = this.node.getChildByName('dragonNode');
         if (!this.game) {
@@ -295,7 +295,7 @@ cc.Class({
                 //是否需要移动摄像机 若需要，物体的世界坐标也会变化
                 var tempX = self._offset.x * self.ratio;
                 var tempY = self._offset.y * self.ratio;
-                var tempV = cc.v2(tempX,tempY);
+                var tempV = cc.v2(tempX, tempY);
                 var camerapos = cc.pAdd(touchpos, tempV); //物体的摄像机坐标系
                 //var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
@@ -456,15 +456,21 @@ cc.Class({
     goToDragonNest: function () {
 
 
-        var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+        //var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
         //console.log(worldpos);
         // self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
 
-        var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
+        //var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
+
+        var m = this.game.camera.getComponent(cc.Camera).getNodeToCameraTransform(this.node.getChildByName('dragonNode'));
+
+        var camerapos = cc.v2();
+        camerapos = cc.pointApplyAffineTransform(this.node.getChildByName('dragonNode').position, m);
+
         var level = this.thingLevel;
 
         this.ui.addDragonToNest(camerapos, level);
-      
+
         this.node.destroy();
 
     },
@@ -567,7 +573,7 @@ cc.Class({
         this.strength = cc.dataMgr.getDragonStrength(thingLevel);
         this.settingSpriteFrame(this.thingType, this.thingLevel);
 
-      
+
         // if (thingType == 1) {
         //     switch (thingLevel) {
         //         case 1:
