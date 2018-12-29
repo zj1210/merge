@@ -470,6 +470,10 @@ cc.Class({
         this.unDescNode.active = true;
     },
 
+    signInClick:function() {
+        
+    },
+
     // called every frame
     update: function (dt) {
 
