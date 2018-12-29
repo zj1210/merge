@@ -33941,7 +33941,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
+      "width": 6,
       "height": 40
     },
     "_rotationX": 0,
@@ -34786,7 +34786,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 245,
+      "width": 251,
       "height": 40
     },
     "_rotationX": 0,
@@ -36109,7 +36109,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 83,
+      "width": 93,
       "height": 55
     },
     "_rotationX": 0,
@@ -36498,7 +36498,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 83,
+      "width": 93,
       "height": 55
     },
     "_rotationX": 0,
@@ -56496,8 +56496,8 @@
     "target": {
       "__id__": 1441
     },
-    "component": "",
-    "handler": "",
+    "component": "SingIn",
+    "handler": "signInClick",
     "customEventData": ""
   },
   {
