@@ -375,49 +375,49 @@ export default class DataMgr extends cc.Component {
         {
             "dayCount":1,
             "reward":"flower",
-            "level":1,//初级花是1 蒲公英是0
+            "level":3,//初级花是1 蒲公英是0
             "count":1,//金币才有用，不打算实现除金币外多个情况，因为除了金币都要摆放。。提供接口防止未来需要加入多个
         },
 
         {
             "dayCount":2,
             "reward":"heart",
-            "level":0,//0是最初级的心
+            "level":2,//0是最初级的心
             "count":1,
         },
 
         {
             "dayCount":3,
             "reward":"coin",
-            "level":0,//数据冗余，金币没有级别概念
+            "level":0,//数据冗余，金币没有级别概念,目前仅支持0
             "count":1,//支持多个
         },
 
         {
             "dayCount":4,
             "reward":"heart",
-            "level":2,
+            "level":4,
             "count":1,
         },
 
         {
             "dayCount":5,
             "reward":"flower",
-            "level":3,
+            "level":5,
             "count":1,
         },
 
         {
             "dayCount":6,
             "reward":"draggon",
-            "level":0,//龙蛋
+            "level":0,//龙蛋 目前仅支持0
             "count":1,
         },
 
         {
             "dayCount":7,
             "reward":"treasureChest",
-            "level":0,//宝箱没有级别概念，无用数据
+            "level":0,//宝箱没有级别概念，无用数据 仅支持0
             "count":1,
         },
     ];
@@ -474,7 +474,7 @@ export default class DataMgr extends cc.Component {
         //上次签到年月日
         var signInDay = cc.sys.localStorage.getItem("signInDay");
         if (!signInDay) {
-            cc.sys.localStorage.setItem("signInDay", "20181129");
+            cc.sys.localStorage.setItem("signInDay", "20181128");
         }
 
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
@@ -531,6 +531,30 @@ export default class DataMgr extends cc.Component {
                 return this.treasureChestDatas[i];
             }
         }
+    };
+
+    getSignInProgress() {
+        var p = cc.sys.localStorage.getItem("signInProgress");
+        return parseInt(p);
+    };
+
+    addSignInProgress() {
+        var p = parseInt(cc.sys.localStorage.getItem("signInProgress"));
+        if(p>=6) {
+            p = 0;
+        } else {
+            p++;
+        }
+    };
+
+    getLastSignInDate() {
+        var t = cc.sys.localStorage.getItem("signInDay");
+        return t; 
+    };
+
+    setLastSignInDate(date_str) {
+        cc.sys.localStorage.setItem("signInDay",date_str);
+        
     };
 
     getDragonNestDurationByLevel(level) {
