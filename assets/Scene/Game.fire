@@ -53304,7 +53304,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105,
+      "width": 110,
       "height": 40
     },
     "_rotationX": 0,
@@ -53774,7 +53774,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105,
+      "width": 110,
       "height": 40
     },
     "_rotationX": 0,
@@ -54244,7 +54244,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105,
+      "width": 110,
       "height": 40
     },
     "_rotationX": 0,
@@ -54714,7 +54714,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105,
+      "width": 110,
       "height": 40
     },
     "_rotationX": 0,
@@ -55184,7 +55184,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105,
+      "width": 110,
       "height": 40
     },
     "_rotationX": 0,
@@ -55654,7 +55654,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105,
+      "width": 110,
       "height": 40
     },
     "_rotationX": 0,
@@ -56124,7 +56124,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 105,
+      "width": 110,
       "height": 40
     },
     "_rotationX": 0,
@@ -56377,7 +56377,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
+      "width": 208,
       "height": 60
     },
     "_rotationX": 0,
@@ -56443,7 +56443,7 @@
       "__id__": 1533
     },
     "_enabled": true,
-    "transition": 0,
+    "transition": 3,
     "pressedColor": {
       "__type__": "cc.Color",
       "r": 211,
@@ -57412,7 +57412,9 @@
     "dragonPrefab": {
       "__uuid__": "a271b49c-d3d3-4ce9-8f88-9fa7f096b9f6"
     },
-    "mapNode": null,
+    "mapNode": {
+      "__id__": 213
+    },
     "thingsNode": {
       "__id__": 931
     },
