@@ -466,6 +466,17 @@ export default class DataMgr extends cc.Component {
         //     cc.sys.localStorage.setItem("diamondCount", 0);
         // }
 
+        //每日登陆的进度
+        var signInProgress = cc.sys.localStorage.getItem("signInProgress");
+        if (!signInProgress) {
+            cc.sys.localStorage.setItem("signInProgress", 0);
+        }
+        //上次签到年月日
+        var signInDay = cc.sys.localStorage.getItem("signInDay");
+        if (!signInDay) {
+            cc.sys.localStorage.setItem("signInDay", "20181129");
+        }
+
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
         var heartCount = cc.sys.localStorage.getItem("heartCount");
         if (!heartCount) {
@@ -500,10 +511,6 @@ export default class DataMgr extends cc.Component {
             this.dragonNestDatas = JSON.parse(strDragonNestDatas);
             // console.log(this.dragonNestDatas);
         }
-
-
-
-
 
     };
 

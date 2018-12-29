@@ -54,7 +54,9 @@ cc.Class({
         // this.tileVerticalCount = 3;
 
         //cc.director.getCollisionManager().attachDebugDrawToCamera(this.camera.getComponent(cc.Camera));
-
+        
+        var date = new Date();
+        console.log(date.getFullYear() +""+ date.getMonth() + date.getDate());
 
         this.moveCameraXFlag = false;
         this.moveCameraYFlag = false;
