@@ -466,7 +466,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 117,
+      "width": 0,
       "height": 25
     },
     "_rotationX": 0,
@@ -503,7 +503,7 @@
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "XXXXX精华解锁",
+    "_N$string": "",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",

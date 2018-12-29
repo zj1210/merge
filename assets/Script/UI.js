@@ -102,7 +102,10 @@ cc.Class({
             type: cc.Prefab
         },
 
-
+        sigInNode:{
+            default:null,
+            type:cc.Node
+        },
 
         dandelionNode: {
             default: null,
@@ -471,7 +474,8 @@ cc.Class({
     },
 
     signInClick:function() {
-        
+        cc.audioMgr.playEffect("UI");
+        this.sigInNode.active = true;
     },
 
     // called every frame
