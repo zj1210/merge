@@ -53044,7 +53044,7 @@
     "target": {
       "__id__": 1441
     },
-    "component": "SingIn",
+    "component": "SignIn",
     "handler": "closeClick",
     "customEventData": ""
   },
@@ -56496,12 +56496,12 @@
     "target": {
       "__id__": 1441
     },
-    "component": "SingIn",
+    "component": "SignIn",
     "handler": "signInClick",
     "customEventData": ""
   },
   {
-    "__type__": "f2082FytONAZKGKRGmhkDbb",
+    "__type__": "d0021HQPJ5LPKfQoFymh5Eh",
     "_name": "",
     "_objFlags": 0,
     "node": {

@@ -21,10 +21,18 @@ cc.Class({
         
     },
 
-    onLoad: function () {
+    // onLoad: function () {
 
-       
+    //     console.log("onLoad by signIn")
+    // },
+
+    onEnable:function() {
+        console.log("onEable by signIn")
     },
+
+    // onDisable:function() {
+    //     console.log("onDisable by signIn")
+    // },
 
     signInClick:function() {
         cc.audioMgr.playEffect("btn_click");
