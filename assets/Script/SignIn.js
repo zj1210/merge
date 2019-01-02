@@ -59,6 +59,11 @@ cc.Class({
             type: cc.Node
         },
 
+        signInTipsLabel: {
+            default: null,
+            type: cc.Label
+        }
+
     },
 
     onLoad: function () {
@@ -142,13 +147,7 @@ cc.Class({
         var rewardData = this.data[p];
         this.giveReward(rewardData);
 
-        //改数据
-        cc.dataMgr.addSignInProgress();
-        var date = new Date();
-        var curDate = date.getFullYear() + "" + date.getMonth() + date.getDate();
-        cc.dataMgr.setLastSignInDate(curDate);
-        //刷新界面
-        this.refreashUI();
+        
     },
 
     giveReward: function (rewardData) {
@@ -172,17 +171,33 @@ cc.Class({
             if (tile) {
                 gameJS.generateAndPutThing_signIn(tile, rewardData.reward,rewardData.level);
             } else {
-                console.log("没有格子，玩家没有领取到，目前先不管了");
+               //没有格子，玩家没有领取到
+               
+               this.signInTipsFadeIn("没有位置放置物品，领取失败!");
+                //不改变数据，玩家可再次点击
+                return;
             }
         }
+
+        //改数据
+        cc.dataMgr.addSignInProgress();
+        var date = new Date();
+        var curDate = date.getFullYear() + "" + date.getMonth() + date.getDate();
+        cc.dataMgr.setLastSignInDate(curDate);
+        //刷新界面
+        this.refreashUI();
     },
 
     closeClick: function () {
         console.log("close click!");
         cc.audioMgr.playEffect("UI");
         this.node.active = false;
-    }
+    },
 
 
-
+    signInTipsFadeIn: function (strContent) {
+        //console.log(strContent);
+        this.signInTipsLabel.string = strContent;
+        this.signInTipsLabel.node.getComponent(cc.Animation).play("shopTips");
+    },
 });
