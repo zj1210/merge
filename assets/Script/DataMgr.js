@@ -402,15 +402,15 @@ export default class DataMgr extends cc.Component {
 
         {
             "dayCount":5,
-            "reward":"flower",
-            "level":5,
+            "reward":"heart",
+            "level":4,
             "count":1,
         },
 
         {
             "dayCount":6,
             "reward":"draggon",
-            "level":0,//龙蛋 目前仅支持0
+            "level":4,//龙蛋 目前仅支持0
             "count":1,
         },
 
