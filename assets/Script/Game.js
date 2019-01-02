@@ -54,7 +54,8 @@ cc.Class({
         // this.tileVerticalCount = 3;
 
         //cc.director.getCollisionManager().attachDebugDrawToCamera(this.camera.getComponent(cc.Camera));
-
+        
+        
 
         this.moveCameraXFlag = false;
         this.moveCameraYFlag = false;
@@ -88,14 +89,22 @@ cc.Class({
             return;
         }
         for (var i = 0; i < dragonDatas.length; i++) {
-            var newDragon = cc.instantiate(this.dragonPrefab);
-            //这里代码会把 龙的体力 设置为 默认数据，需要再设置一遍
-            newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(dragonDatas[i].thingType, dragonDatas[i].thingLevel);
-            newDragon.getComponent('Dragon').strength = dragonDatas[i].strength;
-
-            newDragon.position = dragonDatas[i].position;
-            this.dragonsNode.addChild(newDragon);
+          this.addDragonToGame(dragonDatas[i].thingType, dragonDatas[i].thingLevel,i);
         }
+    },
+
+    //i 表示 在预定义位置表中，用哪个坐标来初始化龙的位置
+    addDragonToGame:function(thingType,thingLevel,i) {
+        //各级龙的数据表
+        var dragonDatas = cc.dataMgr.dragonDatas;
+
+        var newDragon = cc.instantiate(this.dragonPrefab);
+        //这里代码会把 龙的体力 设置为 默认数据，需要再设置一遍
+        newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(thingType, thingLevel);
+        newDragon.getComponent('Dragon').strength = dragonDatas[i].strength;
+
+        newDragon.position = dragonDatas[i].position;
+        this.dragonsNode.addChild(newDragon);
     },
 
     start: function () {
@@ -666,7 +675,7 @@ cc.Class({
 
 
     //专注于将商城购买成功的物品，放入tile中
-    generateAndPutThing: function (tile, thingName) {
+    generateAndPutThing_shop: function (tile, thingName) {
         switch (thingName) {
             case "treasureChest":
                 var tileJS = tile.getComponent("Tile");
@@ -683,6 +692,37 @@ cc.Class({
             default:
                 //不可能执行到这里，用户买的到底是什么？
                 debugger;
+        }
+    },
+
+    //专注于每日登陆的奖励，放入tile中 没有使用type 用的是name，这是由于数据结构的定义不同，参见 每日登陆数据结构
+    generateAndPutThing_signIn: function (tile, thingName,thingLevel) {
+        switch (thingName) {
+            case "treasureChest":
+                var tileJS = tile.getComponent("Tile");
+                tileJS.generateTreasureChest();
+                break;
+
+            default:
+                //处理宝箱，其他放入tile的物品逻辑一样
+                var thingType = 0;
+                if(thingName == "heart") {
+                    thingType = 1;
+                } else if(thingName == "flower") {
+                    thingType = 2;
+                }else if(thingName == "draggon") {
+                    thingType = 3;
+                }
+                if(thingType == 3 && thingLevel !=0) {
+                    console.log("这里必须放入可以放入tile中的物体，不能放入飞龙，外部进行判断！！");
+                    debugger;
+                }
+                var newThing = this.generateThing(thingType, thingLevel);
+                this.thingsNode.addChild(newThing);
+                newThing.position = tile.position;
+                var thingJs = newThing.getChildByName('selectedNode').getComponent('Thing');
+                thingJs.changeInTile(tile, thingLevel, thingType);
+                break;
         }
     },
 

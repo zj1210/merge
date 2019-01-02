@@ -371,53 +371,60 @@ export default class DataMgr extends cc.Component {
 
     //每日登陆数据表配置 支持数据改变界面的图片
     //reward: 花:flower 心：heart 金币：coin 龙：draggon（蛋是级别0） 宝箱：treasureChest
+    /**
+     * //宝箱没有级别概念，无用数据 仅支持0
+     * //初级花是1 蒲公英是0
+     *  "count":1,//金币才有用，不打算实现除金币外多个情况，因为除了金币都要摆放。。提供接口防止未来需要加入多个
+     * //0是最初级的心
+     * //数据冗余，金币没有级别概念,目前仅支持0//支持多个
+     */
     signInRewardData = [
         {
             "dayCount":1,
-            "reward":"flower",
-            "level":1,//初级花是1 蒲公英是0
-            "count":1,//金币才有用，不打算实现除金币外多个情况，因为除了金币都要摆放。。提供接口防止未来需要加入多个
+            "reward":"treasureChest",
+            "level":0,
+            "count":1,
         },
 
         {
             "dayCount":2,
-            "reward":"heart",
-            "level":0,//0是最初级的心
+            "reward":"coin",
+            "level":0,
             "count":1,
         },
 
         {
             "dayCount":3,
-            "reward":"coin",
-            "level":0,//数据冗余，金币没有级别概念
-            "count":1,//支持多个
-        },
-
-        {
-            "dayCount":4,
-            "reward":"heart",
-            "level":2,
-            "count":1,
-        },
-
-        {
-            "dayCount":5,
             "reward":"flower",
             "level":3,
             "count":1,
         },
 
         {
-            "dayCount":6,
+            "dayCount":4,
+            "reward":"flower",
+            "level":4,
+            "count":1,
+        },
+
+        {
+            "dayCount":5,
             "reward":"draggon",
-            "level":0,//龙蛋
+            "level":0,
+            "count":1,
+        },
+
+        {
+            "dayCount":6,
+            "reward":"heart",
+            "level":3,
             "count":1,
         },
 
         {
             "dayCount":7,
-            "reward":"treasureChest",
-            "level":0,//宝箱没有级别概念，无用数据
+            "reward":"draggon",
+            "level":1,
             "count":1,
         },
     ];
@@ -466,6 +473,17 @@ export default class DataMgr extends cc.Component {
         //     cc.sys.localStorage.setItem("diamondCount", 0);
         // }
 
+        //每日登陆的进度
+        var signInProgress = cc.sys.localStorage.getItem("signInProgress");
+        if (!signInProgress) {
+            cc.sys.localStorage.setItem("signInProgress", 0);
+        }
+        //上次签到年月日
+        var signInDay = cc.sys.localStorage.getItem("signInDay");
+        if (!signInDay) {
+            cc.sys.localStorage.setItem("signInDay", "20181128");
+        }
+
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
         var heartCount = cc.sys.localStorage.getItem("heartCount");
         if (!heartCount) {
@@ -501,10 +519,6 @@ export default class DataMgr extends cc.Component {
             // console.log(this.dragonNestDatas);
         }
 
-
-
-
-
     };
 
     resetData() {
@@ -524,6 +538,31 @@ export default class DataMgr extends cc.Component {
                 return this.treasureChestDatas[i];
             }
         }
+    };
+
+    getSignInProgress() {
+        var p = cc.sys.localStorage.getItem("signInProgress");
+        return parseInt(p);
+    };
+
+    addSignInProgress() {
+        var p = parseInt(cc.sys.localStorage.getItem("signInProgress"));
+        if(p>=6) {
+            p = 0;
+        } else {
+            p++;
+        }
+        cc.sys.localStorage.setItem("signInProgress",p);
+    };
+
+    getLastSignInDate() {
+        var t = cc.sys.localStorage.getItem("signInDay");
+        return t; 
+    };
+
+    setLastSignInDate(date_str) {
+        cc.sys.localStorage.setItem("signInDay",date_str);
+        
     };
 
     getDragonNestDurationByLevel(level) {
