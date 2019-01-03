@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2019-01-02-1550";
+    version = "2019-01-02-1628";
 
     //是否播放音效和背景音乐
     playEffect = true;

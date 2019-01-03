@@ -111,7 +111,9 @@ cc.Class({
         newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(thingType, thingLevel);
        // newDragon.getComponent('Dragon').strength = dragonDatas[i].strength;
 
-        newDragon.position = cc.dataMgr.dragonsOffset[0];
+       var wp = this.ui.node.convertToWorldSpaceAR(cc.v2(0,0));
+       var np = this.dragonsNode.convertToNodeSpaceAR(wp);
+        newDragon.position = np;
         this.dragonsNode.addChild(newDragon);
     },
 
