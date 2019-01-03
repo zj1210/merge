@@ -107,6 +107,11 @@ cc.Class({
             type:cc.Node
         },
 
+        rouletteNode:{
+            default:null,
+            type:cc.Node
+        },
+
         dandelionNode: {
             default: null,
             type: cc.Node
@@ -476,6 +481,11 @@ cc.Class({
     signInClick:function() {
         cc.audioMgr.playEffect("UI");
         this.sigInNode.active = true;
+    },
+
+    rouletteClick:function() {
+        cc.audioMgr.playEffect("UI");
+        this.rouletteNode.active = true;
     },
 
     // called every frame
