@@ -160,7 +160,7 @@ cc.Class({
         var gameJS = cc.find("Canvas").getComponent('Game');
         if (rewardData.reward == "draggon" && rewardData.level > 0) {
             //飞龙
-            gameJS.addDragonToGame(3,rewardData.level,0);
+            gameJS.addDragonToGame(3,rewardData.level);
         } else if (rewardData.reward == "coin") {
             //金币
             cc.dataMgr.addCoinCount(rewardData.count);
