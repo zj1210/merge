@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2018-12-27-1558";
+    version = "2019-01-02-1628";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -177,17 +177,17 @@ export default class DataMgr extends cc.Component {
     shopDatas = [
         //宝箱
         {
-            
-            "name":"treasureChest",
+
+            "name": "treasureChest",
             "price": 1
         },
         //龙蛋
         {
-            "name":"dragonEgg",
+            "name": "dragonEgg",
             "price": 5
         },
-        
-       
+
+
     ];
 
     heartDescDatas = [
@@ -345,6 +345,65 @@ export default class DataMgr extends cc.Component {
         // }
     ];
 
+    //转盘内容 以及各项概率
+    //注：这里可以定义转盘内容的各种概率以及奖励物品是什么，实现保证图片资源的替换
+    //限制：界面与这里的数据项数量必须一样
+    rouletteDatas = [
+        //为了算法简便，前置一个
+        {
+            "probability": 0.0
+        },
+
+        {
+            "reward": "treasureChest",
+            "level": 0,
+            "probability": 0.3,
+            "count": 1,
+            //随到物品后，不知道物品在数组的索引，就无从计算最终的角度，为了提高性能，数据直接放入内部，不要修改！！
+            "index":0 
+        },
+
+        {
+            "reward": "flower",
+            "level": 3,
+            "probability": 0.6,
+            "count": 1,
+            "index":1
+        },
+
+        {
+            "reward": "draggon",
+            "level": 2,
+            "probability": 0.65,
+            "count": 1,
+            "index":2
+        },
+
+        {
+            "reward": "coin",
+            "level": 0,
+            "probability": 0.8,
+            "count": 1,
+            "index":3
+        },
+
+        {
+            "reward": "draggon",
+            "level": 3,
+            "probability": 0.81,
+            "count": 1,
+            "index":4
+        },
+
+        {
+            "reward": "heart",
+            "level": 3,
+            "probability": 1.0,
+            "count": 1,
+            "index":5
+        }
+    ];
+
 
     //duration 单位：秒 休息时间
     dragonNestDuration = [
@@ -366,6 +425,66 @@ export default class DataMgr extends cc.Component {
         {
             "dragonLevel": 4,
             "duration": 60
+        },
+    ];
+
+    //每日登陆数据表配置 支持数据改变界面的图片
+    //reward: 花:flower 心：heart 金币：coin 龙：draggon（蛋是级别0） 宝箱：treasureChest
+    /**
+     * //宝箱没有级别概念，无用数据 仅支持0
+     * //初级花是1 蒲公英是0
+     *  "count":1,//金币才有用，不打算实现除金币外多个情况，因为除了金币都要摆放。。提供接口防止未来需要加入多个
+     * //0是最初级的心
+     * //数据冗余，金币没有级别概念,目前仅支持0//支持多个
+     */
+    signInRewardData = [
+        {
+            "dayCount": 1,
+            "reward": "treasureChest",
+            "level": 0,
+            "count": 1,
+        },
+
+        {
+            "dayCount": 2,
+            "reward": "coin",
+            "level": 0,
+            "count": 1,
+        },
+
+        {
+            "dayCount": 3,
+            "reward": "flower",
+            "level": 3,
+            "count": 1,
+        },
+
+        {
+            "dayCount": 4,
+            "reward": "flower",
+            "level": 4,
+            "count": 1,
+        },
+
+        {
+            "dayCount": 5,
+            "reward": "draggon",
+            "level": 0,
+            "count": 1,
+        },
+
+        {
+            "dayCount": 6,
+            "reward": "heart",
+            "level": 3,
+            "count": 1,
+        },
+
+        {
+            "dayCount": 7,
+            "reward": "draggon",
+            "level": 1,
+            "count": 1,
         },
     ];
 
@@ -413,6 +532,17 @@ export default class DataMgr extends cc.Component {
         //     cc.sys.localStorage.setItem("diamondCount", 0);
         // }
 
+        //每日登陆的进度
+        var signInProgress = cc.sys.localStorage.getItem("signInProgress");
+        if (!signInProgress) {
+            cc.sys.localStorage.setItem("signInProgress", 0);
+        }
+        //上次签到年月日
+        var signInDay = cc.sys.localStorage.getItem("signInDay");
+        if (!signInDay) {
+            cc.sys.localStorage.setItem("signInDay", "20181128");
+        }
+
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
         var heartCount = cc.sys.localStorage.getItem("heartCount");
         if (!heartCount) {
@@ -448,10 +578,6 @@ export default class DataMgr extends cc.Component {
             // console.log(this.dragonNestDatas);
         }
 
-
-
-
-
     };
 
     resetData() {
@@ -471,6 +597,42 @@ export default class DataMgr extends cc.Component {
                 return this.treasureChestDatas[i];
             }
         }
+    };
+
+    randomRoulette() {
+        var p = Math.random();
+        for (var i = 1; i < this.rouletteDatas.length; i++) {
+            if (p >= this.rouletteDatas[i - 1].probability && p < this.rouletteDatas[i].probability) {
+                //debugger;
+                //轮盘随到的物品
+                return this.rouletteDatas[i];
+            }
+        }
+    };
+
+    getSignInProgress() {
+        var p = cc.sys.localStorage.getItem("signInProgress");
+        return parseInt(p);
+    };
+
+    addSignInProgress() {
+        var p = parseInt(cc.sys.localStorage.getItem("signInProgress"));
+        if (p >= 6) {
+            p = 0;
+        } else {
+            p++;
+        }
+        cc.sys.localStorage.setItem("signInProgress", p);
+    };
+
+    getLastSignInDate() {
+        var t = cc.sys.localStorage.getItem("signInDay");
+        return t;
+    };
+
+    setLastSignInDate(date_str) {
+        cc.sys.localStorage.setItem("signInDay", date_str);
+
     };
 
     getDragonNestDurationByLevel(level) {
