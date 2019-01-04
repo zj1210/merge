@@ -28,7 +28,7 @@ cc.Class({
         this.thingsArray = null;
 
         //用于标记是否执行touchend
-        this.isDestroy = false;
+        this.isClick = false;
 
         //新需求，双击花，让龙来采集
         //思路：首先双击的要是花，其实花的级别要够
@@ -93,14 +93,8 @@ cc.Class({
                 // console.log('touch move by flower');
 
                 event.stopPropagation();
-
-                //self.isMove = true;
-                //核心逻辑
-                //1 点击跟随 触摸点
-                //物体的世界坐标 = touchPos+ _offset;
                 var touchpos = event.getLocation(); //触摸点的世界坐标 其实是 摄像机坐标系下的坐标
-                // console.log('touch pos')
-                // console.log(touchpos);
+
                 //是否需要移动摄像机 若需要，物体的世界坐标也会变化
                 var tempX = self._offset.x * self.ratio;
                 var tempY = self._offset.y * self.ratio;
@@ -108,14 +102,6 @@ cc.Class({
                 var camerapos = cc.pAdd(touchpos, tempV); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
 
-                // var dis = cc.pDistanceSQ(worldpos,self._beginPos);
-                // if(dis>600) {
-                //     self.closeSelectClick();
-                // }
-                // console.log(worldpos);
-                // console.log(self._beginPos);
-                // console.log(dis);
-                //console.log(touchpos);
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
                 var nodepos = self.node.parent.parent.convertToNodeSpaceAR(worldpos);
                 self.node.parent.position = nodepos;
@@ -177,7 +163,7 @@ cc.Class({
 
         //self.openSelectClick();
 
-        if (this.isDestroy == false) {
+        if (this.isClick == false) {
             //此tile是否可以放入 确实是在块上(不为null) 
             if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
 
@@ -222,6 +208,7 @@ cc.Class({
                 self.goBack();
             }
         } else {
+            this.isClick = false;
             //现在是以时间来进行区分 点击 可 平移 所以move事件可能已经调用，
             //也就意味着：可能搜寻到了联通物，那些thing已经开始骚动 需要将那些thing的骚动关闭
             if (self.thingsArray) {
@@ -260,16 +247,20 @@ cc.Class({
                 this.relationTileJS.thingLevel = 0;
 
                 this.node.parent.destroy();
-                this.isDestroy = true;
+                this.isClick = true;
 
-            } else if(this.thingType == 2 && this.thingLevel>1) {
+            } else if (this.thingType == 2 && this.thingLevel > 1) {
                 console.log("花被点击，龙来采集");
+                this.relationTileJS.thing = this.node.parent;
+                this.relationTileJS.tempThing = null;
+                this.goBack();
+                this.isClick = true;
                 var draggon = this.game.findCanCollectionDraggon();
-                if(draggon) {
+                if (draggon) {
                     var draggonJS = draggon.getComponent('Dragon');
                     draggonJS.moveAndCollectioning(this.relationTileJS.node);
                 }
-               
+              
             }
 
 

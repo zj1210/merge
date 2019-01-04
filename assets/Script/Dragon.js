@@ -693,31 +693,7 @@ cc.Class({
         this.node.runAction(moveBack);
     },
 
-    //放入tile 需要把现在所在tile置空，目标tile置为现在的数据
-    putInTile: function (targetTile) {
-        var pNode = this.node.parent;
-        //把之前的tile的thing 置为null
-        this.relationTileJS.thing = null;
-        var tempThingLevel = this.relationTileJS.thingLevel;
-        var tempThingType = this.relationTileJS.thingType;
-        this.relationTileJS.thingLevel = 0;
-        this.relationTileJS.thingType = 0;
-        var tileJS = targetTile.getComponent('Tile');
-        //新tilejs
-        this.relationTileJS = tileJS;
-        tileJS.thing = pNode;
-        this.relationTileJS.thingLevel = tempThingLevel;
-        this.relationTileJS.thingType = tempThingType;
-        this.originPosition = targetTile.position;
-        var moveGo = cc.moveTo(0.2, targetTile.position);
-        pNode.runAction(moveGo);
-        // console.log('====看下 所有tile数据')
-        // for (var i = 0; i < 4; i++) {
-        //     for (var j = 0; j < 2; j++) {
-        //         console.log(cc.dataMgr.tilesData[i][j].getComponent('Tile'));
-        //     }
-        // }
-    },
+ 
 
 
     /**
