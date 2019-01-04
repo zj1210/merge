@@ -150,7 +150,7 @@ cc.Class({
         if (this.wheelState !== 0) {
             return;
         }
-
+        cc.audioMgr.playEffect("UI");
         //this.AdBtn.interactable = false;
 
         //将当前的 加速次数 与减速次数 置为0 
