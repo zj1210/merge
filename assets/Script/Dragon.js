@@ -243,7 +243,7 @@ cc.Class({
             }
 
             if(self.movingToFlowerState) {
-                self.stopActionByTag(self.node.moveActionTag);
+                self.node.stopActionByTag(self.node.moveActionTag);
             }
 
             //摄像机下的触摸点 需要转换为 世界坐标
