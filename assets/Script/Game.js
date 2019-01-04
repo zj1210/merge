@@ -736,6 +736,18 @@ cc.Class({
         }
     },
 
+    //找到一条可以去采集的龙 在龙层搜索 并且不是采集状态的
+    findCanCollectionDraggon:function() {
+        var draggons = this.dragonsNode.children;
+        for(var i = 0; i<draggons.length; i++) {
+            if(!draggons[i].getComponent('Dragon').collectionState && !draggons[i].getComponent('Dragon').movingToFlowerState) {
+                return draggons[i];
+            }
+        }
+
+        return null;
+    },
+
     changeCameraPosition: function (touchPos, draggingObj) {
         //console.log(touchPos);
         var addx = 8;
