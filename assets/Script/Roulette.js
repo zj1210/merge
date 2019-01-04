@@ -59,7 +59,7 @@ cc.Class({
         //     type: cc.Node
         // },
 
-        signInTipsLabel: {
+        rouletteTipsLabel: {
             default: null,
             type: cc.Label
         },
@@ -164,7 +164,7 @@ cc.Class({
         this.result = cc.dataMgr.randomRoulette();
 
         this.targetID = this.result.index;
-        console.log("最终结果应为 targetID == ", this.targetID);
+        //console.log("最终结果应为 targetID == ", this.targetID);
         //为了让滚轮可以再次点击滚动，需要改变几个量，注：现在没这些需求
         //加入一个初始的角度 
         let beginAngle = this.wheelSp.rotation;
@@ -178,6 +178,32 @@ cc.Class({
 
     giveReward:function() {
         console.log("give reward~~~~");
+        console.log(this.result);
+        
+        var rewardData = this.result;
+        var gameJS = cc.find("Canvas").getComponent('Game');
+        if (rewardData.reward == "draggon" && rewardData.level > 0) {
+            //飞龙
+            gameJS.addDragonToGame(3,rewardData.level);
+        } else if (rewardData.reward == "coin") {
+            //金币
+            cc.dataMgr.addCoinCount(rewardData.count);
+            cc.find("Canvas/uiLayer").getComponent('UI').refreshUI();
+        } else {
+            //放入格子的拖动物
+            var tile = gameJS.getTile();
+            if (tile) {
+                gameJS.generateAndPutThing_signIn(tile, rewardData.reward,rewardData.level);
+            } else {
+               //没有格子，玩家没有领取到
+               
+            //    this.signInTipsFadeIn("没有位置放置物品，领取失败!");
+            //     //不改变数据，玩家可再次点击
+            //     return;
+            }
+        }
+
+        this.rouletteTipsFadeIn("奖品已发放!");
     },
 
 
@@ -185,38 +211,20 @@ cc.Class({
         
     },
 
-    // onDisable:function() {
-    //     console.log("onDisable by signIn")
-    // },
 
-    signInClick: function () {
-        cc.audioMgr.playEffect("btn_click");
-        //给奖励 : todo
-        var p = cc.dataMgr.getSignInProgress();
-        var rewardData = this.data[p];
-        this.giveReward(rewardData);
-
-        
-    },
 
     closeClick: function () {
-        console.log("close click!");
+        // console.log("close click!");
         cc.audioMgr.playEffect("UI");
         this.node.active = false;
     },
 
 
-    closeClick: function () {
-        console.log("close click!");
-        cc.audioMgr.playEffect("UI");
-        this.node.active = false;
-    },
 
-
-    signInTipsFadeIn: function (strContent) {
+    rouletteTipsFadeIn: function (strContent) {
         //console.log(strContent);
-        this.signInTipsLabel.string = strContent;
-        this.signInTipsLabel.node.getComponent(cc.Animation).play("shopTips");
+        this.rouletteTipsLabel.string = strContent;
+        this.rouletteTipsLabel.node.getComponent(cc.Animation).play("shopTips");
     },
 
 
@@ -246,7 +254,7 @@ cc.Class({
             
                 this.wheelSp.rotation = Math.ceil(this.wheelSp.rotation) % 360;
                 
-                console.log("转盘停止，给玩家发放奖励");
+                // console.log("转盘停止，给玩家发放奖励");
                 this.giveReward();
             }
         }
