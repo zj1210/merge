@@ -177,17 +177,17 @@ export default class DataMgr extends cc.Component {
     shopDatas = [
         //宝箱
         {
-            
-            "name":"treasureChest",
+
+            "name": "treasureChest",
             "price": 1
         },
         //龙蛋
         {
-            "name":"dragonEgg",
+            "name": "dragonEgg",
             "price": 5
         },
-        
-       
+
+
     ];
 
     heartDescDatas = [
@@ -345,6 +345,58 @@ export default class DataMgr extends cc.Component {
         // }
     ];
 
+    //转盘内容 以及各项概率
+    //注：这里可以定义转盘内容的各种概率以及奖励物品是什么，实现保证图片资源的替换
+    //限制：界面与这里的数据项数量必须一样
+    rouletteDatas = [
+        //为了算法简便，前置一个
+        {
+            "probability": 0.0
+        },
+
+        {
+            "reward": "treasureChest",
+            "level": 0,
+            "probability": 0.3,
+            "count": 1,
+        },
+
+        {
+            "reward": "flower",
+            "level": 3,
+            "probability": 0.6,
+            "count": 1,
+        },
+
+        {
+            "reward": "dragon",
+            "level": 2,
+            "probability": 0.65,
+            "count": 1,
+        },
+
+        {
+            "reward": "coin",
+            "level": 0,
+            "probability": 0.8,
+            "count": 1,
+        },
+
+        {
+            "reward": "dragon",
+            "level": 3,
+            "probability": 0.81,
+            "count": 1,
+        },
+
+        {
+            "reward": "heart",
+            "level": 3,
+            "probability": 1.0,
+            "count": 1,
+        }
+    ];
+
 
     //duration 单位：秒 休息时间
     dragonNestDuration = [
@@ -380,52 +432,52 @@ export default class DataMgr extends cc.Component {
      */
     signInRewardData = [
         {
-            "dayCount":1,
-            "reward":"treasureChest",
-            "level":0,
-            "count":1,
+            "dayCount": 1,
+            "reward": "treasureChest",
+            "level": 0,
+            "count": 1,
         },
 
         {
-            "dayCount":2,
-            "reward":"coin",
-            "level":0,
-            "count":1,
+            "dayCount": 2,
+            "reward": "coin",
+            "level": 0,
+            "count": 1,
         },
 
         {
-            "dayCount":3,
-            "reward":"flower",
-            "level":3,
-            "count":1,
+            "dayCount": 3,
+            "reward": "flower",
+            "level": 3,
+            "count": 1,
         },
 
         {
-            "dayCount":4,
-            "reward":"flower",
-            "level":4,
-            "count":1,
+            "dayCount": 4,
+            "reward": "flower",
+            "level": 4,
+            "count": 1,
         },
 
         {
-            "dayCount":5,
-            "reward":"draggon",
-            "level":0,
-            "count":1,
+            "dayCount": 5,
+            "reward": "draggon",
+            "level": 0,
+            "count": 1,
         },
 
         {
-            "dayCount":6,
-            "reward":"heart",
-            "level":3,
-            "count":1,
+            "dayCount": 6,
+            "reward": "heart",
+            "level": 3,
+            "count": 1,
         },
 
         {
-            "dayCount":7,
-            "reward":"draggon",
-            "level":1,
-            "count":1,
+            "dayCount": 7,
+            "reward": "draggon",
+            "level": 1,
+            "count": 1,
         },
     ];
 
@@ -547,22 +599,22 @@ export default class DataMgr extends cc.Component {
 
     addSignInProgress() {
         var p = parseInt(cc.sys.localStorage.getItem("signInProgress"));
-        if(p>=6) {
+        if (p >= 6) {
             p = 0;
         } else {
             p++;
         }
-        cc.sys.localStorage.setItem("signInProgress",p);
+        cc.sys.localStorage.setItem("signInProgress", p);
     };
 
     getLastSignInDate() {
         var t = cc.sys.localStorage.getItem("signInDay");
-        return t; 
+        return t;
     };
 
     setLastSignInDate(date_str) {
-        cc.sys.localStorage.setItem("signInDay",date_str);
-        
+        cc.sys.localStorage.setItem("signInDay", date_str);
+
     };
 
     getDragonNestDurationByLevel(level) {
