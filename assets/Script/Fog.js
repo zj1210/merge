@@ -149,7 +149,7 @@ cc.Class({
 
     fogClick: function () {
         console.log('fog被点击了！');
-
+        
         var heartCount = cc.dataMgr.getHeartCount();
         if (heartCount >= this.fogAmount) {
             this.fog.getComponent(cc.Button).interactable = false;
@@ -163,6 +163,8 @@ cc.Class({
             this.settingState(1);
 
             cc.audioMgr.playEffect("fog");
+            var game = cc.find("Canvas").getComponent('Game');
+            game.fogOfWarSystem();
         } else {
             console.log("心不够啊！");
             cc.audioMgr.playEffect("btn_click");

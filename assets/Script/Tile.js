@@ -241,6 +241,10 @@ cc.Class({
         return false;
     },
 
+    isFogTile:function() {
+        return (this.tileType == 1 &&this.fogState == 0);
+    },
+
     // called every frame
     update: function (dt) {
 
