@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2019-01-04-1405";
+    version = "2019-01-04-1638";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -586,6 +586,8 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("hallTileData", "");
         cc.sys.localStorage.setItem("dragonDatas", "");
         cc.sys.localStorage.setItem("dragonNestDatas", "");
+        cc.sys.localStorage.setItem("signInProgress", 0);
+        cc.sys.localStorage.setItem("signInDay", "20181128");
     }
 
 
