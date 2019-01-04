@@ -29,6 +29,17 @@ cc.Class({
 
         //用于标记是否执行touchend
         this.isDestroy = false;
+
+        //新需求，双击花，让龙来采集
+        //思路：首先双击的要是花，其实花的级别要够
+        //然后将龙moveTo到花上，调用龙的采集函数即可
+        //哪条龙，距离最近的龙
+        //实现双击的思路：记录一个上次touchEnd的时间戳lastTouchTime;
+        //这次touchEnd的时间戳 curTouchTime;
+        //若 curTouchTime - lastTouchTime <阀值 算作双击 可调用上面的逻辑
+        //https://forum.cocos.com/t/cocos-creator/45464 参考
+        this.lastTouchTime = null;
+        
     },
 
     //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
