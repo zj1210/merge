@@ -359,6 +359,8 @@ export default class DataMgr extends cc.Component {
             "level": 0,
             "probability": 0.3,
             "count": 1,
+            //随到物品后，不知道物品在数组的索引，就无从计算最终的角度，为了提高性能，数据直接放入内部，不要修改！！
+            "index":0 
         },
 
         {
@@ -366,13 +368,15 @@ export default class DataMgr extends cc.Component {
             "level": 3,
             "probability": 0.6,
             "count": 1,
+            "index":1
         },
 
         {
-            "reward": "dragon",
+            "reward": "draggon",
             "level": 2,
             "probability": 0.65,
             "count": 1,
+            "index":2
         },
 
         {
@@ -380,13 +384,15 @@ export default class DataMgr extends cc.Component {
             "level": 0,
             "probability": 0.8,
             "count": 1,
+            "index":3
         },
 
         {
-            "reward": "dragon",
+            "reward": "draggon",
             "level": 3,
             "probability": 0.81,
             "count": 1,
+            "index":4
         },
 
         {
@@ -394,6 +400,7 @@ export default class DataMgr extends cc.Component {
             "level": 3,
             "probability": 1.0,
             "count": 1,
+            "index":5
         }
     ];
 
@@ -588,6 +595,17 @@ export default class DataMgr extends cc.Component {
             if (p >= this.treasureChestDatas[i - 1].probability && p < this.treasureChestDatas[i].probability) {
                 //debugger;
                 return this.treasureChestDatas[i];
+            }
+        }
+    };
+
+    randomRoulette() {
+        var p = Math.random();
+        for (var i = 1; i < this.rouletteDatas.length; i++) {
+            if (p >= this.rouletteDatas[i - 1].probability && p < this.rouletteDatas[i].probability) {
+                //debugger;
+                //轮盘随到的物品
+                return this.rouletteDatas[i];
             }
         }
     };
