@@ -424,6 +424,10 @@ cc.Class({
 
     //移动到花，然后采集的逻辑，用于点击花 龙去采集
     moveAndCollectioning:function(tileNode) {
+
+        if (this.collectionThing.active) {
+            this.collectionThingClick();
+        }
         this.movingToFlowerState = true;
         var pos = tileNode.position;
         var worldpos = tileNode.parent.convertToWorldSpaceAR(pos);
@@ -574,6 +578,7 @@ cc.Class({
     thingMoveToOver: function (moveThing) {
         //debugger;
         console.log("生成物-->移动到目标位置！");
+      
 
         var newThing = this.game.generateThing(this.collectionThing.thingType, this.collectionThing.thingLevel);
         var thingJs = newThing.getChildByName('selectedNode').getComponent("Thing");
