@@ -101,6 +101,11 @@ cc.Class({
         //1，读取 数据表 进行资源替换 //这步可以移入onload中
         //2, 读取当前进度，界面状态设置，哪些有对号，哪些没有
         //3, 设置签到按钮，根据上次签到和当前日期是否一样 来设置
+        this.refreashUI();
+    },
+
+
+    refreashUI: function () {
         var p = cc.dataMgr.getSignInProgress();
         for (var i = 0; i < this.data.length; i++) {
             if (i < p) {
@@ -132,15 +137,44 @@ cc.Class({
 
     signInClick: function () {
         cc.audioMgr.playEffect("btn_click");
+        //给奖励 : todo
+        var p = cc.dataMgr.getSignInProgress();
+        var rewardData = this.data[p];
+        this.giveReward(rewardData);
+
+        //改数据
         cc.dataMgr.addSignInProgress();
         var date = new Date();
         var curDate = date.getFullYear() + "" + date.getMonth() + date.getDate();
         cc.dataMgr.setLastSignInDate(curDate);
-        //给奖励 : todo
-        
-        //改按钮
-        this.signLabelBtn.getComponent(cc.Button).interactable = false;
-        this.signLabelBtn.getComponent(cc.Label).string = "今日已签";
+        //刷新界面
+        this.refreashUI();
+    },
+
+    giveReward: function (rewardData) {
+        console.log("给奖励");
+        console.log(rewardData);
+        //1 根据奖励类型 来进行
+        //若是飞龙 龙层中间
+        //若是金币 飞向 ui
+        //其他 就先查询是否有空格，若有 放入，若没有 提示用户
+        var gameJS = cc.find("Canvas").getComponent('Game');
+        if (rewardData.reward == "draggon" && rewardData.level > 0) {
+            //飞龙
+            gameJS.addDragonToGame(3,rewardData.level,0);
+        } else if (rewardData.reward == "coin") {
+            //金币
+            cc.dataMgr.addCoinCount(rewardData.count);
+            cc.find("Canvas/uiLayer").getComponent('UI').refreshUI();
+        } else {
+            //放入格子的拖动物
+            var tile = gameJS.getTile();
+            if (tile) {
+                gameJS.generateAndPutThing_signIn(tile, rewardData.reward,rewardData.level);
+            } else {
+                console.log("没有格子，玩家没有领取到，目前先不管了");
+            }
+        }
     },
 
     closeClick: function () {

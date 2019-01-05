@@ -86,7 +86,7 @@ cc.Class({
         cc.dataMgr.addCoinCount(-amountDeducted);
 
         var gameJS = cc.find("Canvas").getComponent('Game');
-        gameJS.generateAndPutThing(tile, thingName);
+        gameJS.generateAndPutThing_shop(tile, thingName);
         //刷新ui
         var uiJS = cc.find("Canvas/uiLayer").getComponent('UI');
         uiJS.refreshUI();

@@ -371,53 +371,60 @@ export default class DataMgr extends cc.Component {
 
     //每日登陆数据表配置 支持数据改变界面的图片
     //reward: 花:flower 心：heart 金币：coin 龙：draggon（蛋是级别0） 宝箱：treasureChest
+    /**
+     * //宝箱没有级别概念，无用数据 仅支持0
+     * //初级花是1 蒲公英是0
+     *  "count":1,//金币才有用，不打算实现除金币外多个情况，因为除了金币都要摆放。。提供接口防止未来需要加入多个
+     * //0是最初级的心
+     * //数据冗余，金币没有级别概念,目前仅支持0//支持多个
+     */
     signInRewardData = [
         {
             "dayCount":1,
-            "reward":"flower",
-            "level":3,//初级花是1 蒲公英是0
-            "count":1,//金币才有用，不打算实现除金币外多个情况，因为除了金币都要摆放。。提供接口防止未来需要加入多个
+            "reward":"treasureChest",
+            "level":0,
+            "count":1,
         },
 
         {
             "dayCount":2,
-            "reward":"heart",
-            "level":2,//0是最初级的心
+            "reward":"coin",
+            "level":0,
             "count":1,
         },
 
         {
             "dayCount":3,
-            "reward":"coin",
-            "level":0,//数据冗余，金币没有级别概念,目前仅支持0
-            "count":1,//支持多个
+            "reward":"flower",
+            "level":3,
+            "count":1,
         },
 
         {
             "dayCount":4,
-            "reward":"heart",
+            "reward":"flower",
             "level":4,
             "count":1,
         },
 
         {
             "dayCount":5,
-            "reward":"heart",
-            "level":4,
+            "reward":"draggon",
+            "level":0,
             "count":1,
         },
 
         {
             "dayCount":6,
-            "reward":"draggon",
-            "level":4,//龙蛋 目前仅支持0
+            "reward":"heart",
+            "level":3,
             "count":1,
         },
 
         {
             "dayCount":7,
-            "reward":"treasureChest",
-            "level":0,//宝箱没有级别概念，无用数据 仅支持0
+            "reward":"draggon",
+            "level":1,
             "count":1,
         },
     ];
@@ -545,6 +552,7 @@ export default class DataMgr extends cc.Component {
         } else {
             p++;
         }
+        cc.sys.localStorage.setItem("signInProgress",p);
     };
 
     getLastSignInDate() {
