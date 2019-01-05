@@ -177,8 +177,8 @@ cc.Class({
 
         //是否在采集状态
         this.collectionState = false;
-
-
+        //是否在往花身上移动的状态
+        this.movingToFlowerState = false;
 
         //龙的状态： 0 默认寻路 1 被点击   2  采集  3 合并提示态
         //每次的状态更新 都要调用 此脚本的状态改变函数
@@ -240,6 +240,10 @@ cc.Class({
             //如果有生成物，需要放置生成物
             if (self.collectionThing.active) {
                 self.collectionThingClick();
+            }
+
+            if(self.movingToFlowerState) {
+                self.stopActionByTag(self.node.moveActionTag);
             }
 
             //摄像机下的触摸点 需要转换为 世界坐标
@@ -416,6 +420,28 @@ cc.Class({
         // this.generateHeartAndPlace(heartLevel);
 
 
+    },
+
+    //移动到花，然后采集的逻辑，用于点击花 龙去采集
+    moveAndCollectioning:function(tileNode) {
+        this.movingToFlowerState = true;
+        var pos = tileNode.position;
+        var worldpos = tileNode.parent.convertToWorldSpaceAR(pos);
+        var dragonNode = this.node.getChildByName('dragonNode');
+        if(this.node.x>pos.x) {
+            dragonNode.scaleX = 1;
+        } else {
+            dragonNode.scaleX = -1;
+        }
+        var seq = cc.sequence(cc.moveTo(1.0,pos),cc.callFunc(this.gotoFlowerOver,this,worldpos));
+        seq.tag = 233;
+        this.node.moveActionTag= seq.tag;
+        this.node.runAction(seq);
+    },
+
+    gotoFlowerOver:function(no,worldpos) {
+        this.movingToFlowerState = false;
+        this.game.collectionFlower(this, worldpos);
     },
 
     changeLabel: function (value) {

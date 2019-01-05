@@ -39,7 +39,7 @@ cc.Class({
         //若 curTouchTime - lastTouchTime <阀值 算作双击 可调用上面的逻辑
         //https://forum.cocos.com/t/cocos-creator/45464 参考
         this.lastTouchTime = null;
-        
+
     },
 
     //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
@@ -57,7 +57,7 @@ cc.Class({
         this.game = cc.find("Canvas").getComponent('Game');
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
 
-        
+
         if (!this.game) {
             debugger;
         }
@@ -91,7 +91,7 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
                 // console.log('touch move by flower');
-               
+
                 event.stopPropagation();
 
                 //self.isMove = true;
@@ -104,7 +104,7 @@ cc.Class({
                 //是否需要移动摄像机 若需要，物体的世界坐标也会变化
                 var tempX = self._offset.x * self.ratio;
                 var tempY = self._offset.y * self.ratio;
-                var tempV = cc.v2(tempX,tempY);
+                var tempV = cc.v2(tempX, tempY);
                 var camerapos = cc.pAdd(touchpos, tempV); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
 
@@ -126,7 +126,7 @@ cc.Class({
                 //根据触摸点，找到包含触摸点的块
                 //console.log(worldpos);
                 self.currentNearestTile = self.game.getContainPointTile_FogIsNull(worldpos);
-                
+
                 //debugger;
                 //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
                 if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
@@ -174,7 +174,7 @@ cc.Class({
         event.stopPropagation();
         self.unBrowseThisThing();
 
-        
+
         //self.openSelectClick();
 
         if (this.isDestroy == false) {
@@ -198,9 +198,9 @@ cc.Class({
 
                         var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
                         //若有格子 才处理
-                        if(tiles) {
+                        if (tiles) {
                             tempJs.changeInTile(tiles[0], thingLevel, thingType);
-                        } 
+                        }
                         //没有格子就不可交换
                         else {
                             //debugger;
@@ -208,7 +208,7 @@ cc.Class({
                             self.relationTileJS.tempThing = null;
                             self.goBack();
                         }
-                        
+
                     } else { //没有物体 直接放入
                         self.putInTile(self.currentNearestTile);
                     }
@@ -244,51 +244,40 @@ cc.Class({
         //松手这一刻的毫秒
         var endTouchTime = Date.now();
         var dt = endTouchTime - this.touchBeginTime;
-        console.log("点击松开 时间差--->    " +dt);
-        if(dt<150) {
+        console.log("点击松开 时间差--->    " + dt);
+        if (dt < 150) {
             console.log('选择thing 按钮 被点击');
             //如果是心的话，存为心型货币
             if (this.thingType == 1) {
 
-                //var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-                //var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.parent.getChildByName('thing').position);
-                //console.log(worldpos);
-                // self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
-               // console.log(this.game.camera.getComponent(cc.Camera));
-                //var camerapos = this.game.camera.getComponent(cc.Camera).getWorldToCameraPoint(worldpos);
-                
-              //  var m = this.game.camera.getComponent(cc.Camera).getWorldToCameraMatrix();
-              var m = this.game.camera.getComponent(cc.Camera).getNodeToCameraTransform(this.node.parent.getChildByName('thing'));
-                
-              
-              
-              var camerapos = cc.v2();
-              camerapos = cc.pointApplyAffineTransform(this.node.parent.getChildByName('thing').position,m);
-            //   cc.vmath.vec2.transformMat4(camerapos, this.node.parent.getChildByName('thing').position, m);
-                //var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
-               console.log(camerapos);
-               
+                var m = this.game.camera.getComponent(cc.Camera).getNodeToCameraTransform(this.node.parent.getChildByName('thing'));
+                var camerapos = cc.v2();
+                camerapos = cc.pointApplyAffineTransform(this.node.parent.getChildByName('thing').position, m);
                 var level = this.thingLevel;
-
                 this.ui.addHeartAndAni(camerapos, level);
-                //this.ui.addHeartAndAni(worldpos, level);
-
                 this.relationTileJS.thing = null;
                 this.relationTileJS.thingType = 0;
                 this.relationTileJS.thingLevel = 0;
-                //this.node.parent.removeFromParent(false);
 
                 this.node.parent.destroy();
                 this.isDestroy = true;
 
-        }
+            } else if(this.thingType == 2 && this.thingLevel>1) {
+                console.log("花被点击，龙来采集");
+                var draggon = this.game.findCanCollectionDraggon();
+                if(draggon) {
+                    var draggonJS = draggon.getComponent('Dragon');
+                    draggonJS.moveAndCollectioning(this.relationTileJS.node);
+                }
+               
+            }
 
 
-        // if (this.selectClickFlag) {
-            
-                
-        //         //this.node.destroy();
-        //     }
+            // if (this.selectClickFlag) {
+
+
+            //         //this.node.destroy();
+            //     }
 
         }
 
@@ -327,12 +316,12 @@ cc.Class({
 
     browseThisThing: function () {
         console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
-        this.ui.addDescForClick(this.thingType,this.thingLevel);
+        this.ui.addDescForClick(this.thingType, this.thingLevel);
     },
 
     unBrowseThisThing: function () {
         //console.log('不再浏览该物体！');
-        
+
         //this.ui.clearDescForUnClick();
     },
 
