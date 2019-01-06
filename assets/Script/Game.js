@@ -721,7 +721,7 @@ cc.Class({
                 this.thingsNode.addChild(newThing);
                 newThing.position = tile.position;
                 var thingJs = newThing.getChildByName('selectedNode').getComponent('Thing');
-                thingJs.changeInTile(tile, 0, 3);
+                thingJs.changeInTile(tile, thingLevel, thingType);
                 break;
         }
     },
