@@ -321,6 +321,10 @@ cc.Class({
             debugger;
             return;
         }
+        //空块
+        if(tJS.dontWant == 1) {
+            return;
+        }
         //是雾
         if (tJS.tileType == 1) {
             return;
