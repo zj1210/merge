@@ -228,15 +228,17 @@ cc.Class({
                         grassInfo[1] = 1;
                     }
 
-                    if (j < 1 || cc.dataMgr.tilesData[i][j].getComponent('Tile').dontWant) {
+                   
+
+                    if (j > tileWidth - 2 || cc.dataMgr.tilesData[i][j + 1].getComponent('Tile').dontWant) {
                         grassInfo[2] = 1;
                     }
 
-                    if (j > tileHeight - 2 || cc.dataMgr.tilesData[i][j].getComponent('Tile').dontWant) {
+                    if (j < 1 || cc.dataMgr.tilesData[i][j-1].getComponent('Tile').dontWant) {
                         grassInfo[3] = 1;
                     }
                 }
-
+                otherTileJS.setGrassInfo(grassInfo);
             }
         }
     },
