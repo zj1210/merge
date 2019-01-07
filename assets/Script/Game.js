@@ -52,6 +52,11 @@ cc.Class({
         //console.log("game onload!");
         // this.tilesHorizontalCount = 6;
         // this.tileVerticalCount = 3;
+
+        //cc.director.getCollisionManager().attachDebugDrawToCamera(this.camera.getComponent(cc.Camera));
+
+
+
         this.moveCameraXFlag = false;
         this.moveCameraYFlag = false;
         this.moveCameraXSpeed = 0.0;
@@ -84,6 +89,8 @@ cc.Class({
             return;
         }
         for (var i = 0; i < dragonDatas.length; i++) {
+            //this.addDragonToGame(dragonDatas[i].thingType, dragonDatas[i].thingLevel,i);
+
             var newDragon = cc.instantiate(this.dragonPrefab);
             //这里代码会把 龙的体力 设置为 默认数据，需要再设置一遍
             newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(dragonDatas[i].thingType, dragonDatas[i].thingLevel);
@@ -94,12 +101,31 @@ cc.Class({
         }
     },
 
+    //原本想做一个通用的添加龙函数，但是有较多问题，！！！目前只支持从签到界面加入龙！
+    addDragonToGame: function (thingType, thingLevel) {
+        //各级龙的数据表
+
+
+        var newDragon = cc.instantiate(this.dragonPrefab);
+        //这里代码会把 龙的体力 设置为 默认数据，需要再设置一遍
+        newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(thingType, thingLevel);
+        // newDragon.getComponent('Dragon').strength = dragonDatas[i].strength;
+
+        var wp = this.ui.node.convertToWorldSpaceAR(cc.v2(0, 0));
+        var np = this.dragonsNode.convertToNodeSpaceAR(wp);
+        newDragon.position = np;
+        this.dragonsNode.addChild(newDragon);
+    },
+
     start: function () {
 
         cc.audioMgr.playBg();
 
         //根据持久化数据，持久化龙层，todo：龙巢的恢复
         this.initDragons();
+
+        //虽然很迷你，但本质上就是战争迷雾系统
+        this.fogOfWarSystem();
         //debugger;
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
@@ -131,7 +157,51 @@ cc.Class({
             }
 
         }, this.node);
-       
+
+    },
+
+
+    //战争迷雾，用于控制雾，周围有非雾就显示label并且可点击
+    fogOfWarSystem: function () {
+
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var tileHeight = hAndW.h;
+        var tileWidth = hAndW.w;
+
+
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
+                var otherTile = cc.dataMgr.tilesData[i][j];
+                var otherTileJS = otherTile.getComponent('Tile');
+                //这个tile是否有雾
+                var isFogTile = otherTileJS.isFogTile();
+                if (isFogTile) {
+                    //上下左右是否有非雾
+                    var isShowLabel = false;
+                    if ((i > 0 && !cc.dataMgr.tilesData[i - 1][j].getComponent('Tile').isFogTile())
+                        || (i < tileHeight - 1 && !cc.dataMgr.tilesData[i + 1][j].getComponent('Tile').isFogTile())
+                        || (j > 0 && !cc.dataMgr.tilesData[i][j - 1].getComponent('Tile').isFogTile())
+                        || (j < tileWidth - 1 && !cc.dataMgr.tilesData[i][j + 1].getComponent('Tile').isFogTile())) {
+                        isShowLabel = true;
+                    }
+                    var fog = otherTileJS.fog;
+                    var labelNode = fog.getChildByName('relockLabel');
+                    var btnNode = fog.getChildByName("fog");
+                    if (isShowLabel && !labelNode.active) {
+                        labelNode.active = true;
+                        btnNode.getComponent(cc.Button).interactable = true;
+                    } else if (isShowLabel && labelNode.active) {
+
+                    } else if (!isShowLabel && labelNode.active) {
+                        labelNode.active = false;
+                        btnNode.getComponent(cc.Button).interactable = false;
+                    } else if (!isShowLabel && !labelNode.active) {
+                        
+                    }
+                }
+
+            }
+        }
     },
 
     // called every frame
@@ -372,12 +442,12 @@ cc.Class({
     //以 (0,0)为中心找到空闲tile
     getTile: function (pos) {
         var tempPos;
-        if(pos) {
+        if (pos) {
             tempPos = pos;
         } else {
             tempPos = cc.v2(0, 0);
         }
-       
+
 
 
         var resultTiles = this.getNearestTileByN_pos(tempPos, 1);
@@ -435,13 +505,13 @@ cc.Class({
                 this.thingsNode.addChild(unionedThingsArray[i].thing);
                 var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
                 thingJs.changeInTile(resultTiles[i], unionedThingsArray[i].thingLevel, unionedThingsArray[i].thingType);
-                
+
                 //精华合成音
                 if (unionedThingsArray[i].thingType == 1) {
                     cc.audioMgr.playEffect("heart");
-                } 
+                }
                 //花合成音
-                else if(unionedThingsArray[i].thingType == 2) {
+                else if (unionedThingsArray[i].thingType == 2) {
                     cc.audioMgr.playEffect("flower");
                 }
             }
@@ -662,7 +732,7 @@ cc.Class({
 
 
     //专注于将商城购买成功的物品，放入tile中
-    generateAndPutThing: function (tile, thingName) {
+    generateAndPutThing_shop: function (tile, thingName) {
         switch (thingName) {
             case "treasureChest":
                 var tileJS = tile.getComponent("Tile");
@@ -680,6 +750,49 @@ cc.Class({
                 //不可能执行到这里，用户买的到底是什么？
                 debugger;
         }
+    },
+
+    //专注于每日登陆的奖励，放入tile中 没有使用type 用的是name，这是由于数据结构的定义不同，参见 每日登陆数据结构
+    generateAndPutThing_signIn: function (tile, thingName, thingLevel) {
+        switch (thingName) {
+            case "treasureChest":
+                var tileJS = tile.getComponent("Tile");
+                tileJS.generateTreasureChest();
+                break;
+
+            default:
+                //处理宝箱，其他放入tile的物品逻辑一样
+                var thingType = 0;
+                if (thingName == "heart") {
+                    thingType = 1;
+                } else if (thingName == "flower") {
+                    thingType = 2;
+                } else if (thingName == "draggon") {
+                    thingType = 3;
+                }
+                if (thingType == 3 && thingLevel != 0) {
+                    console.log("这里必须放入可以放入tile中的物体，不能放入飞龙，外部进行判断！！");
+                    debugger;
+                }
+                var newThing = this.generateThing(thingType, thingLevel);
+                this.thingsNode.addChild(newThing);
+                newThing.position = tile.position;
+                var thingJs = newThing.getChildByName('selectedNode').getComponent('Thing');
+                thingJs.changeInTile(tile, thingLevel, thingType);
+                break;
+        }
+    },
+
+    //找到一条可以去采集的龙 在龙层搜索 并且不是采集状态的
+    findCanCollectionDraggon: function () {
+        var draggons = this.dragonsNode.children;
+        for (var i = 0; i < draggons.length; i++) {
+            if (!draggons[i].getComponent('Dragon').collectionState && !draggons[i].getComponent('Dragon').movingToFlowerState) {
+                return draggons[i];
+            }
+        }
+
+        return null;
     },
 
     changeCameraPosition: function (touchPos, draggingObj) {

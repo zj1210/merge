@@ -69,11 +69,18 @@ cc.Class({
                 this.scheduleOnce(function () {
                     this.tile.getComponent('Tile').fog = null;
                     this.tile.getComponent('Tile').tileType = 0;
-                    this.node.destroy();
-                    var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-                    var camerapos = cc.v2(worldpos.x - game.camera.position.x, worldpos.y - game.camera.position.y);
+                
+                    //var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
+                    //var camerapos = cc.v2(worldpos.x - game.camera.position.x, worldpos.y - game.camera.position.y);
+
+                    var m = game.camera.getComponent(cc.Camera).getNodeToCameraTransform(this.box);
+                    var camerapos = cc.v2();
+                    camerapos = cc.pointApplyAffineTransform(this.box.position,m);
+
                     var count = treasureData.count;
                     cc.find("Canvas/uiLayer").getComponent('UI').addCoinAndAni(camerapos, count);
+
+                    this.node.destroy();
 
                 }.bind(this), 0.5);
 
@@ -142,9 +149,10 @@ cc.Class({
 
     fogClick: function () {
         console.log('fog被点击了！');
-
+        
         var heartCount = cc.dataMgr.getHeartCount();
         if (heartCount >= this.fogAmount) {
+            this.fog.getComponent(cc.Button).interactable = false;
             //心够，将来可能是弹窗
             //解锁雾 可以在动画回调里设置
             cc.dataMgr.addHeartCount(-this.fogAmount);
@@ -155,6 +163,8 @@ cc.Class({
             this.settingState(1);
 
             cc.audioMgr.playEffect("fog");
+            var game = cc.find("Canvas").getComponent('Game');
+            game.fogOfWarSystem();
         } else {
             console.log("心不够啊！");
             cc.audioMgr.playEffect("btn_click");

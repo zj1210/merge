@@ -28,7 +28,18 @@ cc.Class({
         this.thingsArray = null;
 
         //用于标记是否执行touchend
-        this.isDestroy = false;
+        this.isClick = false;
+
+        //新需求，双击花，让龙来采集
+        //思路：首先双击的要是花，其实花的级别要够
+        //然后将龙moveTo到花上，调用龙的采集函数即可
+        //哪条龙，距离最近的龙
+        //实现双击的思路：记录一个上次touchEnd的时间戳lastTouchTime;
+        //这次touchEnd的时间戳 curTouchTime;
+        //若 curTouchTime - lastTouchTime <阀值 算作双击 可调用上面的逻辑
+        //https://forum.cocos.com/t/cocos-creator/45464 参考
+        this.lastTouchTime = null;
+
     },
 
     //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
@@ -45,12 +56,16 @@ cc.Class({
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
+
+
         if (!this.game) {
             debugger;
         }
         let self = this;
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             // console.log('touch begin by flower');
+
+            self.ratio = self.game.camera.getComponent(cc.Camera).zoomRatio;
             cc.audioMgr.playEffect("btn_click");
             self.browseThisThing();
             event.stopPropagation();
@@ -69,25 +84,24 @@ cc.Class({
             self.selectedSprite.spriteFrame = self.originSpriteFrame;
             self.relationTileJS.thing = null;
             self.relationTileJS.tempThing = self.node.parent;
+
+            //点击这一刻的时间 毫秒
+            self.touchBeginTime = Date.now();
         }, this.node);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
             if (self._beginPos) {
                 // console.log('touch move by flower');
-                self.closeSelectClick();
+
                 event.stopPropagation();
-
-                //self.isMove = true;
-                //核心逻辑
-                //1 点击跟随 触摸点
-                //物体的世界坐标 = touchPos+ _offset;
                 var touchpos = event.getLocation(); //触摸点的世界坐标 其实是 摄像机坐标系下的坐标
-                // console.log('touch pos')
-                // console.log(touchpos);
-                //是否需要移动摄像机 若需要，物体的世界坐标也会变化
 
-                var camerapos = cc.pAdd(touchpos, self._offset); //物体的摄像机坐标系
+                //是否需要移动摄像机 若需要，物体的世界坐标也会变化
+                var tempX = self._offset.x * self.ratio;
+                var tempY = self._offset.y * self.ratio;
+                var tempV = cc.v2(tempX, tempY);
+                var camerapos = cc.pAdd(touchpos, tempV); //物体的摄像机坐标系
                 var worldpos = self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
-                //console.log(touchpos);
+
                 //需要将世界坐标转为 节点坐标 这里是thingsNode下的坐标
                 var nodepos = self.node.parent.parent.convertToNodeSpaceAR(worldpos);
                 self.node.parent.position = nodepos;
@@ -98,7 +112,7 @@ cc.Class({
                 //根据触摸点，找到包含触摸点的块
                 //console.log(worldpos);
                 self.currentNearestTile = self.game.getContainPointTile_FogIsNull(worldpos);
-                
+
                 //debugger;
                 //为性能考虑，当前最近的tile与之前存的不一样，才进行高复杂度的算法 且触摸的位置有块
                 if (self.currentNearestTile != self.lastNearestTile && self.currentNearestTile) {
@@ -145,9 +159,11 @@ cc.Class({
         let self = this;
         event.stopPropagation();
         self.unBrowseThisThing();
-        self.openSelectClick();
 
-        if (this.isDestroy == false) {
+
+        //self.openSelectClick();
+
+        if (this.isClick == false) {
             //此tile是否可以放入 确实是在块上(不为null) 
             if (self.currentNearestTile && self.currentNearestTile.getComponent('Tile').isCanPut()) {
 
@@ -168,9 +184,9 @@ cc.Class({
 
                         var tiles = self.game.getNearestTileByN(self.currentNearestTile, 1);
                         //若有格子 才处理
-                        if(tiles) {
+                        if (tiles) {
                             tempJs.changeInTile(tiles[0], thingLevel, thingType);
-                        } 
+                        }
                         //没有格子就不可交换
                         else {
                             //debugger;
@@ -178,7 +194,7 @@ cc.Class({
                             self.relationTileJS.tempThing = null;
                             self.goBack();
                         }
-                        
+
                     } else { //没有物体 直接放入
                         self.putInTile(self.currentNearestTile);
                     }
@@ -190,6 +206,13 @@ cc.Class({
                 self.relationTileJS.thing = this.node.parent;
                 self.relationTileJS.tempThing = null;
                 self.goBack();
+            }
+        } else {
+            this.isClick = false;
+            //现在是以时间来进行区分 点击 可 平移 所以move事件可能已经调用，
+            //也就意味着：可能搜寻到了联通物，那些thing已经开始骚动 需要将那些thing的骚动关闭
+            if (self.thingsArray) {
+                self.thingsGoStatic();
             }
         }
 
@@ -204,45 +227,61 @@ cc.Class({
     },
 
     selectClick: function () {
-        if (this.selectClickFlag) {
+
+        //松手这一刻的毫秒
+        var endTouchTime = Date.now();
+        var dt = endTouchTime - this.touchBeginTime;
+        console.log("点击松开 时间差--->    " + dt);
+        if (dt < 150) {
             console.log('选择thing 按钮 被点击');
             //如果是心的话，存为心型货币
             if (this.thingType == 1) {
 
-                var worldpos = this.node.parent.convertToWorldSpaceAR(this.node.position);
-                console.log(worldpos);
-                // self.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
-
-                var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
+                var m = this.game.camera.getComponent(cc.Camera).getNodeToCameraTransform(this.node.parent.getChildByName('thing'));
+                var camerapos = cc.v2();
+                camerapos = cc.pointApplyAffineTransform(this.node.parent.getChildByName('thing').position, m);
                 var level = this.thingLevel;
-
                 this.ui.addHeartAndAni(camerapos, level);
-
-
                 this.relationTileJS.thing = null;
                 this.relationTileJS.thingType = 0;
                 this.relationTileJS.thingLevel = 0;
-                //this.node.parent.removeFromParent(false);
 
                 this.node.parent.destroy();
-                this.isDestroy = true;
+                this.isClick = true;
 
-                
-                //this.node.destroy();
+            } else if (this.thingType == 2 && this.thingLevel > 1) {
+                console.log("花被点击，龙来采集");
+                this.relationTileJS.thing = this.node.parent;
+                this.relationTileJS.tempThing = null;
+                this.goBack();
+                this.isClick = true;
+                var draggon = this.game.findCanCollectionDraggon();
+                if (draggon) {
+                    var draggonJS = draggon.getComponent('Dragon');
+                    draggonJS.moveAndCollectioning(this.relationTileJS.node);
+                }
+              
             }
+
+
+            // if (this.selectClickFlag) {
+
+
+            //         //this.node.destroy();
+            //     }
 
         }
 
         //console.log('thingType:  ' + this.thingType + '  ' + 'thingLevel:  ' + this.thingLevel);
     },
 
-    closeSelectClick: function () {
-        this.selectClickFlag = false;
-    },
+    // closeSelectClick: function () {
+    //     this.selectClickFlag = false;
+    // },
 
-    openSelectClick: function () {
-        this.selectClickFlag = true;
-    },
+    // openSelectClick: function () {
+    //     this.selectClickFlag = true;
+    // },
 
     //thingType 0=没有，1=精华，2=花，3=龙蛋
     //thingLevel 0初始，1升一级，以此类推，注意：蒲公英是花级别为0，如果是龙蛋，级别必须为0，龙不在地表上
@@ -268,12 +307,12 @@ cc.Class({
 
     browseThisThing: function () {
         console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel);
-        this.ui.addDescForClick(this.thingType,this.thingLevel);
+        this.ui.addDescForClick(this.thingType, this.thingLevel);
     },
 
     unBrowseThisThing: function () {
         //console.log('不再浏览该物体！');
-        
+
         //this.ui.clearDescForUnClick();
     },
 

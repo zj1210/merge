@@ -30,11 +30,11 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 18
+        "__id__": 17
       }
     ],
     "_prefab": {
-      "__id__": 19
+      "__id__": 18
     },
     "_id": "",
     "_opacity": 255,
@@ -444,13 +444,10 @@
     "_components": [
       {
         "__id__": 15
-      },
-      {
-        "__id__": 16
       }
     ],
     "_prefab": {
-      "__id__": 17
+      "__id__": 16
     },
     "_id": "",
     "_opacity": 255,
@@ -469,8 +466,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 227,
-      "height": 40
+      "width": 0,
+      "height": 25
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -497,35 +494,20 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 30,
-    "_fontSize": 30,
-    "_lineHeight": 40,
+    "_actualFontSize": 40,
+    "_fontSize": 40,
+    "_lineHeight": 50,
     "_enableWrapText": true,
-    "_N$file": null,
-    "_isSystemFontUsed": true,
+    "_N$file": {
+      "__uuid__": "3083b865-427e-436c-a374-97bf2a8144fa"
+    },
+    "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "XXXXX精华解锁",
+    "_N$string": "",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0
-  },
-  {
-    "__type__": "cc.LabelOutline",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 14
-    },
-    "_enabled": true,
-    "_color": {
-      "__type__": "cc.Color",
-      "r": 33,
-      "g": 49,
-      "b": 78,
-      "a": 255
-    },
-    "_width": 3.5
   },
   {
     "__type__": "cc.PrefabInfo",
