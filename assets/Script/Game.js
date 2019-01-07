@@ -126,6 +126,8 @@ cc.Class({
 
         //虽然很迷你，但本质上就是战争迷雾系统
         this.fogOfWarSystem();
+        //调用草地变色，与自动描边
+        this.grassSystem();
         //debugger;
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
@@ -200,6 +202,43 @@ cc.Class({
                     }
                 }
 
+            }
+        }
+    },
+
+    //草地系统，用于草地变色 自动描边
+    grassSystem: function () {
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var tileHeight = hAndW.h;
+        var tileWidth = hAndW.w;
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
+                var otherTile = cc.dataMgr.tilesData[i][j];
+                var otherTileJS = otherTile.getComponent('Tile');
+                //1先判断这个块是不是想要的块，如果是 才设置草地
+                //2需要的信息是 块的上下左右是否有东西 没有就是0 有就是1 传入tile中
+                if (otherTileJS.dontWant == 0) {
+                    //用于标记上下左右的草是否显示
+                    var grassInfo = [0, 0, 0, 0];
+                    if (i < 1 || cc.dataMgr.tilesData[i - 1][j].getComponent('Tile').dontWant) {
+                        grassInfo[0] = 1;
+                    }
+
+                    if (i > tileHeight - 2 || cc.dataMgr.tilesData[i + 1][j].getComponent('Tile').dontWant) {
+                        grassInfo[1] = 1;
+                    }
+
+                   
+
+                    if (j > tileWidth - 2 || cc.dataMgr.tilesData[i][j + 1].getComponent('Tile').dontWant) {
+                        grassInfo[2] = 1;
+                    }
+
+                    if (j < 1 || cc.dataMgr.tilesData[i][j-1].getComponent('Tile').dontWant) {
+                        grassInfo[3] = 1;
+                    }
+                }
+                otherTileJS.setGrassInfo(grassInfo);
             }
         }
     },
@@ -319,6 +358,10 @@ cc.Class({
         //未知原因 块和脚本没有获得
         if (!t || !tJS) {
             debugger;
+            return;
+        }
+        //空块
+        if (tJS.dontWant == 1) {
             return;
         }
         //是雾

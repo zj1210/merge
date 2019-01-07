@@ -432,7 +432,7 @@ cc.Class({
         this.movingToFlowerState = true;
         var pos = tileNode.position;
         var worldpos = tileNode.parent.convertToWorldSpaceAR(pos);
-        pos.y +=100;
+        pos.y +=150;
         var dragonNode = this.node.getChildByName('dragonNode');
         if(this.node.x>pos.x) {
             dragonNode.scaleX = 1;

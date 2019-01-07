@@ -82,6 +82,21 @@ cc.Class({
         //     tooltip:"thing的容器，与地图层并列",
         // }
 
+      
+
+        //上下左右 4个草地节点
+        grassNodes: {
+            default:[],
+            type:cc.Node
+        },
+
+        //先深绿后浅绿
+        //0,1 up 2,3 down 4,5 left 6,7right
+        grass_Spfs: {
+            default: [],
+            type: cc.SpriteFrame
+        },
+
     },
 
     // use this for initialization
@@ -189,6 +204,21 @@ cc.Class({
         this.thingType = 0;
         this.thingLevel = 0;
 
+    },
+
+    setGrassInfo:function(grassInfo) {
+        for(var i = 0; i<grassInfo.length; i++) {
+            if(grassInfo[i]) {
+                this.grassNodes[i].active = true;
+                if (this.skinType == 0) {
+                    this.grassNodes[i].getComponent(cc.Sprite).spriteFrame = this.grass_Spfs[2*i];
+                } else if (this.skinType == 1) {
+                    this.grassNodes[i].getComponent(cc.Sprite).spriteFrame = this.grass_Spfs[2*i + 1];
+                }
+            } else {
+                this.grassNodes[i].active = false;
+            }
+        }
     },
 
 
