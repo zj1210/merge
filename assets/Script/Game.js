@@ -104,15 +104,15 @@ cc.Class({
     //原本想做一个通用的添加龙函数，但是有较多问题，！！！目前只支持从签到界面加入龙！
     addDragonToGame: function (thingType, thingLevel) {
         //各级龙的数据表
-       
+
 
         var newDragon = cc.instantiate(this.dragonPrefab);
         //这里代码会把 龙的体力 设置为 默认数据，需要再设置一遍
         newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(thingType, thingLevel);
-       // newDragon.getComponent('Dragon').strength = dragonDatas[i].strength;
+        // newDragon.getComponent('Dragon').strength = dragonDatas[i].strength;
 
-       var wp = this.ui.node.convertToWorldSpaceAR(cc.v2(0,0));
-       var np = this.dragonsNode.convertToNodeSpaceAR(wp);
+        var wp = this.ui.node.convertToWorldSpaceAR(cc.v2(0, 0));
+        var np = this.dragonsNode.convertToNodeSpaceAR(wp);
         newDragon.position = np;
         this.dragonsNode.addChild(newDragon);
     },
@@ -123,6 +123,9 @@ cc.Class({
 
         //根据持久化数据，持久化龙层，todo：龙巢的恢复
         this.initDragons();
+
+        //虽然很迷你，但本质上就是战争迷雾系统
+        this.fogOfWarSystem();
         //debugger;
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
@@ -155,6 +158,50 @@ cc.Class({
 
         }, this.node);
 
+    },
+
+
+    //战争迷雾，用于控制雾，周围有非雾就显示label并且可点击
+    fogOfWarSystem: function () {
+
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var tileHeight = hAndW.h;
+        var tileWidth = hAndW.w;
+
+
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
+                var otherTile = cc.dataMgr.tilesData[i][j];
+                var otherTileJS = otherTile.getComponent('Tile');
+                //这个tile是否有雾
+                var isFogTile = otherTileJS.isFogTile();
+                if (isFogTile) {
+                    //上下左右是否有草地
+                    var isShowLabel = false;
+                    if ((i > 0 && cc.dataMgr.tilesData[i - 1][j].getComponent('Tile').isGlassland())
+                        || (i < tileHeight - 1 && cc.dataMgr.tilesData[i + 1][j].getComponent('Tile').isGlassland())
+                        || (j > 0 && cc.dataMgr.tilesData[i][j - 1].getComponent('Tile').isGlassland())
+                        || (j < tileWidth - 1 && cc.dataMgr.tilesData[i][j + 1].getComponent('Tile').isGlassland())) {
+                        isShowLabel = true;
+                    }
+                    var fog = otherTileJS.fog;
+                    var labelNode = fog.getChildByName('relockLabel');
+                    var btnNode = fog.getChildByName("fog");
+                    if (isShowLabel && !labelNode.active) {
+                        labelNode.active = true;
+                        btnNode.getComponent(cc.Button).interactable = true;
+                    } else if (isShowLabel && labelNode.active) {
+
+                    } else if (!isShowLabel && labelNode.active) {
+                        labelNode.active = false;
+                        btnNode.getComponent(cc.Button).interactable = false;
+                    } else if (!isShowLabel && !labelNode.active) {
+
+                    }
+                }
+
+            }
+        }
     },
 
     // called every frame
@@ -204,7 +251,10 @@ cc.Class({
                     // console.log('包含改触摸点的tile');
                     //console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
                     //console.log(cc.dataMgr.tilesData[i][j]);
-                    return cc.dataMgr.tilesData[i][j];
+                    if (cc.dataMgr.tilesData[i][j].getComponent('Tile').dontWant == 0) {
+                        return cc.dataMgr.tilesData[i][j];
+                    }
+
                 }
             }
         }
@@ -734,6 +784,18 @@ cc.Class({
                 thingJs.changeInTile(tile, thingLevel, thingType);
                 break;
         }
+    },
+
+    //找到一条可以去采集的龙 在龙层搜索 并且不是采集状态的
+    findCanCollectionDraggon: function () {
+        var draggons = this.dragonsNode.children;
+        for (var i = 0; i < draggons.length; i++) {
+            if (!draggons[i].getComponent('Dragon').collectionState && !draggons[i].getComponent('Dragon').movingToFlowerState) {
+                return draggons[i];
+            }
+        }
+
+        return null;
     },
 
     changeCameraPosition: function (touchPos, draggingObj) {

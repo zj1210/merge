@@ -123,19 +123,24 @@ cc.Class({
             this.dontWant = tileData.dontWant;
         }
 
-        this.generateLand();
-        if (this.tileType == 1) {
-            if (this.thingType != 0 || this.thingLevel != 0) {
-                console.log("error:有雾，却设置了物品类别或者物品等级！");
-                debugger;
+        if (this.dontWant == 0) {
+            this.generateLand();
+            if (this.tileType == 1) {
+                if (this.thingType != 0 || this.thingLevel != 0) {
+                    console.log("error:有雾，却设置了物品类别或者物品等级！");
+                    debugger;
+                }
             }
+            if (this.tileType == 1) {
+                this.generateFog();
+            }
+            else if (this.thingType > 0) {
+                this.generateThings();
+            }
+        } else {
+            this.node.active = false;
         }
-        if (this.tileType == 1) {
-            this.generateFog();
-        }
-        else if (this.thingType > 0) {
-            this.generateThings();
-        }
+
 
         // this.generateImageByTypeAndLevel(thingType, thingLevel);
 
@@ -183,7 +188,7 @@ cc.Class({
         this.fogState = 1;
         this.thingType = 0;
         this.thingLevel = 0;
-       
+
     },
 
 
@@ -208,7 +213,8 @@ cc.Class({
     //tile 上是不是没东西
     isEmptyTile: function () {
         //是绿地 且 没有thing
-        if (this.tileType == 0 && this.thing == null) {
+        if (this.tileType == 0 && this.thing == null && this.dontWant == 0) {
+
             return true;
         }
         return false;
@@ -239,6 +245,15 @@ cc.Class({
         }
 
         return false;
+    },
+
+    isFogTile: function () {
+        return (this.dontWant == 0 && this.tileType == 1 && this.fogState == 0);
+    },
+
+    //用于迷雾系统，是否为草地 首先要有这个块，其次这个块是草地
+    isGlassland: function () {
+        return (this.dontWant == 0 && this.tileType == 0) || (this.dontWant == 0 && this.tileType == 1 && this.fogState == 1);
     },
 
     // called every frame
