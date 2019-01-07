@@ -251,7 +251,10 @@ cc.Class({
                     // console.log('包含改触摸点的tile');
                     //console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
                     //console.log(cc.dataMgr.tilesData[i][j]);
-                    return cc.dataMgr.tilesData[i][j];
+                    if(cc.dataMgr.tilesData[i][j].getComponent('Tile').dontWant == 0) {
+                        return cc.dataMgr.tilesData[i][j];
+                    }
+                    
                 }
             }
         }
