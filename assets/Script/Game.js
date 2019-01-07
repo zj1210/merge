@@ -176,12 +176,12 @@ cc.Class({
                 //这个tile是否有雾
                 var isFogTile = otherTileJS.isFogTile();
                 if (isFogTile) {
-                    //上下左右是否有非雾
+                    //上下左右是否有草地
                     var isShowLabel = false;
-                    if ((i > 0 && !cc.dataMgr.tilesData[i - 1][j].getComponent('Tile').isFogTile())
-                        || (i < tileHeight - 1 && !cc.dataMgr.tilesData[i + 1][j].getComponent('Tile').isFogTile())
-                        || (j > 0 && !cc.dataMgr.tilesData[i][j - 1].getComponent('Tile').isFogTile())
-                        || (j < tileWidth - 1 && !cc.dataMgr.tilesData[i][j + 1].getComponent('Tile').isFogTile())) {
+                    if ((i > 0 && cc.dataMgr.tilesData[i - 1][j].getComponent('Tile').isGlassland())
+                        || (i < tileHeight - 1 && cc.dataMgr.tilesData[i + 1][j].getComponent('Tile').isGlassland())
+                        || (j > 0 && cc.dataMgr.tilesData[i][j - 1].getComponent('Tile').isGlassland())
+                        || (j < tileWidth - 1 && cc.dataMgr.tilesData[i][j + 1].getComponent('Tile').isGlassland())) {
                         isShowLabel = true;
                     }
                     var fog = otherTileJS.fog;
@@ -196,7 +196,7 @@ cc.Class({
                         labelNode.active = false;
                         btnNode.getComponent(cc.Button).interactable = false;
                     } else if (!isShowLabel && !labelNode.active) {
-                        
+
                     }
                 }
 
@@ -251,10 +251,10 @@ cc.Class({
                     // console.log('包含改触摸点的tile');
                     //console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
                     //console.log(cc.dataMgr.tilesData[i][j]);
-                    if(cc.dataMgr.tilesData[i][j].getComponent('Tile').dontWant == 0) {
+                    if (cc.dataMgr.tilesData[i][j].getComponent('Tile').dontWant == 0) {
                         return cc.dataMgr.tilesData[i][j];
                     }
-                    
+
                 }
             }
         }
