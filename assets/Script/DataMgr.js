@@ -39,8 +39,8 @@ export default class DataMgr extends cc.Component {
     //一维 飞龙数据
     dragonsData = [];
 
-    hallTileWidth = 11;
-    hallTileHeight = 13;
+    hallTileWidth = 3;
+    hallTileHeight = 3;
 
     //用于规范摄像机区域的值  他不是对称的
     hallLeftWidth = 2300;

@@ -82,6 +82,33 @@ cc.Class({
         //     tooltip:"thing的容器，与地图层并列",
         // }
 
+        grassNode_up: {
+            default:null,
+            type:cc.Node
+        },
+
+        grassNode_down: {
+            default:null,
+            type:cc.Node
+        },
+
+        grassNode_left: {
+            default:null,
+            type:cc.Node
+        },
+
+        grassNode_right: {
+            default:null,
+            type:cc.Node
+        },
+
+        //先深绿后浅绿
+        //0,1 up 2,3 down 4,5 left 6,7right
+        grass_Spfs: {
+            default: [],
+            type: cc.SpriteFrame
+        },
+
     },
 
     // use this for initialization
