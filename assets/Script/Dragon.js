@@ -587,14 +587,12 @@ cc.Class({
         var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
         thingsNode.addChild(newThing);
 
-        //var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
-        //var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
-        //newThing.position = nodepos;
+       
         newThing.position = moveThing.position;
         thingJs.changeInTile(this.resultTiles[0], this.collectionThing.thingLevel, this.collectionThing.thingType);
 
         moveThing.destroy();
-        //this.collectionThing.position = this.collectionThingOriginPos;
+    
 
     },
 
