@@ -504,7 +504,7 @@ export default class DataMgr extends cc.Component {
     init() {
         cc.game.on(cc.game.EVENT_HIDE, function () {
             console.log("datamgr  hide");
-           // cc.dataMgr.saveGameData();
+           cc.dataMgr.saveGameData();
         });
         cc.game.on(cc.game.EVENT_SHOW, function () {
             console.log("datamgr  show");
