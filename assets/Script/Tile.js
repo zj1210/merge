@@ -139,6 +139,8 @@ cc.Class({
         }
 
         if (this.dontWant == 0) {
+            this.node.active = true;
+            this.node.opacity = 255;
             this.generateLand();
             if (this.tileType == 1) {
                 if (this.thingType != 0 || this.thingLevel != 0) {
@@ -154,6 +156,7 @@ cc.Class({
             }
         } else {
             this.node.active = false;
+            this.node.opacity = 0;
         }
 
 
