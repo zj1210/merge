@@ -33,6 +33,11 @@ cc.Class({
             type: cc.Node,
         },
 
+        nodeCloud:{
+            default:null,
+            type:cc.Node
+        },
+
 
         // tilesHorizontalCount: {
         //     default: 0,
@@ -128,6 +133,8 @@ cc.Class({
         this.fogOfWarSystem();
         //调用草地变色，与自动描边
         this.grassSystem();
+        //云特效
+        this.cloudEffect();
         //debugger;
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
@@ -159,6 +166,19 @@ cc.Class({
             }
 
         }, this.node);
+
+    },
+
+    cloudEffect:function() {
+       //云特效：上下自动
+         for (let i = 0; i < this.nodeCloud.children.length; ++i) {
+            let nodeN = this.nodeCloud.children[i];
+            let randY = Math.random() * 20 + 10;
+
+            var spawn1 = cc.spawn(cc.moveBy(3 + Math.random() * 2, cc.v2(0, randY)),cc.fadeTo(3 + Math.random() * 2,100) );
+            var spawn2 = cc.spawn(cc.moveBy(2 + Math.random() * 2, cc.v2(0, -randY)),cc.fadeTo(2 + Math.random()*2,60));
+            nodeN.runAction(cc.repeatForever(cc.sequence(spawn1,spawn2 )));
+        }
 
     },
 
