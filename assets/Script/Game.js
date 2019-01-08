@@ -173,10 +173,10 @@ cc.Class({
        //云特效：上下自动
          for (let i = 0; i < this.nodeCloud.children.length; ++i) {
             let nodeN = this.nodeCloud.children[i];
-            let randY = Math.random() * 20 + 10;
+            let randY = Math.random() * 40 + 15;
 
-            var spawn1 = cc.spawn(cc.moveBy(3 + Math.random() * 2, cc.v2(0, randY)),cc.fadeTo(3 + Math.random() * 2,100) );
-            var spawn2 = cc.spawn(cc.moveBy(2 + Math.random() * 2, cc.v2(0, -randY)),cc.fadeTo(2 + Math.random()*2,60));
+            var spawn1 = cc.spawn(cc.moveBy(2.5 + Math.random() * 2, cc.v2(0, randY)),cc.fadeTo(2.5 + Math.random() * 2,150) );
+            var spawn2 = cc.spawn(cc.moveBy(1.5 + Math.random() * 2, cc.v2(0, -randY)),cc.fadeTo(1.5 + Math.random()*2,80));
             nodeN.runAction(cc.repeatForever(cc.sequence(spawn1,spawn2 )));
         }
 
