@@ -43,10 +43,10 @@ export default class DataMgr extends cc.Component {
     hallTileHeight = 17;
 
     //用于规范摄像机区域的值  他不是对称的
-    hallLeftWidth = 4000;
-    hallRightWidth = 4800;
-    hallUpHeight = 3000;
-    hallDownHeight = 2500;
+    hallLeftWidth = 2800;
+    hallRightWidth = 5800;
+    hallUpHeight = 3400;
+    hallDownHeight = 1900;
 
     checkpointWidth = 0;
     checkpintHeight = 0;
