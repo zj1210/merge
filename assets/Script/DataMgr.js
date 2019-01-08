@@ -39,14 +39,14 @@ export default class DataMgr extends cc.Component {
     //一维 飞龙数据
     dragonsData = [];
 
-    hallTileWidth = 3;
-    hallTileHeight = 3;
+    hallTileWidth = 15;
+    hallTileHeight = 17;
 
     //用于规范摄像机区域的值  他不是对称的
-    hallLeftWidth = 2300;
-    hallRightWidth = 4500;
+    hallLeftWidth = 4000;
+    hallRightWidth = 4800;
     hallUpHeight = 3000;
-    hallDownHeight = 1500;
+    hallDownHeight = 2500;
 
     checkpointWidth = 0;
     checkpintHeight = 0;
@@ -504,7 +504,7 @@ export default class DataMgr extends cc.Component {
     init() {
         cc.game.on(cc.game.EVENT_HIDE, function () {
             console.log("datamgr  hide");
-            cc.dataMgr.saveGameData();
+           // cc.dataMgr.saveGameData();
         });
         cc.game.on(cc.game.EVENT_SHOW, function () {
             console.log("datamgr  show");
