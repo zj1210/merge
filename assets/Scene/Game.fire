@@ -176263,7 +176263,7 @@
       "__uuid__": "b2687ac4-099e-403c-a192-ff477686f4f5"
     },
     "_texture": {
-      "__uuid__": "a8027877-d8d6-4645-97a0-52d4a0123dba"
+      "__uuid__": "3a1ab7e3-d2b8-49e8-a32f-85d567cf8367"
     },
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
@@ -176304,14 +176304,14 @@
     },
     "_angle": 260,
     "_angleVar": 0,
-    "_startSize": 6,
+    "_startSize": 13,
     "_startSizeVar": 3,
     "_endSize": 3,
     "_endSizeVar": 1,
     "_startSpin": 0,
-    "_startSpinVar": 0,
-    "_endSpin": 0,
-    "_endSpinVar": 0,
+    "_startSpinVar": 50,
+    "_endSpin": 360,
+    "_endSpinVar": 50,
     "_sourcePos": {
       "__type__": "cc.Vec2",
       "x": 30,

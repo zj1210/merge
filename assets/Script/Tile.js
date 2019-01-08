@@ -97,6 +97,7 @@ cc.Class({
             type: cc.SpriteFrame
         },
 
+     
     },
 
     // use this for initialization
@@ -105,6 +106,8 @@ cc.Class({
         this.tempThing = null;
         this.fog = null;
         this.thingZOrder = cc.dataMgr.globalZOrder++;
+
+        this.clodNode = this.node.getChildByName("clod");
         // console.log("tile onload" + this.node.name);
         //若在关卡就 直接用预置数据，若在大厅 并且大厅没有数据 还是使用预制数据
         if (!cc.dataMgr.isHall || !cc.dataMgr.hallTileData) {
@@ -210,8 +213,10 @@ cc.Class({
     },
 
     setGrassInfo:function(grassInfo) {
+        this.clodNode.active =false;
         for(var i = 0; i<grassInfo.length; i++) {
             if(grassInfo[i]) {
+                this.clodNode.active = true;
                 this.grassNodes[i].active = true;
                 if (this.skinType == 0) {
                     this.grassNodes[i].getComponent(cc.Sprite).spriteFrame = this.grass_Spfs[2*i];
