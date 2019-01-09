@@ -360,7 +360,7 @@ export default class DataMgr extends cc.Component {
             "probability": 0.3,
             "count": 1,
             //随到物品后，不知道物品在数组的索引，就无从计算最终的角度，为了提高性能，数据直接放入内部，不要修改！！
-            "index":0 
+            "index": 0
         },
 
         {
@@ -368,7 +368,7 @@ export default class DataMgr extends cc.Component {
             "level": 3,
             "probability": 0.6,
             "count": 1,
-            "index":1
+            "index": 1
         },
 
         {
@@ -376,7 +376,7 @@ export default class DataMgr extends cc.Component {
             "level": 2,
             "probability": 0.65,
             "count": 1,
-            "index":2
+            "index": 2
         },
 
         {
@@ -384,7 +384,7 @@ export default class DataMgr extends cc.Component {
             "level": 0,
             "probability": 0.8,
             "count": 1,
-            "index":3
+            "index": 3
         },
 
         {
@@ -392,7 +392,7 @@ export default class DataMgr extends cc.Component {
             "level": 3,
             "probability": 0.81,
             "count": 1,
-            "index":4
+            "index": 4
         },
 
         {
@@ -400,7 +400,7 @@ export default class DataMgr extends cc.Component {
             "level": 3,
             "probability": 1.0,
             "count": 1,
-            "index":5
+            "index": 5
         }
     ];
 
@@ -504,19 +504,19 @@ export default class DataMgr extends cc.Component {
 
 
     ShareState = {
-        SHARE_NONE:1,//没有分享奖励的分享
-        DRAGON_OUT:2,//分享直接龙唤醒一条
-        DANDELION_COUNT:4,//分享后多生产蒲公英
-    
+        SHARE_NONE: 1,//没有分享奖励的分享
+        DRAGON_OUT: 2,//分享直接龙唤醒一条
+        DANDELION_COUNT: 4,//分享后多生产蒲公英
+
     };
 
-     //分享状态：用于标记当前的分享是为了什么，根据这个给奖励
-     shareState = 1;
+    //分享状态：用于标记当前的分享是为了什么，根据这个给奖励
+    shareState = 1;
 
     init() {
         cc.game.on(cc.game.EVENT_HIDE, function () {
             console.log("datamgr  hide");
-           //cc.dataMgr.saveGameData();
+            //cc.dataMgr.saveGameData();
         });
         cc.game.on(cc.game.EVENT_SHOW, function () {
             console.log("datamgr  show");
@@ -555,6 +555,12 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("signInDay", "20181128");
         }
 
+        //上次分享的年月日
+        var shareDay = cc.sys.localStorage.getItem("shareDay");
+        if (!shareDay) {
+            cc.sys.localStorage.setItem("shareDay", "20181128");
+        }
+
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
         var heartCount = cc.sys.localStorage.getItem("heartCount");
         if (!heartCount) {
@@ -590,11 +596,34 @@ export default class DataMgr extends cc.Component {
             // console.log(this.dragonNestDatas);
         }
 
-        if(CC_WECHATGAME) {
-            wx.onShow(res=>{
+        if (CC_WECHATGAME) {
+            wx.onShow(res => {
                 console.log("小游戏回到前台");
                 console.log(res);
                 console.log(this.shareState);
+                if (this.shareState != this.ShareState.SHARE_NONE) {
+                    var isSuccess = this.shareLogic();
+
+                    window.Notification.emit(this.shareState, isSuccess);
+                    // //分享成功
+                    // if (isSuccess) {
+
+                    //     // switch (this.shareState) {
+                    //     //     case this.ShareState.DANDELION_COUNT:
+                    //     //         window.Notification.emit("")
+                    //     //         break;
+                    //     //     case this.ShareState.DRAGON_OUT:
+
+                    //     //         break;
+                    //     //     default:
+                    //     //         break;
+                    //     // }
+                    // }
+                    // //分享失败
+                    // else {
+
+                    // }
+                }
             });
         }
 
@@ -606,11 +635,40 @@ export default class DataMgr extends cc.Component {
             title: "测试用的title",
             // imageUrl: str_imageUrl, query: "otherID=" + query_string
         });
+
+        this.beginShareTime = Date.now();
     };
 
     shareLogic() {
+        this.endShareTime = Date.now();
 
+        //小于3秒 分享失败
+        if (this.endShareTime - this.beginShareTime < 3000) {
+            return false;
+        }
+
+
+        var curDate = cc.dataMgr.getCurrentDay();
+        var lastDate = cc.dataMgr.getLastShareDay();
+        //今天首次分享 直接分享失败
+        if (curDate != lastDate) {
+            cc.dataMgr.setLastShareDay(curDate);
+            return false;
+        }
+
+        var p = Math.random();
+        //30%概率直接失败
+        if (p < 0.3) {
+            return false;
+        }
+
+        return true;
     };
+
+    getCurrentDay() {
+        var date = new Date();
+        return date.getFullYear() + "" + date.getMonth() + date.getDate();
+    }
 
     resetData() {
         cc.sys.localStorage.setItem("coinCount", 10);
@@ -620,6 +678,8 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("dragonNestDatas", "");
         cc.sys.localStorage.setItem("signInProgress", 0);
         cc.sys.localStorage.setItem("signInDay", "20181128");
+
+        cc.sys.localStorage.setItem("shareDay", "20181128");
     }
 
 
@@ -659,6 +719,18 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("signInProgress", p);
     };
 
+
+
+    getLastShareDay() {
+        var t = cc.sys.localStorage.getItem("shareDay");
+        return t;
+    };
+
+    setLastShareDay(date_str) {
+        cc.sys.localStorage.setItem("shareDay", date_str);
+
+    };
+
     getLastSignInDate() {
         var t = cc.sys.localStorage.getItem("signInDay");
         return t;
@@ -668,6 +740,7 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("signInDay", date_str);
 
     };
+
 
     getDragonNestDurationByLevel(level) {
         for (var i = 0; i < this.dragonNestDuration.length; i++) {
@@ -919,7 +992,7 @@ export default class DataMgr extends cc.Component {
     };
 
 
-  
+
 
     //打印tile的数据 debug用
     debugTileInfo() {

@@ -498,7 +498,12 @@ cc.Class({
         cc.audioMgr.playEffect("UI");
         this.shareState = cc.dataMgr.ShareState.DANDELION_COUNT;
 
-        cc.dataMgr.shareLogic(cc.dataMgr.share(cc.dataMgr.ShareState.DANDELION_COUNT));
+        window.Notification.on(this.shareState,function(parameter) {
+            console.log("分享回调");
+            console.log(parameter);
+        });
+
+        cc.dataMgr.share();
     },
 
     // called every frame

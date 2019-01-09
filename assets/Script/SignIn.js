@@ -124,8 +124,8 @@ cc.Class({
                 this.checkMarks[i].active = false;
             }
         }
-        var date = new Date();
-        var curDate = date.getFullYear() + "" + date.getMonth() + date.getDate();
+    
+        var curDate = cc.dataMgr.getCurrentDay();
         var lastDate = cc.dataMgr.getLastSignInDate();
         if (curDate != lastDate) {
             this.signLabelBtn.getComponent(cc.Button).interactable = true;
@@ -181,8 +181,8 @@ cc.Class({
 
         //改数据
         cc.dataMgr.addSignInProgress();
-        var date = new Date();
-        var curDate = date.getFullYear() + "" + date.getMonth() + date.getDate();
+      
+        var curDate = cc.dataMgr.getCurrentDay();
         cc.dataMgr.setLastSignInDate(curDate);
         //刷新界面
         this.refreashUI();
