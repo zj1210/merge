@@ -185,7 +185,7 @@ cc.Class({
 
     //战争迷雾，用于控制雾，周围有非雾就显示label并且可点击
     fogOfWarSystem: function () {
-		// return;
+		return;
         var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
         var tileHeight = hAndW.h;
         var tileWidth = hAndW.w;
