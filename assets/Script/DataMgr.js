@@ -504,16 +504,18 @@ export default class DataMgr extends cc.Component {
 
 
     ShareState = {
-        SHARE_NONE: 1,//没有分享奖励的分享
-        DRAGON_OUT: 2,//分享直接龙唤醒一条
-        DANDELION_COUNT: 4,//分享后多生产蒲公英
+        "SHARE_NONE": 1,//没有分享奖励的分享
+        "DRAGON_OUT": 2,//分享直接龙唤醒一条
+        "DANDELION_COUNT": 4,//分享后多生产蒲公英
 
     };
 
     //分享状态：用于标记当前的分享是为了什么，根据这个给奖励
-    shareState = 1;
+    shareState = this.ShareState.SHARE_NONE;
 
     init() {
+        console.log("看下 shareState");
+        console.log(this.shareState);
         cc.game.on(cc.game.EVENT_HIDE, function () {
             console.log("datamgr  hide");
             //cc.dataMgr.saveGameData();
@@ -600,12 +602,12 @@ export default class DataMgr extends cc.Component {
             wx.onShow(res => {
                 console.log("小游戏回到前台");
                 console.log(res);
-                console.log(this.shareState);
-                if (this.shareState != this.ShareState.SHARE_NONE) {
+                console.log(cc.dataMgr.shareState);
+                if (cc.dataMgr.shareState != cc.dataMgr.ShareState.SHARE_NONE) {
                     var isSuccess = this.shareLogic();
 
-                    window.Notification.emit(this.shareState, isSuccess);
-                    this.shareState = this.shareState.SHARE_NONE;
+                    window.Notification.emit(cc.dataMgr.shareState, isSuccess);
+                    cc.dataMgr.shareState = cc.dataMgr.ShareState.SHARE_NONE;
                     // //分享成功
                     // if (isSuccess) {
 
@@ -630,8 +632,8 @@ export default class DataMgr extends cc.Component {
 
     };
 
-    share(state) {
-        this.shareState = state;
+    share() {
+       
         wx.shareAppMessage({
             title: "测试用的title",
             // imageUrl: str_imageUrl, query: "otherID=" + query_string
