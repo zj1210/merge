@@ -82,6 +82,22 @@ cc.Class({
         //     tooltip:"thing的容器，与地图层并列",
         // }
 
+      
+
+        //上下左右 4个草地节点
+        grassNodes: {
+            default:[],
+            type:cc.Node
+        },
+
+        //先深绿后浅绿
+        //0,1 up 2,3 down 4,5 left 6,7right
+        grass_Spfs: {
+            default: [],
+            type: cc.SpriteFrame
+        },
+
+     
     },
 
     // use this for initialization
@@ -90,6 +106,8 @@ cc.Class({
         this.tempThing = null;
         this.fog = null;
         this.thingZOrder = cc.dataMgr.globalZOrder++;
+
+        this.clodNode = this.node.getChildByName("clod");
         // console.log("tile onload" + this.node.name);
         //若在关卡就 直接用预置数据，若在大厅 并且大厅没有数据 还是使用预制数据
         if (!cc.dataMgr.isHall || !cc.dataMgr.hallTileData) {
@@ -123,19 +141,27 @@ cc.Class({
             this.dontWant = tileData.dontWant;
         }
 
-        this.generateLand();
-        if (this.tileType == 1) {
-            if (this.thingType != 0 || this.thingLevel != 0) {
-                console.log("error:有雾，却设置了物品类别或者物品等级！");
-                debugger;
+        if (this.dontWant == 0) {
+            this.node.active = true;
+            this.node.opacity = 255;
+            this.generateLand();
+            if (this.tileType == 1) {
+                if (this.thingType != 0 || this.thingLevel != 0) {
+                    console.log("error:有雾，却设置了物品类别或者物品等级！");
+                    debugger;
+                }
             }
+            if (this.tileType == 1) {
+                this.generateFog();
+            }
+            else if (this.thingType > 0) {
+                this.generateThings();
+            }
+        } else {
+            this.node.active = false;
+            this.node.opacity = 0;
         }
-        if (this.tileType == 1) {
-            this.generateFog();
-        }
-        else if (this.thingType > 0) {
-            this.generateThings();
-        }
+
 
         // this.generateImageByTypeAndLevel(thingType, thingLevel);
 
@@ -183,7 +209,24 @@ cc.Class({
         this.fogState = 1;
         this.thingType = 0;
         this.thingLevel = 0;
-       
+
+    },
+
+    setGrassInfo:function(grassInfo) {
+        this.clodNode.active =false;
+        for(var i = 0; i<grassInfo.length; i++) {
+            if(grassInfo[i]) {
+                this.clodNode.active = true;
+                this.grassNodes[i].active = true;
+                if (this.skinType == 0) {
+                    this.grassNodes[i].getComponent(cc.Sprite).spriteFrame = this.grass_Spfs[2*i];
+                } else if (this.skinType == 1) {
+                    this.grassNodes[i].getComponent(cc.Sprite).spriteFrame = this.grass_Spfs[2*i + 1];
+                }
+            } else {
+                this.grassNodes[i].active = false;
+            }
+        }
     },
 
 
@@ -208,7 +251,8 @@ cc.Class({
     //tile 上是不是没东西
     isEmptyTile: function () {
         //是绿地 且 没有thing
-        if (this.tileType == 0 && this.thing == null) {
+        if (this.tileType == 0 && this.thing == null && this.dontWant == 0) {
+
             return true;
         }
         return false;
@@ -241,8 +285,13 @@ cc.Class({
         return false;
     },
 
-    isFogTile:function() {
-        return (this.tileType == 1 &&this.fogState == 0);
+    isFogTile: function () {
+        return (this.dontWant == 0 && this.tileType == 1 && this.fogState == 0);
+    },
+
+    //用于迷雾系统，是否为草地 首先要有这个块，其次这个块是草地
+    isGlassland: function () {
+        return (this.dontWant == 0 && this.tileType == 0) || (this.dontWant == 0 && this.tileType == 1 && this.fogState == 1);
     },
 
     // called every frame

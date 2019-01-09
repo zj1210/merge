@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2019-01-04-1638";
+    version = "2019-01-09-1055";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -39,14 +39,14 @@ export default class DataMgr extends cc.Component {
     //一维 飞龙数据
     dragonsData = [];
 
-    hallTileWidth = 11;
-    hallTileHeight = 13;
+    hallTileWidth = 15;
+    hallTileHeight = 20;
 
     //用于规范摄像机区域的值  他不是对称的
-    hallLeftWidth = 2300;
-    hallRightWidth = 4500;
-    hallUpHeight = 3000;
-    hallDownHeight = 1500;
+    hallLeftWidth = 2800;
+    hallRightWidth = 6400;
+    hallUpHeight = 3400;
+    hallDownHeight = 2500;
 
     checkpointWidth = 0;
     checkpintHeight = 0;
@@ -504,7 +504,7 @@ export default class DataMgr extends cc.Component {
     init() {
         cc.game.on(cc.game.EVENT_HIDE, function () {
             console.log("datamgr  hide");
-            cc.dataMgr.saveGameData();
+           //cc.dataMgr.saveGameData();
         });
         cc.game.on(cc.game.EVENT_SHOW, function () {
             console.log("datamgr  show");
