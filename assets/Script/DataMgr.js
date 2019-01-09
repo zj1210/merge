@@ -501,6 +501,18 @@ export default class DataMgr extends cc.Component {
     dragonNestDatas = [];
     //数据持久化 解码后的 各个tile数据
     hallTileData = null;
+
+
+    ShareState = {
+        SHARE_NONE:1,//没有分享奖励的分享
+        DRAGON_OUT:2,//分享直接龙唤醒一条
+        DANDELION_COUNT:4,//分享后多生产蒲公英
+    
+    };
+
+     //分享状态：用于标记当前的分享是为了什么，根据这个给奖励
+     shareState = 1;
+
     init() {
         cc.game.on(cc.game.EVENT_HIDE, function () {
             console.log("datamgr  hide");
@@ -577,6 +589,26 @@ export default class DataMgr extends cc.Component {
             this.dragonNestDatas = JSON.parse(strDragonNestDatas);
             // console.log(this.dragonNestDatas);
         }
+
+        if(CC_WECHATGAME) {
+            wx.onShow(res=>{
+                console.log("小游戏回到前台");
+                console.log(res);
+                console.log(this.shareState);
+            });
+        }
+
+    };
+
+    share(state) {
+        this.shareState = state;
+        wx.shareAppMessage({
+            title: "测试用的title",
+            // imageUrl: str_imageUrl, query: "otherID=" + query_string
+        });
+    };
+
+    shareLogic() {
 
     };
 
@@ -885,6 +917,9 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("dragonNestDatas", JSON.stringify(this.dragonNestDatas));
 
     };
+
+
+  
 
     //打印tile的数据 debug用
     debugTileInfo() {

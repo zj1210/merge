@@ -1,3 +1,5 @@
+
+
 cc.Class({
     extends: cc.Component,
 
@@ -125,12 +127,13 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-
+        
         this.refreshUI();
         let self = this;
         this.descNode.active = true;
         this.unDescNode.active = false;
 
+       
     },
 
     refreshUI: function () {
@@ -486,6 +489,16 @@ cc.Class({
     rouletteClick:function() {
         cc.audioMgr.playEffect("UI");
         this.rouletteNode.active = true;
+    },
+
+
+    //分享测试
+    shareClick:function() {
+        console.log("分享按钮被点击");
+        cc.audioMgr.playEffect("UI");
+        this.shareState = cc.dataMgr.ShareState.DANDELION_COUNT;
+
+        cc.dataMgr.shareLogic(cc.dataMgr.share(cc.dataMgr.ShareState.DANDELION_COUNT));
     },
 
     // called every frame
