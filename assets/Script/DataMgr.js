@@ -489,7 +489,7 @@ export default class DataMgr extends cc.Component {
     ];
 
     //蒲公英的生成周期 单位：秒
-    dandelionPeriod = 8;
+    dandelionPeriod = 4;
 
     //龙巢里的龙 将来要持久化 数据结构 只需插入 醒来时间 和 进入级别
     /**
