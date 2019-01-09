@@ -605,6 +605,7 @@ export default class DataMgr extends cc.Component {
                     var isSuccess = this.shareLogic();
 
                     window.Notification.emit(this.shareState, isSuccess);
+                    this.shareState = this.shareState.SHARE_NONE;
                     // //分享成功
                     // if (isSuccess) {
 

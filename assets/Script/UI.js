@@ -104,14 +104,14 @@ cc.Class({
             type: cc.Prefab
         },
 
-        sigInNode:{
-            default:null,
-            type:cc.Node
+        sigInNode: {
+            default: null,
+            type: cc.Node
         },
 
-        rouletteNode:{
-            default:null,
-            type:cc.Node
+        rouletteNode: {
+            default: null,
+            type: cc.Node
         },
 
         dandelionNode: {
@@ -127,13 +127,13 @@ cc.Class({
 
     // use this for initialization
     onLoad: function () {
-        
+
         this.refreshUI();
         let self = this;
         this.descNode.active = true;
         this.unDescNode.active = false;
 
-       
+
     },
 
     refreshUI: function () {
@@ -203,7 +203,7 @@ cc.Class({
         var camerapos = this.dandelionNode.parent.convertToWorldSpaceAR(this.dandelionNode.position);
 
         //var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
-       
+
         var worldpos = this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
         var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
 
@@ -245,8 +245,8 @@ cc.Class({
         var camerapos = this.dragonNestNode.parent.convertToWorldSpaceAR(this.dragonNestNode.position);
         //debugger;
         //var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
-        
-        
+
+
         var worldpos = this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
         var nodepos = dragonsNode.convertToNodeSpaceAR(worldpos);
         dragonNode.position = nodepos;
@@ -325,8 +325,8 @@ cc.Class({
     },
 
     addHeartAndAni: function (camerapos, level) {
-       // var worldpos =  this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
-       // var nodepos = this.node.convertToNodeSpaceAR(camerapos);
+        // var worldpos =  this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
+        // var nodepos = this.node.convertToNodeSpaceAR(camerapos);
         //var nodepos =cc.pSub(camerapos,cc.v2(cc.dataMgr.screenW/2,cc.dataMgr.screenH/2));
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
         var collectionThingNode = cc.instantiate(this.collectionThingPrefab);
@@ -426,17 +426,17 @@ cc.Class({
         this.refreshUI();
     },
 
-    cameraZoomOutClick:function() {
+    cameraZoomOutClick: function () {
         var camera = this.game.camera.getComponent(cc.Camera);
-        if(camera.zoomRatio>0.5) {
-            camera.zoomRatio -=0.1;
+        if (camera.zoomRatio > 0.5) {
+            camera.zoomRatio -= 0.1;
         }
     },
-    
-    cameraZoomInClick:function() {
+
+    cameraZoomInClick: function () {
         var camera = this.game.camera.getComponent(cc.Camera);
-        if(camera.zoomRatio<1.0) {
-            camera.zoomRatio +=0.1;
+        if (camera.zoomRatio < 1.0) {
+            camera.zoomRatio += 0.1;
         }
     },
 
@@ -481,24 +481,24 @@ cc.Class({
         this.unDescNode.active = true;
     },
 
-    signInClick:function() {
+    signInClick: function () {
         cc.audioMgr.playEffect("UI");
         this.sigInNode.active = true;
     },
 
-    rouletteClick:function() {
+    rouletteClick: function () {
         cc.audioMgr.playEffect("UI");
         this.rouletteNode.active = true;
     },
 
 
     //分享测试
-    shareClick:function() {
+    shareClick: function () {
         console.log("分享按钮被点击");
         cc.audioMgr.playEffect("UI");
-        this.shareState = cc.dataMgr.ShareState.DANDELION_COUNT;
+        cc.dataMgr.shareState = cc.dataMgr.ShareState.DANDELION_COUNT;
 
-        window.Notification.on(this.shareState,function(parameter) {
+        window.Notification.on(cc.dataMgr.shareState, function (parameter) {
             console.log("分享回调");
             console.log(parameter);
         });
