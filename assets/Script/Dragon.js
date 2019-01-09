@@ -215,7 +215,7 @@ cc.Class({
     //},
 
     start: function () {
-       // console.log("dragon start");
+        // console.log("dragon start");
         //game 脚本
         this.game = cc.find("Canvas").getComponent('Game');
         this.ui = cc.find("Canvas/uiLayer").getComponent('UI');
@@ -242,7 +242,7 @@ cc.Class({
                 self.collectionThingClick();
             }
 
-            if(self.movingToFlowerState) {
+            if (self.movingToFlowerState) {
                 self.node.stopActionByTag(self.node.moveActionTag);
                 self.movingToFlowerState = false;
             }
@@ -424,7 +424,7 @@ cc.Class({
     },
 
     //移动到花，然后采集的逻辑，用于点击花 龙去采集
-    moveAndCollectioning:function(tileNode) {
+    moveAndCollectioning: function (tileNode) {
 
         if (this.collectionThing.active) {
             this.collectionThingClick();
@@ -432,20 +432,20 @@ cc.Class({
         this.movingToFlowerState = true;
         var pos = tileNode.position;
         var worldpos = tileNode.parent.convertToWorldSpaceAR(pos);
-        pos.y +=150;
+        pos.y += 150;
         var dragonNode = this.node.getChildByName('dragonNode');
-        if(this.node.x>pos.x) {
+        if (this.node.x > pos.x) {
             dragonNode.scaleX = 1;
         } else {
             dragonNode.scaleX = -1;
         }
-        var seq = cc.sequence(cc.moveTo(1.0,pos),cc.callFunc(this.gotoFlowerOver,this,worldpos));
+        var seq = cc.sequence(cc.moveTo(1.0, pos), cc.callFunc(this.gotoFlowerOver, this, worldpos));
         seq.tag = 233;
-        this.node.moveActionTag= seq.tag;
+        this.node.moveActionTag = seq.tag;
         this.node.runAction(seq);
     },
 
-    gotoFlowerOver:function(no,worldpos) {
+    gotoFlowerOver: function (no, worldpos) {
         this.movingToFlowerState = false;
         this.game.collectionFlower(this, worldpos);
     },
@@ -475,7 +475,7 @@ cc.Class({
         this.collectionInterrupt();
 
         this.strength--;
-        
+
     },
 
     //将龙移入龙巢
@@ -554,7 +554,21 @@ cc.Class({
             var worldpos = this.resultTiles[0].parent.convertToWorldSpaceAR(this.resultTiles[0].position);
             var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
             var moveTo = cc.moveTo(0.5, nodepos);
-            var seq = cc.sequence(moveTo, cc.callFunc(this.thingMoveToOver, this, moveThing));
+
+
+
+            var newThing = this.game.generateThing(this.collectionThing.thingType, this.collectionThing.thingLevel);
+            var thingJs = newThing.getChildByName('selectedNode').getComponent("Thing");
+            var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
+            thingsNode.addChild(newThing);
+
+
+            newThing.position = nodepos;
+            thingJs.changeInTile(this.resultTiles[0], this.collectionThing.thingLevel, this.collectionThing.thingType);
+
+            newThing.active = false;
+
+            var seq = cc.sequence(moveTo, cc.callFunc(this.thingMoveToOver, this, { "moveThing": moveThing, "newThing": newThing }));
             moveThing.setLocalZOrder(9999);
             moveThing.runAction(seq);
 
@@ -565,36 +579,27 @@ cc.Class({
             console.log("没有空格：直接转换为货币，飞入UI部分");
             // var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
             // var camerapos = cc.v2(worldpos.x - this.game.camera.position.x, worldpos.y - this.game.camera.position.y);
-          
-          
+
+
             var m = this.game.camera.getComponent(cc.Camera).getNodeToCameraTransform(this.collectionThing);
 
             var camerapos = cc.v2();
             camerapos = cc.pointApplyAffineTransform(this.collectionThing.position, m);
-          
+
             this.collectionThing.active = false;
             this.ui.addHeartAndAni(camerapos, this.collectionThing.thingLevel);
         }
     },
 
-    thingMoveToOver: function (moveThing) {
+    thingMoveToOver: function (data,things) {
         //debugger;
         console.log("生成物-->移动到目标位置！");
-      
 
-        var newThing = this.game.generateThing(this.collectionThing.thingType, this.collectionThing.thingLevel);
-        var thingJs = newThing.getChildByName('selectedNode').getComponent("Thing");
-        var thingsNode = this.node.parent.parent.getChildByName('thingsNode');
-        thingsNode.addChild(newThing);
 
-        //var worldpos = this.collectionThing.parent.convertToWorldSpaceAR(this.collectionThing.position);
-        //var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
-        //newThing.position = nodepos;
-        newThing.position = moveThing.position;
-        thingJs.changeInTile(this.resultTiles[0], this.collectionThing.thingLevel, this.collectionThing.thingType);
+        things.newThing.active = true;
 
-        moveThing.destroy();
-        //this.collectionThing.position = this.collectionThingOriginPos;
+        things.moveThing.destroy();
+
 
     },
 
@@ -695,21 +700,21 @@ cc.Class({
         this.node.runAction(moveBack);
     },
 
- 
+
 
 
     /**
      * 
       
     },
-
+    
     //如果物品确定要放入某个tile关联之中，一定要用 setPositionAndOriginPosition来设置位置 而不是position属性
     setPositionAndOriginPosition: function (position, tile) {
         this.node.parent.position = position;
         this.originPosition = position;
         //存一下 它所在的tile，为了之后修改tile的数据
         this.relationTileJS = tile.getComponent('Tile');
-
+    
         this.currentNearestTile = tile;} 
      */
 

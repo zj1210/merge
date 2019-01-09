@@ -33,6 +33,11 @@ cc.Class({
             type: cc.Node,
         },
 
+        nodeCloud:{
+            default:null,
+            type:cc.Node
+        },
+
 
         // tilesHorizontalCount: {
         //     default: 0,
@@ -128,6 +133,8 @@ cc.Class({
         this.fogOfWarSystem();
         //调用草地变色，与自动描边
         this.grassSystem();
+        //云特效
+        this.cloudEffect();
         //debugger;
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
@@ -162,10 +169,23 @@ cc.Class({
 
     },
 
+    cloudEffect:function() {
+       //云特效：上下自动
+         for (let i = 0; i < this.nodeCloud.children.length; ++i) {
+            let nodeN = this.nodeCloud.children[i];
+            let randY = Math.random() * 40 + 15;
+
+            var spawn1 = cc.spawn(cc.moveBy(2.5 + Math.random() * 2, cc.v2(0, randY)),cc.fadeTo(2.5 + Math.random() * 2,150) );
+            var spawn2 = cc.spawn(cc.moveBy(1.5 + Math.random() * 2, cc.v2(0, -randY)),cc.fadeTo(1.5 + Math.random()*2,80));
+            nodeN.runAction(cc.repeatForever(cc.sequence(spawn1,spawn2 )));
+        }
+
+    },
+
 
     //战争迷雾，用于控制雾，周围有非雾就显示label并且可点击
     fogOfWarSystem: function () {
-		return;
+		// return;
         var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
         var tileHeight = hAndW.h;
         var tileWidth = hAndW.w;

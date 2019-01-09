@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2019-01-07-1024";
+    version = "2019-01-09-1055";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -40,13 +40,13 @@ export default class DataMgr extends cc.Component {
     dragonsData = [];
 
     hallTileWidth = 15;
-    hallTileHeight = 17;
+    hallTileHeight = 20;
 
     //用于规范摄像机区域的值  他不是对称的
     hallLeftWidth = 2800;
-    hallRightWidth = 5800;
+    hallRightWidth = 6400;
     hallUpHeight = 3400;
-    hallDownHeight = 1900;
+    hallDownHeight = 2500;
 
     checkpointWidth = 0;
     checkpintHeight = 0;
@@ -134,19 +134,19 @@ export default class DataMgr extends cc.Component {
     dragonStrengthDatas = [
         {
             "dragonLevel": 1,
-            "dragonStrength": 3
+            "dragonStrength": 5
         },
         {
             "dragonLevel": 2,
-            "dragonStrength": 11
+            "dragonStrength": 20
         },
         {
             "dragonLevel": 3,
-            "dragonStrength": 36
+            "dragonStrength": 80
         },
         {
             "dragonLevel": 4,
-            "dragonStrength": 112
+            "dragonStrength": 320
         }
     ];
     //每级心的力量
@@ -161,15 +161,15 @@ export default class DataMgr extends cc.Component {
         },
         {
             "heartLevel": 2,
-            "heartStrength": 13
+            "heartStrength": 16
         },
         {
             "heartLevel": 3,
-            "heartStrength": 41
+            "heartStrength": 64
         },
         {
             "heartLevel": 4,
-            "heartStrength": 126
+            "heartStrength": 256
         }
     ];
 
@@ -414,17 +414,17 @@ export default class DataMgr extends cc.Component {
 
         {
             "dragonLevel": 2,
-            "duration": 60
+            "duration": 80
         },
 
         {
             "dragonLevel": 3,
-            "duration": 60
+            "duration": 95
         },
 
         {
             "dragonLevel": 4,
-            "duration": 60
+            "duration": 150
         },
     ];
 
@@ -489,7 +489,7 @@ export default class DataMgr extends cc.Component {
     ];
 
     //蒲公英的生成周期 单位：秒
-    dandelionPeriod = 8;
+    dandelionPeriod = 4;
 
     //龙巢里的龙 将来要持久化 数据结构 只需插入 醒来时间 和 进入级别
     /**
@@ -504,7 +504,7 @@ export default class DataMgr extends cc.Component {
     init() {
         cc.game.on(cc.game.EVENT_HIDE, function () {
             console.log("datamgr  hide");
-           // cc.dataMgr.saveGameData();
+           //cc.dataMgr.saveGameData();
         });
         cc.game.on(cc.game.EVENT_SHOW, function () {
             console.log("datamgr  show");
