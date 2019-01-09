@@ -134,19 +134,19 @@ export default class DataMgr extends cc.Component {
     dragonStrengthDatas = [
         {
             "dragonLevel": 1,
-            "dragonStrength": 3
+            "dragonStrength": 5
         },
         {
             "dragonLevel": 2,
-            "dragonStrength": 11
+            "dragonStrength": 20
         },
         {
             "dragonLevel": 3,
-            "dragonStrength": 36
+            "dragonStrength": 80
         },
         {
             "dragonLevel": 4,
-            "dragonStrength": 112
+            "dragonStrength": 320
         }
     ];
     //每级心的力量
@@ -161,15 +161,15 @@ export default class DataMgr extends cc.Component {
         },
         {
             "heartLevel": 2,
-            "heartStrength": 13
+            "heartStrength": 16
         },
         {
             "heartLevel": 3,
-            "heartStrength": 41
+            "heartStrength": 64
         },
         {
             "heartLevel": 4,
-            "heartStrength": 126
+            "heartStrength": 256
         }
     ];
 
@@ -414,17 +414,17 @@ export default class DataMgr extends cc.Component {
 
         {
             "dragonLevel": 2,
-            "duration": 60
+            "duration": 80
         },
 
         {
             "dragonLevel": 3,
-            "duration": 60
+            "duration": 95
         },
 
         {
             "dragonLevel": 4,
-            "duration": 60
+            "duration": 150
         },
     ];
 
