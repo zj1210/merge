@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2019-01-09-1055";
+    version = "2019-01-10-0930";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -507,6 +507,7 @@ export default class DataMgr extends cc.Component {
         "SHARE_NONE": 1,//没有分享奖励的分享
         "DRAGON_OUT": 2,//分享直接龙唤醒一条
         "DANDELION_COUNT": 4,//分享后多生产蒲公英
+        "ROULETTE_GO": 8,//分享后让轮盘旋转
 
     };
 
@@ -633,11 +634,13 @@ export default class DataMgr extends cc.Component {
     };
 
     share() {
-       
-        wx.shareAppMessage({
-            title: "测试用的title",
-            // imageUrl: str_imageUrl, query: "otherID=" + query_string
-        });
+        if (CC_WECHATGAME) {
+            wx.shareAppMessage({
+                title: "测试用的title",
+                // imageUrl: str_imageUrl, query: "otherID=" + query_string
+            });
+        }
+
 
         this.beginShareTime = Date.now();
     };
@@ -645,25 +648,25 @@ export default class DataMgr extends cc.Component {
     shareLogic() {
         this.endShareTime = Date.now();
 
-        //小于3秒 分享失败
-        if (this.endShareTime - this.beginShareTime < 3000) {
+        //小于4秒 分享失败
+        if (this.endShareTime - this.beginShareTime < 4000) {
             return false;
         }
 
 
-        var curDate = cc.dataMgr.getCurrentDay();
-        var lastDate = cc.dataMgr.getLastShareDay();
-        //今天首次分享 直接分享失败
-        if (curDate != lastDate) {
-            cc.dataMgr.setLastShareDay(curDate);
-            return false;
-        }
+        // var curDate = cc.dataMgr.getCurrentDay();
+        // var lastDate = cc.dataMgr.getLastShareDay();
+        // //今天首次分享 直接分享失败
+        // if (curDate != lastDate) {
+        //     cc.dataMgr.setLastShareDay(curDate);
+        //     return false;
+        // }
 
-        var p = Math.random();
-        //30%概率直接失败
-        if (p < 0.3) {
-            return false;
-        }
+        // var p = Math.random();
+        // //30%概率直接失败
+        // if (p < 0.3) {
+        //     return false;
+        // }
 
         return true;
     };
