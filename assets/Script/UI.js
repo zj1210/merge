@@ -119,6 +119,11 @@ cc.Class({
             type: cc.Node
         },
 
+        shopIconNode: {
+            default: null,
+            type: cc.Node
+        },
+
         thingPrefab: {
             default: null,
             type: cc.Prefab
@@ -145,7 +150,13 @@ cc.Class({
     refreshUI: function () {
         this.coinLabel.string = cc.dataMgr.getCoinCount();
         this.heartLabel.string = cc.dataMgr.getHeartCount();
-
+        if(cc.dataMgr.getCoinCount()<1) {
+            this.shopIconNode.getChildByName("light").getComponent(cc.Animation).play("lightOut");
+        } else {
+            //一般要这样做：如果这个动画在播放就忽略了，没在播放就播放
+            //但是cocos的api注释说的很含糊没有找到怎么用
+            this.shopIconNode.getChildByName("light").getComponent(cc.Animation).play("light");
+        }
     },
 
     start: function () {
@@ -163,6 +174,10 @@ cc.Class({
         this.dandelionGenBtn = this.dandelionNode.getChildByName('dandelionIcon').getComponent(cc.Button);
         this.dandelionGenBtn.interactable = false;
         this.schedule(this.generateDandelion, 1);
+
+        if(cc.dataMgr.getCoinCount()>0) {
+            this.shopIconNode.getChildByName("light").getComponent(cc.Animation).play("light");
+        }
     },
 
     refreshDragonNestInfo: function () {
