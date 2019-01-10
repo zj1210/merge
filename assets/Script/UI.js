@@ -122,7 +122,13 @@ cc.Class({
         thingPrefab: {
             default: null,
             type: cc.Prefab
-        }
+        },
+
+        dragonShare_Node: {
+            default: null,
+            type: cc.Node
+        },
+
     },
 
     // use this for initialization
@@ -493,17 +499,22 @@ cc.Class({
 
 
     //分享测试
-    shareClick: function () {
-        console.log("分享按钮被点击");
+    // shareClick: function () {
+    //     console.log("分享按钮被点击");
+    //     cc.audioMgr.playEffect("UI");
+    //     cc.dataMgr.shareState = cc.dataMgr.ShareState.DANDELION_COUNT;
+
+    //     window.Notification.on(cc.dataMgr.shareState, function (parameter) {
+    //         console.log("分享回调");
+    //         console.log(parameter);
+    //     });
+
+    //     cc.dataMgr.share();
+    // },
+
+    dragonHomeClick:function() {
         cc.audioMgr.playEffect("UI");
-        cc.dataMgr.shareState = cc.dataMgr.ShareState.DANDELION_COUNT;
-
-        window.Notification.on(cc.dataMgr.shareState, function (parameter) {
-            console.log("分享回调");
-            console.log(parameter);
-        });
-
-        cc.dataMgr.share();
+        this.dragonShare_Node.active = true;
     },
 
     // called every frame
