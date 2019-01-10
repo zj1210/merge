@@ -195,6 +195,8 @@ cc.Class({
         if (this.dandelionPeriod <= 0) {
             this.dandelionGenBtn.interactable = true;
             this.unschedule(this.generateDandelion);
+
+            this.dandelionNode.getChildByName("light").getComponent(cc.Animation).play("light");
             console.log("赶快收集吧");
         } else {
             //this.dandelionTimeLabel.string = this.dandelionPeriod;
@@ -204,7 +206,7 @@ cc.Class({
     //生成蒲公英
     dandelionGenerateClick: function () {
         cc.audioMgr.playEffect("btn_click");
-
+        this.dandelionNode.getChildByName("light").getComponent(cc.Animation).play("lightOut");
         var thingsNode = cc.find("Canvas/gameLayer/thingsNode");
         var camerapos = this.dandelionNode.parent.convertToWorldSpaceAR(this.dandelionNode.position);
 
