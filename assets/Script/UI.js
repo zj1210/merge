@@ -206,7 +206,7 @@ cc.Class({
     //生成蒲公英
     dandelionGenerateClick: function () {
         cc.audioMgr.playEffect("btn_click");
-        this.dandelionNode.getChildByName("light").getComponent(cc.Animation).play("lightOut");
+      
         var thingsNode = cc.find("Canvas/gameLayer/thingsNode");
         var camerapos = this.dandelionNode.parent.convertToWorldSpaceAR(this.dandelionNode.position);
 
@@ -217,6 +217,7 @@ cc.Class({
 
         var tile = this.game.getTile(nodepos);
         if (tile) {
+            this.dandelionNode.getChildByName("light").getComponent(cc.Animation).play("lightOut");
             this.dandelionGenBtn.interactable = false;
             this.dandelionPeriod = cc.dataMgr.dandelionPeriod;
             this.schedule(this.generateDandelion, 1);
