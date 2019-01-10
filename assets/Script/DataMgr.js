@@ -814,6 +814,10 @@ export default class DataMgr extends cc.Component {
         return wut - ct;
     };
 
+    setCurrentDragonWakeUpTime() {
+        this.dragonNestDatas[0].wakeUpTime = 0;
+    };
+
     getDescByTypeAndLevel(type, level) {
         //精华
         if (type == 1) {

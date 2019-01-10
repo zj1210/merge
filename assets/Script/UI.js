@@ -339,9 +339,11 @@ cc.Class({
             if (totleSecond < 1) {
                 console.log("龙出巢逻辑！！todo");
                 this.dragonMoveOutNest();
+            } else {
+                this.setTimeToLabel(totleSecond, this.countDownLabel);
             }
 
-            this.setTimeToLabel(totleSecond, this.countDownLabel);
+           
         }
     },
 
