@@ -493,6 +493,30 @@ export default class DataMgr extends cc.Component {
         },
     ];
 
+    //花合成奖励数据表 只奖励心
+    flowerUnionRewardDatas = [
+        {
+            "level":2,
+            "count":1
+        },
+        
+        {
+            "level":3,
+            "count":4
+        },
+
+        {
+            "level":4,
+            "count":10
+        },
+
+        {
+            "level":5,
+            "count":20
+        },
+
+    ];
+
     //蒲公英的生成周期 单位：秒
     dandelionPeriod = 4;
 
@@ -726,6 +750,16 @@ export default class DataMgr extends cc.Component {
     hasToturial() {
        
         return this.getToturialCurStep() < this.toturialTotalStep;
+    }
+
+    getFlowerUnionRewardByLevel(level) {
+        for (var i = 0; i < this.flowerUnionRewardDatas.length; i++) {
+            if (this.flowerUnionRewardDatas[i].level == level) {
+                return this.flowerUnionRewardDatas[i].count;
+            }
+        }
+
+        return null;
     }
 
     randomTreasure() {

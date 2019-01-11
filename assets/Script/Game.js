@@ -33,9 +33,9 @@ cc.Class({
             type: cc.Node,
         },
 
-        nodeCloud:{
-            default:null,
-            type:cc.Node
+        nodeCloud: {
+            default: null,
+            type: cc.Node
         },
 
 
@@ -135,7 +135,7 @@ cc.Class({
         this.grassSystem();
         //云特效
         this.cloudEffect();
-        
+
         //debugger;
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
@@ -170,17 +170,17 @@ cc.Class({
 
     },
 
-    
 
-    cloudEffect:function() {
-       //云特效：上下自动
-         for (let i = 0; i < this.nodeCloud.children.length; ++i) {
+
+    cloudEffect: function () {
+        //云特效：上下自动
+        for (let i = 0; i < this.nodeCloud.children.length; ++i) {
             let nodeN = this.nodeCloud.children[i];
             let randY = Math.random() * 40 + 15;
 
-            var spawn1 = cc.spawn(cc.moveBy(2.5 + Math.random() * 2, cc.v2(0, randY)),cc.fadeTo(2.5 + Math.random() * 2,150) );
-            var spawn2 = cc.spawn(cc.moveBy(1.5 + Math.random() * 2, cc.v2(0, -randY)),cc.fadeTo(1.5 + Math.random()*2,80));
-            nodeN.runAction(cc.repeatForever(cc.sequence(spawn1,spawn2 )));
+            var spawn1 = cc.spawn(cc.moveBy(2.5 + Math.random() * 2, cc.v2(0, randY)), cc.fadeTo(2.5 + Math.random() * 2, 150));
+            var spawn2 = cc.spawn(cc.moveBy(1.5 + Math.random() * 2, cc.v2(0, -randY)), cc.fadeTo(1.5 + Math.random() * 2, 80));
+            nodeN.runAction(cc.repeatForever(cc.sequence(spawn1, spawn2)));
         }
 
     },
@@ -188,7 +188,7 @@ cc.Class({
 
     //战争迷雾，用于控制雾，周围有非雾就显示label并且可点击
     fogOfWarSystem: function () {
-		// return;
+        // return;
         var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
         var tileHeight = hAndW.h;
         var tileWidth = hAndW.w;
@@ -251,13 +251,13 @@ cc.Class({
                         grassInfo[1] = 1;
                     }
 
-                   
+
 
                     if (j > tileWidth - 2 || cc.dataMgr.tilesData[i][j + 1].getComponent('Tile').dontWant) {
                         grassInfo[2] = 1;
                     }
 
-                    if (j < 1 || cc.dataMgr.tilesData[i][j-1].getComponent('Tile').dontWant) {
+                    if (j < 1 || cc.dataMgr.tilesData[i][j - 1].getComponent('Tile').dontWant) {
                         grassInfo[3] = 1;
                     }
                 }
@@ -585,6 +585,19 @@ cc.Class({
                 else if (unionedThingsArray[i].thingType == 2) {
                     cc.audioMgr.playEffect("flower");
 
+                   
+                    var reward = cc.dataMgr.getFlowerUnionRewardByLevel(unionedThingsArray[i].thingLevel);
+                    if(reward != null) {
+                        var tipsLabel = unionedThingsArray[i].thing.getChildByName("tipsNode").getChildByName("tipsLabel").getComponent(cc.Label);
+                        tipsLabel.string = "+" +reward+ "精华";
+                        cc.dataMgr.addHeartCount(reward);
+                        this.ui.refreshUI();
+                        tipsLabel.node.getComponent(cc.Animation).play('tipsLabel');
+                    }
+                   
+                    
+
+
                     window.Notification.emit("MERGE_FLOWER");
                 }
             }
@@ -731,7 +744,7 @@ cc.Class({
 
             var remainder = -1;
             //最高级的情况下 不能再合并了，不然没有图片支持
-            if(level<maxLevel) {
+            if (level < maxLevel) {
                 remainder = newLen % 3;
                 newLen = Math.floor(newLen / 3);
             } else {
