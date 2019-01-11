@@ -139,14 +139,19 @@ cc.Class({
             type: cc.Node
         },
 
-        signInButton:{
-            default:null,
-            type:cc.Node
+        signInButton: {
+            default: null,
+            type: cc.Node
         },
 
-        rouletteBtn:{
-            default:null,
-            type:cc.Node
+        rouletteBtn: {
+            default: null,
+            type: cc.Node
+        },
+
+        dragonHome: {
+            default: null,
+            type: cc.Button
         }
 
     },
@@ -201,7 +206,7 @@ cc.Class({
         if (isToturial) {
             window.Notification.on("MERGE_FLOWER", function (parameter) {
                 var curStep = cc.dataMgr.getToturialCurStep();
-                if(curStep == 0) {
+                if (curStep == 0) {
                     console.log("新手教学：步奏0结束!");
                     self.toturialNextStep();
                     //送三个龙蛋用于下一步
@@ -211,16 +216,16 @@ cc.Class({
 
             window.Notification.on("EGG_TO_DRAGON", function (parameter) {
                 var curStep = cc.dataMgr.getToturialCurStep();
-                if(curStep == 1) {
+                if (curStep == 1) {
                     console.log("新手教学：步奏1结束!");
                     self.toturialNextStep();
-                   
+
                 }
             });
 
             window.Notification.on("COL_SUCCESS", function (parameter) {
                 var curStep = cc.dataMgr.getToturialCurStep();
-                if(curStep == 2) {
+                if (curStep == 2) {
                     console.log("新手教学：步奏2结束!");
                     self.toturialNextStep();
                 }
@@ -229,7 +234,7 @@ cc.Class({
 
             window.Notification.on("COL_HEART", function (parameter) {
                 var curStep = cc.dataMgr.getToturialCurStep();
-                if(curStep == 3) {
+                if (curStep == 3) {
                     console.log("新手教学：步奏3结束!");
                     self.toturialNextStep();
                 }
@@ -237,16 +242,16 @@ cc.Class({
 
             window.Notification.on("FOG_OPEN", function (parameter) {
                 var curStep = cc.dataMgr.getToturialCurStep();
-                if(curStep == 4) {
+                if (curStep == 4) {
                     console.log("新手教学：步奏4结束!");
                     //self.toturialNextStep();
-                 
 
-                 
+
+
                     var curStep_node = self.node_toturial.getChildByName("step" + curStep);
                     curStep_node.getComponent(cc.Animation).play("stepOut");
-            
-            
+
+
                     var cs = cc.dataMgr.addToturialStep(1);
                     var nextStep_node = self.node_toturial.getChildByName("step" + cs);
                     nextStep_node.getComponent(cc.Animation).play("stepOver");
@@ -258,12 +263,49 @@ cc.Class({
         } else {
             this.node_toturial.active = false;
         }
+
+
+        //过审相关的：分享开关
+        this.shareForCensorship();
     },
 
-    generateThreeEgg:function() {
-        for(var i= 0;i<3;i++) {
+
+    shareForCensorship: function () {
+        if (CC_WECHATGAME) {
+            this.rouletteBtn.active = false;
+            this.dragonHome.interactable = false;
+            wx.request({
+                url: 'https://bpw.blyule.com/Merge_Res/mergeSetting.json',
+
+                success: (obj, statusCode, header) => {
+                    console.log("是否显示分享的数据");
+                    console.log(obj);
+                    console.log(obj.data);
+                    if (obj.data.showShare) {
+                        console.log("显示分享");
+                        this.rouletteBtn.active = true;
+                        this.dragonHome.interactable = true;
+
+                    } else {
+                        console.log("不显示分享");
+                        this.rouletteBtn.active = false;
+                        this.dragonHome.interactable = false;
+                    }
+
+                    // if (obj.data.showMoreGame) {
+                    //     console.log("显示更多游戏");
+
+                    //     self.moreGameNode.active = true;
+                    // }
+                }
+            });
+        }
+    },
+
+    generateThreeEgg: function () {
+        for (var i = 0; i < 3; i++) {
             var tile = this.game.getTile();
-            this.game.generateAndPutThing_signIn(tile, "draggon",0);
+            this.game.generateAndPutThing_signIn(tile, "draggon", 0);
         }
     },
     //新手教学系统
@@ -272,19 +314,19 @@ cc.Class({
 
         var isToturial = cc.dataMgr.hasToturial();
         if (isToturial) {
-           this.node_toturial.active =true;
+            this.node_toturial.active = true;
 
-           var curStep = cc.dataMgr.getToturialCurStep();
-           var curStep_node = this.node_toturial.getChildByName("step" + curStep);
-           curStep_node.getComponent(cc.Animation).play("stepIn");
+            var curStep = cc.dataMgr.getToturialCurStep();
+            var curStep_node = this.node_toturial.getChildByName("step" + curStep);
+            curStep_node.getComponent(cc.Animation).play("stepIn");
 
-           this.closeUIForToturial();
+            this.closeUIForToturial();
         }
         //若不进入 则 4个系统按钮显示
         else {
-           //this.node_toturial.active =false;
+            //this.node_toturial.active =false;
 
-           this.openUIForToturial();
+            this.openUIForToturial();
         }
     },
 
@@ -314,7 +356,7 @@ cc.Class({
         nextStep_node.getComponent(cc.Animation).play("stepIn");
     },
 
-   
+
 
     // closeAllToturialTips: function () {
     //     var nodes = this.node_toturial.children;
@@ -343,7 +385,7 @@ cc.Class({
                 this.setTimeToLabel(totleSecond, this.countDownLabel);
             }
 
-           
+
         }
     },
 
