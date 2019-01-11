@@ -527,9 +527,12 @@ export default class DataMgr extends cc.Component {
       
         "啊~~新鲜的野花!",
         "一次合并更多的东西,效果更好~",
-        "有需要就叫醒我。"
-        //"清除所有的雾,我要改变这混沌浊世!"
+        "有需要就叫醒我。",
+        "我们肯定可以清除所有的雾霾!",
+        "我超强力的!"
     ];
+
+   
     
 
     //蒲公英的生成周期 单位：秒
@@ -554,6 +557,20 @@ export default class DataMgr extends cc.Component {
         "ROULETTE_GO": 8,//分享后让轮盘旋转
 
     };
+
+    shareTitleDatas = [
+        {
+            tag:this.ShareState.DRAGON_OUT,
+            title:"巨龙的苏醒靠你了朋友!",
+            url:"https://bpw.blyule.com/Merge_Res/share6.jpg",
+        },
+
+        {
+            tag:this.ShareState.ROULETTE_GO,
+            title:"巨龙世界来玩玩啊!",
+            url:"https://bpw.blyule.com/Merge_Res/share1.jpg",
+        },
+    ];
 
     //分享状态：用于标记当前的分享是为了什么，根据这个给奖励
     shareState = this.ShareState.SHARE_NONE;
@@ -684,8 +701,11 @@ export default class DataMgr extends cc.Component {
 
     share() {
         if (CC_WECHATGAME) {
+            var shareData = this.getShareData();
+
             wx.shareAppMessage({
-                title: "测试用的title",
+                title: shareData.title,
+                imageUrl:shareData.url
                 // imageUrl: str_imageUrl, query: "otherID=" + query_string
             });
         }
@@ -693,6 +713,18 @@ export default class DataMgr extends cc.Component {
 
         this.beginShareTime = Date.now();
     };
+
+    getShareData() {
+        for (var i = 0; i < this.shareTitleDatas.length; i++) {
+            if (this.shareTitleDatas[i].tag == this.ShareState.DRAGON_OUT) {
+                return this.shareTitleDatas[i];
+            }
+            if (this.shareTitleDatas[i].tag == this.ShareState.ROULETTE_GO) {
+                return this.shareTitleDatas[i];
+            }
+        }
+    };
+
 
     shareLogic() {
         this.endShareTime = Date.now();
