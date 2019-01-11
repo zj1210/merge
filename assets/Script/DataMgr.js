@@ -560,16 +560,34 @@ export default class DataMgr extends cc.Component {
 
     shareTitleDatas = [
         {
-            tag:this.ShareState.DRAGON_OUT,
-            title:"巨龙的苏醒靠你了朋友!",
-            url:"https://bpw.blyule.com/Merge_Res/share6.jpg",
+           
+            title:"我们抬头望天空， 星星还亮着几颗……",
+            url:"https://bpw.blyule.com/Merge_Res/share1.jpg",
         },
 
         {
-            tag:this.ShareState.ROULETTE_GO,
-            title:"巨龙世界来玩玩啊!",
-            url:"https://bpw.blyule.com/Merge_Res/share1.jpg",
+           
+            title:"外星人信号？不，那只是来虚空龙族对你的呼唤~",
+            url:"https://bpw.blyule.com/Merge_Res/share2.jpg",
         },
+
+        {
+           
+            title:"集齐了七颗龙蛋，一个让我意想不到的事情发生了……",
+            url:"https://bpw.blyule.com/Merge_Res/share3.jpg",
+        },
+
+        {
+           
+            title:"集齐了七颗龙蛋，一个让我意想不到的事情发生了……",
+            url:"https://bpw.blyule.com/Merge_Res/share4.jpg",
+        },
+
+        {
+           
+            title:"集齐了七颗龙蛋，一个让我意想不到的事情发生了……",
+            url:"https://bpw.blyule.com/Merge_Res/share5.jpg",
+        }
     ];
 
     //分享状态：用于标记当前的分享是为了什么，根据这个给奖励
@@ -698,14 +716,9 @@ export default class DataMgr extends cc.Component {
     };
 
     getShareData() {
-        for (var i = 0; i < this.shareTitleDatas.length; i++) {
-            if (this.shareTitleDatas[i].tag == this.ShareState.DRAGON_OUT) {
-                return this.shareTitleDatas[i];
-            }
-            if (this.shareTitleDatas[i].tag == this.ShareState.ROULETTE_GO) {
-                return this.shareTitleDatas[i];
-            }
-        }
+        var shareDataIndex = Math.floor( Math.random() * this.shareTitleDatas.length);
+        
+        return this.shareTitleDatas[shareDataIndex];
     };
 
 
