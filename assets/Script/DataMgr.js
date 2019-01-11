@@ -725,7 +725,7 @@ export default class DataMgr extends cc.Component {
 
     resetData() {
         cc.sys.localStorage.setItem("coinCount", 10);
-        cc.sys.localStorage.setItem("heartCount", 2);
+        cc.sys.localStorage.setItem("heartCount", 1);
         cc.sys.localStorage.setItem("hallTileData", "");
         cc.sys.localStorage.setItem("dragonDatas", "");
         cc.sys.localStorage.setItem("dragonNestDatas", "");

@@ -585,17 +585,17 @@ cc.Class({
                 else if (unionedThingsArray[i].thingType == 2) {
                     cc.audioMgr.playEffect("flower");
 
-                   
+
                     var reward = cc.dataMgr.getFlowerUnionRewardByLevel(unionedThingsArray[i].thingLevel);
-                    if(reward != null) {
+                    if (reward != null) {
                         var tipsLabel = unionedThingsArray[i].thing.getChildByName("tipsNode").getChildByName("tipsLabel").getComponent(cc.Label);
-                        tipsLabel.string = "+" +reward+ "精华";
+                        tipsLabel.string = "+" + reward + "精华";
                         cc.dataMgr.addHeartCount(reward);
                         this.ui.refreshUI();
                         tipsLabel.node.getComponent(cc.Animation).play('tipsLabel');
                     }
-                   
-                    
+
+
 
 
                     window.Notification.emit("MERGE_FLOWER");
