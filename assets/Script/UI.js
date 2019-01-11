@@ -204,6 +204,8 @@ cc.Class({
                 if(curStep == 0) {
                     console.log("新手教学：步奏0结束!");
                     self.toturialNextStep();
+                    //送三个龙蛋用于下一步
+                    self.generateThreeEgg();
                 }
             });
 
@@ -212,7 +214,7 @@ cc.Class({
                 if(curStep == 1) {
                     console.log("新手教学：步奏1结束!");
                     self.toturialNextStep();
-                    self.generateThreeEgg();
+                   
                 }
             });
 
@@ -238,11 +240,23 @@ cc.Class({
                 if(curStep == 4) {
                     console.log("新手教学：步奏4结束!");
                     //self.toturialNextStep();
+                 
+
+                 
+                    var curStep_node = self.node_toturial.getChildByName("step" + curStep);
+                    curStep_node.getComponent(cc.Animation).play("stepOut");
+            
+            
+                    var cs = cc.dataMgr.addToturialStep(1);
+                    var nextStep_node = self.node_toturial.getChildByName("step" + cs);
+                    nextStep_node.getComponent(cc.Animation).play("stepOver");
 
                     self.toturialSystem();
                 }
             });
 
+        } else {
+            this.node_toturial.active = false;
         }
     },
 
@@ -268,7 +282,7 @@ cc.Class({
         }
         //若不进入 则 4个系统按钮显示
         else {
-           this.node_toturial.active =false;
+           //this.node_toturial.active =false;
 
            this.openUIForToturial();
         }
@@ -285,8 +299,8 @@ cc.Class({
     openUIForToturial: function () {
         this.shopIconNode.active = true;
         this.dandelionNode.active = true;
-        this.node.getChildByName("signInButton").active = true;
-        this.node.getChildByName("rouletteBtn").active = true;
+        this.signInButton.active = true;
+        this.rouletteBtn.active = true;
     },
 
     toturialNextStep: function () {
