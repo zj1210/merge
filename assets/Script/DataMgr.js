@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2019-01-10-1804";
+    version = "2019-01-11-1456";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -633,7 +633,7 @@ export default class DataMgr extends cc.Component {
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
         var heartCount = cc.sys.localStorage.getItem("heartCount");
         if (!heartCount) {
-            cc.sys.localStorage.setItem("heartCount", 2);
+            cc.sys.localStorage.setItem("heartCount", 1);
         }
 
 
@@ -675,24 +675,7 @@ export default class DataMgr extends cc.Component {
 
                     window.Notification.emit(cc.dataMgr.shareState, isSuccess);
                     cc.dataMgr.shareState = cc.dataMgr.ShareState.SHARE_NONE;
-                    // //分享成功
-                    // if (isSuccess) {
-
-                    //     // switch (this.shareState) {
-                    //     //     case this.ShareState.DANDELION_COUNT:
-                    //     //         window.Notification.emit("")
-                    //     //         break;
-                    //     //     case this.ShareState.DRAGON_OUT:
-
-                    //     //         break;
-                    //     //     default:
-                    //     //         break;
-                    //     // }
-                    // }
-                    // //分享失败
-                    // else {
-
-                    // }
+        
                 }
             });
         }
@@ -771,15 +754,19 @@ export default class DataMgr extends cc.Component {
     }
 
     resetData() {
-        cc.sys.localStorage.setItem("coinCount", 10);
-        cc.sys.localStorage.setItem("heartCount", 1);
-        cc.sys.localStorage.setItem("hallTileData", "");
-        cc.sys.localStorage.setItem("dragonDatas", "");
-        cc.sys.localStorage.setItem("dragonNestDatas", "");
-        cc.sys.localStorage.setItem("signInProgress", 0);
-        cc.sys.localStorage.setItem("signInDay", "20181128");
 
-        cc.sys.localStorage.setItem("shareDay", "20181128");
+        cc.sys.localStorage.removeItem("coinCount");
+        cc.sys.localStorage.removeItem("heartCount");
+
+        cc.sys.localStorage.removeItem("hallTileData");
+        cc.sys.localStorage.removeItem("dragonDatas");
+        cc.sys.localStorage.removeItem("dragonNestDatas");
+
+        cc.sys.localStorage.removeItem("signInProgress");
+        cc.sys.localStorage.removeItem("signInDay");
+        cc.sys.localStorage.removeItem("shareDay");
+
+        cc.sys.localStorage.removeItem("toturialCurStep"); 
     }
 
     addToturialStep(count) {
