@@ -135,6 +135,7 @@ cc.Class({
         this.grassSystem();
         //云特效
         this.cloudEffect();
+        
         //debugger;
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
@@ -168,6 +169,8 @@ cc.Class({
         }, this.node);
 
     },
+
+    
 
     cloudEffect:function() {
        //云特效：上下自动

@@ -50,6 +50,10 @@ export default class DataMgr extends cc.Component {
 
     checkpointWidth = 0;
     checkpintHeight = 0;
+
+    toturialTotalStep = 5;
+    //放入持久化存储了
+    // toturialCurStep = 0; //当前第几步 从0开始  toturialCurStep<toturialTotalStep 则进入新手教学， 否则结束
     //为了简单打算写死，不能处理生成的龙超过9个以上 这种情况数学上没证明，
     //但是概率应该是极低的3个相同还会归并
     dragonsOffset = [
@@ -541,6 +545,11 @@ export default class DataMgr extends cc.Component {
         if (!coinCount) {
             cc.sys.localStorage.setItem("coinCount", 10);
         }
+
+        var toturialCurStep = cc.sys.localStorage.getItem("toturialCurStep");
+        if (!toturialCurStep) {
+            cc.sys.localStorage.setItem("toturialCurStep", 0);
+        }
         // //用于邀请好友的奖励？需求不定，钻石
         // var diamondCount = cc.sys.localStorage.getItem("diamondCount");
         // if (!diamondCount) {
@@ -688,6 +697,12 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("shareDay", "20181128");
     }
 
+    getToturialCurStep() {
+        return parseInt(cc.sys.localStorage.getItem("toturialCurStep"));
+    }
+    hasToturial() {
+        return this.getToturialCurStep() < this.toturialTotalStep;
+    }
 
     randomTreasure() {
         var p = Math.random();

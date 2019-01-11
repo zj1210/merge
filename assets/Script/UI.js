@@ -134,6 +134,11 @@ cc.Class({
             type: cc.Node
         },
 
+        node_toturial: {
+            default: null,
+            type: cc.Node
+        },
+
     },
 
     // use this for initialization
@@ -150,7 +155,7 @@ cc.Class({
     refreshUI: function () {
         this.coinLabel.string = cc.dataMgr.getCoinCount();
         this.heartLabel.string = cc.dataMgr.getHeartCount();
-        if(cc.dataMgr.getCoinCount()<1) {
+        if (cc.dataMgr.getCoinCount() < 1) {
             this.shopIconNode.getChildByName("light").getComponent(cc.Animation).play("lightOut");
         } else {
             //一般要这样做：如果这个动画在播放就忽略了，没在播放就播放
@@ -175,8 +180,58 @@ cc.Class({
         this.dandelionGenBtn.interactable = false;
         this.schedule(this.generateDandelion, 1);
 
-        if(cc.dataMgr.getCoinCount()>0) {
+        if (cc.dataMgr.getCoinCount() > 0) {
             this.shopIconNode.getChildByName("light").getComponent(cc.Animation).play("light");
+        }
+
+        //新手教学系统
+        this.toturialSystem();
+    },
+
+
+    //新手教学系统
+    toturialSystem: function () {
+        //逻辑分析：先查询是否进入新手教学 当前步小于总步数 则进入
+
+        var isToturial = cc.dataMgr.hasToturial();
+        if (isToturial) {
+            var curStep = cc.dataMgr.getToturialCurStep();
+            this.showToturialTips(curStep);
+
+            this.closeUIForToturial();
+        }
+        //若不进入 则 4个系统按钮显示
+        else {
+            this.openUIForToturial();
+        }
+    },
+
+
+    closeUIForToturial: function () {
+        this.shopIconNode.active = false;
+        this.dandelionNode.active = false;
+        this.node.getChildByName("signInButton").active = false;
+        this.node.getChildByName("rouletteBtn").active = false;
+    },
+
+    openUIForToturial: function () {
+        this.shopIconNode.active = true;
+        this.dandelionNode.active = true;
+        this.node.getChildByName("signInButton").active = true;
+        this.node.getChildByName("rouletteBtn").active = true;
+    },
+
+    showToturialTips: function (curStep) {
+        this.closeAllToturialTips();
+        var curStep_node = this.node_toturial.getChildByName("step" + curStep);
+        curStep_node.active = true;
+        curStep_node.getComponent(cc.Animation).play("showTips");
+    },
+
+    closeAllToturialTips: function () {
+        var nodes = this.node_toturial.children;
+        for (var i = 0; i < nodes.length; i++) {
+            nodes[i].active = false;
         }
     },
 
@@ -221,7 +276,7 @@ cc.Class({
     //生成蒲公英
     dandelionGenerateClick: function () {
         cc.audioMgr.playEffect("btn_click");
-      
+
         var thingsNode = cc.find("Canvas/gameLayer/thingsNode");
         var camerapos = this.dandelionNode.parent.convertToWorldSpaceAR(this.dandelionNode.position);
 
@@ -530,7 +585,7 @@ cc.Class({
     //     cc.dataMgr.share();
     // },
 
-    dragonHomeClick:function() {
+    dragonHomeClick: function () {
         cc.audioMgr.playEffect("UI");
         this.dragonShare_Node.active = true;
     },
