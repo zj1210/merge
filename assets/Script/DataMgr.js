@@ -134,6 +134,7 @@ export default class DataMgr extends cc.Component {
             "needTime": 4
         }
     ];
+
     //每级龙的初始体力值
     dragonStrengthDatas = [
         {
@@ -685,6 +686,19 @@ export default class DataMgr extends cc.Component {
         return date.getFullYear() + "" + date.getMonth() + date.getDate();
     }
 
+    //先写死每个类型的最高级别。将来即使改也容易
+    getMaxLevelByType(type) {
+        if(type == 1 ) {
+            return 4;
+        } else if(type == 2) {
+            return 5;
+        } else if(type == 3) {
+            return 4;
+        } else {
+            debugger;
+        }
+    }
+
     resetData() {
         cc.sys.localStorage.setItem("coinCount", 10);
         cc.sys.localStorage.setItem("heartCount", 2);
@@ -710,6 +724,7 @@ export default class DataMgr extends cc.Component {
         return parseInt(cc.sys.localStorage.getItem("toturialCurStep"));
     }
     hasToturial() {
+       
         return this.getToturialCurStep() < this.toturialTotalStep;
     }
 

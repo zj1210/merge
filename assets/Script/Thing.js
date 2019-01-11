@@ -127,7 +127,14 @@ cc.Class({
                     let tileJS = self.currentNearestTile.getComponent('Tile');
                     tileJS.putInThingTemporarily(self.node.parent);
                     //3 查找连通物品
-                    self.thingsArray = self.game.findConnentedThing(self.currentNearestTile);
+                   
+                    var maxLevel = cc.dataMgr.getMaxLevelByType(self.thingType);
+                    if(self.thingLevel<maxLevel) {
+                        self.thingsArray = self.game.findConnentedThing(self.currentNearestTile);
+                    } else {
+                        self.thingsArray = null;
+                    }
+                    
 
                     //4 将连通物品的selected active 置为true 并且播放往此物品平移的 动画
                     if (self.thingsArray && self.thingsArray.length > 2) {

@@ -310,8 +310,15 @@ cc.Class({
 
                 self.game.changeCameraPosition(touchpos, self.node);
 
-                //以此龙的坐标为原点，半径为范围查找相交的龙，返回的是一个集合
+                
+
+                var maxLevel = cc.dataMgr.getMaxLevelByType(self.thingType);
+                if(self.thingLevel<maxLevel) {
+                   //以此龙的坐标为原点，半径为范围查找相交的龙，返回的是一个集合
                 self.curCanUnionedDragons = self.game.findCanUnionDragons(self.node);
+                } else {
+                    self.curCanUnionedDragons = [];
+                }
 
                 //当前集合内的龙 和上次 集合内的龙完全一样
                 if (self.curAndLastUnionedDragonsIsSame()) {

@@ -725,9 +725,22 @@ cc.Class({
     _generateUnionedThings: function (newLen, type, level) {
         var results = [];
 
+        var maxLevel = cc.dataMgr.getMaxLevelByType(type);
+
         while (newLen > 0) {
-            var remainder = newLen % 3;
-            newLen = Math.floor(newLen / 3);
+
+            var remainder = -1;
+            //最高级的情况下 不能再合并了，不然没有图片支持
+            if(level<maxLevel) {
+                remainder = newLen % 3;
+                newLen = Math.floor(newLen / 3);
+            } else {
+                remainder = newLen;
+                newLen = 0;
+            }
+
+            // var remainder = newLen % 3;
+            // newLen = Math.floor(newLen / 3);
 
             for (var i = 0; i < remainder; i++) {
 
