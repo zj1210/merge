@@ -576,7 +576,7 @@ export default class DataMgr extends cc.Component {
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
         var heartCount = cc.sys.localStorage.getItem("heartCount");
         if (!heartCount) {
-            cc.sys.localStorage.setItem("heartCount", 0);
+            cc.sys.localStorage.setItem("heartCount", 2);
         }
 
 
@@ -687,7 +687,7 @@ export default class DataMgr extends cc.Component {
 
     resetData() {
         cc.sys.localStorage.setItem("coinCount", 10);
-        cc.sys.localStorage.setItem("heartCount", 0);
+        cc.sys.localStorage.setItem("heartCount", 2);
         cc.sys.localStorage.setItem("hallTileData", "");
         cc.sys.localStorage.setItem("dragonDatas", "");
         cc.sys.localStorage.setItem("dragonNestDatas", "");
@@ -695,6 +695,15 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("signInDay", "20181128");
 
         cc.sys.localStorage.setItem("shareDay", "20181128");
+    }
+
+    addToturialStep(count) {
+        if(!count) {
+            count = 1;
+        }
+        var cs = this.getToturialCurStep() + count;
+        cc.sys.localStorage.setItem("toturialCurStep",cs); 
+        return cs;
     }
 
     getToturialCurStep() {

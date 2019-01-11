@@ -166,7 +166,7 @@ cc.Class({
             var game = cc.find("Canvas").getComponent('Game');
             game.fogOfWarSystem();
 
-            
+            window.Notification.emit("FOG_OPEN");
         } else {
             console.log("心不够啊！");
             cc.audioMgr.playEffect("btn_click");

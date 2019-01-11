@@ -476,6 +476,8 @@ cc.Class({
 
         this.strength--;
 
+        window.Notification.emit("COL_SUCCESS");
+
     },
 
     //将龙移入龙巢

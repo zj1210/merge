@@ -249,6 +249,8 @@ cc.Class({
                 this.node.parent.destroy();
                 this.isClick = true;
 
+                window.Notification.emit("COL_HEART");
+
             } else if (this.thingType == 2 && this.thingLevel > 1) {
                 console.log("花被点击，龙来采集");
                 this.relationTileJS.thing = this.node.parent;

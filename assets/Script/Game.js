@@ -570,6 +570,8 @@ cc.Class({
                 this.dragonsNode.addChild(unionedThingsArray[i].thing);
 
                 cc.audioMgr.playEffect("dragon");
+
+                window.Notification.emit("EGG_TO_DRAGON");
             } else {
                 this.thingsNode.addChild(unionedThingsArray[i].thing);
                 var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
@@ -582,6 +584,8 @@ cc.Class({
                 //花合成音
                 else if (unionedThingsArray[i].thingType == 2) {
                     cc.audioMgr.playEffect("flower");
+
+                    window.Notification.emit("MERGE_FLOWER");
                 }
             }
         }

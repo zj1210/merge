@@ -139,6 +139,16 @@ cc.Class({
             type: cc.Node
         },
 
+        signInButton:{
+            default:null,
+            type:cc.Node
+        },
+
+        rouletteBtn:{
+            default:null,
+            type:cc.Node
+        }
+
     },
 
     // use this for initialization
@@ -184,25 +194,83 @@ cc.Class({
             this.shopIconNode.getChildByName("light").getComponent(cc.Animation).play("light");
         }
 
+        let self = this;
         //新手教学系统
         this.toturialSystem();
+        var isToturial = cc.dataMgr.hasToturial();
+        if (isToturial) {
+            window.Notification.on("MERGE_FLOWER", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if(curStep == 0) {
+                    console.log("新手教学：步奏0结束!");
+                    self.toturialNextStep();
+                }
+            });
+
+            window.Notification.on("EGG_TO_DRAGON", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if(curStep == 1) {
+                    console.log("新手教学：步奏1结束!");
+                    self.toturialNextStep();
+                    self.generateThreeEgg();
+                }
+            });
+
+            window.Notification.on("COL_SUCCESS", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if(curStep == 2) {
+                    console.log("新手教学：步奏2结束!");
+                    self.toturialNextStep();
+                }
+            });
+
+
+            window.Notification.on("COL_HEART", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if(curStep == 3) {
+                    console.log("新手教学：步奏3结束!");
+                    self.toturialNextStep();
+                }
+            });
+
+            window.Notification.on("FOG_OPEN", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if(curStep == 4) {
+                    console.log("新手教学：步奏4结束!");
+                    //self.toturialNextStep();
+
+                    self.toturialSystem();
+                }
+            });
+
+        }
     },
 
-
+    generateThreeEgg:function() {
+        for(var i= 0;i<3;i++) {
+            var tile = this.game.getTile();
+            this.game.generateAndPutThing_signIn(tile, "draggon",0);
+        }
+    },
     //新手教学系统
     toturialSystem: function () {
         //逻辑分析：先查询是否进入新手教学 当前步小于总步数 则进入
 
         var isToturial = cc.dataMgr.hasToturial();
         if (isToturial) {
-            var curStep = cc.dataMgr.getToturialCurStep();
-            this.showToturialTips(curStep);
+           this.node_toturial.active =true;
 
-            this.closeUIForToturial();
+           var curStep = cc.dataMgr.getToturialCurStep();
+           var curStep_node = this.node_toturial.getChildByName("step" + curStep);
+           curStep_node.getComponent(cc.Animation).play("stepIn");
+
+           this.closeUIForToturial();
         }
         //若不进入 则 4个系统按钮显示
         else {
-            this.openUIForToturial();
+           this.node_toturial.active =false;
+
+           this.openUIForToturial();
         }
     },
 
@@ -210,8 +278,8 @@ cc.Class({
     closeUIForToturial: function () {
         this.shopIconNode.active = false;
         this.dandelionNode.active = false;
-        this.node.getChildByName("signInButton").active = false;
-        this.node.getChildByName("rouletteBtn").active = false;
+        this.signInButton.active = false;
+        this.rouletteBtn.active = false;
     },
 
     openUIForToturial: function () {
@@ -221,19 +289,25 @@ cc.Class({
         this.node.getChildByName("rouletteBtn").active = true;
     },
 
-    showToturialTips: function (curStep) {
-        this.closeAllToturialTips();
+    toturialNextStep: function () {
+        var curStep = cc.dataMgr.getToturialCurStep();
         var curStep_node = this.node_toturial.getChildByName("step" + curStep);
-        curStep_node.active = true;
-        curStep_node.getComponent(cc.Animation).play("showTips");
+        curStep_node.getComponent(cc.Animation).play("stepOut");
+
+
+        var cs = cc.dataMgr.addToturialStep(1);
+        var nextStep_node = this.node_toturial.getChildByName("step" + cs);
+        nextStep_node.getComponent(cc.Animation).play("stepIn");
     },
 
-    closeAllToturialTips: function () {
-        var nodes = this.node_toturial.children;
-        for (var i = 0; i < nodes.length; i++) {
-            nodes[i].active = false;
-        }
-    },
+   
+
+    // closeAllToturialTips: function () {
+    //     var nodes = this.node_toturial.children;
+    //     for (var i = 0; i < nodes.length; i++) {
+    //         nodes[i].active = false;
+    //     }
+    // },
 
     refreshDragonNestInfo: function () {
         //console.log("-----每秒 刷新龙巢");
