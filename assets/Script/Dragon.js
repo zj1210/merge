@@ -97,6 +97,11 @@ cc.Class({
             default: null,
             type: cc.SpriteFrame
         },
+
+        sayNode:{
+            default:null,
+            type:cc.Node
+        }
     },
 
     settingSpriteFrame(type, level) {
@@ -123,6 +128,8 @@ cc.Class({
                 this.progressNode.position = cc.v2(0, 190);
                 this.tipsNode.position = cc.v2(0, 190);
 
+                this.sayNode.position = cc.v2(0,240);
+
             } else if (level == 3) {
                 this.dragonSpr.spriteFrame = this.dragon_3_spr;
                 this.wing1.spriteFrame = this.wing_3_spr;
@@ -136,6 +143,8 @@ cc.Class({
                 this.progressNode.position = cc.v2(0, 260);
                 this.tipsNode.position = cc.v2(0, 130);
 
+                this.sayNode.position = cc.v2(0,310);
+
             } else if (level == 4) {
                 this.dragonSpr.spriteFrame = this.dragon_4_spr;
                 this.wing1.spriteFrame = this.wing_4_spr;
@@ -148,6 +157,8 @@ cc.Class({
                 this.collectionThing.position = cc.v2(0, 130);
                 this.progressNode.position = cc.v2(0, 300);
                 this.tipsNode.position = cc.v2(0, 130);
+
+                this.sayNode.position = cc.v2(0,350);
 
             }
             // this.node.width = this.dragonSpr.spriteFrame._rect.width;
@@ -405,7 +416,7 @@ cc.Class({
 
     playCollection: function (flowerLevel) {
         if (this.strength <= 0) {
-            this.changeLabel("太累了!");
+            this.changeLabel("好累，休息一会继续!");
             this.scheduleOnce(this.goToDragonNest, 1.0);
             this.node.targetOff(this.node);
             return;
@@ -427,7 +438,9 @@ cc.Class({
 
         // this.generateHeartAndPlace(heartLevel);
 
-
+        var rSayIndex = Math.floor(Math.random() * cc.dataMgr.saySomethingByDragon.length);
+        this.sayNode.getComponent(cc.Label).string = cc.dataMgr.saySomethingByDragon[rSayIndex];
+        this.sayNode.getComponent(cc.Animation).play("sayLabel");
     },
 
     //移动到花，然后采集的逻辑，用于点击花 龙去采集
