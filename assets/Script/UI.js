@@ -327,6 +327,8 @@ cc.Class({
             //this.node_toturial.active =false;
 
             this.openUIForToturial();
+
+            this.shareForCensorship();
         }
     },
 
