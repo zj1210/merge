@@ -567,7 +567,7 @@ export default class DataMgr extends cc.Component {
 
         {
            
-            title:"外星人信号？不，那只是来虚空龙族对你的呼唤~",
+            title:"外星人信号？不，那是虚空龙族对你的召唤～",
             url:"https://bpw.blyule.com/Merge_Res/share2.jpg",
         },
 
