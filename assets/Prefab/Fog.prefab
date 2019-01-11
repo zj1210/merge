@@ -436,7 +436,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Arrow - Orange",
+    "_name": "arrow",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -481,7 +481,7 @@
     "_scaleY": 0.6,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 0,
+      "x": -13,
       "y": 196
     },
     "_skewX": 0,
