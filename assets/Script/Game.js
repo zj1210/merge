@@ -195,6 +195,10 @@ cc.Class({
         this.node.getChildByName('gameLayer').addChild(this.mapNode);
         cc.dataMgr.initTile(tag, this.mapNode.children);
 
+        this.thingsNode.position = this.mapNode.position;
+        this.dragonsNode.position = this.mapNode.position;
+
+        this.camera.position = cc.v2(0,0);
         //虽然很迷你，但本质上就是战争迷雾系统
         this.fogOfWarSystem();
         //调用草地变色，与自动描边
