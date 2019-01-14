@@ -157,8 +157,17 @@ cc.Class({
         checkpointLayer:{
             default:null,
             type:cc.Node
-        }
+        },
 
+        checkpointNode:{
+            default:null,
+            type:cc.Node
+        },
+
+        hallNode:{
+            default:null,
+            type:cc.Node
+        }
     },
 
     // use this for initialization
@@ -343,6 +352,9 @@ cc.Class({
         this.dandelionNode.active = false;
         this.signInButton.active = false;
         this.rouletteBtn.active = false;
+
+        this.hallNode.active = false;
+        this.checkpointNode.active = false;
     },
 
     openUIForToturial: function () {
@@ -350,6 +362,9 @@ cc.Class({
         this.dandelionNode.active = true;
         this.signInButton.active = true;
         this.rouletteBtn.active = true;
+
+        this.hallNode.active = false;
+        this.checkpointNode.active = true;
     },
 
     toturialNextStep: function () {
@@ -409,10 +424,19 @@ cc.Class({
     inCheckpointCompatible:function() {
         this.unschedule(this.refreshDragonNestInfo);
 
+        this.dragonHome.node.parent.active = false;
+        //先全关
+        this.closeUIForToturial();
+        this.dandelionNode.active = true;
+        this.hallNode.active = true;
     },
 
     outCheckpointCompatible:function() {
         this.schedule(this.refreshDragonNestInfo, 1);
+
+        this.dragonHome.node.parent.active = true;
+
+        this.openUIForToturial();
     },
 
     refreshDragonNestInfo: function () {
