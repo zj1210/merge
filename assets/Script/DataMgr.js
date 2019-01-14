@@ -760,15 +760,8 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("heartCount", 1);
         }
 
-
-        var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
-
-        if (!strHallTileData) {
-            this.hallTileData = null;
-        } else {
-            //块上数据
-            this.hallTileData = JSON.parse(strHallTileData);
-        }
+        //this.hallTileData = this.getHallTileData();
+        
         var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
 
         if (!strDragonData) {
@@ -804,6 +797,17 @@ export default class DataMgr extends cc.Component {
             });
         }
 
+    };
+
+    getHallTileData() {
+        var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
+
+        if (!strHallTileData) {
+            this.hallTileData = null;
+        } else {
+            //块上数据
+            this.hallTileData = JSON.parse(strHallTileData);
+        }
     };
 
     share() {
@@ -1205,6 +1209,7 @@ export default class DataMgr extends cc.Component {
 
         cc.sys.localStorage.setItem("hallTileData", JSON.stringify(tilePersistenceDatas));
 
+        this.getHallTileData();
 
         var dragonPersistenceDatas = [];
 
