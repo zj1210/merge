@@ -40,9 +40,9 @@ cc.Class({
 
 
 
-        maps:{
-            default:null,
-            type:[]
+        maps: {
+            default: [],
+            type: cc.Prefab
         },
         // tilesHorizontalCount: {
         //     default: 0,
@@ -78,11 +78,9 @@ cc.Class({
             cc.dataMgr = new DataMgr();
             cc.dataMgr.init();
 
-            /**
-         * 初始化块的数据结构,0标记的是大厅数据
-         */
-            cc.dataMgr.initTile(0, this.node.getChildByName('gameLayer').getChildByName('mapNode').children);
 
+
+            this.loadGame(0);
         }
         if (!cc.audioMgr) {
             cc.audioMgr = new AudioMgr();
@@ -176,7 +174,7 @@ cc.Class({
     },
 
 
-    clearGame:function() {
+    clearGame: function () {
         this.mapNode.removeAllChildren();
         this.thingsNode.removeAllChildren();
         this.dragonsNode.removeAllChildren();
@@ -184,9 +182,15 @@ cc.Class({
         cc.dataMgr.tilesData = [];
     },
 
-    loadGame:function(tag) {
-        if(tag ==0) {
-
+    loadGame: function (tag) {
+        if (tag == 0) {
+            /**
+                 * 初始化块的数据结构,0标记的是大厅数据
+                 */
+            var mapNode = cc.instantiate(this.maps[0]);
+            mapNode.setLocalZOrder(-1);
+            this.node.getChildByName('gameLayer').addChild(mapNode);
+            cc.dataMgr.initTile(0, mapNode.children);
         } else {
 
         }

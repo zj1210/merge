@@ -378,7 +378,7 @@ cc.Class({
         //删除主基地
         //加载关卡内容
         this.game.clearGame();
-        //this.game.loadGame(1);
+        this.game.loadGame(1);
     },
 
     refreshDragonNestInfo: function () {
