@@ -186,6 +186,7 @@ cc.Class({
             this.initDragons();
 
         } else {
+            cc.dataMgr.saveGameData();
             cc.dataMgr.isHall = false;
             this.mapNode = cc.instantiate(this.maps[tag]);
         }
