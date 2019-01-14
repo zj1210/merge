@@ -1,3 +1,4 @@
+import UIMgr from 'UIMgr';
 const {
     ccclass,
     property
@@ -45,12 +46,18 @@ export default class Notification extends cc.Component {
                 this._eventMap[type] = undefined;
             },
         };
+        if (!cc.uiMgr) {
+            cc.uiMgr = new UIMgr();
+            //cc.ModuleMgr = new ModuleMgr()
+        }
     }
     localInit(data){
         //console.log("localInit"+data.name+data.id)
     }
     start() {
         //console.log("start")
+        cc.uiMgr.loadPrefab("controller",{},{add:false,parentName:"Canvas/UI2d"})
+        cc.uiMgr.loadPrefab("ReturnHall",{},{add:false,parentName:"Canvas/UI2dUp"})
     }
     update(){}
 }
