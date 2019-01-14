@@ -367,6 +367,15 @@ cc.Class({
     //     }
     // },
 
+    checkpointBtn:function() {
+        console.log("checkpointBtn Click~");
+
+        cc.audioMgr.playEffect("UI");
+        //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
+        //2,加载一个新的地图，开始游戏
+        
+    },
+
     refreshDragonNestInfo: function () {
         //console.log("-----每秒 刷新龙巢");
         var len = cc.dataMgr.dragonNestDatas.length;
