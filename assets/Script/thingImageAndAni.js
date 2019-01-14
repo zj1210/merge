@@ -7,7 +7,7 @@ cc.Class({
 
     properties: {
         //todo 定义 N多的 图片  和动画
-
+        //
 
 
         flower_0_spr: {
