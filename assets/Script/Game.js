@@ -39,6 +39,11 @@ cc.Class({
         },
 
 
+
+        maps:{
+            default:null,
+            type:[]
+        },
         // tilesHorizontalCount: {
         //     default: 0,
         //     displayName: "当前图的水平格子数",
@@ -168,6 +173,23 @@ cc.Class({
 
         }, this.node);
 
+    },
+
+
+    clearGame:function() {
+        this.mapNode.removeAllChildren();
+        this.thingsNode.removeAllChildren();
+        this.dragonsNode.removeAllChildren();
+
+        cc.dataMgr.tilesData = [];
+    },
+
+    loadGame:function(tag) {
+        if(tag ==0) {
+
+        } else {
+
+        }
     },
 
 

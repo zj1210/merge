@@ -373,7 +373,12 @@ cc.Class({
         cc.audioMgr.playEffect("UI");
         //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
         //2,加载一个新的地图，开始游戏
-        
+        //首先要把主基地数据存起来
+        cc.dataMgr.saveGameData();
+        //删除主基地
+        //加载关卡内容
+        this.game.clearGame();
+        //this.game.loadGame(1);
     },
 
     refreshDragonNestInfo: function () {
