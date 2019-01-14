@@ -126,13 +126,7 @@ cc.Class({
 
         cc.audioMgr.playBg();
 
-        //根据持久化数据，持久化龙层，todo：龙巢的恢复
-        this.initDragons();
 
-        //虽然很迷你，但本质上就是战争迷雾系统
-        this.fogOfWarSystem();
-        //调用草地变色，与自动描边
-        this.grassSystem();
         //云特效
         this.cloudEffect();
 
@@ -176,8 +170,8 @@ cc.Class({
         // this.thingsNode.removeAllChildren();
         // this.dragonsNode.removeAllChildren();
         this.mapNode.destroy();
-        this.thingsNode.destroy();
-        this.dragonsNode.destroy();
+        this.thingsNode.removeAllChildren();
+        this.dragonsNode.removeAllChildren();
         cc.dataMgr.tilesData = [];
     },
 
@@ -185,15 +179,27 @@ cc.Class({
     loadGame: function (tag) {
         this.checkpointID = tag;
         if (tag == null) {
+            cc.dataMgr.isHall = true;
             this.mapNode = cc.instantiate(this.maps[0]);
 
+            //根据持久化数据，持久化龙层，todo：龙巢的恢复
+            this.initDragons();
+
         } else {
+            cc.dataMgr.isHall = false;
             this.mapNode = cc.instantiate(this.maps[tag]);
         }
 
         this.mapNode.setLocalZOrder(-1);
         this.node.getChildByName('gameLayer').addChild(this.mapNode);
         cc.dataMgr.initTile(tag, this.mapNode.children);
+
+        //虽然很迷你，但本质上就是战争迷雾系统
+        this.fogOfWarSystem();
+        //调用草地变色，与自动描边
+        this.grassSystem();
+
+        
     },
 
 

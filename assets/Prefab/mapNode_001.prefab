@@ -2796,12 +2796,12 @@
       "__id__": 62
     },
     "_enabled": true,
-    "tileType": 1,
-    "fogAmount": 6561,
+    "tileType": 0,
+    "fogAmount": 0,
     "fogState": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -3472,13 +3472,13 @@
       "__id__": 82
     },
     "_enabled": true,
-    "tileType": 1,
-    "fogAmount": 100,
+    "tileType": 0,
+    "fogAmount": 0,
     "fogState": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
-    "dontWant": 1,
+    "thingType": 2,
+    "thingLevel": 3,
+    "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
     },
@@ -4148,12 +4148,12 @@
       "__id__": 102
     },
     "_enabled": true,
-    "tileType": 1,
-    "fogAmount": 19683,
+    "tileType": 0,
+    "fogAmount": 0,
     "fogState": 0,
     "skinType": 0,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 3,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -27808,11 +27808,11 @@
       "__id__": 802
     },
     "_enabled": true,
-    "tileType": 1,
-    "fogAmount": 729,
+    "tileType": 0,
+    "fogAmount": 0,
     "fogState": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -28484,11 +28484,11 @@
       "__id__": 822
     },
     "_enabled": true,
-    "tileType": 1,
-    "fogAmount": 729,
+    "tileType": 0,
+    "fogAmount": 0,
     "fogState": 0,
     "skinType": 0,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {
@@ -32540,11 +32540,11 @@
       "__id__": 942
     },
     "_enabled": true,
-    "tileType": 1,
-    "fogAmount": 243,
+    "tileType": 0,
+    "fogAmount": 0,
     "fogState": 0,
     "skinType": 1,
-    "thingType": 0,
+    "thingType": 3,
     "thingLevel": 0,
     "dontWant": 0,
     "landSpriteFrame0": {

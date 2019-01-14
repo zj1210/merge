@@ -1100,12 +1100,7 @@ export default class DataMgr extends cc.Component {
 
     //checkpointID 大厅是0 关卡的从1开始类推 mapNode的tile必须按照从左到右，从上到下的顺序摆放
     initTile(checkpointID, tiles) {
-        //console.log(tiles);
-        if(checkpointID == null) {
-            this.isHall = true;
-        } else {
-            this.isHall = false;
-        }
+       
         var wAndH = this.getCurrentWidthAndHeight(checkpointID);
         var h = wAndH.h;
         var w = wAndH.w;
