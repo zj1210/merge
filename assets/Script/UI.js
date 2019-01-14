@@ -381,6 +381,16 @@ cc.Class({
         this.game.loadGame(1);
     },
 
+    hallBtn:function() {
+        console.log("hallBtn Click~");
+
+        cc.audioMgr.playEffect("UI");
+        //删除主基地
+        //加载关卡内容
+        this.game.clearGame();
+        this.game.loadGame(null);
+    },
+
     refreshDragonNestInfo: function () {
         //console.log("-----每秒 刷新龙巢");
         var len = cc.dataMgr.dragonNestDatas.length;
