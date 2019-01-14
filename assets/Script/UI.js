@@ -375,6 +375,8 @@ cc.Class({
         //2,加载一个新的地图，开始游戏
         //首先要把主基地数据存起来
         cc.dataMgr.saveGameData();
+
+        this.inCheckpointCompatible();
         //删除主基地
         //加载关卡内容
         this.game.clearGame();
@@ -385,10 +387,21 @@ cc.Class({
         console.log("hallBtn Click~");
 
         cc.audioMgr.playEffect("UI");
+
+        this.outCheckpointCompatible();
         //删除主基地
         //加载关卡内容
         this.game.clearGame();
         this.game.loadGame(null);
+    },
+
+    inCheckpointCompatible:function() {
+        this.unschedule(this.refreshDragonNestInfo);
+
+    },
+
+    outCheckpointCompatible:function() {
+        this.schedule(this.refreshDragonNestInfo, 1);
     },
 
     refreshDragonNestInfo: function () {

@@ -760,27 +760,10 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("heartCount", 1);
         }
 
-        //this.hallTileData = this.getHallTileData();
+      this.getHallTileData();
+      this.getHallDragonData();
         
-        var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
-
-        if (!strDragonData) {
-            this.dragonDatas = null;
-        } else {
-            //龙层数据
-            this.dragonDatas = JSON.parse(strDragonData);
-        }
-
-        var strDragonNestDatas = cc.sys.localStorage.getItem("dragonNestDatas");
-
-        if (!strDragonNestDatas) {
-            this.dragonNestDatas = [];
-        } else {
-            //龙巢数据
-
-            this.dragonNestDatas = JSON.parse(strDragonNestDatas);
-            // console.log(this.dragonNestDatas);
-        }
+       
 
         if (CC_WECHATGAME) {
             wx.onShow(res => {
@@ -807,6 +790,28 @@ export default class DataMgr extends cc.Component {
         } else {
             //块上数据
             this.hallTileData = JSON.parse(strHallTileData);
+        }
+    };
+
+    getHallDragonData() {
+        var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
+
+        if (!strDragonData) {
+            this.dragonDatas = null;
+        } else {
+            //龙层数据
+            this.dragonDatas = JSON.parse(strDragonData);
+        }
+
+        var strDragonNestDatas = cc.sys.localStorage.getItem("dragonNestDatas");
+
+        if (!strDragonNestDatas) {
+            this.dragonNestDatas = [];
+        } else {
+            //龙巢数据
+
+            this.dragonNestDatas = JSON.parse(strDragonNestDatas);
+            // console.log(this.dragonNestDatas);
         }
     };
 
@@ -1209,7 +1214,7 @@ export default class DataMgr extends cc.Component {
 
         cc.sys.localStorage.setItem("hallTileData", JSON.stringify(tilePersistenceDatas));
 
-        this.getHallTileData();
+      
 
         var dragonPersistenceDatas = [];
 
@@ -1231,6 +1236,8 @@ export default class DataMgr extends cc.Component {
         //存储龙巢内的龙  数据不用解析了，本来就是纯数据的结构
         cc.sys.localStorage.setItem("dragonNestDatas", JSON.stringify(this.dragonNestDatas));
 
+        this.getHallTileData();
+        this.getHallDragonData();
     };
 
 
