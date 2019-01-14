@@ -42,6 +42,109 @@ export default class DataMgr extends cc.Component {
     hallTileWidth = 15;
     hallTileHeight = 20;
 
+    //各个关卡宽高
+    checkpointsWAndH =[
+        {
+            "w":6,
+            "h":8
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+    ]
+
     //用于规范摄像机区域的值  他不是对称的
     hallLeftWidth = 2800;
     hallRightWidth = 6400;
@@ -983,29 +1086,35 @@ export default class DataMgr extends cc.Component {
         debugger;
     };
 
-    getCurrentWidthAndHeight() {
+    getCurrentWidthAndHeight(checkpointID) {
+
         if (this.isHall) {
             return {
                 w: this.hallTileWidth,
                 h: this.hallTileHeight
             };
         } else {
-            return {
-                w: this.checkpointWidth,
-                h: this.checkpintHeight
-            };
+            return this.checkpointsWAndH[checkpointID-1];
         }
     };
 
     //checkpointID 大厅是0 关卡的从1开始类推 mapNode的tile必须按照从左到右，从上到下的顺序摆放
     initTile(checkpointID, tiles) {
         //console.log(tiles);
-        for (var i = 0; i < this.hallTileHeight; i++) {
+        if(checkpointID == null) {
+            this.isHall = true;
+        } else {
+            this.isHall = false;
+        }
+        var wAndH = this.getCurrentWidthAndHeight(checkpointID);
+        var h = wAndH.h;
+        var w = wAndH.w;
+        for (var i = 0; i < h; i++) {
             this.tilesData[i] = [];
         }
-        for (var i = 0; i < this.hallTileHeight; i++) {
-            for (var j = 0; j < this.hallTileWidth; j++) {
-                this.tilesData[i][j] = tiles[i * this.hallTileWidth + j];
+        for (var i = 0; i < h; i++) {
+            for (var j = 0; j < w; j++) {
+                this.tilesData[i][j] = tiles[i * w + j];
                 this.tilesData[i][j].getComponent('Tile').setIndex(j, i);
             }
         }

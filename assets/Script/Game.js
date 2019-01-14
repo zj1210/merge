@@ -20,10 +20,7 @@ cc.Class({
             type: cc.Prefab,
         },
 
-        mapNode: {
-            default: null,
-            type: cc.Node,
-        },
+
         thingsNode: {
             default: null,
             type: cc.Node,
@@ -80,7 +77,7 @@ cc.Class({
 
 
 
-            this.loadGame(0);
+            this.loadGame(null);
         }
         if (!cc.audioMgr) {
             cc.audioMgr = new AudioMgr();
@@ -175,25 +172,28 @@ cc.Class({
 
 
     clearGame: function () {
-        this.mapNode.removeAllChildren();
-        this.thingsNode.removeAllChildren();
-        this.dragonsNode.removeAllChildren();
-
+        // this.mapNode.removeAllChildren();
+        // this.thingsNode.removeAllChildren();
+        // this.dragonsNode.removeAllChildren();
+        this.mapNode.destroy();
+        this.thingsNode.destroy();
+        this.dragonsNode.destroy();
         cc.dataMgr.tilesData = [];
     },
 
+    //大厅地图 null 其他的按1，2,3排列
     loadGame: function (tag) {
-        if (tag == 0) {
-            /**
-                 * 初始化块的数据结构,0标记的是大厅数据
-                 */
-            var mapNode = cc.instantiate(this.maps[0]);
-            mapNode.setLocalZOrder(-1);
-            this.node.getChildByName('gameLayer').addChild(mapNode);
-            cc.dataMgr.initTile(0, mapNode.children);
-        } else {
+        this.checkpointID = tag;
+        if (tag == null) {
+            this.mapNode = cc.instantiate(this.maps[0]);
 
+        } else {
+            this.mapNode = cc.instantiate(this.maps[tag]);
         }
+
+        this.mapNode.setLocalZOrder(-1);
+        this.node.getChildByName('gameLayer').addChild(this.mapNode);
+        cc.dataMgr.initTile(tag, this.mapNode.children);
     },
 
 
@@ -215,7 +215,7 @@ cc.Class({
     //战争迷雾，用于控制雾，周围有非雾就显示label并且可点击
     fogOfWarSystem: function () {
         // return;
-        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
         var tileHeight = hAndW.h;
         var tileWidth = hAndW.w;
 
@@ -257,7 +257,7 @@ cc.Class({
 
     //草地系统，用于草地变色 自动描边
     grassSystem: function () {
-        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
         var tileHeight = hAndW.h;
         var tileWidth = hAndW.w;
         for (var i = 0; i < tileHeight; i++) {
@@ -324,7 +324,7 @@ cc.Class({
     getContainPointTile: function (worldPos) {
 
         //var touchPos = this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
-        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
         var tileHeight = hAndW.h,
             tileWidth = hAndW.w;
         for (var i = 0; i < tileHeight; i++) {
@@ -382,7 +382,7 @@ cc.Class({
             this.checkConnectRecurse(tileJS.index.x - 1, tileJS.index.y, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
         }
 
-        if (tileJS.index.x < cc.dataMgr.getCurrentWidthAndHeight().w - 1) {
+        if (tileJS.index.x < cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID).w - 1) {
             this.checkConnectRecurse(tileJS.index.x + 1, tileJS.index.y, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
         }
 
@@ -390,7 +390,7 @@ cc.Class({
             this.checkConnectRecurse(tileJS.index.x, tileJS.index.y - 1, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
         }
 
-        if (tileJS.index.y < cc.dataMgr.getCurrentWidthAndHeight().h - 1) {
+        if (tileJS.index.y < cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID).h - 1) {
             this.checkConnectRecurse(tileJS.index.x, tileJS.index.y + 1, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
         }
         // console.log("-----查找连通算法结果------");
@@ -437,7 +437,7 @@ cc.Class({
                 this.checkConnectRecurse(tJS.index.x - 1, tJS.index.y, type, level, resultThings);
             }
 
-            if (tJS.index.x < cc.dataMgr.getCurrentWidthAndHeight().w - 1) {
+            if (tJS.index.x < cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID).w - 1) {
                 this.checkConnectRecurse(tJS.index.x + 1, tJS.index.y, type, level, resultThings);
             }
 
@@ -445,7 +445,7 @@ cc.Class({
                 this.checkConnectRecurse(tJS.index.x, tJS.index.y - 1, type, level, resultThings);
             }
 
-            if (tJS.index.y < cc.dataMgr.getCurrentWidthAndHeight().h - 1) {
+            if (tJS.index.y < cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID).h - 1) {
                 this.checkConnectRecurse(tJS.index.x, tJS.index.y + 1, type, level, resultThings);
             }
 
@@ -494,7 +494,7 @@ cc.Class({
     getNearestTileByN: function (tile, N) {
         var resultTiles = [];
         var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
-        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
         var tileHeight = hAndW.h;
         var tileWidth = hAndW.w;
 
@@ -664,7 +664,7 @@ cc.Class({
     getNearestTileByN_pos: function (pos, N) {
         var resultTiles = [];
         var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
-        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
         var tileHeight = hAndW.h;
         var tileWidth = hAndW.w;
 
