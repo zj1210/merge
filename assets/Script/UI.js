@@ -152,6 +152,11 @@ cc.Class({
         dragonHome: {
             default: null,
             type: cc.Button
+        },
+
+        checkpointLayer:{
+            default:null,
+            type:cc.Node
         }
 
     },
@@ -370,17 +375,23 @@ cc.Class({
     checkpointBtn:function() {
         console.log("checkpointBtn Click~");
 
-        cc.audioMgr.playEffect("UI");
-        //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
-        //2,加载一个新的地图，开始游戏
-        //首先要把主基地数据存起来
-        cc.dataMgr.saveGameData();
+        // cc.audioMgr.playEffect("UI");
 
-        this.inCheckpointCompatible();
-        //删除主基地
-        //加载关卡内容
-        this.game.clearGame();
-        this.game.loadGame(1);
+
+        // //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
+        // //2,加载一个新的地图，开始游戏
+        // //首先要把主基地数据存起来
+        // cc.dataMgr.saveGameData();
+
+        // this.inCheckpointCompatible();
+        // //删除主基地
+        // //加载关卡内容
+        // this.game.clearGame();
+        // this.game.loadGame(1);
+
+        cc.audioMgr.playEffect("UI");
+        
+        this.checkpointLayer.active = true;
     },
 
     hallBtn:function() {
