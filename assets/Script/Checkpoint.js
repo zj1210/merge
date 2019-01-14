@@ -40,6 +40,8 @@ cc.Class({
         //加载关卡内容
         this.game.clearGame();
         this.game.loadGame(userData);
+
+        this.node.active = false;
     },
 
 
