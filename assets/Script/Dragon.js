@@ -97,6 +97,11 @@ cc.Class({
             default: null,
             type: cc.SpriteFrame
         },
+
+        sayNode:{
+            default:null,
+            type:cc.Node
+        }
     },
 
     settingSpriteFrame(type, level) {
@@ -123,6 +128,8 @@ cc.Class({
                 this.progressNode.position = cc.v2(0, 190);
                 this.tipsNode.position = cc.v2(0, 190);
 
+                this.sayNode.position = cc.v2(0,240);
+
             } else if (level == 3) {
                 this.dragonSpr.spriteFrame = this.dragon_3_spr;
                 this.wing1.spriteFrame = this.wing_3_spr;
@@ -136,6 +143,8 @@ cc.Class({
                 this.progressNode.position = cc.v2(0, 260);
                 this.tipsNode.position = cc.v2(0, 130);
 
+                this.sayNode.position = cc.v2(0,310);
+
             } else if (level == 4) {
                 this.dragonSpr.spriteFrame = this.dragon_4_spr;
                 this.wing1.spriteFrame = this.wing_4_spr;
@@ -148,6 +157,8 @@ cc.Class({
                 this.collectionThing.position = cc.v2(0, 130);
                 this.progressNode.position = cc.v2(0, 300);
                 this.tipsNode.position = cc.v2(0, 130);
+
+                this.sayNode.position = cc.v2(0,350);
 
             }
             // this.node.width = this.dragonSpr.spriteFrame._rect.width;
@@ -310,8 +321,15 @@ cc.Class({
 
                 self.game.changeCameraPosition(touchpos, self.node);
 
-                //以此龙的坐标为原点，半径为范围查找相交的龙，返回的是一个集合
+                
+
+                var maxLevel = cc.dataMgr.getMaxLevelByType(self.thingType);
+                if(self.thingLevel<maxLevel) {
+                   //以此龙的坐标为原点，半径为范围查找相交的龙，返回的是一个集合
                 self.curCanUnionedDragons = self.game.findCanUnionDragons(self.node);
+                } else {
+                    self.curCanUnionedDragons = [];
+                }
 
                 //当前集合内的龙 和上次 集合内的龙完全一样
                 if (self.curAndLastUnionedDragonsIsSame()) {
@@ -398,7 +416,7 @@ cc.Class({
 
     playCollection: function (flowerLevel) {
         if (this.strength <= 0) {
-            this.changeLabel("太累了!");
+            this.changeLabel("好累，休息一会继续!");
             this.scheduleOnce(this.goToDragonNest, 1.0);
             this.node.targetOff(this.node);
             return;
@@ -420,7 +438,9 @@ cc.Class({
 
         // this.generateHeartAndPlace(heartLevel);
 
-
+        var rSayIndex = Math.floor(Math.random() * cc.dataMgr.saySomethingByDragon.length);
+        this.sayNode.getComponent(cc.Label).string = cc.dataMgr.saySomethingByDragon[rSayIndex];
+        this.sayNode.getComponent(cc.Animation).play("sayLabel");
     },
 
     //移动到花，然后采集的逻辑，用于点击花 龙去采集
@@ -475,6 +495,8 @@ cc.Class({
         this.collectionInterrupt();
 
         this.strength--;
+
+        window.Notification.emit("COL_SUCCESS");
 
     },
 
@@ -609,7 +631,12 @@ cc.Class({
         this.thingType = thingType;
         this.thingLevel = thingLevel;
         //debugger;
-        this.strength = cc.dataMgr.getDragonStrength(thingLevel);
+        if(cc.dataMgr.isHall) {
+            this.strength = cc.dataMgr.getDragonStrength(thingLevel);
+        } else {
+            this.strength = 99999;
+        }
+        
         this.settingSpriteFrame(this.thingType, this.thingLevel);
 
 
@@ -628,8 +655,12 @@ cc.Class({
 
     browseThisThing: function () {
         console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel + '  dragon　strength: ' + this.strength);
-
-        this.ui.addDescForClick(this.thingType, this.thingLevel, this.strength);
+        if(cc.dataMgr.isHall) {
+            this.ui.addDescForClick(this.thingType, this.thingLevel, this.strength);
+        } else {
+            this.ui.addDescForClick(this.thingType, this.thingLevel,"无限");
+        }
+     
     },
 
     unBrowseThisThing: function () {

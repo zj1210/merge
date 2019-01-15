@@ -127,7 +127,14 @@ cc.Class({
                     let tileJS = self.currentNearestTile.getComponent('Tile');
                     tileJS.putInThingTemporarily(self.node.parent);
                     //3 查找连通物品
-                    self.thingsArray = self.game.findConnentedThing(self.currentNearestTile);
+                   
+                    var maxLevel = cc.dataMgr.getMaxLevelByType(self.thingType);
+                    if(self.thingLevel<maxLevel) {
+                        self.thingsArray = self.game.findConnentedThing(self.currentNearestTile);
+                    } else {
+                        self.thingsArray = null;
+                    }
+                    
 
                     //4 将连通物品的selected active 置为true 并且播放往此物品平移的 动画
                     if (self.thingsArray && self.thingsArray.length > 2) {
@@ -241,6 +248,12 @@ cc.Class({
                 var camerapos = cc.v2();
                 camerapos = cc.pointApplyAffineTransform(this.node.parent.getChildByName('thing').position, m);
                 var level = this.thingLevel;
+
+                var heartTipsNode = this.game.node.getChildByName("gameLayer").getChildByName("effectsNode").getChildByName("heartTipsNode");
+                heartTipsNode.position = cc.v2(this.node.parent.position.x,this.node.parent.position.y+50);
+                var tipsLabel = heartTipsNode.getChildByName("tipsLabel");
+                tipsLabel.getComponent(cc.Label).string = "+" + cc.dataMgr.getHeartCountByLevel(level) + "精华"
+                tipsLabel.getComponent(cc.Animation).play("heartCountTips");
                 this.ui.addHeartAndAni(camerapos, level);
                 this.relationTileJS.thing = null;
                 this.relationTileJS.thingType = 0;
@@ -248,6 +261,8 @@ cc.Class({
 
                 this.node.parent.destroy();
                 this.isClick = true;
+
+                window.Notification.emit("COL_HEART");
 
             } else if (this.thingType == 2 && this.thingLevel > 1) {
                 console.log("花被点击，龙来采集");

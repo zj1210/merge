@@ -3,7 +3,7 @@
   "_name": "tipsLabel",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 1,
+  "_duration": 1.5,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -15,11 +15,11 @@
           "value": 0
         },
         {
-          "frame": 0.16666666666666666,
+          "frame": 0.43333333333333335,
           "value": 255
         },
         {
-          "frame": 1,
+          "frame": 1.5,
           "value": 0
         }
       ],
@@ -29,8 +29,8 @@
           "value": 100
         },
         {
-          "frame": 1,
-          "value": 140
+          "frame": 1.5,
+          "value": 180
         }
       ]
     }

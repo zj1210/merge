@@ -1,3 +1,5 @@
+
+
 cc.Class({
     extends: cc.Component,
 
@@ -102,14 +104,14 @@ cc.Class({
             type: cc.Prefab
         },
 
-        sigInNode:{
-            default:null,
-            type:cc.Node
+        sigInNode: {
+            default: null,
+            type: cc.Node
         },
 
-        rouletteNode:{
-            default:null,
-            type:cc.Node
+        rouletteNode: {
+            default: null,
+            type: cc.Node
         },
 
         dandelionNode: {
@@ -117,9 +119,54 @@ cc.Class({
             type: cc.Node
         },
 
+        shopIconNode: {
+            default: null,
+            type: cc.Node
+        },
+
         thingPrefab: {
             default: null,
             type: cc.Prefab
+        },
+
+        dragonShare_Node: {
+            default: null,
+            type: cc.Node
+        },
+
+        node_toturial: {
+            default: null,
+            type: cc.Node
+        },
+
+        signInButton: {
+            default: null,
+            type: cc.Node
+        },
+
+        rouletteBtn: {
+            default: null,
+            type: cc.Node
+        },
+
+        dragonHome: {
+            default: null,
+            type: cc.Button
+        },
+
+        checkpointLayer: {
+            default: null,
+            type: cc.Node
+        },
+
+        checkpointNode: {
+            default: null,
+            type: cc.Node
+        },
+
+        hallNode: {
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -131,12 +178,19 @@ cc.Class({
         this.descNode.active = true;
         this.unDescNode.active = false;
 
+
     },
 
     refreshUI: function () {
         this.coinLabel.string = cc.dataMgr.getCoinCount();
         this.heartLabel.string = cc.dataMgr.getHeartCount();
-
+        if (cc.dataMgr.getCoinCount() < 1) {
+            this.shopIconNode.getChildByName("light").getComponent(cc.Animation).play("lightOut");
+        } else {
+            //一般要这样做：如果这个动画在播放就忽略了，没在播放就播放
+            //但是cocos的api注释说的很含糊没有找到怎么用
+            this.shopIconNode.getChildByName("light").getComponent(cc.Animation).play("light");
+        }
     },
 
     start: function () {
@@ -154,6 +208,279 @@ cc.Class({
         this.dandelionGenBtn = this.dandelionNode.getChildByName('dandelionIcon').getComponent(cc.Button);
         this.dandelionGenBtn.interactable = false;
         this.schedule(this.generateDandelion, 1);
+
+        if (cc.dataMgr.getCoinCount() > 0) {
+            this.shopIconNode.getChildByName("light").getComponent(cc.Animation).play("light");
+        }
+
+        let self = this;
+
+
+        window.Notification.on("UIMgr_pop", function (data) {
+            console.log(data.length);
+            if (data.length == 0) {
+                console.log("显示大厅");
+            } else {
+
+            }
+        });
+
+        window.Notification.on("UIMgr_push", function (data) {
+            console.log(data.length);
+            if (data.length > 0) {
+                console.log("隐藏大厅");
+            } else {
+
+            }
+        });
+
+        window.Notification.on("go_Checkpoint", function (data) {
+            console.log("关卡按钮被点击");
+            console.log(data);
+
+            cc.audioMgr.playEffect("UI");
+
+
+            //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
+            //2,加载一个新的地图，开始游戏
+            //首先要把主基地数据存起来
+            cc.dataMgr.saveGameData();
+
+            self.inCheckpointCompatible();
+            //删除主基地
+            //加载关卡内容
+            self.game.clearGame();
+            self.game.loadGame(data.idx);
+
+          
+        });
+
+
+        //新手教学系统
+        this.toturialSystem();
+        var isToturial = cc.dataMgr.hasToturial();
+        if (isToturial) {
+            window.Notification.on("MERGE_FLOWER", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if (curStep == 0) {
+                    console.log("新手教学：步奏0结束!");
+                    self.toturialNextStep();
+                    //送三个龙蛋用于下一步
+                    self.generateThreeEgg();
+                }
+            });
+
+            window.Notification.on("EGG_TO_DRAGON", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if (curStep == 1) {
+                    console.log("新手教学：步奏1结束!");
+                    self.toturialNextStep();
+
+                }
+            });
+
+            window.Notification.on("COL_SUCCESS", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if (curStep == 2) {
+                    console.log("新手教学：步奏2结束!");
+                    self.toturialNextStep();
+                }
+            });
+
+
+            window.Notification.on("COL_HEART", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if (curStep == 3) {
+                    console.log("新手教学：步奏3结束!");
+                    self.toturialNextStep();
+                }
+            });
+
+            window.Notification.on("FOG_OPEN", function (parameter) {
+                var curStep = cc.dataMgr.getToturialCurStep();
+                if (curStep == 4) {
+                    console.log("新手教学：步奏4结束!");
+                    //self.toturialNextStep();
+
+
+
+                    var curStep_node = self.node_toturial.getChildByName("step" + curStep);
+                    curStep_node.getComponent(cc.Animation).play("stepOut");
+
+
+                    var cs = cc.dataMgr.addToturialStep(1);
+                    var nextStep_node = self.node_toturial.getChildByName("step" + cs);
+                    nextStep_node.getComponent(cc.Animation).play("stepOver");
+
+                    self.toturialSystem();
+                }
+            });
+
+        } else {
+            this.node_toturial.active = false;
+        }
+
+
+        //过审相关的：分享开关
+        this.shareForCensorship();
+    },
+
+
+    shareForCensorship: function () {
+        if (CC_WECHATGAME) {
+            this.rouletteBtn.active = false;
+            this.dragonHome.interactable = false;
+            wx.request({
+                url: 'https://bpw.blyule.com/Merge_Res/mergeSetting.json',
+
+                success: (obj, statusCode, header) => {
+                    console.log("是否显示分享的数据");
+                    console.log(obj);
+                    console.log(obj.data);
+                    if (obj.data.showShare) {
+                        console.log("显示分享");
+                        this.rouletteBtn.active = true;
+                        this.dragonHome.interactable = true;
+
+                    } else {
+                        console.log("不显示分享");
+                        this.rouletteBtn.active = false;
+                        this.dragonHome.interactable = false;
+                    }
+
+                    // if (obj.data.showMoreGame) {
+                    //     console.log("显示更多游戏");
+
+                    //     self.moreGameNode.active = true;
+                    // }
+                }
+            });
+        }
+    },
+
+    generateThreeEgg: function () {
+        for (var i = 0; i < 3; i++) {
+            var tile = this.game.getTile();
+            this.game.generateAndPutThing_signIn(tile, "draggon", 0);
+        }
+    },
+    //新手教学系统
+    toturialSystem: function () {
+        //逻辑分析：先查询是否进入新手教学 当前步小于总步数 则进入
+
+        var isToturial = cc.dataMgr.hasToturial();
+        if (isToturial) {
+            this.node_toturial.active = true;
+
+            var curStep = cc.dataMgr.getToturialCurStep();
+            var curStep_node = this.node_toturial.getChildByName("step" + curStep);
+            curStep_node.getComponent(cc.Animation).play("stepIn");
+
+            this.closeUIForToturial();
+        }
+        //若不进入 则 4个系统按钮显示
+        else {
+            //this.node_toturial.active =false;
+
+            this.openUIForToturial();
+
+            this.shareForCensorship();
+        }
+    },
+
+
+    closeUIForToturial: function () {
+        this.shopIconNode.active = false;
+        this.dandelionNode.active = false;
+        this.signInButton.active = false;
+        this.rouletteBtn.active = false;
+
+        this.hallNode.active = false;
+        this.checkpointNode.active = false;
+    },
+
+    openUIForToturial: function () {
+        this.shopIconNode.active = true;
+        this.dandelionNode.active = true;
+        this.signInButton.active = true;
+        this.rouletteBtn.active = true;
+
+        this.hallNode.active = false;
+        this.checkpointNode.active = true;
+    },
+
+    toturialNextStep: function () {
+        var curStep = cc.dataMgr.getToturialCurStep();
+        var curStep_node = this.node_toturial.getChildByName("step" + curStep);
+        curStep_node.getComponent(cc.Animation).play("stepOut");
+
+
+        var cs = cc.dataMgr.addToturialStep(1);
+        var nextStep_node = this.node_toturial.getChildByName("step" + cs);
+        nextStep_node.getComponent(cc.Animation).play("stepIn");
+    },
+
+
+
+    // closeAllToturialTips: function () {
+    //     var nodes = this.node_toturial.children;
+    //     for (var i = 0; i < nodes.length; i++) {
+    //         nodes[i].active = false;
+    //     }
+    // },
+
+    checkpointBtn: function () {
+        console.log("checkpointBtn Click~");
+
+        // cc.audioMgr.playEffect("UI");
+
+
+        // //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
+        // //2,加载一个新的地图，开始游戏
+        // //首先要把主基地数据存起来
+        // cc.dataMgr.saveGameData();
+
+        // this.inCheckpointCompatible();
+        // //删除主基地
+        // //加载关卡内容
+        // this.game.clearGame();
+        // this.game.loadGame(1);
+
+        cc.audioMgr.playEffect("UI");
+
+        // this.checkpointLayer.active = true;
+        cc.uiMgr.Push("MapChooseFrame", { index: 3 })
+
+    },
+
+    hallBtn: function () {
+        console.log("hallBtn Click~");
+
+        cc.audioMgr.playEffect("UI");
+
+        this.outCheckpointCompatible();
+        //删除主基地
+        //加载关卡内容
+        this.game.clearGame();
+        this.game.loadGame(null);
+    },
+
+    inCheckpointCompatible: function () {
+        this.unschedule(this.refreshDragonNestInfo);
+
+        this.dragonHome.node.parent.active = false;
+        //先全关
+        this.closeUIForToturial();
+        this.dandelionNode.active = true;
+        this.hallNode.active = true;
+    },
+
+    outCheckpointCompatible: function () {
+        this.schedule(this.refreshDragonNestInfo, 1);
+
+        this.dragonHome.node.parent.active = true;
+
+        this.openUIForToturial();
     },
 
     refreshDragonNestInfo: function () {
@@ -172,9 +499,11 @@ cc.Class({
             if (totleSecond < 1) {
                 console.log("龙出巢逻辑！！todo");
                 this.dragonMoveOutNest();
+            } else {
+                this.setTimeToLabel(totleSecond, this.countDownLabel);
             }
 
-            this.setTimeToLabel(totleSecond, this.countDownLabel);
+
         }
     },
 
@@ -186,6 +515,8 @@ cc.Class({
         if (this.dandelionPeriod <= 0) {
             this.dandelionGenBtn.interactable = true;
             this.unschedule(this.generateDandelion);
+
+            this.dandelionNode.getChildByName("light").getComponent(cc.Animation).play("light");
             console.log("赶快收集吧");
         } else {
             //this.dandelionTimeLabel.string = this.dandelionPeriod;
@@ -200,12 +531,13 @@ cc.Class({
         var camerapos = this.dandelionNode.parent.convertToWorldSpaceAR(this.dandelionNode.position);
 
         //var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
-       
+
         var worldpos = this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
         var nodepos = thingsNode.convertToNodeSpaceAR(worldpos);
 
         var tile = this.game.getTile(nodepos);
         if (tile) {
+            this.dandelionNode.getChildByName("light").getComponent(cc.Animation).play("lightOut");
             this.dandelionGenBtn.interactable = false;
             this.dandelionPeriod = cc.dataMgr.dandelionPeriod;
             this.schedule(this.generateDandelion, 1);
@@ -242,8 +574,8 @@ cc.Class({
         var camerapos = this.dragonNestNode.parent.convertToWorldSpaceAR(this.dragonNestNode.position);
         //debugger;
         //var worldpos = cc.v2(camerapos.x + this.game.camera.position.x, camerapos.y + this.game.camera.position.y);
-        
-        
+
+
         var worldpos = this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
         var nodepos = dragonsNode.convertToNodeSpaceAR(worldpos);
         dragonNode.position = nodepos;
@@ -322,8 +654,8 @@ cc.Class({
     },
 
     addHeartAndAni: function (camerapos, level) {
-       // var worldpos =  this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
-       // var nodepos = this.node.convertToNodeSpaceAR(camerapos);
+        // var worldpos =  this.game.camera.getComponent(cc.Camera).getCameraToWorldPoint(camerapos);
+        // var nodepos = this.node.convertToNodeSpaceAR(camerapos);
         //var nodepos =cc.pSub(camerapos,cc.v2(cc.dataMgr.screenW/2,cc.dataMgr.screenH/2));
         var nodepos = this.node.convertToNodeSpaceAR(camerapos);
         var collectionThingNode = cc.instantiate(this.collectionThingPrefab);
@@ -423,17 +755,17 @@ cc.Class({
         this.refreshUI();
     },
 
-    cameraZoomOutClick:function() {
+    cameraZoomOutClick: function () {
         var camera = this.game.camera.getComponent(cc.Camera);
-        if(camera.zoomRatio>0.5) {
-            camera.zoomRatio -=0.1;
+        if (camera.zoomRatio > 0.5) {
+            camera.zoomRatio -= 0.1;
         }
     },
-    
-    cameraZoomInClick:function() {
+
+    cameraZoomInClick: function () {
         var camera = this.game.camera.getComponent(cc.Camera);
-        if(camera.zoomRatio<1.0) {
-            camera.zoomRatio +=0.1;
+        if (camera.zoomRatio < 1.0) {
+            camera.zoomRatio += 0.1;
         }
     },
 
@@ -478,14 +810,34 @@ cc.Class({
         this.unDescNode.active = true;
     },
 
-    signInClick:function() {
+    signInClick: function () {
         cc.audioMgr.playEffect("UI");
         this.sigInNode.active = true;
     },
 
-    rouletteClick:function() {
+    rouletteClick: function () {
         cc.audioMgr.playEffect("UI");
         this.rouletteNode.active = true;
+    },
+
+
+    //分享测试
+    // shareClick: function () {
+    //     console.log("分享按钮被点击");
+    //     cc.audioMgr.playEffect("UI");
+    //     cc.dataMgr.shareState = cc.dataMgr.ShareState.DANDELION_COUNT;
+
+    //     window.Notification.on(cc.dataMgr.shareState, function (parameter) {
+    //         console.log("分享回调");
+    //         console.log(parameter);
+    //     });
+
+    //     cc.dataMgr.share();
+    // },
+
+    dragonHomeClick: function () {
+        cc.audioMgr.playEffect("UI");
+        this.dragonShare_Node.active = true;
     },
 
     // called every frame

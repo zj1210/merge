@@ -53,7 +53,7 @@ cc.Class({
         cc.audioMgr.playEffect("boxOpen");
 
         this.box.getComponent(cc.Animation).play('boxOpen');
-
+        this.node.getChildByName("arrow").active = false;
         var treasureData = cc.dataMgr.randomTreasure();
         var game = cc.find("Canvas").getComponent('Game');
         switch (treasureData.category) {
@@ -165,6 +165,8 @@ cc.Class({
             cc.audioMgr.playEffect("fog");
             var game = cc.find("Canvas").getComponent('Game');
             game.fogOfWarSystem();
+
+            window.Notification.emit("FOG_OPEN");
         } else {
             console.log("心不够啊！");
             cc.audioMgr.playEffect("btn_click");
@@ -186,7 +188,7 @@ cc.Class({
             this.reLockLabel.node.active = false;
             this.fog.active = false;
             this.box.active = true;
-
+            this.node.getChildByName("arrow").active =true;
         } else {
             console.log("未知 fogState " + fogState);
             debugger;
@@ -215,6 +217,7 @@ cc.Class({
     fogOutOver: function () {
         this.fog.active = false;
         this.box.active = true;
+        this.node.getChildByName("arrow").active =true;
         //this.box.getComponent(cc.Animation).play('boxIn');
     }
 
