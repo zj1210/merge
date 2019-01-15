@@ -91,6 +91,9 @@ export default class MapChooseFrame extends cc.Component {
             var x = self.iconList[idx-1].x + obj.x + bg_x
             var y = self.iconList[idx-1].y + obj.y
             self.dragon.runAction(cc.moveTo(0.5, cc.v2(x,y)))
+            window.Notification.emit("go_Checkpoint",{idx:idx});
+            cc.uiMgr.pop();
+
         },idx:i,desc:"第"+i+"关",image:"dj_flower02",iconIdx:j},{add:false,parentObj:parent})
     }
     update(){

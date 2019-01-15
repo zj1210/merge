@@ -154,19 +154,19 @@ cc.Class({
             type: cc.Button
         },
 
-        checkpointLayer:{
-            default:null,
-            type:cc.Node
+        checkpointLayer: {
+            default: null,
+            type: cc.Node
         },
 
-        checkpointNode:{
-            default:null,
-            type:cc.Node
+        checkpointNode: {
+            default: null,
+            type: cc.Node
         },
 
-        hallNode:{
-            default:null,
-            type:cc.Node
+        hallNode: {
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -214,6 +214,48 @@ cc.Class({
         }
 
         let self = this;
+
+
+        window.Notification.on("UIMgr_pop", function (data) {
+            console.log(data.length);
+            if (data.length == 0) {
+                console.log("显示大厅");
+            } else {
+
+            }
+        });
+
+        window.Notification.on("UIMgr_push", function (data) {
+            console.log(data.length);
+            if (data.length > 0) {
+                console.log("隐藏大厅");
+            } else {
+
+            }
+        });
+
+        window.Notification.on("go_Checkpoint", function (data) {
+            console.log("关卡按钮被点击");
+            console.log(data);
+
+            cc.audioMgr.playEffect("UI");
+
+
+            //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
+            //2,加载一个新的地图，开始游戏
+            //首先要把主基地数据存起来
+            cc.dataMgr.saveGameData();
+
+            self.inCheckpointCompatible();
+            //删除主基地
+            //加载关卡内容
+            self.game.clearGame();
+            self.game.loadGame(data.idx);
+
+          
+        });
+
+
         //新手教学系统
         this.toturialSystem();
         var isToturial = cc.dataMgr.hasToturial();
@@ -387,7 +429,7 @@ cc.Class({
     //     }
     // },
 
-    checkpointBtn:function() {
+    checkpointBtn: function () {
         console.log("checkpointBtn Click~");
 
         // cc.audioMgr.playEffect("UI");
@@ -405,11 +447,13 @@ cc.Class({
         // this.game.loadGame(1);
 
         cc.audioMgr.playEffect("UI");
-        
-        this.checkpointLayer.active = true;
+
+        // this.checkpointLayer.active = true;
+        cc.uiMgr.Push("MapChooseFrame", { index: 3 })
+
     },
 
-    hallBtn:function() {
+    hallBtn: function () {
         console.log("hallBtn Click~");
 
         cc.audioMgr.playEffect("UI");
@@ -421,7 +465,7 @@ cc.Class({
         this.game.loadGame(null);
     },
 
-    inCheckpointCompatible:function() {
+    inCheckpointCompatible: function () {
         this.unschedule(this.refreshDragonNestInfo);
 
         this.dragonHome.node.parent.active = false;
@@ -431,7 +475,7 @@ cc.Class({
         this.hallNode.active = true;
     },
 
-    outCheckpointCompatible:function() {
+    outCheckpointCompatible: function () {
         this.schedule(this.refreshDragonNestInfo, 1);
 
         this.dragonHome.node.parent.active = true;
