@@ -240,6 +240,7 @@ cc.Class({
 
             cc.audioMgr.playEffect("UI");
 
+            cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
 
             //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
             //2,加载一个新的地图，开始游戏
@@ -457,7 +458,7 @@ cc.Class({
         console.log("hallBtn Click~");
 
         cc.audioMgr.playEffect("UI");
-
+        cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
         this.outCheckpointCompatible();
         //删除主基地
         //加载关卡内容
