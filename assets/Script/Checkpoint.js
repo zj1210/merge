@@ -22,26 +22,26 @@ cc.Class({
 
 
     checkpointClick: function (event, userData) {
-        console.log("checkpointClick Click!");
-        cc.audioMgr.playEffect("btn_click");
+        // console.log("checkpointClick Click!");
+        // cc.audioMgr.playEffect("btn_click");
 
-        console.log(userData);
+        // console.log(userData);
 
-        cc.audioMgr.playEffect("UI");
+        // cc.audioMgr.playEffect("UI");
 
 
-        //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
-        //2,加载一个新的地图，开始游戏
-        //首先要把主基地数据存起来
-        cc.dataMgr.saveGameData();
+        // //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
+        // //2,加载一个新的地图，开始游戏
+        // //首先要把主基地数据存起来
+        // cc.dataMgr.saveGameData();
 
-        this.ui.inCheckpointCompatible();
-        //删除主基地
-        //加载关卡内容
-        this.game.clearGame();
-        this.game.loadGame(userData);
+        // this.ui.inCheckpointCompatible();
+        // //删除主基地
+        // //加载关卡内容
+        // this.game.clearGame();
+        // this.game.loadGame(userData);
 
-        this.node.active = false;
+        // this.node.active = false;
     },
 
 

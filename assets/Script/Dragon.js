@@ -631,7 +631,12 @@ cc.Class({
         this.thingType = thingType;
         this.thingLevel = thingLevel;
         //debugger;
-        this.strength = cc.dataMgr.getDragonStrength(thingLevel);
+        if(cc.dataMgr.isHall) {
+            this.strength = cc.dataMgr.getDragonStrength(thingLevel);
+        } else {
+            this.strength = 99999;
+        }
+        
         this.settingSpriteFrame(this.thingType, this.thingLevel);
 
 
@@ -650,8 +655,12 @@ cc.Class({
 
     browseThisThing: function () {
         console.log('浏览该物体: ' + 'thing type: ' + this.thingType + ' thing level: ' + this.thingLevel + '  dragon　strength: ' + this.strength);
-
-        this.ui.addDescForClick(this.thingType, this.thingLevel, this.strength);
+        if(cc.dataMgr.isHall) {
+            this.ui.addDescForClick(this.thingType, this.thingLevel, this.strength);
+        } else {
+            this.ui.addDescForClick(this.thingType, this.thingLevel,"无限");
+        }
+     
     },
 
     unBrowseThisThing: function () {

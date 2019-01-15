@@ -16316,12 +16316,12 @@
       "__id__": 462
     },
     "_enabled": true,
-    "tileType": 1,
-    "fogAmount": 729,
+    "tileType": 0,
+    "fogAmount": 0,
     "fogState": 0,
     "skinType": 1,
-    "thingType": 0,
-    "thingLevel": 0,
+    "thingType": 2,
+    "thingLevel": 4,
     "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
@@ -19702,7 +19702,7 @@
     "skinType": 1,
     "thingType": 0,
     "thingLevel": 0,
-    "dontWant": 1,
+    "dontWant": 0,
     "landSpriteFrame0": {
       "__uuid__": "ca1e55df-f139-4acc-827f-19a7c26797e4"
     },
