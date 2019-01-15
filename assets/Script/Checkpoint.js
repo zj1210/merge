@@ -4,7 +4,20 @@ cc.Class({
 
     properties: {
 
+        targetLabel: {
+            default: null,
+            type: cc.Label
+        },
 
+        rewardLabel: {
+            default: null,
+            type: cc.Label
+        },
+
+        timeLabel: {
+            default: null,
+            type: cc.Label
+        },
 
 
     },
