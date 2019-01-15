@@ -277,9 +277,10 @@ cc.Class({
                 var otherTileJS = otherTile.getComponent('Tile');
                 //1先判断这个块是不是想要的块，如果是 才设置草地
                 //2需要的信息是 块的上下左右是否有东西 没有就是0 有就是1 传入tile中
+                 //用于标记上下左右的草是否显示
+                 var grassInfo = [0, 0, 0, 0];
                 if (otherTileJS.dontWant == 0) {
-                    //用于标记上下左右的草是否显示
-                    var grassInfo = [0, 0, 0, 0];
+                   
                     if (i < 1 || cc.dataMgr.tilesData[i - 1][j].getComponent('Tile').dontWant) {
                         grassInfo[0] = 1;
                     }
