@@ -42,6 +42,109 @@ export default class DataMgr extends cc.Component {
     hallTileWidth = 15;
     hallTileHeight = 20;
 
+    //各个关卡宽高
+    checkpointsWAndH =[
+        {
+            "w":6,
+            "h":8
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+
+        {
+            "w":5,
+            "h":5
+        },
+    ]
+
     //用于规范摄像机区域的值  他不是对称的
     hallLeftWidth = 2800;
     hallRightWidth = 6400;
@@ -598,7 +701,10 @@ export default class DataMgr extends cc.Component {
         console.log(this.shareState);
         cc.game.on(cc.game.EVENT_HIDE, function () {
             console.log("datamgr  hide");
-            cc.dataMgr.saveGameData();
+            if(cc.dataMgr.isHall) {
+                cc.dataMgr.saveGameData();
+            }
+           
         });
         cc.game.on(cc.game.EVENT_SHOW, function () {
             console.log("datamgr  show");
@@ -654,7 +760,29 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("heartCount", 1);
         }
 
+      this.getHallTileData();
+      this.getHallDragonData();
+        
+       
 
+        if (CC_WECHATGAME) {
+            wx.onShow(res => {
+                console.log("小游戏回到前台");
+                console.log(res);
+                console.log(cc.dataMgr.shareState);
+                if (cc.dataMgr.shareState != cc.dataMgr.ShareState.SHARE_NONE) {
+                    var isSuccess = this.shareLogic();
+
+                    window.Notification.emit(cc.dataMgr.shareState, isSuccess);
+                    cc.dataMgr.shareState = cc.dataMgr.ShareState.SHARE_NONE;
+        
+                }
+            });
+        }
+
+    };
+
+    getHallTileData() {
         var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
 
         if (!strHallTileData) {
@@ -663,6 +791,9 @@ export default class DataMgr extends cc.Component {
             //块上数据
             this.hallTileData = JSON.parse(strHallTileData);
         }
+    };
+
+    getHallDragonData() {
         var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
 
         if (!strDragonData) {
@@ -682,22 +813,6 @@ export default class DataMgr extends cc.Component {
             this.dragonNestDatas = JSON.parse(strDragonNestDatas);
             // console.log(this.dragonNestDatas);
         }
-
-        if (CC_WECHATGAME) {
-            wx.onShow(res => {
-                console.log("小游戏回到前台");
-                console.log(res);
-                console.log(cc.dataMgr.shareState);
-                if (cc.dataMgr.shareState != cc.dataMgr.ShareState.SHARE_NONE) {
-                    var isSuccess = this.shareLogic();
-
-                    window.Notification.emit(cc.dataMgr.shareState, isSuccess);
-                    cc.dataMgr.shareState = cc.dataMgr.ShareState.SHARE_NONE;
-        
-                }
-            });
-        }
-
     };
 
     share() {
@@ -983,29 +1098,30 @@ export default class DataMgr extends cc.Component {
         debugger;
     };
 
-    getCurrentWidthAndHeight() {
+    getCurrentWidthAndHeight(checkpointID) {
+
         if (this.isHall) {
             return {
                 w: this.hallTileWidth,
                 h: this.hallTileHeight
             };
         } else {
-            return {
-                w: this.checkpointWidth,
-                h: this.checkpintHeight
-            };
+            return this.checkpointsWAndH[checkpointID-1];
         }
     };
 
     //checkpointID 大厅是0 关卡的从1开始类推 mapNode的tile必须按照从左到右，从上到下的顺序摆放
     initTile(checkpointID, tiles) {
-        //console.log(tiles);
-        for (var i = 0; i < this.hallTileHeight; i++) {
+       
+        var wAndH = this.getCurrentWidthAndHeight(checkpointID);
+        var h = wAndH.h;
+        var w = wAndH.w;
+        for (var i = 0; i < h; i++) {
             this.tilesData[i] = [];
         }
-        for (var i = 0; i < this.hallTileHeight; i++) {
-            for (var j = 0; j < this.hallTileWidth; j++) {
-                this.tilesData[i][j] = tiles[i * this.hallTileWidth + j];
+        for (var i = 0; i < h; i++) {
+            for (var j = 0; j < w; j++) {
+                this.tilesData[i][j] = tiles[i * w + j];
                 this.tilesData[i][j].getComponent('Tile').setIndex(j, i);
             }
         }
@@ -1098,6 +1214,7 @@ export default class DataMgr extends cc.Component {
 
         cc.sys.localStorage.setItem("hallTileData", JSON.stringify(tilePersistenceDatas));
 
+      
 
         var dragonPersistenceDatas = [];
 
@@ -1119,6 +1236,8 @@ export default class DataMgr extends cc.Component {
         //存储龙巢内的龙  数据不用解析了，本来就是纯数据的结构
         cc.sys.localStorage.setItem("dragonNestDatas", JSON.stringify(this.dragonNestDatas));
 
+        this.getHallTileData();
+        this.getHallDragonData();
     };
 
 

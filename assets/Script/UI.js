@@ -152,8 +152,22 @@ cc.Class({
         dragonHome: {
             default: null,
             type: cc.Button
-        }
+        },
 
+        checkpointLayer:{
+            default:null,
+            type:cc.Node
+        },
+
+        checkpointNode:{
+            default:null,
+            type:cc.Node
+        },
+
+        hallNode:{
+            default:null,
+            type:cc.Node
+        }
     },
 
     // use this for initialization
@@ -338,6 +352,9 @@ cc.Class({
         this.dandelionNode.active = false;
         this.signInButton.active = false;
         this.rouletteBtn.active = false;
+
+        this.hallNode.active = false;
+        this.checkpointNode.active = false;
     },
 
     openUIForToturial: function () {
@@ -345,6 +362,9 @@ cc.Class({
         this.dandelionNode.active = true;
         this.signInButton.active = true;
         this.rouletteBtn.active = true;
+
+        this.hallNode.active = false;
+        this.checkpointNode.active = true;
     },
 
     toturialNextStep: function () {
@@ -366,6 +386,58 @@ cc.Class({
     //         nodes[i].active = false;
     //     }
     // },
+
+    checkpointBtn:function() {
+        console.log("checkpointBtn Click~");
+
+        // cc.audioMgr.playEffect("UI");
+
+
+        // //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
+        // //2,加载一个新的地图，开始游戏
+        // //首先要把主基地数据存起来
+        // cc.dataMgr.saveGameData();
+
+        // this.inCheckpointCompatible();
+        // //删除主基地
+        // //加载关卡内容
+        // this.game.clearGame();
+        // this.game.loadGame(1);
+
+        cc.audioMgr.playEffect("UI");
+        
+        this.checkpointLayer.active = true;
+    },
+
+    hallBtn:function() {
+        console.log("hallBtn Click~");
+
+        cc.audioMgr.playEffect("UI");
+
+        this.outCheckpointCompatible();
+        //删除主基地
+        //加载关卡内容
+        this.game.clearGame();
+        this.game.loadGame(null);
+    },
+
+    inCheckpointCompatible:function() {
+        this.unschedule(this.refreshDragonNestInfo);
+
+        this.dragonHome.node.parent.active = false;
+        //先全关
+        this.closeUIForToturial();
+        this.dandelionNode.active = true;
+        this.hallNode.active = true;
+    },
+
+    outCheckpointCompatible:function() {
+        this.schedule(this.refreshDragonNestInfo, 1);
+
+        this.dragonHome.node.parent.active = true;
+
+        this.openUIForToturial();
+    },
 
     refreshDragonNestInfo: function () {
         //console.log("-----每秒 刷新龙巢");
