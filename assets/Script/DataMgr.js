@@ -832,6 +832,15 @@ export default class DataMgr extends cc.Component {
 
     };
 
+    getDescByTarget(target) {
+      
+        for(var i = 0; i<this.checkpointTargetDatas.length; i++) {
+            if(this.checkpointTargetDatas[i].id == target) {
+                return this.checkpointTargetDatas[i].desc;
+            }
+        }
+    };
+
     getHallTileData() {
         var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
 

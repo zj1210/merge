@@ -246,6 +246,8 @@ cc.Class({
             cc.audioMgr.playEffect("UI");
 
             cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
+
+            self.checkPointTips_Node.getComponent("Checkpoint").setCurCheckpoint(data.idx);
             self.checkPointTips_Node.active = true;
             //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
             //2,加载一个新的地图，开始游戏
@@ -257,7 +259,7 @@ cc.Class({
             //加载关卡内容
             self.game.clearGame();
             self.game.loadGame(data.idx);
-
+           
           
         });
 

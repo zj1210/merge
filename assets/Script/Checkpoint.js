@@ -57,8 +57,22 @@ cc.Class({
         // this.node.active = false;
     },
 
+    onDisable:function() {
+        console.log("check point onDisable~~");
+    },
+
+    onEnable:function() {
+        console.log("check point onEnable~~");
+
+        this.targetLabel.string = "目标:" +cc.dataMgr.getDescByTarget(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target);
+        this.timeLabel.string = "时间:" + cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].time;
+        this.rewardLabel.string = "奖励:" + cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].first_Reward + "金币";
+    },
 
 
+    setCurCheckpoint:function(curCheckpoint) {
+        this.curCheckpoint = curCheckpoint;
+    },
     closeClick: function () {
         console.log("close click!");
         cc.audioMgr.playEffect("UI");
