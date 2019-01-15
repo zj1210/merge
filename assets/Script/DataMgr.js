@@ -635,6 +635,29 @@ export default class DataMgr extends cc.Component {
         "我超强力的!"
     ];
 
+    checkpointDatas = [
+        {"id":"1","time":"","target":"生命之花*1","first_Reward":"5","daily_Reward":"1"},
+        {"id":"2","time":"","target":"蓝色生命之花*1","first_Reward":"7","daily_Reward":"2"},
+        {"id":"3","time":"","target":"微型生命精华*1","first_Reward":"6","daily_Reward":"3"},
+        {"id":"4","time":"","target":"微型生命精华*1","first_Reward":"10","daily_Reward":"4"},
+        {"id":"5","time":"","target":"小生命精华*1","first_Reward":"7","daily_Reward":"5"},
+        {"id":"6","time":"","target":"解锁所有土地","first_Reward":"13","daily_Reward":"6"},
+        {"id":"7","time":"3分钟","target":"解锁所有土地","first_Reward":"8","daily_Reward":"7"},
+        {"id":"8","time":"","target":"解锁所有土地","first_Reward":"16","daily_Reward":"8"},
+        {"id":"9","time":"6分钟","target":"解锁所有土地","first_Reward":"9","daily_Reward":"9"},
+        {"id":"10","time":"","target":"解锁所有土地","first_Reward":"19","daily_Reward":"10"},
+        {"id":"11","time":"5分钟","target":"解锁所有土地","first_Reward":"10","daily_Reward":"11"},
+        {"id":"12","time":"1分50秒","target":"解锁所有土地","first_Reward":"22","daily_Reward":"12"},
+        {"id":"13","time":"1分20秒","target":"解锁所有土地","first_Reward":"11","daily_Reward":"13"},
+        {"id":"14","time":"1分","target":"解锁所有土地","first_Reward":"25","daily_Reward":"14"},
+        {"id":"15","time":"","target":"解锁所有土地","first_Reward":"12","daily_Reward":"15"},
+        {"id":"16","time":"","target":"解锁所有土地","first_Reward":"28","daily_Reward":"16"},
+        {"id":"17","time":"","target":"解锁所有土地","first_Reward":"13","daily_Reward":"17"},
+        {"id":"18","time":"1分钟","target":"解锁所有土地","first_Reward":"31","daily_Reward":"18"},
+        {"id":"19","time":"1分钟","target":"解锁所有土地","first_Reward":"14","daily_Reward":"19"},
+        {"id":"20","time":"1分钟","target":"解锁所有土地","first_Reward":"34","daily_Reward":"20"},
+        ];
+       
    
     
 
