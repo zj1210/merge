@@ -232,7 +232,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 2291,
+      "width": 2200,
       "height": 1280
     },
     "_rotationX": 0,
@@ -415,7 +415,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 28
@@ -458,7 +458,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Sprite",
+    "_name": "DragonIsland",
     "_objFlags": 0,
     "_parent": {
       "__id__": 9
@@ -1166,9 +1166,11 @@
       "__id__": 4
     },
     "_enabled": true,
-    "_spriteFrame": null,
-    "_type": 0,
-    "_sizeMode": 1,
+    "_spriteFrame": {
+      "__uuid__": "0bea8e05-e9bd-4f14-9cdf-0b33b888ac6c"
+    },
+    "_type": 2,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",

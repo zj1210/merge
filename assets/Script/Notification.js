@@ -50,6 +50,9 @@ export default class Notification extends cc.Component {
             cc.uiMgr = new UIMgr();
             //cc.ModuleMgr = new ModuleMgr()
         }
+        cc.Config = []
+        this.loadjson("checkpoint")
+        
     }
     localInit(data){
         //console.log("localInit"+data.name+data.id)
@@ -58,6 +61,21 @@ export default class Notification extends cc.Component {
         //console.log("start")
         cc.uiMgr.loadPrefab("controller",{},{add:false,parentName:"Canvas/UI2d"})
         cc.uiMgr.loadPrefab("ReturnHall",{},{add:false,parentName:"Canvas/UI2dUp"})
+    }
+    loadjson(name){
+        var self = this
+        cc.loader.loadRes("data/"+name, function(err,res){
+            if (err) {
+                cc.log(err);
+            }else{
+                let list=res;
+                cc.log(list);
+                cc.Config[name] = list.json
+            }
+        })
+    }
+    SaveJsonData(data){
+
     }
     update(){}
 }
