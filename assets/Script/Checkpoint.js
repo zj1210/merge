@@ -95,21 +95,26 @@ cc.Class({
         switch (cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target) {
             case 0:
                 window.Notification.on("FLOWER_2", this.successCp, this);
+                
                 break;
 
             case 1:
                 window.Notification.on("FLOWER_3", this.successCp, this);
+             
                 break;
             case 2:
                 window.Notification.on("HEART_1", this.successCp, this);
+            
                 break;
 
             case 3:
                 window.Notification.on("HEART_2", this.successCp, this);
+              
                 break;
             case 4:
 
                 window.Notification.on("ALL_FOG_CLEAR", this.successCp, this);
+              
                 break;
             default:
                 break;
@@ -121,6 +126,7 @@ cc.Class({
         console.log("过~~~~~~~~~~关！！");
         this.endCheckpoint();
         //胜利弹窗
+        cc.find("Canvas/checkPointEndNode").getComponent(cc.Animation).play("checkPointSuccess");
     },
 
     beginCheckpoint: function () {
@@ -156,6 +162,7 @@ cc.Class({
             console.log("失败!");
             this.endCheckpoint();
             //失败弹窗
+            cc.find("Canvas/checkPointEndNode").getComponent(cc.Animation).play("checkPointFail");
         }
     },
 

@@ -50,6 +50,12 @@
               "frame": 0.8333333333333334,
               "value": 120
             }
+          ],
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
           ]
         }
       },
@@ -109,6 +115,30 @@
       },
       "levelButten": {
         "props": {
+          "scale": [],
+          "active": []
+        }
+      },
+      "homeButten": {
+        "props": {
+          "scale": [],
+          "active": []
+        }
+      },
+      "nextButten": {
+        "props": {
+          "scale": [],
+          "active": []
+        }
+      },
+      "butten/levelButten": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ],
           "scale": [
             {
               "frame": 0.3333333333333333,
@@ -129,8 +159,14 @@
           ]
         }
       },
-      "homeButten": {
+      "butten/homeButten": {
         "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ],
           "scale": [
             {
               "frame": 0.6666666666666666,
@@ -151,8 +187,14 @@
           ]
         }
       },
-      "nextButten": {
+      "butten/nextButten": {
         "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ],
           "scale": [
             {
               "frame": 1,
@@ -169,6 +211,16 @@
                 "x": 1,
                 "y": 1
               }
+            }
+          ]
+        }
+      },
+      "butten": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
             }
           ]
         }
