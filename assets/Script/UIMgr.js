@@ -59,7 +59,7 @@ export default class UIMgr extends cc.Component {
                 cc.error(err.message || err);
                 return;
             }
-            cc.log('Result should be a prefab: ' + (prefab instanceof cc.Prefab));
+            //cc.log('Result should be a prefab: ' + (prefab instanceof cc.Prefab));
             let nodeCN = cc.instantiate(prefab);
             //var parent = this.node.getComponent("")
             if (parameter.parentName){

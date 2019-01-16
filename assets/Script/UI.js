@@ -167,6 +167,11 @@ cc.Class({
         hallNode: {
             default: null,
             type: cc.Node
+        },
+
+        checkPointTips_Node: {
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -178,7 +183,7 @@ cc.Class({
         this.descNode.active = true;
         this.unDescNode.active = false;
 
-
+        this.checkPointTips_Node.active = false;
     },
 
     refreshUI: function () {
@@ -242,17 +247,19 @@ cc.Class({
 
             cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
 
+            self.checkPointTips_Node.getComponent("Checkpoint").setCurCheckpoint(data.idx);
+            self.checkPointTips_Node.active = true;
             //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
             //2,加载一个新的地图，开始游戏
             //首先要把主基地数据存起来
             cc.dataMgr.saveGameData();
-
+           
             self.inCheckpointCompatible();
             //删除主基地
             //加载关卡内容
             self.game.clearGame();
             self.game.loadGame(data.idx);
-
+           
           
         });
 
@@ -458,6 +465,7 @@ cc.Class({
         console.log("hallBtn Click~");
 
         cc.audioMgr.playEffect("UI");
+        this.checkPointTips_Node.active = false;
         cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
         this.outCheckpointCompatible();
         //删除主基地
