@@ -62,9 +62,23 @@ cc.Class({
 
         switch (cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target) {
             case 0:
-            //window.Notification.off("FLOWER_2", this.successCp, this);
-           // window.Notification.off("FLOWER_2", this);
-            window.Notification.off_target("FLOWER_2", this);
+                window.Notification.off_target("FLOWER_2", this);
+                break;
+
+            case 1:
+                window.Notification.off_target("FLOWER_3", this);
+                break;
+
+            case 2:
+                window.Notification.off_target("HEART_1", this);
+                break;
+
+            case 3:
+                window.Notification.off_target("HEART_2", this);
+                break;
+
+            case 4:
+                window.Notification.off_target("ALL_FOG_CLEAR", this);
                 break;
 
             default:
@@ -83,15 +97,30 @@ cc.Class({
                 window.Notification.on("FLOWER_2", this.successCp, this);
                 break;
 
+            case 1:
+                window.Notification.on("FLOWER_3", this.successCp, this);
+                break;
+            case 2:
+                window.Notification.on("HEART_1", this.successCp, this);
+                break;
+
+            case 3:
+                window.Notification.on("HEART_2", this.successCp, this);
+                break;
+            case 4:
+
+                window.Notification.on("ALL_FOG_CLEAR", this.successCp, this);
+                break;
             default:
                 break;
         }
-       
+
     },
 
     successCp: function () {
         console.log("过~~~~~~~~~~关！！");
-        debugger;
+        this.endCheckpoint();
+        //胜利弹窗
     },
 
     beginCheckpoint: function () {
@@ -112,9 +141,16 @@ cc.Class({
     },
 
     timeLabelLogic: function () {
-
+        
         this.timeLabel.string = "剩余时间:" + this.revertCountDown();
         this.time--;
+
+        // if(this.time%2 == 0) {
+            
+        //     cc.find("Canvas/uiLayer").getComponent("UI").goCheckpointList();
+        // } else {
+        //     cc.find("Canvas/uiLayer").getComponent("UI").nextCheckpoint();
+        // }
 
         if (this.time <= 0) {
             console.log("失败!");
@@ -155,6 +191,8 @@ cc.Class({
 
 
     },
+
+   
 
 
     setCurCheckpoint: function (curCheckpoint) {

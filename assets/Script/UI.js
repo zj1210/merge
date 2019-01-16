@@ -240,13 +240,13 @@ cc.Class({
         });
 
         window.Notification.on("go_Checkpoint", function (data) {
-            console.log("关卡按钮被点击");
-            console.log(data);
+            // console.log("关卡按钮被点击");
+            // console.log(data);
 
             cc.audioMgr.playEffect("UI");
 
             cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
-
+            self.curCheckpoint = data.idx;
             self.checkPointTips_Node.getComponent("Checkpoint").setCurCheckpoint(data.idx);
             self.checkPointTips_Node.active = true;
             //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
@@ -457,7 +457,7 @@ cc.Class({
         cc.audioMgr.playEffect("UI");
 
         // this.checkpointLayer.active = true;
-        cc.uiMgr.Push("MapChooseFrame", { index: 19 })
+        cc.uiMgr.Push("MapChooseFrame", { index:  cc.dataMgr.getCurCheckpoint() - 1 })
 
     },
 
@@ -852,5 +852,48 @@ cc.Class({
     // called every frame
     update: function (dt) {
 
+    },
+
+    reCheckpoint:function() {
+        
+        cc.audioMgr.playEffect("UI");
+
+        cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
+
+        this.checkPointTips_Node.getComponent("Checkpoint").setCurCheckpoint(this.curCheckpoint);
+        this.checkPointTips_Node.getComponent("Checkpoint").beginCheckpoint();
+        this.checkPointTips_Node.active = true;
+       
+       
+      
+        //删除主基地
+        //加载关卡内容
+        this.game.clearGame();
+        this.game.loadGame(this.curCheckpoint);
+    },
+
+    nextCheckpoint:function() {
+        this.curCheckpoint++;
+        cc.audioMgr.playEffect("UI");
+
+        cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
+
+        this.checkPointTips_Node.getComponent("Checkpoint").setCurCheckpoint(this.curCheckpoint);
+        this.checkPointTips_Node.getComponent("Checkpoint").beginCheckpoint();
+        this.checkPointTips_Node.active = true;
+       
+       
+      
+        //删除主基地
+        //加载关卡内容
+        this.game.clearGame();
+        this.game.loadGame(this.curCheckpoint);
+    },
+
+    goCheckpointList:function() {
+        cc.audioMgr.playEffect("UI");
+
+       
+        cc.uiMgr.Push("MapChooseFrame", { index: cc.dataMgr.getCurCheckpoint() - 1 })
     },
 });

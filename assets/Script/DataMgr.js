@@ -688,6 +688,7 @@ export default class DataMgr extends cc.Component {
 
 
 
+
     //蒲公英的生成周期 单位：秒
     dandelionPeriod = 4;
 
@@ -810,6 +811,12 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("heartCount", 1);
         }
 
+
+        var curCheckpoint = cc.sys.localStorage.getItem("curCheckpoint");
+        if (!curCheckpoint) {
+            cc.sys.localStorage.setItem("curCheckpoint", 1);
+        }
+
         this.getHallTileData();
         this.getHallDragonData();
 
@@ -830,6 +837,16 @@ export default class DataMgr extends cc.Component {
             });
         }
 
+    };
+
+    //获得用户该玩那一关了
+    getCurCheckpoint() {
+        var curCheckpoint = cc.sys.localStorage.getItem("curCheckpoint");
+        return parseInt(curCheckpoint);
+    };
+
+    setCurCheckpoint() {
+        
     };
 
     getDescByTarget(target) {
