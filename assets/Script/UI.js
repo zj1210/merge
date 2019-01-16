@@ -222,18 +222,18 @@ cc.Class({
 
 
         window.Notification.on("UIMgr_pop", function (data) {
-            console.log(data.length);
+            //console.log(data.length);
             if (data.length == 0) {
-                console.log("显示大厅");
+                //console.log("显示大厅");
             } else {
 
             }
         });
 
         window.Notification.on("UIMgr_push", function (data) {
-            console.log(data.length);
+            //console.log(data.length);
             if (data.length > 0) {
-                console.log("隐藏大厅");
+                //console.log("隐藏大厅");
             } else {
 
             }
@@ -457,7 +457,7 @@ cc.Class({
         cc.audioMgr.playEffect("UI");
 
         // this.checkpointLayer.active = true;
-        cc.uiMgr.Push("MapChooseFrame", { index: 3 })
+        cc.uiMgr.Push("MapChooseFrame", { index: 19 })
 
     },
 

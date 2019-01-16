@@ -637,6 +637,10 @@ cc.Class({
 
 
                     window.Notification.emit("MERGE_FLOWER");
+
+                    if(unionedThingsArray[i].thingLevel == 2) {
+                        window.Notification.emit("FLOWER_2");
+                    }
                 }
             }
         }

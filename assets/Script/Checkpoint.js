@@ -57,20 +57,107 @@ cc.Class({
         // this.node.active = false;
     },
 
-    onDisable:function() {
+    onDisable: function () {
         console.log("check point onDisable~~");
+
+        switch (cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target) {
+            case 0:
+            //window.Notification.off("FLOWER_2", this.successCp, this);
+           // window.Notification.off("FLOWER_2", this);
+            window.Notification.off_target("FLOWER_2", this);
+                break;
+
+            default:
+                break;
+        }
+
+        this.endCheckpoint();
     },
 
-    onEnable:function() {
+    onEnable: function () {
         console.log("check point onEnable~~");
 
-        this.targetLabel.string = "目标:" +cc.dataMgr.getDescByTarget(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target);
-        this.timeLabel.string = "时间:" + cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].time;
+        this.beginCheckpoint();
+        switch (cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target) {
+            case 0:
+                window.Notification.on("FLOWER_2", this.successCp, this);
+                break;
+
+            default:
+                break;
+        }
+       
+    },
+
+    successCp: function () {
+        console.log("过~~~~~~~~~~关！！");
+        debugger;
+    },
+
+    beginCheckpoint: function () {
+        this.targetLabel.string = "目标:" + cc.dataMgr.getDescByTarget(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target);
+        this.time = parseInt(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].time);
+
         this.rewardLabel.string = "奖励:" + cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].first_Reward + "金币";
+
+
+        this.schedule(this.timeLabelLogic, 1);
+    },
+
+    endCheckpoint: function () {
+        this.unschedule(this.timeLabelLogic);
+        this.timeLabel.string = "";
+        this.targetLabel.string = "";
+        this.rewardLabel.string = "";
+    },
+
+    timeLabelLogic: function () {
+
+        this.timeLabel.string = "剩余时间:" + this.revertCountDown();
+        this.time--;
+
+        if (this.time <= 0) {
+            console.log("失败!");
+            this.endCheckpoint();
+            //失败弹窗
+        }
     },
 
 
-    setCurCheckpoint:function(curCheckpoint) {
+
+    revertCountDown: function () {
+
+        var secondTime = parseInt(this.time);// 秒
+        var minuteTime = 0;// 分
+        var hourTime = 0;// 小时
+        if (secondTime > 60) {//如果秒数大于60，将秒数转换成整数
+            //获取分钟，除以60取整数，得到整数分钟
+            minuteTime = parseInt(secondTime / 60);
+            //获取秒数，秒数取佘，得到整数秒数
+            secondTime = parseInt(secondTime % 60);
+            //如果分钟大于60，将分钟转换成小时
+            if (minuteTime > 60) {
+                //获取小时，获取分钟除以60，得到整数小时
+                hourTime = parseInt(minuteTime / 60);
+                //获取小时后取佘的分，获取分钟除以60取佘的分
+                minuteTime = parseInt(minuteTime % 60);
+            }
+        }
+        var result = "" + parseInt(secondTime) + "秒";
+
+        if (minuteTime > 0) {
+            result = "" + parseInt(minuteTime) + "分" + result;
+        }
+        if (hourTime > 0) {
+            result = "" + parseInt(hourTime) + "小时" + result;
+        }
+        return result;
+
+
+    },
+
+
+    setCurCheckpoint: function (curCheckpoint) {
         this.curCheckpoint = curCheckpoint;
     },
     closeClick: function () {

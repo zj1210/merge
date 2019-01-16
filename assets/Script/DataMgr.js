@@ -660,7 +660,7 @@ export default class DataMgr extends cc.Component {
             "desc": "解锁所有土地",
         },
 
-    ]
+    ];
 
     checkpointDatas = [
         { "id": 1, "time": 600, "target": 0, "first_Reward": 5, "daily_Reward": 1 },
