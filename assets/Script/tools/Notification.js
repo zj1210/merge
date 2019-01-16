@@ -1,4 +1,5 @@
 import UIMgr from 'UIMgr';
+import Tools from 'Tools';
 const {
     ccclass,
     property
@@ -50,8 +51,13 @@ export default class Notification extends cc.Component {
             cc.uiMgr = new UIMgr();
             //cc.ModuleMgr = new ModuleMgr()
         }
+        if (!cc.tools) {
+            cc.tools = new Tools();
+            //cc.ModuleMgr = new ModuleMgr()
+        }
         cc.Config = []
         this.loadjson("checkpoint")
+        this.loadjson("language")
         
     }
     localInit(data){

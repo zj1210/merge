@@ -75,6 +75,8 @@ export default class UIMgr extends cc.Component {
                 }
                 self.stack.push(nodeCN)
                 window.Notification.emit("UIMgr_push",{length:self.stack.length,name:name,data:data})
+            }else{
+                window.Notification.emit("UIMgr_loadPrefab",{length:self.stack.length,name:name,data:data})
             }
             nodeCN.addComponent(name).localInit(data)
             //nodeCN.addComponent("test").localInit({name :"张三",id:9527})
