@@ -660,7 +660,7 @@ export default class DataMgr extends cc.Component {
             "desc": "解锁所有土地",
         },
 
-    ]
+    ];
 
     checkpointDatas = [
         { "id": 1, "time": 600, "target": 0, "first_Reward": 5, "daily_Reward": 1 },
@@ -684,6 +684,7 @@ export default class DataMgr extends cc.Component {
         { "id": 19, "time": 60, "target": 4, "first_Reward": 5, "daily_Reward": 4 },
         { "id": 20, "time": 60, "target": 4, "first_Reward": 5, "daily_Reward": 4 },
     ];
+
 
 
 
@@ -810,6 +811,12 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("heartCount", 1);
         }
 
+
+        var curCheckpoint = cc.sys.localStorage.getItem("curCheckpoint");
+        if (!curCheckpoint) {
+            cc.sys.localStorage.setItem("curCheckpoint", 1);
+        }
+
         this.getHallTileData();
         this.getHallDragonData();
 
@@ -830,6 +837,16 @@ export default class DataMgr extends cc.Component {
             });
         }
 
+    };
+
+    //获得用户该玩那一关了
+    getCurCheckpoint() {
+        var curCheckpoint = cc.sys.localStorage.getItem("curCheckpoint");
+        return parseInt(curCheckpoint);
+    };
+
+    setCurCheckpoint() {
+        
     };
 
     getDescByTarget(target) {
