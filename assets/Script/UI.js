@@ -154,10 +154,7 @@ cc.Class({
             type: cc.Button
         },
 
-        checkpointLayer: {
-            default: null,
-            type: cc.Node
-        },
+        
 
         checkpointNode: {
             default: null,
@@ -172,6 +169,11 @@ cc.Class({
         checkPointTips_Node: {
             default: null,
             type: cc.Node
+        },
+
+        checkpointListNode:{
+            default:null,
+            type:cc.Node
         }
     },
 
@@ -221,47 +223,47 @@ cc.Class({
         let self = this;
 
 
-        window.Notification.on("UIMgr_pop", function (data) {
-            //console.log(data.length);
-            if (data.length == 0) {
-                //console.log("显示大厅");
-            } else {
+        // window.Notification.on("UIMgr_pop", function (data) {
+        //     //console.log(data.length);
+        //     if (data.length == 0) {
+        //         //console.log("显示大厅");
+        //     } else {
 
-            }
-        });
+        //     }
+        // });
 
-        window.Notification.on("UIMgr_push", function (data) {
-            //console.log(data.length);
-            if (data.length > 0) {
-                //console.log("隐藏大厅");
-            } else {
+        // window.Notification.on("UIMgr_push", function (data) {
+        //     //console.log(data.length);
+        //     if (data.length > 0) {
+        //         //console.log("隐藏大厅");
+        //     } else {
 
-            }
-        });
+        //     }
+        // });
 
-        window.Notification.on("go_Checkpoint", function (data) {
-            // console.log("关卡按钮被点击");
-            // console.log(data);
+        // window.Notification.on("go_Checkpoint", function (data) {
+        //     // console.log("关卡按钮被点击");
+        //     // console.log(data);
 
-            cc.audioMgr.playEffect("UI");
+        //     cc.audioMgr.playEffect("UI");
 
-            cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
-            self.curCheckpoint = data.idx;
-            self.checkPointTips_Node.getComponent("Checkpoint").setCurCheckpoint(data.idx);
-            self.checkPointTips_Node.active = true;
-            //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
-            //2,加载一个新的地图，开始游戏
-            //首先要把主基地数据存起来
-            cc.dataMgr.saveGameData();
+        //     cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
+        //     self.curCheckpoint = data.idx;
+        //     self.checkPointTips_Node.getComponent("Checkpoint").setCurCheckpoint(data.idx);
+        //     self.checkPointTips_Node.active = true;
+        //     //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
+        //     //2,加载一个新的地图，开始游戏
+        //     //首先要把主基地数据存起来
+        //     cc.dataMgr.saveGameData();
            
-            self.inCheckpointCompatible();
-            //删除主基地
-            //加载关卡内容
-            self.game.clearGame();
-            self.game.loadGame(data.idx);
+        //     self.inCheckpointCompatible();
+        //     //删除主基地
+        //     //加载关卡内容
+        //     self.game.clearGame();
+        //     self.game.loadGame(data.idx);
            
           
-        });
+        // });
 
 
         //新手教学系统
@@ -331,6 +333,50 @@ cc.Class({
 
         //过审相关的：分享开关
         this.shareForCensorship();
+    },
+
+
+    checkpointDescClick:function(event,eventData) {
+        cc.audioMgr.playEffect("UI");
+        var shareKuang = this.checkpointListNode.getChildByName("sharekuang");
+        shareKuang.active =true;
+
+        this.readyToCheckpointID = eventData;
+        shareKuang.getChildByName("targetLabel").getComponent(cc.Label).string = cc.dataMgr.getDescByTarget(cc.dataMgr.checkpointDatas[parseInt(eventData) - 1].target);
+        shareKuang.getChildByName("timeLabel").getComponent(cc.Label).string = cc.dataMgr.checkpointDatas[parseInt(eventData) - 1].time +"秒";
+        shareKuang.getChildByName("rewardLabel").getComponent(cc.Label).string = cc.dataMgr.getCPRewardCount(parseInt(eventData)) + "金币";
+    },
+
+    checkpoint_Desc_CancelClick:function() {
+        cc.audioMgr.playEffect("UI");
+        var shareKuang = this.checkpointListNode.getChildByName("sharekuang");
+        shareKuang.active =false;
+    },
+
+
+
+
+    go_Checkpoint:function(event) {
+        
+        cc.audioMgr.playEffect("UI");
+
+        cc.find("Canvas/loadingNode").getComponent(cc.Animation).play();
+        this.curCheckpoint = this.readyToCheckpointID;
+        this.checkPointTips_Node.getComponent("Checkpoint").setCurCheckpoint(this.readyToCheckpointID);
+        this.checkPointTips_Node.active = true;
+        //1，先播放一个动画，在动画的过程中删除 现存的 游戏地图
+        //2,加载一个新的地图，开始游戏
+        //首先要把主基地数据存起来
+        cc.dataMgr.saveGameData();
+       
+        this.inCheckpointCompatible();
+        //删除主基地
+        //加载关卡内容
+        this.game.clearGame();
+        this.game.loadGame(this.readyToCheckpointID);
+
+        this.checkpointListNode.active = false;
+       
     },
 
 
@@ -457,8 +503,11 @@ cc.Class({
         cc.audioMgr.playEffect("UI");
 
         // this.checkpointLayer.active = true;
-        cc.uiMgr.Push("MapChooseFrame", { index:  cc.dataMgr.getCurCheckpoint() - 1 })
+        //cc.uiMgr.Push("MapChooseFrame", { index:  cc.dataMgr.getCurCheckpoint() - 1 })
+        this.checkpointListNode.active  = true;
 
+        var shareKuang = this.checkpointListNode.getChildByName("sharekuang");
+        shareKuang.active =false;
     },
 
     hallBtn: function () {
