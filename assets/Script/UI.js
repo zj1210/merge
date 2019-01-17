@@ -336,6 +336,11 @@ cc.Class({
     },
 
 
+    closeCheckpointList:function() {
+        cc.audioMgr.playEffect("UI");
+        this.checkpointListNode.active = false;
+    },
+
     checkpointDescClick:function(event,eventData) {
         cc.audioMgr.playEffect("UI");
         var shareKuang = this.checkpointListNode.getChildByName("sharekuang");
@@ -345,6 +350,8 @@ cc.Class({
         shareKuang.getChildByName("targetLabel").getComponent(cc.Label).string = cc.dataMgr.getDescByTarget(cc.dataMgr.checkpointDatas[parseInt(eventData) - 1].target);
         shareKuang.getChildByName("timeLabel").getComponent(cc.Label).string = cc.dataMgr.checkpointDatas[parseInt(eventData) - 1].time +"秒";
         shareKuang.getChildByName("rewardLabel").getComponent(cc.Label).string = cc.dataMgr.getCPRewardCount(parseInt(eventData)) + "金币";
+        shareKuang.getChildByName("levelLabel").getComponent(cc.Label).string = "第" + eventData + "关";
+        
     },
 
     checkpoint_Desc_CancelClick:function() {
