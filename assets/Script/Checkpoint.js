@@ -60,31 +60,7 @@ cc.Class({
     onDisable: function () {
         console.log("check point onDisable~~");
 
-        switch (cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target) {
-            case 0:
-                window.Notification.off_target("FLOWER_2", this);
-                break;
-
-            case 1:
-                window.Notification.off_target("FLOWER_3", this);
-                break;
-
-            case 2:
-                window.Notification.off_target("HEART_1", this);
-                break;
-
-            case 3:
-                window.Notification.off_target("HEART_2", this);
-                break;
-
-            case 4:
-                window.Notification.off_target("ALL_FOG_CLEAR", this);
-                break;
-
-            default:
-                break;
-        }
-
+       
         this.endCheckpoint();
     },
 
@@ -92,6 +68,34 @@ cc.Class({
         console.log("check point onEnable~~");
 
         this.beginCheckpoint();
+        
+    },
+
+    successCp: function () {
+        console.log("过~~~~~~~~~~关！！");
+        this.endCheckpoint();
+        //胜利弹窗
+        cc.find("Canvas/checkPointEndNode").getComponent(cc.Animation).play("checkPointSuccess");
+        cc.dataMgr.addCoinCount(parseInt(this.rewardCount));
+        cc.dataMgr.setCheckpointRewardDatas(this.curCheckpoint);
+
+        this.ui.refreshUI();
+    },
+
+    beginCheckpoint: function () {
+        this.targetLabel.string = "目标:" + cc.dataMgr.getDescByTarget(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target);
+        this.time = parseInt(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].time);
+
+        this.rewardCount = cc.dataMgr.getCPRewardCount(this.curCheckpoint);
+        if(this.rewardCount == 0) {
+            this.rewardLabel.string = "明日奖励重置";
+        } else {
+           
+
+            this.rewardLabel.string = "奖励:" + this.rewardCount + "金币";
+        }
+
+
         switch (cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target) {
             case 0:
                 window.Notification.on("FLOWER_2", this.successCp, this);
@@ -120,29 +124,6 @@ cc.Class({
                 break;
         }
 
-    },
-
-    successCp: function () {
-        console.log("过~~~~~~~~~~关！！");
-        this.endCheckpoint();
-        //胜利弹窗
-        cc.find("Canvas/checkPointEndNode").getComponent(cc.Animation).play("checkPointSuccess");
-        cc.dataMgr.addCoinCount(parseInt(this.rewardCount));
-        cc.dataMgr.setCheckpointRewardDatas(this.curCheckpoint);
-    },
-
-    beginCheckpoint: function () {
-        this.targetLabel.string = "目标:" + cc.dataMgr.getDescByTarget(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target);
-        this.time = parseInt(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].time);
-
-        this.rewardCount = cc.dataMgr.getCPRewardCount(this.curCheckpoint);
-        if(this.rewardCount == 0) {
-            this.rewardLabel.string = "明日奖励重置";
-        } else {
-           
-
-            this.rewardLabel.string = "奖励:" + this.rewardCount + "金币";
-        }
         
         this.schedule(this.timeLabelLogic, 1);
     },
@@ -150,6 +131,33 @@ cc.Class({
    
 
     endCheckpoint: function () {
+
+        switch (cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target) {
+            case 0:
+                window.Notification.off_target("FLOWER_2", this);
+                break;
+
+            case 1:
+                window.Notification.off_target("FLOWER_3", this);
+                break;
+
+            case 2:
+                window.Notification.off_target("HEART_1", this);
+                break;
+
+            case 3:
+                window.Notification.off_target("HEART_2", this);
+                break;
+
+            case 4:
+                window.Notification.off_target("ALL_FOG_CLEAR", this);
+                break;
+
+            default:
+                break;
+        }
+
+
         this.unschedule(this.timeLabelLogic);
         this.timeLabel.string = "";
         this.targetLabel.string = "";

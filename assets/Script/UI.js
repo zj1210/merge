@@ -472,6 +472,8 @@ cc.Class({
         //加载关卡内容
         this.game.clearGame();
         this.game.loadGame(null);
+
+        cc.find("Canvas/checkPointEndNode").getChildByName("checkPointEnd").active = false;
     },
 
     inCheckpointCompatible: function () {
@@ -870,6 +872,8 @@ cc.Class({
         //加载关卡内容
         this.game.clearGame();
         this.game.loadGame(this.curCheckpoint);
+
+        cc.find("Canvas/checkPointEndNode").getChildByName("checkPointEnd").active = false;
     },
 
     nextCheckpoint:function() {
@@ -888,12 +892,16 @@ cc.Class({
         //加载关卡内容
         this.game.clearGame();
         this.game.loadGame(this.curCheckpoint);
+
+        cc.find("Canvas/checkPointEndNode").getChildByName("checkPointEnd").active = false;
     },
 
     goCheckpointList:function() {
         cc.audioMgr.playEffect("UI");
 
        
-        cc.uiMgr.Push("MapChooseFrame", { index: cc.dataMgr.getCurCheckpoint() - 1 })
+        cc.uiMgr.Push("MapChooseFrame", { index: cc.dataMgr.getCurCheckpoint() - 1 });
+
+        cc.find("Canvas/checkPointEndNode").getChildByName("checkPointEnd").active = false;
     },
 });
