@@ -693,87 +693,87 @@ export default class DataMgr extends cc.Component {
     checkpintRewardDatas = [
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
         {
             "count": 0,
-            "lastTime": "20181111"
-        },
-
-        {
-            "count": 0,
-            "lastTime": "20181111"
-        },
-        {
-            "count": 0,
-            "lastTime": "20181111"
-        },
-        {
-            "count": 0,
-            "lastTime": "20181111"
-        },
-        {
-            "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
 
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
         {
             "count": 0,
-            "lastTime": "20181111"
-        },
-
-        {
-            "count": 0,
-            "lastTime": "20181111"
-        },
-        {
-            "count": 0,
-            "lastTime": "20181111"
-        },
-        {
-            "count": 0,
-            "lastTime": "20181111"
-        },
-        {
-            "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
 
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
         },
         {
             "count": 0,
-            "lastTime": "20181111"
+            "lastDay": "20181111"
+        },
+
+        {
+            "count": 0,
+            "lastDay": "20181111"
+        },
+        {
+            "count": 0,
+            "lastDay": "20181111"
+        },
+        {
+            "count": 0,
+            "lastDay": "20181111"
+        },
+        {
+            "count": 0,
+            "lastDay": "20181111"
+        },
+
+        {
+            "count": 0,
+            "lastDay": "20181111"
+        },
+        {
+            "count": 0,
+            "lastDay": "20181111"
+        },
+        {
+            "count": 0,
+            "lastDay": "20181111"
+        },
+        {
+            "count": 0,
+            "lastDay": "20181111"
         }
     ];
 
@@ -937,6 +937,45 @@ export default class DataMgr extends cc.Component {
     getCurCheckpoint() {
         var curCheckpoint = cc.sys.localStorage.getItem("curCheckpoint");
         return parseInt(curCheckpoint);
+    };
+
+    _getCPRewardData() {
+        var str = cc.sys.localStorage.getItem("checkpointRewardDatas");
+        var datas = JSON.parse(str);
+        return datas;
+    }
+
+
+    getCPRewardData(curCheckpoint) {
+       
+        return this._getCPRewardData()[curCheckpoint-1];
+      
+    };
+
+    getCPRewardCount(curCheckpoint) {
+        var curDay = this.getCurrentDay();
+        var tempData = this.getCPRewardData(curCheckpoint);
+        var lastDay = tempData.lastDay;
+        var count = tempData.count;
+        if(curDay == lastDay) {
+           return 0;
+        } else {
+            if(count == 0) {
+                return cc.dataMgr.checkpointDatas[curCheckpoint - 1].first_Reward;
+            } else {
+                return cc.dataMgr.checkpointDatas[curCheckpoint - 1].daily_Reward;
+            }
+        }
+    };
+
+    setCheckpointRewardDatas(curCheckpoint) {
+        var curDate = this.getCurrentDay();
+        var datas = this._getCPRewardData();
+        datas[curCheckpoint-1].count = parseInt(datas[curCheckpoint-1].count ) + 1;
+        datas[curCheckpoint-1].lastDate = curDate;
+        
+        console.log(datas);
+        cc.sys.localStorage.setItem("checkpointRewardDatas", JSON.stringify(this.datas));
     };
 
     setCurCheckpoint() {
