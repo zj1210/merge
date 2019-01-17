@@ -947,8 +947,8 @@ export default class DataMgr extends cc.Component {
 
 
     getCPRewardData(curCheckpoint) {
-       
-        return this._getCPRewardData()[curCheckpoint-1];
+       var datas = this._getCPRewardData();
+        return datas[curCheckpoint-1];
       
     };
 
@@ -972,10 +972,10 @@ export default class DataMgr extends cc.Component {
         var curDate = this.getCurrentDay();
         var datas = this._getCPRewardData();
         datas[curCheckpoint-1].count = parseInt(datas[curCheckpoint-1].count ) + 1;
-        datas[curCheckpoint-1].lastDate = curDate;
+        datas[curCheckpoint-1].lastDay = curDate;
         
-        console.log(datas);
-        cc.sys.localStorage.setItem("checkpointRewardDatas", JSON.stringify(this.datas));
+        //console.log(datas);
+        cc.sys.localStorage.setItem("checkpointRewardDatas", JSON.stringify(datas));
     };
 
     setCurCheckpoint() {

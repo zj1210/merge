@@ -141,7 +141,7 @@ cc.Class({
         } else {
            
 
-            this.rewardLabel.string = "奖励:" + rewardCount + "金币";
+            this.rewardLabel.string = "奖励:" + this.rewardCount + "金币";
         }
         
         this.schedule(this.timeLabelLogic, 1);
