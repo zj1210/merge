@@ -9,7 +9,7 @@
   "wrapMode": 1,
   "curveData": {
     "paths": {
-      "singleColor": {
+      "checkPointEnd/singleColor": {
         "props": {
           "scale": [
             {
@@ -50,16 +50,10 @@
               "frame": 0.8333333333333334,
               "value": 120
             }
-          ],
-          "active": [
-            {
-              "frame": 0,
-              "value": true
-            }
           ]
         }
       },
-      "SuccessLabel": {
+      "checkPointEnd/SuccessLabel": {
         "props": {
           "scale": [
             {
@@ -94,16 +88,10 @@
                 "y": 1
               }
             }
-          ],
-          "active": [
-            {
-              "frame": 0,
-              "value": true
-            }
           ]
         }
       },
-      "FailLabel": {
+      "checkPointEnd/FailLabel": {
         "props": {
           "active": [
             {
@@ -113,32 +101,8 @@
           ]
         }
       },
-      "levelButten": {
+      "checkPointEnd/levelButten": {
         "props": {
-          "scale": [],
-          "active": []
-        }
-      },
-      "homeButten": {
-        "props": {
-          "scale": [],
-          "active": []
-        }
-      },
-      "nextButten": {
-        "props": {
-          "scale": [],
-          "active": []
-        }
-      },
-      "butten/levelButten": {
-        "props": {
-          "active": [
-            {
-              "frame": 0,
-              "value": true
-            }
-          ],
           "scale": [
             {
               "frame": 0.3333333333333333,
@@ -159,14 +123,8 @@
           ]
         }
       },
-      "butten/homeButten": {
+      "checkPointEnd/homeButten": {
         "props": {
-          "active": [
-            {
-              "frame": 0,
-              "value": true
-            }
-          ],
           "scale": [
             {
               "frame": 0.6666666666666666,
@@ -187,14 +145,8 @@
           ]
         }
       },
-      "butten/nextButten": {
+      "checkPointEnd/nextButten": {
         "props": {
-          "active": [
-            {
-              "frame": 0,
-              "value": true
-            }
-          ],
           "scale": [
             {
               "frame": 1,
@@ -212,10 +164,36 @@
                 "y": 1
               }
             }
+          ],
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
           ]
         }
       },
-      "butten": {
+      "checkPointEnd/restartButten": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": false
+            }
+          ]
+        }
+      },
+      "checkPointEnd": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ]
+        }
+      },
+      "checkPointEnd/New Node": {
         "props": {
           "active": [
             {
