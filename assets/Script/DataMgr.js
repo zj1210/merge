@@ -686,7 +686,96 @@ export default class DataMgr extends cc.Component {
     ];
 
 
+    //关卡每日奖励系统 数据结构
+    //基本思路，只用存两个值，1，这一关完成的次数，2，这一关上次玩的年月日
+    //使用方式，1，首先根据上次完成（必须过关）的年月日和当天时间比较 若相同，没有奖励，
+    //若不相同，有奖励，根据历史完成次数来区分，若历史是0，则给first_Reward，若非0 则给daily_Reward
+    checkpintRewardDatas = [
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
 
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        },
+        {
+            "count": 0,
+            "lastTime": "20181111"
+        }
+    ];
 
 
     //蒲公英的生成周期 单位：秒
@@ -817,6 +906,11 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("curCheckpoint", 1);
         }
 
+        var checkpointRewardDatas = cc.sys.localStorage.getItem("checkpointRewardDatas");
+        if (!checkpointRewardDatas) {
+            cc.sys.localStorage.setItem("checkpointRewardDatas", JSON.stringify(this.checkpintRewardDatas));
+        }
+
         this.getHallTileData();
         this.getHallDragonData();
 
@@ -846,13 +940,13 @@ export default class DataMgr extends cc.Component {
     };
 
     setCurCheckpoint() {
-        
+
     };
 
     getDescByTarget(target) {
-      
-        for(var i = 0; i<this.checkpointTargetDatas.length; i++) {
-            if(this.checkpointTargetDatas[i].id == target) {
+
+        for (var i = 0; i < this.checkpointTargetDatas.length; i++) {
+            if (this.checkpointTargetDatas[i].id == target) {
                 return this.checkpointTargetDatas[i].desc;
             }
         }

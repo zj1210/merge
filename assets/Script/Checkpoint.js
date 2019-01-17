@@ -127,16 +127,39 @@ cc.Class({
         this.endCheckpoint();
         //胜利弹窗
         cc.find("Canvas/checkPointEndNode").getComponent(cc.Animation).play("checkPointSuccess");
+        cc.dataMgr.addCoinCount(parseInt(this.rewardCount));
     },
 
     beginCheckpoint: function () {
         this.targetLabel.string = "目标:" + cc.dataMgr.getDescByTarget(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].target);
         this.time = parseInt(cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].time);
 
-        this.rewardLabel.string = "奖励:" + cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].first_Reward + "金币";
+        this.rewardCount = this.getRewardCount();
+        if(rewardCount == 0) {
+            this.rewardLabel.string = "奖励:" + rewardCount + "金币";
+        } else {
+            this.rewardLabel.string = "明日奖励重置";
+        }
+        
 
 
         this.schedule(this.timeLabelLogic, 1);
+    },
+
+    //返回本次奖励多少金币
+    getRewardCount:function() {
+        var curDay = cc.dataMgr.getCurrentDay();
+        var lastDay = cc.dataMgr.checkpintRewardDatas[this.curCheckpoint - 1].lastDay;
+        var count = cc.dataMgr.checkpintRewardDatas[this.curCheckpoint - 1].count;
+        if(curDay == lastDay) {
+           return 0;
+        } else {
+            if(count == 0) {
+                return cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].first_Reward;
+            } else {
+                return cc.dataMgr.checkpointDatas[this.curCheckpoint - 1].daily_Reward;
+            }
+        }
     },
 
     endCheckpoint: function () {
