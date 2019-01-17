@@ -52,7 +52,7 @@ export default class MapChooseFrame extends cc.Component {
         //     inst.position = cc.v2(i*2000,0)
         // }
         // this.content.width = (this.iconList.length/3*2000)+200
-        window.Notification.on("UIMgr_push",function(_data){
+        window.Notification.on("UIMgr_loadPrefab",function(_data){
             if (self.index > 0 && _data.name == "CheckpointIcon" && _data.data.idx == self.index+1 && cc.isValid(self.node)){
                 //console.log(self.iconList.length)
                 var obj = self.iconList[self.index].children[1]
