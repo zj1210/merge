@@ -15,7 +15,7 @@ const {
 @ccclass
 export default class DataMgr extends cc.Component {
     //以年月日 时分 来标记版本，目前只用于清空数据
-    version = "2019-01-02-1628";
+    version = "2019-01-11-1456";
 
     //是否播放音效和背景音乐
     playEffect = true;
@@ -39,17 +39,124 @@ export default class DataMgr extends cc.Component {
     //一维 飞龙数据
     dragonsData = [];
 
-    hallTileWidth = 11;
-    hallTileHeight = 13;
+    hallTileWidth = 15;
+    hallTileHeight = 20;
+
+    //各个关卡宽高
+    checkpointsWAndH = [
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+
+        {
+            "w": 5,
+            "h": 7
+        },
+    ]
 
     //用于规范摄像机区域的值  他不是对称的
-    hallLeftWidth = 3000;
-    hallRightWidth = 5500;
-    hallUpHeight = 4000;
-    hallDownHeight = 1800;
+    hallLeftWidth = 2800;
+    hallRightWidth = 6400;
+    hallUpHeight = 3400;
+    hallDownHeight = 2500;
 
     checkpointWidth = 0;
     checkpintHeight = 0;
+
+    toturialTotalStep = 5;
+    //放入持久化存储了
+    // toturialCurStep = 0; //当前第几步 从0开始  toturialCurStep<toturialTotalStep 则进入新手教学， 否则结束
     //为了简单打算写死，不能处理生成的龙超过9个以上 这种情况数学上没证明，
     //但是概率应该是极低的3个相同还会归并
     dragonsOffset = [
@@ -130,23 +237,24 @@ export default class DataMgr extends cc.Component {
             "needTime": 4
         }
     ];
+
     //每级龙的初始体力值
     dragonStrengthDatas = [
         {
             "dragonLevel": 1,
-            "dragonStrength": 3
+            "dragonStrength": 5
         },
         {
             "dragonLevel": 2,
-            "dragonStrength": 11
+            "dragonStrength": 20
         },
         {
             "dragonLevel": 3,
-            "dragonStrength": 36
+            "dragonStrength": 80
         },
         {
             "dragonLevel": 4,
-            "dragonStrength": 112
+            "dragonStrength": 320
         }
     ];
     //每级心的力量
@@ -161,15 +269,15 @@ export default class DataMgr extends cc.Component {
         },
         {
             "heartLevel": 2,
-            "heartStrength": 13
+            "heartStrength": 16
         },
         {
             "heartLevel": 3,
-            "heartStrength": 41
+            "heartStrength": 64
         },
         {
             "heartLevel": 4,
-            "heartStrength": 126
+            "heartStrength": 256
         }
     ];
 
@@ -360,7 +468,7 @@ export default class DataMgr extends cc.Component {
             "probability": 0.3,
             "count": 1,
             //随到物品后，不知道物品在数组的索引，就无从计算最终的角度，为了提高性能，数据直接放入内部，不要修改！！
-            "index":0 
+            "index": 0
         },
 
         {
@@ -368,7 +476,7 @@ export default class DataMgr extends cc.Component {
             "level": 3,
             "probability": 0.6,
             "count": 1,
-            "index":1
+            "index": 1
         },
 
         {
@@ -376,7 +484,7 @@ export default class DataMgr extends cc.Component {
             "level": 2,
             "probability": 0.65,
             "count": 1,
-            "index":2
+            "index": 2
         },
 
         {
@@ -384,7 +492,7 @@ export default class DataMgr extends cc.Component {
             "level": 0,
             "probability": 0.8,
             "count": 1,
-            "index":3
+            "index": 3
         },
 
         {
@@ -392,7 +500,7 @@ export default class DataMgr extends cc.Component {
             "level": 3,
             "probability": 0.81,
             "count": 1,
-            "index":4
+            "index": 4
         },
 
         {
@@ -400,7 +508,7 @@ export default class DataMgr extends cc.Component {
             "level": 3,
             "probability": 1.0,
             "count": 1,
-            "index":5
+            "index": 5
         }
     ];
 
@@ -414,17 +522,17 @@ export default class DataMgr extends cc.Component {
 
         {
             "dragonLevel": 2,
-            "duration": 60
+            "duration": 80
         },
 
         {
             "dragonLevel": 3,
-            "duration": 60
+            "duration": 95
         },
 
         {
             "dragonLevel": 4,
-            "duration": 60
+            "duration": 150
         },
     ];
 
@@ -488,8 +596,101 @@ export default class DataMgr extends cc.Component {
         },
     ];
 
+    //花合成奖励数据表 只奖励心
+    flowerUnionRewardDatas = [
+        {
+            "level": 2,
+            "count": 1
+        },
+
+        {
+            "level": 3,
+            "count": 4
+        },
+
+        {
+            "level": 4,
+            "count": 10
+        },
+
+        {
+            "level": 5,
+            "count": 20
+        },
+
+    ];
+
+    /**
+     * 自己临时觉得好玩加的，龙在采集时说一些话，提示玩家游戏技巧或者给玩家一些目标暗示
+     */
+    saySomethingByDragon = [
+
+        "我的家园,不允许有雾霾!",
+        "我们龙类也可以合并的!",
+
+        "啊~~新鲜的野花!",
+        "一次合并更多的东西,效果更好~",
+        "有需要就叫醒我。",
+        "我们肯定可以清除所有的雾霾!",
+        "我超强力的!"
+    ];
+
+    checkpointTargetDatas = [
+        {
+            "id": 0,
+            "desc": "生命之花*1",
+        },
+        {
+            "id": 1,
+            "desc": "蓝色生命之花*1",
+        },
+
+        {
+            "id": 2,
+            "desc": "微型生命精华*1",
+        },
+
+        {
+            "id": 3,
+            "desc": "小生命精华*1",
+        },
+
+        {
+            "id": 4,
+            "desc": "解锁所有土地",
+        },
+
+    ];
+
+    checkpointDatas = [
+        { "id": 1, "time": 600, "target": 0, "first_Reward": 5, "daily_Reward": 1 },
+        { "id": 2, "time": 600, "target": 1, "first_Reward": 5, "daily_Reward": 1 },
+        { "id": 3, "time": 600, "target": 2, "first_Reward": 5, "daily_Reward": 1 },
+        { "id": 4, "time": 600, "target": 2, "first_Reward": 5, "daily_Reward": 1 },
+        { "id": 5, "time": 600, "target": 3, "first_Reward": 5, "daily_Reward": 1 },
+        { "id": 6, "time": 600, "target": 4, "first_Reward": 5, "daily_Reward": 2 },
+        { "id": 7, "time": 180, "target": 4, "first_Reward": 5, "daily_Reward": 2 },
+        { "id": 8, "time": 600, "target": 4, "first_Reward": 5, "daily_Reward": 2 },
+        { "id": 9, "time": 360, "target": 4, "first_Reward": 5, "daily_Reward": 2 },
+        { "id": 10, "time": 600, "target": 4, "first_Reward": 5, "daily_Reward": 2 },
+        { "id": 11, "time": 300, "target": 4, "first_Reward": 5, "daily_Reward": 3 },
+        { "id": 12, "time": 110, "target": 4, "first_Reward": 5, "daily_Reward": 3 },
+        { "id": 13, "time": 80, "target": 4, "first_Reward": 5, "daily_Reward": 3 },
+        { "id": 14, "time": 60, "target": 4, "first_Reward": 5, "daily_Reward": 3 },
+        { "id": 15, "time": 600, "target": 4, "first_Reward": 5, "daily_Reward": 3 },
+        { "id": 16, "time": 600, "target": 4, "first_Reward": 5, "daily_Reward": 4 },
+        { "id": 17, "time": 600, "target": 4, "first_Reward": 5, "daily_Reward": 4 },
+        { "id": 18, "time": 60, "target": 4, "first_Reward": 5, "daily_Reward": 4 },
+        { "id": 19, "time": 60, "target": 4, "first_Reward": 5, "daily_Reward": 4 },
+        { "id": 20, "time": 60, "target": 4, "first_Reward": 5, "daily_Reward": 4 },
+    ];
+
+
+
+
+
     //蒲公英的生成周期 单位：秒
-    dandelionPeriod = 8;
+    dandelionPeriod = 4;
 
     //龙巢里的龙 将来要持久化 数据结构 只需插入 醒来时间 和 进入级别
     /**
@@ -501,10 +702,60 @@ export default class DataMgr extends cc.Component {
     dragonNestDatas = [];
     //数据持久化 解码后的 各个tile数据
     hallTileData = null;
+
+
+    ShareState = {
+        "SHARE_NONE": 1,//没有分享奖励的分享
+        "DRAGON_OUT": 2,//分享直接龙唤醒一条
+        "DANDELION_COUNT": 4,//分享后多生产蒲公英
+        "ROULETTE_GO": 8,//分享后让轮盘旋转
+
+    };
+
+    shareTitleDatas = [
+        {
+
+            title: "我们抬头望天空， 星星还亮着几颗……",
+            url: "https://bpw.blyule.com/Merge_Res/share1.jpg",
+        },
+
+        {
+
+            title: "外星人信号？不，那是虚空龙族对你的召唤～",
+            url: "https://bpw.blyule.com/Merge_Res/share2.jpg",
+        },
+
+        {
+
+            title: "集齐了七颗龙蛋，一个让我意想不到的事情发生了……",
+            url: "https://bpw.blyule.com/Merge_Res/share3.jpg",
+        },
+
+        {
+
+            title: "集齐了七颗龙蛋，一个让我意想不到的事情发生了……",
+            url: "https://bpw.blyule.com/Merge_Res/share4.jpg",
+        },
+
+        {
+
+            title: "集齐了七颗龙蛋，一个让我意想不到的事情发生了……",
+            url: "https://bpw.blyule.com/Merge_Res/share5.jpg",
+        }
+    ];
+
+    //分享状态：用于标记当前的分享是为了什么，根据这个给奖励
+    shareState = this.ShareState.SHARE_NONE;
+
     init() {
+        console.log("看下 shareState");
+        console.log(this.shareState);
         cc.game.on(cc.game.EVENT_HIDE, function () {
             console.log("datamgr  hide");
-            cc.dataMgr.saveGameData();
+            if (cc.dataMgr.isHall) {
+                cc.dataMgr.saveGameData();
+            }
+
         });
         cc.game.on(cc.game.EVENT_SHOW, function () {
             console.log("datamgr  show");
@@ -526,6 +777,11 @@ export default class DataMgr extends cc.Component {
         if (!coinCount) {
             cc.sys.localStorage.setItem("coinCount", 10);
         }
+
+        var toturialCurStep = cc.sys.localStorage.getItem("toturialCurStep");
+        if (!toturialCurStep) {
+            cc.sys.localStorage.setItem("toturialCurStep", 0);
+        }
         // //用于邀请好友的奖励？需求不定，钻石
         // var diamondCount = cc.sys.localStorage.getItem("diamondCount");
         // if (!diamondCount) {
@@ -543,13 +799,66 @@ export default class DataMgr extends cc.Component {
             cc.sys.localStorage.setItem("signInDay", "20181128");
         }
 
+        //上次分享的年月日
+        var shareDay = cc.sys.localStorage.getItem("shareDay");
+        if (!shareDay) {
+            cc.sys.localStorage.setItem("shareDay", "20181128");
+        }
+
         //用于解锁雾 收集的心的数量 会把各级心换算对应的一级心个数
         var heartCount = cc.sys.localStorage.getItem("heartCount");
         if (!heartCount) {
-            cc.sys.localStorage.setItem("heartCount", 0);
+            cc.sys.localStorage.setItem("heartCount", 1);
         }
 
 
+        var curCheckpoint = cc.sys.localStorage.getItem("curCheckpoint");
+        if (!curCheckpoint) {
+            cc.sys.localStorage.setItem("curCheckpoint", 1);
+        }
+
+        this.getHallTileData();
+        this.getHallDragonData();
+
+
+
+        if (CC_WECHATGAME) {
+            wx.onShow(res => {
+                console.log("小游戏回到前台");
+                console.log(res);
+                console.log(cc.dataMgr.shareState);
+                if (cc.dataMgr.shareState != cc.dataMgr.ShareState.SHARE_NONE) {
+                    var isSuccess = this.shareLogic();
+
+                    window.Notification.emit(cc.dataMgr.shareState, isSuccess);
+                    cc.dataMgr.shareState = cc.dataMgr.ShareState.SHARE_NONE;
+
+                }
+            });
+        }
+
+    };
+
+    //获得用户该玩那一关了
+    getCurCheckpoint() {
+        var curCheckpoint = cc.sys.localStorage.getItem("curCheckpoint");
+        return parseInt(curCheckpoint);
+    };
+
+    setCurCheckpoint() {
+        
+    };
+
+    getDescByTarget(target) {
+      
+        for(var i = 0; i<this.checkpointTargetDatas.length; i++) {
+            if(this.checkpointTargetDatas[i].id == target) {
+                return this.checkpointTargetDatas[i].desc;
+            }
+        }
+    };
+
+    getHallTileData() {
         var strHallTileData = cc.sys.localStorage.getItem("hallTileData");
 
         if (!strHallTileData) {
@@ -558,6 +867,9 @@ export default class DataMgr extends cc.Component {
             //块上数据
             this.hallTileData = JSON.parse(strHallTileData);
         }
+    };
+
+    getHallDragonData() {
         var strDragonData = cc.sys.localStorage.getItem("dragonDatas");
 
         if (!strDragonData) {
@@ -577,17 +889,116 @@ export default class DataMgr extends cc.Component {
             this.dragonNestDatas = JSON.parse(strDragonNestDatas);
             // console.log(this.dragonNestDatas);
         }
-
     };
 
-    resetData() {
-        cc.sys.localStorage.setItem("coinCount", 10);
-        cc.sys.localStorage.setItem("heartCount", 0);
-        cc.sys.localStorage.setItem("hallTileData", "");
-        cc.sys.localStorage.setItem("dragonDatas", "");
-        cc.sys.localStorage.setItem("dragonNestDatas", "");
+    share() {
+        if (CC_WECHATGAME) {
+            var shareData = this.getShareData();
+
+            wx.shareAppMessage({
+                title: shareData.title,
+                imageUrl: shareData.url
+                // imageUrl: str_imageUrl, query: "otherID=" + query_string
+            });
+        }
+
+
+        this.beginShareTime = Date.now();
+    };
+
+    getShareData() {
+        var shareDataIndex = Math.floor(Math.random() * this.shareTitleDatas.length);
+
+        return this.shareTitleDatas[shareDataIndex];
+    };
+
+
+    shareLogic() {
+        this.endShareTime = Date.now();
+
+        //小于4秒 分享失败
+        if (this.endShareTime - this.beginShareTime < 4000) {
+            return false;
+        }
+
+
+        // var curDate = cc.dataMgr.getCurrentDay();
+        // var lastDate = cc.dataMgr.getLastShareDay();
+        // //今天首次分享 直接分享失败
+        // if (curDate != lastDate) {
+        //     cc.dataMgr.setLastShareDay(curDate);
+        //     return false;
+        // }
+
+        // var p = Math.random();
+        // //30%概率直接失败
+        // if (p < 0.3) {
+        //     return false;
+        // }
+
+        return true;
+    };
+
+    getCurrentDay() {
+        var date = new Date();
+        return date.getFullYear() + "" + date.getMonth() + date.getDate();
     }
 
+    //先写死每个类型的最高级别。将来即使改也容易
+    getMaxLevelByType(type) {
+        if (type == 1) {
+            return 4;
+        } else if (type == 2) {
+            return 5;
+        } else if (type == 3) {
+            return 4;
+        } else {
+            debugger;
+        }
+    }
+
+    resetData() {
+
+        cc.sys.localStorage.removeItem("coinCount");
+        cc.sys.localStorage.removeItem("heartCount");
+
+        cc.sys.localStorage.removeItem("hallTileData");
+        cc.sys.localStorage.removeItem("dragonDatas");
+        cc.sys.localStorage.removeItem("dragonNestDatas");
+
+        cc.sys.localStorage.removeItem("signInProgress");
+        cc.sys.localStorage.removeItem("signInDay");
+        cc.sys.localStorage.removeItem("shareDay");
+
+        cc.sys.localStorage.removeItem("toturialCurStep");
+    }
+
+    addToturialStep(count) {
+        if (!count) {
+            count = 1;
+        }
+        var cs = this.getToturialCurStep() + count;
+        cc.sys.localStorage.setItem("toturialCurStep", cs);
+        return cs;
+    }
+
+    getToturialCurStep() {
+        return parseInt(cc.sys.localStorage.getItem("toturialCurStep"));
+    }
+    hasToturial() {
+
+        return this.getToturialCurStep() < this.toturialTotalStep;
+    }
+
+    getFlowerUnionRewardByLevel(level) {
+        for (var i = 0; i < this.flowerUnionRewardDatas.length; i++) {
+            if (this.flowerUnionRewardDatas[i].level == level) {
+                return this.flowerUnionRewardDatas[i].count;
+            }
+        }
+
+        return null;
+    }
 
     randomTreasure() {
         var p = Math.random();
@@ -625,6 +1036,18 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("signInProgress", p);
     };
 
+
+
+    getLastShareDay() {
+        var t = cc.sys.localStorage.getItem("shareDay");
+        return t;
+    };
+
+    setLastShareDay(date_str) {
+        cc.sys.localStorage.setItem("shareDay", date_str);
+
+    };
+
     getLastSignInDate() {
         var t = cc.sys.localStorage.getItem("signInDay");
         return t;
@@ -634,6 +1057,7 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("signInDay", date_str);
 
     };
+
 
     getDragonNestDurationByLevel(level) {
         for (var i = 0; i < this.dragonNestDuration.length; i++) {
@@ -675,6 +1099,10 @@ export default class DataMgr extends cc.Component {
         var ct = Date.now() / 1000;
 
         return wut - ct;
+    };
+
+    setCurrentDragonWakeUpTime() {
+        this.dragonNestDatas[0].wakeUpTime = 0;
     };
 
     getDescByTypeAndLevel(type, level) {
@@ -746,29 +1174,30 @@ export default class DataMgr extends cc.Component {
         debugger;
     };
 
-    getCurrentWidthAndHeight() {
+    getCurrentWidthAndHeight(checkpointID) {
+
         if (this.isHall) {
             return {
                 w: this.hallTileWidth,
                 h: this.hallTileHeight
             };
         } else {
-            return {
-                w: this.checkpointWidth,
-                h: this.checkpintHeight
-            };
+            return this.checkpointsWAndH[checkpointID - 1];
         }
     };
 
     //checkpointID 大厅是0 关卡的从1开始类推 mapNode的tile必须按照从左到右，从上到下的顺序摆放
     initTile(checkpointID, tiles) {
-        //console.log(tiles);
-        for (var i = 0; i < this.hallTileHeight; i++) {
+
+        var wAndH = this.getCurrentWidthAndHeight(checkpointID);
+        var h = wAndH.h;
+        var w = wAndH.w;
+        for (var i = 0; i < h; i++) {
             this.tilesData[i] = [];
         }
-        for (var i = 0; i < this.hallTileHeight; i++) {
-            for (var j = 0; j < this.hallTileWidth; j++) {
-                this.tilesData[i][j] = tiles[i * this.hallTileWidth + j];
+        for (var i = 0; i < h; i++) {
+            for (var j = 0; j < w; j++) {
+                this.tilesData[i][j] = tiles[i * w + j];
                 this.tilesData[i][j].getComponent('Tile').setIndex(j, i);
             }
         }
@@ -862,6 +1291,7 @@ export default class DataMgr extends cc.Component {
         cc.sys.localStorage.setItem("hallTileData", JSON.stringify(tilePersistenceDatas));
 
 
+
         var dragonPersistenceDatas = [];
 
         //作为数据层，去持有界面的数据 写法很不好，目前没有太好的办法
@@ -882,7 +1312,12 @@ export default class DataMgr extends cc.Component {
         //存储龙巢内的龙  数据不用解析了，本来就是纯数据的结构
         cc.sys.localStorage.setItem("dragonNestDatas", JSON.stringify(this.dragonNestDatas));
 
+        this.getHallTileData();
+        this.getHallDragonData();
     };
+
+
+
 
     //打印tile的数据 debug用
     debugTileInfo() {

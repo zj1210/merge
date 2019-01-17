@@ -109,6 +109,30 @@ cc.Class({
 
          */
         this.result = null;
+
+
+        //cc.dataMgr.shareState = cc.dataMgr.ShareState.DANDELION_COUNT;
+        
+
+    },
+
+    start() {
+        let self = this;
+        var cnvs = cc.find("Canvas");
+        var node_Tips = cnvs.getChildByName("node_Tips");
+        
+        window.Notification.on(cc.dataMgr.ShareState.ROULETTE_GO, function (parameter) {
+            console.log("分享回调");
+            console.log(parameter);
+            if(parameter == true) {
+                node_Tips.getChildByName("shareSuccessLabel").getComponent(cc.Animation).play("shareSuccess");
+                self.goRoulette();
+            } else {
+                node_Tips.getChildByName("shareFailLabel").getComponent(cc.Animation).play("shareFail");
+                console.log("分享失败");
+            }
+           
+        });
     },
 
     getSpriteFrameByData: function (reward, level) {
@@ -143,6 +167,14 @@ cc.Class({
         //2, 读取当前进度，界面状态设置，哪些有对号，哪些没有
         //3, 设置签到按钮，根据上次签到和当前日期是否一样 来设置
         //this.refreashUI();
+
+      
+    },
+
+    shareClick:function() {
+        cc.audioMgr.playEffect("UI");
+        cc.dataMgr.shareState = cc.dataMgr.ShareState.ROULETTE_GO;
+        cc.dataMgr.share();
     },
 
     goRoulette: function () {

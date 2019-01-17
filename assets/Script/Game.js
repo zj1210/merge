@@ -20,10 +20,7 @@ cc.Class({
             type: cc.Prefab,
         },
 
-        mapNode: {
-            default: null,
-            type: cc.Node,
-        },
+
         thingsNode: {
             default: null,
             type: cc.Node,
@@ -33,7 +30,17 @@ cc.Class({
             type: cc.Node,
         },
 
+        nodeCloud: {
+            default: null,
+            type: cc.Node
+        },
 
+
+
+        maps: {
+            default: [],
+            type: cc.Prefab
+        },
         // tilesHorizontalCount: {
         //     default: 0,
         //     displayName: "当前图的水平格子数",
@@ -68,11 +75,9 @@ cc.Class({
             cc.dataMgr = new DataMgr();
             cc.dataMgr.init();
 
-            /**
-         * 初始化块的数据结构,0标记的是大厅数据
-         */
-            cc.dataMgr.initTile(0, this.node.getChildByName('gameLayer').getChildByName('mapNode').children);
 
+
+            this.loadGame(null);
         }
         if (!cc.audioMgr) {
             cc.audioMgr = new AudioMgr();
@@ -104,15 +109,15 @@ cc.Class({
     //原本想做一个通用的添加龙函数，但是有较多问题，！！！目前只支持从签到界面加入龙！
     addDragonToGame: function (thingType, thingLevel) {
         //各级龙的数据表
-       
+
 
         var newDragon = cc.instantiate(this.dragonPrefab);
         //这里代码会把 龙的体力 设置为 默认数据，需要再设置一遍
         newDragon.getComponent('Dragon').setTypeAndLevel_forNewDragon(thingType, thingLevel);
-       // newDragon.getComponent('Dragon').strength = dragonDatas[i].strength;
+        // newDragon.getComponent('Dragon').strength = dragonDatas[i].strength;
 
-       var wp = this.ui.node.convertToWorldSpaceAR(cc.v2(0,0));
-       var np = this.dragonsNode.convertToNodeSpaceAR(wp);
+        var wp = this.ui.node.convertToWorldSpaceAR(cc.v2(0, 0));
+        var np = this.dragonsNode.convertToNodeSpaceAR(wp);
         newDragon.position = np;
         this.dragonsNode.addChild(newDragon);
     },
@@ -121,8 +126,10 @@ cc.Class({
 
         cc.audioMgr.playBg();
 
-        //根据持久化数据，持久化龙层，todo：龙巢的恢复
-        this.initDragons();
+
+        //云特效
+        this.cloudEffect();
+
         //debugger;
         let self = this;
         //只专注于移动摄像机，其它的触摸由各自节点接收并吞没
@@ -157,6 +164,153 @@ cc.Class({
 
     },
 
+
+    clearGame: function () {
+        // this.mapNode.removeAllChildren();
+        // this.thingsNode.removeAllChildren();
+        // this.dragonsNode.removeAllChildren();
+        this.mapNode.destroy();
+        this.thingsNode.removeAllChildren();
+        this.dragonsNode.removeAllChildren();
+        cc.dataMgr.tilesData = [];
+    },
+
+    //大厅地图 null 其他的按1，2,3排列
+    loadGame: function (tag) {
+        this.checkpointID = tag;
+        if (tag == null) {
+            cc.dataMgr.isHall = true;
+            this.mapNode = cc.instantiate(this.maps[0]);
+
+            //根据持久化数据，持久化龙层，todo：龙巢的恢复
+            this.initDragons();
+
+        } else {
+           
+            cc.dataMgr.isHall = false;
+            this.mapNode = cc.instantiate(this.maps[tag]);
+        }
+
+        this.mapNode.setLocalZOrder(-1);
+        this.node.getChildByName('gameLayer').addChild(this.mapNode);
+        cc.dataMgr.initTile(tag, this.mapNode.children);
+
+        this.thingsNode.position = this.mapNode.position;
+        this.dragonsNode.position = this.mapNode.position;
+
+        this.camera.position = cc.v2(0,0);
+        //虽然很迷你，但本质上就是战争迷雾系统
+        this.fogOfWarSystem();
+        //调用草地变色，与自动描边
+        this.grassSystem();
+
+        
+    },
+
+
+
+    cloudEffect: function () {
+        //云特效：上下自动
+        for (let i = 0; i < this.nodeCloud.children.length; ++i) {
+            let nodeN = this.nodeCloud.children[i];
+            let randY = Math.random() * 40 + 15;
+
+            var spawn1 = cc.spawn(cc.moveBy(2.5 + Math.random() * 2, cc.v2(0, randY)), cc.fadeTo(2.5 + Math.random() * 2, 150));
+            var spawn2 = cc.spawn(cc.moveBy(1.5 + Math.random() * 2, cc.v2(0, -randY)), cc.fadeTo(1.5 + Math.random() * 2, 80));
+            nodeN.runAction(cc.repeatForever(cc.sequence(spawn1, spawn2)));
+        }
+
+    },
+
+
+    //战争迷雾，用于控制雾，周围有非雾就显示label并且可点击
+    fogOfWarSystem: function () {
+        // return;
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
+        var tileHeight = hAndW.h;
+        var tileWidth = hAndW.w;
+
+        //棋盘上是否还有雾
+        var hasFog = false;
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
+                var otherTile = cc.dataMgr.tilesData[i][j];
+                var otherTileJS = otherTile.getComponent('Tile');
+                //这个tile是否有雾
+                var isFogTile = otherTileJS.isFogTile();
+                
+                if (isFogTile) {
+                    hasFog = true;
+                    //上下左右是否有草地
+                    var isShowLabel = false;
+                    if ((i > 0 && cc.dataMgr.tilesData[i - 1][j].getComponent('Tile').isGlassland())
+                        || (i < tileHeight - 1 && cc.dataMgr.tilesData[i + 1][j].getComponent('Tile').isGlassland())
+                        || (j > 0 && cc.dataMgr.tilesData[i][j - 1].getComponent('Tile').isGlassland())
+                        || (j < tileWidth - 1 && cc.dataMgr.tilesData[i][j + 1].getComponent('Tile').isGlassland())) {
+                        isShowLabel = true;
+                    }
+                    var fog = otherTileJS.fog;
+                    var labelNode = fog.getChildByName('relockLabel');
+                    var btnNode = fog.getChildByName("fog");
+                    if (isShowLabel && !labelNode.active) {
+                        labelNode.active = true;
+                        btnNode.getComponent(cc.Button).interactable = true;
+                    } else if (isShowLabel && labelNode.active) {
+
+                    } else if (!isShowLabel && labelNode.active) {
+                        labelNode.active = false;
+                        btnNode.getComponent(cc.Button).interactable = false;
+                    } else if (!isShowLabel && !labelNode.active) {
+
+                    }
+                }
+
+            }
+        }
+
+        if(!hasFog) {
+            window.Notification.emit("ALL_FOG_CLEAR");
+        }
+    },
+
+    //草地系统，用于草地变色 自动描边
+    grassSystem: function () {
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
+        var tileHeight = hAndW.h;
+        var tileWidth = hAndW.w;
+        for (var i = 0; i < tileHeight; i++) {
+            for (var j = 0; j < tileWidth; j++) {
+                var otherTile = cc.dataMgr.tilesData[i][j];
+                var otherTileJS = otherTile.getComponent('Tile');
+                //1先判断这个块是不是想要的块，如果是 才设置草地
+                //2需要的信息是 块的上下左右是否有东西 没有就是0 有就是1 传入tile中
+                 //用于标记上下左右的草是否显示
+                 var grassInfo = [0, 0, 0, 0];
+                if (otherTileJS.dontWant == 0) {
+                   
+                    if (i < 1 || cc.dataMgr.tilesData[i - 1][j].getComponent('Tile').dontWant) {
+                        grassInfo[0] = 1;
+                    }
+
+                    if (i > tileHeight - 2 || cc.dataMgr.tilesData[i + 1][j].getComponent('Tile').dontWant) {
+                        grassInfo[1] = 1;
+                    }
+
+
+
+                    if (j > tileWidth - 2 || cc.dataMgr.tilesData[i][j + 1].getComponent('Tile').dontWant) {
+                        grassInfo[2] = 1;
+                    }
+
+                    if (j < 1 || cc.dataMgr.tilesData[i][j - 1].getComponent('Tile').dontWant) {
+                        grassInfo[3] = 1;
+                    }
+                }
+                otherTileJS.setGrassInfo(grassInfo);
+            }
+        }
+    },
+
     // called every frame
     update: function (dt) {
 
@@ -189,7 +343,7 @@ cc.Class({
     getContainPointTile: function (worldPos) {
 
         //var touchPos = this.camera.getComponent(cc.Camera).getCameraToWorldPoint(touchPos);
-        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
         var tileHeight = hAndW.h,
             tileWidth = hAndW.w;
         for (var i = 0; i < tileHeight; i++) {
@@ -204,7 +358,10 @@ cc.Class({
                     // console.log('包含改触摸点的tile');
                     //console.log(cc.dataMgr.tilesData[i][j].getBoundingBoxToWorld());
                     //console.log(cc.dataMgr.tilesData[i][j]);
-                    return cc.dataMgr.tilesData[i][j];
+                    if (cc.dataMgr.tilesData[i][j].getComponent('Tile').dontWant == 0) {
+                        return cc.dataMgr.tilesData[i][j];
+                    }
+
                 }
             }
         }
@@ -244,7 +401,7 @@ cc.Class({
             this.checkConnectRecurse(tileJS.index.x - 1, tileJS.index.y, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
         }
 
-        if (tileJS.index.x < cc.dataMgr.getCurrentWidthAndHeight().w - 1) {
+        if (tileJS.index.x < cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID).w - 1) {
             this.checkConnectRecurse(tileJS.index.x + 1, tileJS.index.y, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
         }
 
@@ -252,7 +409,7 @@ cc.Class({
             this.checkConnectRecurse(tileJS.index.x, tileJS.index.y - 1, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
         }
 
-        if (tileJS.index.y < cc.dataMgr.getCurrentWidthAndHeight().h - 1) {
+        if (tileJS.index.y < cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID).h - 1) {
             this.checkConnectRecurse(tileJS.index.x, tileJS.index.y + 1, thisThingJS.thingType, thisThingJS.thingLevel, resultThings);
         }
         // console.log("-----查找连通算法结果------");
@@ -269,6 +426,10 @@ cc.Class({
         //未知原因 块和脚本没有获得
         if (!t || !tJS) {
             debugger;
+            return;
+        }
+        //空块
+        if (tJS.dontWant == 1) {
             return;
         }
         //是雾
@@ -295,7 +456,7 @@ cc.Class({
                 this.checkConnectRecurse(tJS.index.x - 1, tJS.index.y, type, level, resultThings);
             }
 
-            if (tJS.index.x < cc.dataMgr.getCurrentWidthAndHeight().w - 1) {
+            if (tJS.index.x < cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID).w - 1) {
                 this.checkConnectRecurse(tJS.index.x + 1, tJS.index.y, type, level, resultThings);
             }
 
@@ -303,7 +464,7 @@ cc.Class({
                 this.checkConnectRecurse(tJS.index.x, tJS.index.y - 1, type, level, resultThings);
             }
 
-            if (tJS.index.y < cc.dataMgr.getCurrentWidthAndHeight().h - 1) {
+            if (tJS.index.y < cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID).h - 1) {
                 this.checkConnectRecurse(tJS.index.x, tJS.index.y + 1, type, level, resultThings);
             }
 
@@ -352,7 +513,7 @@ cc.Class({
     getNearestTileByN: function (tile, N) {
         var resultTiles = [];
         var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
-        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
         var tileHeight = hAndW.h;
         var tileWidth = hAndW.w;
 
@@ -454,6 +615,8 @@ cc.Class({
                 this.dragonsNode.addChild(unionedThingsArray[i].thing);
 
                 cc.audioMgr.playEffect("dragon");
+
+                window.Notification.emit("EGG_TO_DRAGON");
             } else {
                 this.thingsNode.addChild(unionedThingsArray[i].thing);
                 var thingJs = unionedThingsArray[i].thing.getChildByName('selectedNode').getComponent('Thing');
@@ -462,10 +625,41 @@ cc.Class({
                 //精华合成音
                 if (unionedThingsArray[i].thingType == 1) {
                     cc.audioMgr.playEffect("heart");
+
+                    if(unionedThingsArray[i].thingLevel == 1) {
+                        window.Notification.emit("HEART_1");
+                    }
+
+                    if(unionedThingsArray[i].thingLevel == 2) {
+                        window.Notification.emit("HEART_2");
+                    }
                 }
                 //花合成音
                 else if (unionedThingsArray[i].thingType == 2) {
                     cc.audioMgr.playEffect("flower");
+
+
+                    var reward = cc.dataMgr.getFlowerUnionRewardByLevel(unionedThingsArray[i].thingLevel);
+                    if (reward != null) {
+                        var tipsLabel = unionedThingsArray[i].thing.getChildByName("tipsNode").getChildByName("tipsLabel").getComponent(cc.Label);
+                        tipsLabel.string = "+" + reward + "精华";
+                        cc.dataMgr.addHeartCount(reward);
+                        this.ui.refreshUI();
+                        tipsLabel.node.getComponent(cc.Animation).play('tipsLabel');
+                    }
+
+
+
+
+                    window.Notification.emit("MERGE_FLOWER");
+
+                    if(unionedThingsArray[i].thingLevel == 2) {
+                        window.Notification.emit("FLOWER_2");
+                    }
+
+                    if(unionedThingsArray[i].thingLevel == 3) {
+                        window.Notification.emit("FLOWER_3");
+                    }
                 }
             }
         }
@@ -505,7 +699,7 @@ cc.Class({
     getNearestTileByN_pos: function (pos, N) {
         var resultTiles = [];
         var allEmptyTiles = [];//所有空闲的tile 然后按照距离排序
-        var hAndW = cc.dataMgr.getCurrentWidthAndHeight();
+        var hAndW = cc.dataMgr.getCurrentWidthAndHeight(this.checkpointID);
         var tileHeight = hAndW.h;
         var tileWidth = hAndW.w;
 
@@ -605,9 +799,22 @@ cc.Class({
     _generateUnionedThings: function (newLen, type, level) {
         var results = [];
 
+        var maxLevel = cc.dataMgr.getMaxLevelByType(type);
+
         while (newLen > 0) {
-            var remainder = newLen % 3;
-            newLen = Math.floor(newLen / 3);
+
+            var remainder = -1;
+            //最高级的情况下 不能再合并了，不然没有图片支持
+            if (level < maxLevel) {
+                remainder = newLen % 3;
+                newLen = Math.floor(newLen / 3);
+            } else {
+                remainder = newLen;
+                newLen = 0;
+            }
+
+            // var remainder = newLen % 3;
+            // newLen = Math.floor(newLen / 3);
 
             for (var i = 0; i < remainder; i++) {
 
@@ -734,6 +941,18 @@ cc.Class({
                 thingJs.changeInTile(tile, thingLevel, thingType);
                 break;
         }
+    },
+
+    //找到一条可以去采集的龙 在龙层搜索 并且不是采集状态的
+    findCanCollectionDraggon: function () {
+        var draggons = this.dragonsNode.children;
+        for (var i = 0; i < draggons.length; i++) {
+            if (!draggons[i].getComponent('Dragon').collectionState && !draggons[i].getComponent('Dragon').movingToFlowerState) {
+                return draggons[i];
+            }
+        }
+
+        return null;
     },
 
     changeCameraPosition: function (touchPos, draggingObj) {
