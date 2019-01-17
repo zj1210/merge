@@ -1,5 +1,4 @@
-import UIMgr from 'UIMgr';
-import Tools from 'Tools';
+
 const {
     ccclass,
     property

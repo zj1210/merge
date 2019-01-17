@@ -1,0 +1,41 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "raft",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 3,
+  "sample": 30,
+  "speed": 1,
+  "wrapMode": "2",
+  "curveData": {
+    "props": {
+      "rotation": [
+        {
+          "frame": 0,
+          "value": -3
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": -2.3333333333333335
+        },
+        {
+          "frame": 1,
+          "value": 0.7286399999990998
+        },
+        {
+          "frame": 1.5,
+          "value": 3
+        },
+        {
+          "frame": 2.6666666666666665,
+          "value": -2.3333333333333335
+        },
+        {
+          "frame": 3,
+          "value": -3
+        }
+      ]
+    }
+  },
+  "events": []
+}
