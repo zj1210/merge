@@ -62,41 +62,7 @@ export default class Notification extends cc.Component {
                 this._eventMap[type] = undefined;
             },
         };
-        if (!cc.uiMgr) {
-            cc.uiMgr = new UIMgr();
-            //cc.ModuleMgr = new ModuleMgr()
-        }
-        if (!cc.tools) {
-            cc.tools = new Tools();
-            //cc.ModuleMgr = new ModuleMgr()
-        }
-        cc.Config = []
-        this.loadjson("checkpoint")
-        this.loadjson("language")
-        
-    }
-    localInit(data){
-        //console.log("localInit"+data.name+data.id)
-    }
-    start() {
-        //console.log("start")
-        cc.uiMgr.loadPrefab("controller",{},{add:false,parentName:"Canvas/UI2d"})
-        cc.uiMgr.loadPrefab("ReturnHall",{},{add:false,parentName:"Canvas/UI2dUp"})
-    }
-    loadjson(name){
-        var self = this
-        cc.loader.loadRes("data/"+name, function(err,res){
-            if (err) {
-                cc.log(err);
-            }else{
-                let list=res;
-                cc.log(list);
-                cc.Config[name] = list.json
-            }
-        })
-    }
-    SaveJsonData(data){
+	}
 
-    }
     update(){}
 }
