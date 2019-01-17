@@ -17,7 +17,7 @@
         "__id__": 2
       },
       {
-        "__id__": 1263
+        "__id__": 1267
       }
     ],
     "_tag": -1,
@@ -83,6 +83,9 @@
         "__id__": 158
       },
       {
+        "__id__": 856
+      },
+      {
         "__id__": 301
       },
       {
@@ -116,23 +119,20 @@
         "__id__": 1212
       },
       {
-        "__id__": 856
-      },
-      {
         "__id__": 1213
       },
       {
-        "__id__": 1255
+        "__id__": 1259
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 1261
+        "__id__": 1265
       },
       {
-        "__id__": 1262
+        "__id__": 1266
       }
     ],
     "_prefab": null,
@@ -47352,7 +47352,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1254
+        "__id__": 1258
       }
     ],
     "_prefab": null,
@@ -47416,13 +47416,13 @@
         "__id__": 1226
       },
       {
-        "__id__": 1233
+        "__id__": 1234
       },
       {
-        "__id__": 1240
+        "__id__": 1242
       },
       {
-        "__id__": 1247
+        "__id__": 1250
       }
     ],
     "_tag": -1,
@@ -48077,7 +48077,11 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 1233
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -48105,6 +48109,15 @@
     }
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 158
+    },
+    "component": "UI",
+    "handler": "checkpointBtn",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.Node",
     "_name": "homeButten",
     "_objFlags": 0,
@@ -48113,7 +48126,7 @@
     },
     "_children": [
       {
-        "__id__": 1234
+        "__id__": 1235
       }
     ],
     "_tag": -1,
@@ -48161,21 +48174,21 @@
     "_name": "homeNode",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1233
+      "__id__": 1234
     },
     "_children": [
       {
-        "__id__": 1235
+        "__id__": 1236
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 1238
+        "__id__": 1239
       },
       {
-        "__id__": 1239
+        "__id__": 1240
       }
     ],
     "_prefab": null,
@@ -48220,17 +48233,17 @@
     "_name": "homeLabel",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1234
+      "__id__": 1235
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 1236
+        "__id__": 1237
       },
       {
-        "__id__": 1237
+        "__id__": 1238
       }
     ],
     "_prefab": null,
@@ -48275,7 +48288,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1235
+      "__id__": 1236
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -48297,7 +48310,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1235
+      "__id__": 1236
     },
     "_enabled": true,
     "_color": {
@@ -48314,7 +48327,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1234
+      "__id__": 1235
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -48340,7 +48353,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1234
+      "__id__": 1235
     },
     "_enabled": true,
     "transition": 3,
@@ -48360,7 +48373,11 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 1241
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -48384,8 +48401,17 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 1234
+      "__id__": 1235
     }
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 158
+    },
+    "component": "UI",
+    "handler": "hallBtn",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Node",
@@ -48396,7 +48422,7 @@
     },
     "_children": [
       {
-        "__id__": 1241
+        "__id__": 1243
       }
     ],
     "_tag": -1,
@@ -48444,21 +48470,21 @@
     "_name": "nextNode",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1240
+      "__id__": 1242
     },
     "_children": [
       {
-        "__id__": 1242
+        "__id__": 1244
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 1245
+        "__id__": 1247
       },
       {
-        "__id__": 1246
+        "__id__": 1248
       }
     ],
     "_prefab": null,
@@ -48503,17 +48529,17 @@
     "_name": "nextLabel",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1241
+      "__id__": 1243
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 1243
+        "__id__": 1245
       },
       {
-        "__id__": 1244
+        "__id__": 1246
       }
     ],
     "_prefab": null,
@@ -48558,7 +48584,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1242
+      "__id__": 1244
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -48580,7 +48606,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1242
+      "__id__": 1244
     },
     "_enabled": true,
     "_color": {
@@ -48597,7 +48623,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1241
+      "__id__": 1243
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -48623,7 +48649,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1241
+      "__id__": 1243
     },
     "_enabled": true,
     "transition": 3,
@@ -48643,7 +48669,11 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 1249
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -48667,8 +48697,17 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 1241
+      "__id__": 1243
     }
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 158
+    },
+    "component": "UI",
+    "handler": "nextCheckpoint",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Node",
@@ -48679,7 +48718,7 @@
     },
     "_children": [
       {
-        "__id__": 1248
+        "__id__": 1251
       }
     ],
     "_tag": -1,
@@ -48727,21 +48766,21 @@
     "_name": "restartNode",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1247
+      "__id__": 1250
     },
     "_children": [
       {
-        "__id__": 1249
+        "__id__": 1252
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 1252
+        "__id__": 1255
       },
       {
-        "__id__": 1253
+        "__id__": 1256
       }
     ],
     "_prefab": null,
@@ -48786,17 +48825,17 @@
     "_name": "restartLabel",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1248
+      "__id__": 1251
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 1250
+        "__id__": 1253
       },
       {
-        "__id__": 1251
+        "__id__": 1254
       }
     ],
     "_prefab": null,
@@ -48841,7 +48880,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1249
+      "__id__": 1252
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -48863,7 +48902,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1249
+      "__id__": 1252
     },
     "_enabled": true,
     "_color": {
@@ -48880,7 +48919,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1248
+      "__id__": 1251
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -48906,7 +48945,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1248
+      "__id__": 1251
     },
     "_enabled": true,
     "transition": 3,
@@ -48926,7 +48965,11 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 1257
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -48950,8 +48993,17 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": {
-      "__id__": 1248
+      "__id__": 1251
     }
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 158
+    },
+    "component": "UI",
+    "handler": "reCheckpoint",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Animation",
@@ -48981,17 +49033,17 @@
     },
     "_children": [
       {
-        "__id__": 1256
+        "__id__": 1260
       },
       {
-        "__id__": 1258
+        "__id__": 1262
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 1260
+        "__id__": 1264
       }
     ],
     "_prefab": null,
@@ -49036,14 +49088,14 @@
     "_name": "cloudbg1",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1255
+      "__id__": 1259
     },
     "_children": [],
     "_tag": -1,
     "_active": false,
     "_components": [
       {
-        "__id__": 1257
+        "__id__": 1261
       }
     ],
     "_prefab": null,
@@ -49088,7 +49140,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1256
+      "__id__": 1260
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -49114,14 +49166,14 @@
     "_name": "cloudbg2",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 1255
+      "__id__": 1259
     },
     "_children": [],
     "_tag": -1,
     "_active": false,
     "_components": [
       {
-        "__id__": 1259
+        "__id__": 1263
       }
     ],
     "_prefab": null,
@@ -49166,7 +49218,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1258
+      "__id__": 1262
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -49192,7 +49244,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1255
+      "__id__": 1259
     },
     "_enabled": true,
     "_defaultClip": {
@@ -49325,7 +49377,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1264
+        "__id__": 1268
       }
     ],
     "_prefab": null,
@@ -49370,7 +49422,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 1263
+      "__id__": 1267
     },
     "_enabled": true
   }
