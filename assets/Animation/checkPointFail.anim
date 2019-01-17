@@ -3,13 +3,13 @@
   "_name": "checkPointFail",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 1.3333333333333333,
+  "_duration": 1,
   "sample": 30,
   "speed": 1,
   "wrapMode": 1,
   "curveData": {
     "paths": {
-      "singleColor": {
+      "checkPointEnd/singleColor": {
         "props": {
           "scale": [
             {
@@ -41,8 +41,14 @@
           ]
         }
       },
-      "FailLabel": {
+      "checkPointEnd/FailLabel": {
         "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
+            }
+          ],
           "scale": [
             {
               "frame": 0.3333333333333333,
@@ -86,16 +92,42 @@
               "frame": 0.8666666666666667,
               "value": 255
             }
-          ],
+          ]
+        }
+      },
+      "checkPointEnd/SuccessLabel": {
+        "props": {
           "active": [
             {
               "frame": 0,
-              "value": true
+              "value": false
             }
           ]
         }
       },
-      "levelButten": {
+      "checkPointEnd/levelButten": {
+        "props": {
+          "scale": [
+            {
+              "frame": 0,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 0,
+                "y": 0
+              }
+            },
+            {
+              "frame": 0.3333333333333333,
+              "value": {
+                "__type__": "cc.Vec2",
+                "x": 1,
+                "y": 1
+              }
+            }
+          ]
+        }
+      },
+      "checkPointEnd/homeButten": {
         "props": {
           "scale": [
             {
@@ -117,7 +149,7 @@
           ]
         }
       },
-      "homeButten": {
+      "checkPointEnd/restartButten": {
         "props": {
           "scale": [
             {
@@ -136,37 +168,31 @@
                 "y": 1
               }
             }
-          ]
-        }
-      },
-      "nextButten": {
-        "props": {
-          "scale": [
+          ],
+          "active": [
             {
-              "frame": 1,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 0,
-                "y": 0
-              }
-            },
-            {
-              "frame": 1.3333333333333333,
-              "value": {
-                "__type__": "cc.Vec2",
-                "x": 1,
-                "y": 1
-              }
+              "frame": 0,
+              "value": true
             }
           ]
         }
       },
-      "SuccessLabel": {
+      "checkPointEnd/nextButten": {
         "props": {
           "active": [
             {
               "frame": 0,
               "value": false
+            }
+          ]
+        }
+      },
+      "checkPointEnd": {
+        "props": {
+          "active": [
+            {
+              "frame": 0,
+              "value": true
             }
           ]
         }
